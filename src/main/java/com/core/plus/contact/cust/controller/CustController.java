@@ -75,6 +75,7 @@ public class CustController {
 		mav.addObject("vititCdList", vititCdList);
 		mav.addObject("vititDtlCdList", vititDtlCdList);
 		mav.addObject("main_menu_url", "cust");
+		mav.addObject("sub_menu_url", "cust");
 //		System.out.println("custList" + custList);
 //		System.out.println("vititCdList" + vititCdList);
 		
