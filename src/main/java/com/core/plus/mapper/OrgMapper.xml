@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org">
+	<!-- 전체 행의 개수 -->
+	<select id="orgListCount" parameterType="map" resultType="int">	
+		select	count(*)
+		from	(SELECT  a.org_id as org_id
+					,	a.org_nm as org_nm
+					,	a.org_ph1 ||'-'|| a.org_ph2 ||'-'|| a.org_ph3 as org_ph
+					,	a.org_ph1 as org_ph1
+					,	a.org_ph2 as org_ph2
+					,	a.org_ph3 as org_ph3
+					,   a.rep_emp_id as rep_emp_id
+					,	b.user_nm as rep_emp_nm
+					,	a.fax_no1 ||'-'|| a.fax_no2 ||'-'|| a.fax_no3 as fax_no
+					,	a.fax_no1 as fax_no1
+					,	a.fax_no2 as fax_no2
+					,	a.fax_no3 as fax_no3
+					, 	a.act_yn as act_yn
+				FROM 	mid.tm_com_org a
+				LEFT OUTER JOIN mid.tm_com_user b
+				ON	a.rep_emp_id = b.user_id
+				WHERE 1 = 1
+					<if test="org_nm!=null and org_nm!='' ">
+					  	and a.org_nm LIKE '%' || #{org_nm} || '%'
+					</if> 
+				ORDER BY a.org_id DESC) org
+		where	1 = 1 
+		and org.act_yn = 'Y'	
+	</select>
+	<!-- 부서관리 리스트  -->
+	<select id="orgList" parameterType="java.util.Map" resultType="ibs.mid.bon.manager.info.org.vo.OrgVO">
+		SELECT  a.org_id as org_id
+			,	a.org_nm as org_nm
+			,	a.org_ph1 ||'-'|| a.org_ph2 ||'-'|| a.org_ph3 as org_ph
+			,	a.org_ph1 as org_ph1
+			,	a.org_ph2 as org_ph2
+			,	a.org_ph3 as org_ph3
+			,   a.rep_emp_id as rep_emp_id
+			,	b.user_nm as rep_emp_nm
+			,	a.fax_no1 ||'-'|| a.fax_no2 ||'-'|| a.fax_no3 as fax_no
+			,	a.fax_no1 as fax_no1
+			,	a.fax_no2 as fax_no2
+			,	a.fax_no3 as fax_no3
+		FROM 	mid.tm_com_org a
+		LEFT OUTER JOIN mid.tm_com_user b
+		ON	a.rep_emp_id = b.user_id
+		WHERE 1=1
+			<if test="org_nm!=null and org_nm!='' ">
+			  	and a.org_nm LIKE '%' || #{org_nm} || '%'
+			</if> 
+		ORDER BY a.org_id DESC
+		limit #{page.pageSize} OFFSET #{page.endRow}
+	</select>
+	<select id="orgDetail" parameterType="String" resultType="ibs.mid.bon.manager.info.org.vo.OrgVO">
+		SELECT	a.org_id
+			,	a.org_nm
+			,	a.org_ph1 ||'-'|| a.org_ph2 ||'-'|| a.org_ph3 as org_ph
+			,	a.org_ph1 as org_ph1
+			,	a.org_ph2 as org_ph2
+			,	a.org_ph3 as org_ph3
+			,   a.rep_emp_id as rep_emp_id
+			,	b.user_nm as rep_emp_nm
+			,	a.fax_no1 ||'-'|| a.fax_no2 ||'-'|| a.fax_no3 as fax_no
+			,	a.fax_no1 as fax_no1
+			,	a.fax_no2 as fax_no2
+			,	a.fax_no3 as fax_no3
+			,	a.act_yn
+		FROM mid.tm_com_org a
+		LEFT OUTER JOIN mid.tm_com_user b
+		ON a.rep_emp_id = b.user_id
+		WHERE a.org_id = #{org_id}	
+	</select>	
+	
+	<insert id="orgInsert" parameterType="ibs.mid.bon.manager.info.org.vo.OrgVO">
+		insert into mid.tm_com_org
+		(org_type,org_nm,
+		org_ph1,org_ph2,org_ph3,
+		fax_no1,fax_no2,fax_no3,
+		rep_emp_id,
+		crt_id,crt_dt,mdfy_id,mdfy_dt)
+		values
+		('ORG1',#{org_nm},
+		#{org_ph1},#{org_ph2},#{org_ph3},
+		#{fax_no1},#{fax_no2},#{fax_no3},
+		#{rep_emp_id},
+		#{crt_id},to_char(now(),'YYYYMMDDHH24MISS'::text),
+		#{crt_id},to_char(now(),'YYYYMMDDHH24MISS'::text))
+		<selectKey keyProperty="org_id" order="AFTER" resultType="String">
+			SELECT (('OR'::text || lpad((currval('mid.s_org_seq'::regclass))::text, 5, '0'::text)))::character varying
+		</selectKey>
+	</insert>
+	
+	<update id="orgUpdate" parameterType="ibs.mid.bon.manager.info.org.vo.OrgVO">
+		UPDATE mid.tm_com_org 
+		SET
+		org_nm =#{org_nm},
+		org_ph1 = #{org_ph1},
+		org_ph2 = #{org_ph2},
+		org_ph3 = #{org_ph3},
+		fax_no1 = #{fax_no1},
+		fax_no2 = #{fax_no2},
+		fax_no3 = #{fax_no3},
+		rep_emp_id = #{rep_emp_id},
+		mdfy_id = #{crt_id},
+		mdfy_dt = to_char(now(),'YYYYMMDDHH24MISS'::text),
+		act_yn = #{act_yn}
+		WHERE org_id = #{org_id}
+	</update>
+
+	<!-- 전체 행의 개수 -->
+	<select id="repListCount" parameterType="map" resultType="int">	
+		SELECT	count(*)
+		FROM 	mid.tm_com_user a, mid.tc_code_mast b
+		WHERE a.user_type_cd = b.name
+			AND b.type = 'User Type Code'
+		<if test="rep_user_id != null and rep_user_id !=''">
+		   	AND user_id LIKE '%'||#{rep_user_id}||'%'
+		   </if>
+		   <if test="rep_user_nm != null and rep_user_nm !=''">
+			AND user_nm LIKE '%'||#{rep_user_nm}||'%'
+		   </if>
+	</select>
+	
+	<select id="repOrgList" resultType="ibs.mid.bon.manager.info.org.vo.OrgVO">
+		SELECT a.user_id,a.user_nm,b.val as user_type_nm
+		FROM mid.tm_com_user a, mid.tc_code_mast b
+		WHERE a.user_type_cd = b.name
+			AND b.type = 'User Type Code'
+			<if test="rep_user_id != null and rep_user_id !=''">
+		   	AND user_id LIKE '%'||#{rep_user_id}||'%'
+		   </if>
+		   <if test="rep_user_nm != null and rep_user_nm !=''">
+			AND user_nm LIKE '%'||#{rep_user_nm}||'%'
+		   </if>
+		order by user_id	
+		limit #{page.pageSize} OFFSET #{page.endRow}	   
+	</select>	
+	
+	<!-- 부서리스트 삭제(여러개) -->
+	<delete id="orgChkDelete" parameterType="String">
+		delete
+		  from mid.tm_com_org
+		 where org_id = #{org_id}
+	</delete>
+</mapper>
