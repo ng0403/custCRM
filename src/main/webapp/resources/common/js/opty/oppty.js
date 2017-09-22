@@ -39,7 +39,9 @@ function opptyEnterSearch(event) {
 
 function opptyDetail(oppty_no, opptyPageNum)
 {
-	location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum;
+	var hoppty_status_cd 	 = $("#hoppty_status_cd").val();
+	
+	location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd;
 }
 
 // 단건 등록
@@ -65,12 +67,14 @@ function opptySchList(opptyPageNum)
 	var exp_close_dt_srch    = $("#exp_close_dt_srch").val();
 	var dtype_cd_srch		 = $("#dtype_cd_srch").val();
 	var purchase_type_srch   = $("#purchase_type_srch").val();
+	var hoppty_status_cd 	 = $("#hoppty_status_cd").val();
 	
 	var tbody = $('#oppty_list_tbody');
 	var tbodyContent = "";
 	
 	console.log(opptyPageNum);
 	console.log(exp_close_dt_srch);
+	console.log(hoppty_status_cd);
 	
 	$.ajax({
 		url:ctx + '/oppty_sch',
@@ -86,6 +90,7 @@ function opptySchList(opptyPageNum)
 			exp_close_dt_srch 	 : exp_close_dt_srch,
 			dtype_cd_srch		 : dtype_cd_srch,
 			purchase_type_srch	 : purchase_type_srch,
+			hoppty_status_cd	 : hoppty_status_cd
 		},
 		dataType:'json',
 		success: function(data){

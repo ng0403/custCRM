@@ -19,17 +19,21 @@
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
+<input type="hidden" id="hoppty_status_cd" value="${ hoppty_status_cd }" >
 
 <!-- 매출관리 : 매출기회조회 -->
 
 <div id="cupnManager">
 	<div style="height:10px;"></div>
+	
 	<div class="titleDIV">
 		<span class="titleText">
-			 ■ 매출 > 매출기회관리 
+			 ■ 영업기회 > 영업기회관리 
 		</span>
 	</div>
+	
 	<div style="height:10px;"></div>
+	
 	<div class="commonList">
 		<!-- 페이징 전용 폼 -->
 	    <form id="opptyListPagingForm" method="post" action="${ctx}/couponManager" >
@@ -71,16 +75,18 @@
 						    <input type="text" id="emp_name_srch" name="emp_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
 						</td >
 						
-						<th style="width:5%;">기회상태</th>
-						<td>
-							<select id="oppty_status_cd_srch" name="oppty_status_cd_srch" 
-									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
-								<option value="">선택해 주십시오</option>
-								<c:forEach var="status" items="${ opptyStatusCd }">
-									<option value="${ status.code }">${ status.code_name }</option>
-								</c:forEach>
-							</select>
-						</td>
+						<c:if test="${ hoppty_status_cd == null }">
+							<th style="width:5%;">기회상태</th>
+							<td>
+								<select id="oppty_status_cd_srch" name="oppty_status_cd_srch" 
+										style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+									<option value="">선택해 주십시오</option>
+									<c:forEach var="status" items="${ opptyStatusCd }">
+										<option value="${ status.code }">${ status.code_name }</option>
+									</c:forEach>
+								</select>
+							</td>
+						</c:if>
 						
 						<th style="width:5%;">기회단계</th>
 						<td>
@@ -146,35 +152,48 @@
 	 	 		</tr>
 	 	 	</thead>
 	 	 	<tbody id="oppty_list_tbody">
-	 	 		<c:forEach items="${ opptyList }" var="list">
-	 	 			<tr>
-	 		 			<td style="text-align: left;" >${ list.oppty_no }</td>
-	 		 			<td style="text-align: left;" >
-	 		 				<a onclick="opptyDetail('${ list.oppty_no }', '${opptyPageNum}');" id="${ list.oppty_no }">${ list.oppty_name }</a>
-	 		 			</td>
-		 	 			<td style="text-align: left;" >${ list.cust_no }</td>
-	 		 			<td style="text-align: left;" >${ list.cust_name }</td>
-	 		 			<td style="text-align: left;" >${ list.cust_phone }</td>
-	 		 			<td style="text-align: left;" >${ list.emp_name }</td>
-	 		 			<td style="text-align: left;" >${ list.oppty_status_cd }</td>
-	 		 			<td style="text-align: left;" >${ list.oppty_stage_cd }</td>
-	 		 			<td style="text-align: left;" >${ list.exp_close_day }</td>
-	 	 				<td style="text-align: left;" >${ list.dtype_cd }</td>
-	 	 				<td style="text-align: left;" >${ list.purchase_type }</td>
-	 	 				<td style="text-align: left;" >${ list.rec_per_cd }</td>
-	 	 				<td style="text-align: left;" >${ list.create_date }</td>
-	 	 			</tr>
-	 	 		</c:forEach>
+		 	 	<c:if test="${ opptyList != null }">
+		 	 		<c:forEach items="${ opptyList }" var="list">
+		 	 			<tr>
+		 		 			<td style="text-align: left;" >${ list.oppty_no }</td>
+		 		 			<td style="text-align: left;" >
+		 		 				<a onclick="opptyDetail('${ list.oppty_no }', '${opptyPageNum}');" id="${ list.oppty_no }">${ list.oppty_name }</a>
+		 		 			</td>
+			 	 			<td style="text-align: left;" >${ list.cust_no }</td>
+		 		 			<td style="text-align: left;" >${ list.cust_name }</td>
+		 		 			<td style="text-align: left;" >${ list.cust_phone }</td>
+		 		 			<td style="text-align: left;" >${ list.emp_name }</td>
+		 		 			<td style="text-align: left;" >${ list.oppty_status_cd }</td>
+		 		 			<td style="text-align: left;" >${ list.oppty_stage_cd }</td>
+		 		 			<td style="text-align: left;" >${ list.exp_close_day }</td>
+		 	 				<td style="text-align: left;" >${ list.dtype_cd }</td>
+		 	 				<td style="text-align: left;" >${ list.purchase_type }</td>
+		 	 				<td style="text-align: left;" >${ list.rec_per_cd }</td>
+		 	 				<td style="text-align: left;" >${ list.create_date }</td>
+		 	 			</tr>
+		 	 		</c:forEach>
+		 	 	</c:if>
+		 	 	<c:if test="${ opptyList == null }">
+		 	 		<tr>
+		 		 		<td style="text-align: center;" colspan="13">리스트가 존재하지 않습니다.</td>
+		 	 		</tr>
+		 	 	</c:if>
 	 	 		
 	 	 	</tbody>
 	 	 </table>
    	
-		<div class="listFootDiv">
-		 	 <input type="button" class="func_btn" id="oppty_single_add" value="단건등록" onclick="opptySingleAddForm();">
-		 	 <input type="button" class="func_btn" id="oppty_multi_add" value="다건등록" onclick="opptyExcelImportOpen();">
-		 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('opptyListForm', 0);" >	
-		 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀템플릿 출력"  onclick="download_list_Excel('opptyListForm', 1);" >	
-		</div>
+<%--    		<c:if test="${ opptyNoIndex.oppty_no != null }"> --%>
+   		<c:if test="${ hoppty_status_cd eq null }">
+			<div class="listFootDiv">
+			 	 <input type="button" class="func_btn" id="oppty_single_add" value="단건등록" onclick="opptySingleAddForm();">
+			 	 <input type="button" class="func_btn" id="oppty_multi_add" value="다건등록" onclick="opptyExcelImportOpen();">
+			 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('opptyListForm', 0);" >	
+			 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀템플릿 출력"  onclick="download_list_Excel('opptyListForm', 1);" >	
+			</div>
+   		</c:if>
+   		<div class="listFootDiv">
+   		</div>
+		
 	 	<div class="pagingDiv">
 			<input type="hidden" id="endPageNum" value="${page.endPageNum}"/>
 			<input type="hidden" id="startPageNum" value="${page.startPageNum}"/>

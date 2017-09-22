@@ -22,6 +22,9 @@
 		<if test="oppty_status_cd_srch != null and oppty_status_cd_srch != ''">
 			AND (oppty_status_cd like concat('%', #{oppty_status_cd_srch}, '%'))
 		</if>
+		<if test="oppty_status_cd != null and oppty_status_cd != ''">
+			AND (oppty_status_cd like concat('%', #{oppty_status_cd}, '%'))
+		</if>
 		<if test="oppty_stage_cd_srch != null and oppty_stage_cd_srch != ''">
 			AND (oppty_stage_cd like concat('%', #{oppty_stage_cd_srch}, '%'))
 		</if>
@@ -124,6 +127,9 @@
 			</if>
 			<if test="oppty_status_cd_srch != null and oppty_status_cd_srch != ''">
 				AND (oppty_status_cd like concat('%', #{oppty_status_cd_srch}, '%'))
+			</if>
+			<if test="oppty_status_cd != null and oppty_status_cd != ''">
+				AND (oppty_status_cd like concat('%', #{oppty_status_cd}, '%'))
 			</if>
 			<if test="oppty_stage_cd_srch != null and oppty_stage_cd_srch != ''">
 				AND (oppty_stage_cd like concat('%', #{oppty_stage_cd_srch}, '%'))

@@ -57,14 +57,16 @@ public class OpptyController {
 	// 처음 list 화면
 	@RequestMapping(value="/oppty")
 	public ModelAndView opptyList(HttpSession session,
-			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum)
+			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd)
 	{
 		Map<String, Object> opptyMap = new HashMap<String, Object>();
 		opptyMap.put("opptyPageNum", opptyPageNum);
+		opptyMap.put("oppty_status_cd", oppty_status_cd);
 		
 		// paging
 		PagerVO page = opptyService.getOpptyListRow(opptyMap);
 		
+		System.out.println("oppty_status_cd : " + oppty_status_cd);
 		System.out.println("page : " + page);
 		opptyMap.put("page", page);
 		
@@ -74,7 +76,7 @@ public class OpptyController {
 		List<OpptyVO> dtype = opptyService.opptyDtypeCD();
 		List<OpptyVO> purchase = opptyService.opptyPerchaseType();
 		
-		System.out.println("status : " + status);
+		System.out.println("vo : " + vo);
 		
 		ModelAndView mov = new ModelAndView("oppty_list");
 		
@@ -86,6 +88,8 @@ public class OpptyController {
 		mov.addObject("dtypeCd", dtype);
 		mov.addObject("purchaseType", purchase);
 		mov.addObject("main_menu_url", "oppty");
+		mov.addObject("sub_menu_url", "oppty");
+		mov.addObject("hoppty_status_cd", oppty_status_cd);
 
 		menuImport(mov, "oppty");
 		
@@ -98,11 +102,12 @@ public class OpptyController {
 												  @RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum,
 												  String oppty_no_srch, String oppty_name_srch, 
 												  String cust_name_srch, String emp_name_srcj,
-												  String oppty_status_cd_srch, String oppty_stage_cd_srch,
+												  String oppty_status_cd_srch, String oppty_stage_cd_srch, String hoppty_status_cd,
 												  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch)
 	{
 		Map<String, Object> kMap = new HashMap<String, Object>();
 		System.out.println("page num : " + opptyPageNum);
+		
 		kMap.put("opptyPageNum", opptyPageNum);
 		kMap.put("oppty_no_srch", oppty_no_srch);
 		kMap.put("oppty_name_srch", oppty_name_srch);
@@ -113,6 +118,7 @@ public class OpptyController {
 		kMap.put("exp_close_dt_srch", exp_close_dt_srch);
 		kMap.put("dtype_cd_srch", dtype_cd_srch);
 		kMap.put("purchase_type_srch", purchase_type_srch);
+		kMap.put("oppty_status_cd", hoppty_status_cd);
 		
 		// paging
 		PagerVO page = opptyService.getOpptyListRow(kMap);
@@ -174,10 +180,12 @@ public class OpptyController {
 	
 	// 상세보기 및 단건등록화면
 	@RequestMapping(value="oppty_detail")
-	public ModelAndView opptyDetail(@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_no, String flg)
+	public ModelAndView opptyDetail(@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_no, String hoppty_status_cd)
 	{
 		System.out.println(oppty_no);
 		System.out.println("opptyPageNum? " + opptyPageNum);
+		System.out.println("hoppty_status_cd? " + hoppty_status_cd);
+		
 		if(oppty_no == null || oppty_no == "")	// 단건등록 시
 		{
 			OpptyVO opptyNo = opptyService.opptyNoIndex();
