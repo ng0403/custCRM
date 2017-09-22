@@ -52,11 +52,25 @@ public class TaskDAOImpl implements TaskDAO {
 		return code;
 	}
 
-	//상대가치점수
+	//가능성
 	@Override
 	public List<TaskVO> taskScoreCD() {
 		
 		List<TaskVO> code = sqlSession.selectList("task.taskScoreCode");
+		return code;
+	}
+	
+	//상담유형
+	@Override
+	public List<TaskVO> taskTtypeCD() {
+		List<TaskVO> code = sqlSession.selectList("task.taskTtypeCode");
+		return code;
+	}
+
+	//상담구분
+	@Override
+	public List<TaskVO> taskDivisCD() {
+		List<TaskVO> code = sqlSession.selectList("task.taskDivisCode");
 		return code;
 	}
 
@@ -371,6 +385,7 @@ public class TaskDAOImpl implements TaskDAO {
 		System.out.println(result);
 		
 		return result;
-	}	
+	}
+
 
 }

@@ -22,6 +22,8 @@ function task_add_save() {
 	 	var dtype_cd  = $("#dtype_cd").val();
 	 	var lead_no   = $("#lead_no").val();
 	 	var score_cd  = $("#score_cd").val();
+	 	var ttype_cd  = $("#ttype_cd").val();
+	 	var divis_cd  = $("#divis_cd").val();
 	 	var oppty_no  = $("#oppty_no").val();
 	 	var location  = $("#location").val();
 	 	var remark_cn = $("#remark_cn").val();
@@ -46,9 +48,17 @@ function task_add_save() {
 			alert("분류를 입력하세요.");
 			$("#dtype_cd").focus();
 			return false;
+		} else if ($("#ttype_cd").val() == 0 || $("#ttype_cd").val() == null || $("#ttype_cd").val() == "") {
+			alert("상담유형을 입력하세요.");
+			$("#ttype_cd").focus();
+			return false;
 		} else if ($("#score_cd").val() == 0 || $("#score_cd").val() == null || $("#score_cd").val() == "") {
-			alert("상대가치점수를 입력하세요.");
+			alert("가능성을 입력하세요.");
 			$("#score_cd").focus();
+			return false;
+		} else if ($("#divis_cd").val() == 0 || $("#divis_cd").val() == null || $("#divis_cd").val() == "") {
+			alert("상담구분을 입력하세요.");
+			$("#divis_cd").focus();
 			return false;
 		} else if ($("#location").val() == 0 || $("#location").val() == null || $("#location").val() == "") {
 			alert("진행장소를 입력하세요.");
@@ -71,6 +81,8 @@ function task_add_save() {
 					lead_no 	: lead_no,
 					oppty_no	: oppty_no,
 					score_cd	: score_cd,
+					ttype_cd	: ttype_cd,
+					divis_cd	: divis_cd,
 					location	: location,
 					remark_cn	: remark_cn
 				},
@@ -110,6 +122,8 @@ function task_modify_btn() {
 		$('#lead_no').removeAttr("readonly");
 		$('#oppty_no').removeAttr("readonly");
 		$('#score_cd').removeAttr("disabled"); 
+		$('#ttype_cd').removeAttr("disabled"); 
+		$('#divis_cd').removeAttr("disabled"); 
 		$('#location').removeAttr("readonly");
 		$('#remark_cn').removeAttr("readonly");
 		$('#custSchBtn').removeAttr("disabled");
@@ -140,6 +154,8 @@ function task_modify_save() {
 	 	var dtype_cd  = $("#dtype_cd").val();
 	 	var lead_no   = $("#lead_no").val();
 	 	var score_cd  = $("#score_cd").val();
+	 	var ttype_cd  = $("#ttype_cd").val();
+	 	var divis_cd  = $("#divis_cd").val();
 	 	var oppty_no  = $("#oppty_no").val();
 	 	var location  = $("#location").val();
 	 	var remark_cn = $("#remark_cn").val();
@@ -164,15 +180,23 @@ function task_modify_save() {
 			alert("분류를 입력하세요.");
 			$("#dtype_cd").focus();
 			return false;
+		} else if ($("#ttype_cd").val() == 0 || $("#ttype_cd").val() == null || $("#ttype_cd").val() == "") {
+			alert("상담유형을 입력하세요.");
+			$("#ttype_cd").focus();
+			return false;
 		} else if ($("#score_cd").val() == 0 || $("#score_cd").val() == null || $("#score_cd").val() == "") {
-			alert("상대가치점수를 입력하세요.");
+			alert("가능성을 입력하세요.");
 			$("#score_cd").focus();
+			return false;
+		} else if ($("#divis_cd").val() == 0 || $("#divis_cd").val() == null || $("#divis_cd").val() == "") {
+			alert("상담구분을 입력하세요.");
+			$("#divis_cd").focus();
 			return false;
 		} else if ($("#location").val() == 0 || $("#location").val() == null || $("#location").val() == "") {
 			alert("진행장소를 입력하세요.");
 			$("#location").focus();
 			return false;
-		}  
+		}
 	 
 		var ynChk = confirm("해당 상담을 수정하시겠습니까?");
 		if(ynChk){
@@ -190,6 +214,8 @@ function task_modify_save() {
 					lead_no 	: lead_no,
 					oppty_no	: oppty_no,
 					score_cd	: score_cd,
+					ttype_cd	: ttype_cd,
+					divis_cd	: divis_cd,
 					location	: location,
 					remark_cn	: remark_cn
 					

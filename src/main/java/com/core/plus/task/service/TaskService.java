@@ -20,7 +20,9 @@ public interface TaskService {
 	List<TaskVO> taskSchList(Map<String, Object> taskMap);				// 조회
 	
 	List<TaskVO> taskDtypeCD();											// 분류코드
-	List<TaskVO> taskScoreCD();											// 상대가치점수
+	List<TaskVO> taskScoreCD();											// 가능성
+	List<TaskVO> taskTtypeCD();											// 상담유형
+	List<TaskVO> taskDivisCD();											// 상담구분
 	
 	TaskVO taskNoIndex();												// 인덱스 번호
 	
@@ -49,6 +51,8 @@ public interface TaskService {
 	List<TaskVO> taskExcelExport(Map<String, Object> taskMap);			// 엑셀 출력
 	
 	// Excel
-	int excelUpload(MultipartFile excelFile);	
+	int excelUpload(MultipartFile excelFile);
+
+
 	
 }

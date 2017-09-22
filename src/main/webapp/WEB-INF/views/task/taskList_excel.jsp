@@ -61,7 +61,7 @@
 				<td class="header" style="width: 10%;">다음일자</td>
 				<td class="header" style="width: 10%;">담당자번호</td>
 				<td class="header" style="width: 10%;">분류코드</td>
-				<td class="header" style="width: 10%;">상대가치점수</td>
+				<td class="header" style="width: 10%;">가능성</td>
 				<td class="header" style="width: 10%;">특이사항</td>
 			</tr>
 		</c:if>

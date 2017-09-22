@@ -158,6 +158,12 @@
    <select id="taskScoreCode" resultType="com.core.plus.task.vo.TaskVO">
       SELECT code_name, code FROM tb_code WHERE code_no = '1009'
    </select>
+   <select id="taskTtypeCode" resultType="com.core.plus.task.vo.TaskVO">
+      SELECT code_name, code FROM tb_code WHERE code_no = '1019'
+   </select>
+   <select id="taskDivisCode" resultType="com.core.plus.task.vo.TaskVO">
+      SELECT code_name, code FROM tb_code WHERE code_no = '1020'
+   </select>
    
    <!-- Index 채번 -->
    <select id="taskNoIndex" resultType="com.core.plus.task.vo.TaskVO">
@@ -184,6 +190,8 @@
           , t.oppty_no
           , (select oppty_name from tb_oppty where oppty_no = t.oppty_no) as oppty_name
           , (select code_name from tb_code where code_no = '1009' and code = t.score_cd) as score_name
+          ,	(select code_name from tb_code where code_no = '1019' and code = t.score_cd) as ttype_name
+          ,	(select code_name from tb_code where code_no = '1020' and code = t.score_cd) as divis_name
           , t.score_cd
           , t.location
           , t.remark_cn 
@@ -204,7 +212,7 @@
       insert into tb_task
       (
           task_no , subject  , cust_no  , emp_no   , next_day  , dtype_cd
-        , lead_no , oppty_no , score_cd , location , remark_cn , del_yn
+        , lead_no , oppty_no , score_cd , ttype_cd, divis_cd, location , remark_cn , del_yn
       )  
       values
       (
@@ -217,6 +225,8 @@
         #{lead_no},
         #{oppty_no},
         #{score_cd},
+        #{ttype_cd},
+        #{divis_cd},
         #{location},
         #{remark_cn},
         'N'
@@ -235,6 +245,8 @@
         , lead_no     = #{lead_no}
         , oppty_no  = #{oppty_no}
         , score_cd  = #{score_cd}
+        , ttype_cd  = #{ttype_cd}
+        , divis_cd  = #{divis_cd}
         , location  = #{location}
         , remark_cn = #{remark_cn}
       where task_no = #{task_no}
@@ -322,7 +334,7 @@
 		insert into tb_task
 		(
 		    task_no , subject  , cust_no  , emp_no   , next_day  , dtype_cd
-		  , lead_no , oppty_no , score_cd , location , remark_cn
+		  , lead_no , oppty_no , score_cd , ttype_cd, divis_cd, location , remark_cn
 		)  
 		values
 		(
@@ -335,6 +347,8 @@
 		  #{lead_no},
 		  #{oppty_no},
 		  #{score_cd},
+		  #{ttype_cd},
+       	  #{divis_cd},
 		  #{location},
 		  #{remark_cn}
 		) 

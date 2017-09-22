@@ -40,11 +40,23 @@ public class TaskServiceImpl implements TaskService {
 		return taskDao.taskDtypeCD();
 	}
 
-	//상대가치점수
+	//가능성
 	@Override
 	public List<TaskVO> taskScoreCD() {
 		return taskDao.taskScoreCD();
 	}
+	
+	//상담유형
+	@Override
+	public List<TaskVO> taskTtypeCD() {
+		return taskDao.taskTtypeCD();
+	}
+
+	//상담구분
+	@Override
+	public List<TaskVO> taskDivisCD() {
+		return taskDao.taskDivisCD();
+	}	
 	
 	//조회
 	@Override
@@ -196,5 +208,6 @@ public class TaskServiceImpl implements TaskService {
 		int result = taskDao.taskUploadExcel(excelFile);
 		
 		return result;
-	}	
+	}
+
 }
