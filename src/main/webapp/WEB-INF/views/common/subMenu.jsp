@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctx" value="${pageContext.request.contextPath }" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>서브메뉴</title>
@@ -18,7 +19,7 @@
 				</a>
 			</li>
 		</c:forEach>
-		<c:if test="${subMenuList.size() == 0}">
+		<c:if test="${fn:length(subMenuList) == 0}"> 
 			<li>
 				<span>&nbsp;</span>
 			</li>
