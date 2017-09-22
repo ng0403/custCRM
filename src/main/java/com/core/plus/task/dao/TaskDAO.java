@@ -18,7 +18,7 @@ public interface TaskDAO {
 	List<TaskVO> taskSchList(Map<String, Object> taskMap);				// 조회
 	
 	List<TaskVO> taskDtypeCD();											// 분류코드
-	List<TaskVO> taskScoreCD();											// 가능
+	List<TaskVO> taskScoreCD();											// 상대가치점수
 	List<TaskVO> taskTtypeCD();											// 상담유형
 	List<TaskVO> taskDivisCD();											// 상담구분
 	

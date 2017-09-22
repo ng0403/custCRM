@@ -190,9 +190,11 @@
           , t.oppty_no
           , (select oppty_name from tb_oppty where oppty_no = t.oppty_no) as oppty_name
           , (select code_name from tb_code where code_no = '1009' and code = t.score_cd) as score_name
-          ,	(select code_name from tb_code where code_no = '1019' and code = t.score_cd) as ttype_name
-          ,	(select code_name from tb_code where code_no = '1020' and code = t.score_cd) as divis_name
+          ,	(select code_name from tb_code where code_no = '1019' and code = t.ttype_cd) as ttype_name
+          ,	(select code_name from tb_code where code_no = '1020' and code = t.divis_cd) as divis_name
           , t.score_cd
+          , t.ttype_cd
+          , t.divis_cd
           , t.location
           , t.remark_cn 
       from tb_task t left join tb_cust c on t.cust_no = c.cust_no 

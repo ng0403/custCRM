@@ -52,7 +52,7 @@ public class TaskDAOImpl implements TaskDAO {
 		return code;
 	}
 
-	//가능성
+	//상대가치점수
 	@Override
 	public List<TaskVO> taskScoreCD() {
 		

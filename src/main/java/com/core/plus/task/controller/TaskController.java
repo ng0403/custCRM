@@ -74,6 +74,8 @@ public class TaskController {
 		List<TaskVO> taskList = taskService.taskList(taskMap);		// 전체 리스트
 		List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
 		List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
+		List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
+		List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
 		
 		ModelAndView mov = new ModelAndView("task_list");
 		
@@ -82,6 +84,8 @@ public class TaskController {
 		mov.addObject("taskList", taskList);
 		mov.addObject("dtypeCd", dtypeCd);
 		mov.addObject("scoreCd", scoreCd);
+		mov.addObject("ttypeCd", ttypeCd);
+		mov.addObject("divisCd", divisCd);
 		mov.addObject("main_menu_url", "task");
 		mov.addObject("sub_menu_url", "task");
 		menuImport(mov, "task");
@@ -89,6 +93,41 @@ public class TaskController {
 		return mov;
 	}
 	
+	// My List
+	@RequestMapping(value="/mytask")
+	public ModelAndView MyTaskList(HttpSession session,
+									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
+									String excel ) {
+		
+		Map<String, Object> taskMap = new HashMap<String, Object>();
+		taskMap.put("taskPageNum", taskPageNum);
+		
+		// paging
+		PagerVO page = taskService.getTaskListRow(taskMap);
+		taskMap.put("page", page);
+		
+		List<TaskVO> taskList = taskService.taskList(taskMap);		// 전체 리스트
+		List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
+		List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
+		List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
+		List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
+		
+		ModelAndView mov = new ModelAndView("task_list");
+		
+		mov.addObject("page", page);
+		mov.addObject("taskPageNum", taskPageNum);
+		mov.addObject("taskList", taskList);
+		mov.addObject("dtypeCd", dtypeCd);
+		mov.addObject("scoreCd", scoreCd);
+		mov.addObject("ttypeCd", ttypeCd);
+		mov.addObject("divisCd", divisCd);
+		mov.addObject("main_menu_url", "task");
+		mov.addObject("sub_menu_url", "task");
+		menuImport(mov, "task");
+		
+		return mov;
+	}
+		
 	// 조회
 	@RequestMapping(value="/task_sch", method=RequestMethod.POST)
 	@ResponseBody
@@ -173,7 +212,7 @@ public class TaskController {
 		{
 			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
 			List<TaskVO> dtypeCd = taskService.taskDtypeCD();			// 분류코드
-			List<TaskVO> scoreCd = taskService.taskScoreCD();			// 가능성
+			List<TaskVO> scoreCd = taskService.taskScoreCD();			// 상대가치점수
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
 			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
 						
@@ -189,6 +228,7 @@ public class TaskController {
 			mov.addObject("flg", "1");
 			mov.addObject("taskPageNum", taskPageNum);
 			mov.addObject("main_menu_url", "task");
+			mov.addObject("sub_menu_url", "task");
 			menuImport(mov, "task");
 			
 			return mov;
@@ -196,7 +236,7 @@ public class TaskController {
 		else	// 상세보기	
 		{
 			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
-			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 가능성
+			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
 			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
 			
@@ -210,7 +250,10 @@ public class TaskController {
 			mov.addObject("flg", "2");
 			mov.addObject("taskPageNum", taskPageNum);
 			mov.addObject("main_menu_url", "task");
+			mov.addObject("sub_menu_url", "task");
 			menuImport(mov, "task");
+			
+			System.out.println(taskService.taskDetail(task_no));
 			
 			return mov;
 		}

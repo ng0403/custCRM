@@ -40,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
 		return taskDao.taskDtypeCD();
 	}
 
-	//가능성
+	//상대가치점수
 	@Override
 	public List<TaskVO> taskScoreCD() {
 		return taskDao.taskScoreCD();
