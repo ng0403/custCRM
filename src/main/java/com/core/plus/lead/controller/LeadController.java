@@ -132,11 +132,9 @@ public class LeadController {
 			System.out.println("entering" + PageNum);
 			
 			Map<String, Object> leadMap = new HashMap<String, Object>();
-			leadMap.put("PageNum", PageNum);
+			leadMap.put("PageNum", PageNum); 
 			
-		
-			
-			ModelAndView mov = new ModelAndView("lead_list"); 
+			ModelAndView mov = new ModelAndView("lead_status"); 
 			 
 			//보류 
 			if(code.equals("002"))
@@ -149,7 +147,7 @@ public class LeadController {
 			 List<LeadVO> vo = leadService.lead_status_list(leadMap);
 			 mov.addObject("lead_list", vo);
 			 mov.addObject("page", page);
-
+			 mov.addObject("flg", "002");
 			}
 			//기회전환
 			else if(code.equals("003")) 
@@ -160,7 +158,7 @@ public class LeadController {
 			  List<LeadVO> vo = leadService.lead_status_list(leadMap);
 			  mov.addObject("lead_list", vo);		
 			  mov.addObject("page", page);
-
+			  mov.addObject("flg", "003");
 			}
 			//실패
 			else if(code.equals("004")) 
@@ -171,7 +169,7 @@ public class LeadController {
 			 List<LeadVO> vo = leadService.lead_status_list(leadMap);
 			 mov.addObject("lead_list", vo);
 			 mov.addObject("page", page);
-
+			 mov.addObject("flg", "004");
 			} 
 			
 			mov.addObject("pageNum", PageNum); 
@@ -321,8 +319,9 @@ public class LeadController {
 		public @ResponseBody Map<String, Object> StatusSearchKeyword(
 				@RequestParam(value = "PageNum", defaultValue = "1") int PageNum,
 				String lead_no_srch,
-				String lead_name_srch, String cust_name, String emp_name, String contact_day_srch, String rank_cd) {
-		 
+				String lead_name_srch, String cust_name, String emp_name, String contact_day_srch, String rank_cd, String lead_status_cd) {
+		  System.out.println("satus entering");
+		  
 			String contact_day;
 			
 			contact_day = contact_day_srch.replace("-", "");
@@ -337,13 +336,13 @@ public class LeadController {
 			kwMap.put("emp_name", emp_name);
 			kwMap.put("contact_day", contact_day);
 			kwMap.put("rank_cd", rank_cd);
-			 
+			kwMap.put("lead_status_cd", lead_status_cd);
 			// paging
-		  PagerVO page = leadService.getLeadListRow(kwMap);
+		  PagerVO page = leadService.getLeadStatusListRow(kwMap);
 		 
 		  kwMap.put("page", page); 
 			
-			List<LeadVO> leadList = leadService.leadSearch(kwMap);
+			List<LeadVO> leadList = leadService.leadStatusSearch(kwMap);
 			
 			kwMap.put("leadList", leadList);
 			 

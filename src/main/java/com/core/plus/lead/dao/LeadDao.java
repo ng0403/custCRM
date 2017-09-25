@@ -22,6 +22,8 @@ public interface LeadDao {
 	void lead_delete(String lead_no); // 가망 고객 삭제
 	
 	public List<LeadVO> leadSearch(Map<String, Object> leadMap); // 가망 고객 조건 검색
+	public List<LeadVO> leadStatusSearch(Map<String, Object> leadMap); // 가망 고객 조건 검색
+	
 	
 	//상담이력
 	List<TaskVO> taskList();											// List

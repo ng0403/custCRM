@@ -26,7 +26,7 @@ $(document).ready(function(){
 	<c:if test="${flg == 0 }">
  		<div class="titleDIV" id="lead_detail_title">
 		<span class="titleText">
-		    ■ 가망고객 > <a style="cursor: pointer;" onclick="leadlist();"> 가망고객관리</a> > <span id="coupon_form_title">가망고객 상세정보</span>
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 상세정보</span>
 		</span>
 	</div>   
 	</c:if>
@@ -34,7 +34,7 @@ $(document).ready(function(){
 	<c:if test="${flg == 1 }">
  		<div class="titleDIV" id ="lead_insert_title">
 		<span class="titleText">
-		    ■ 가망고객 > <a style="cursor: pointer;" onclick="leadlist('1');"> 가망고객관리</a> > <span id="coupon_form_title">가망고객 추가</span>
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 추가</span>
 		</span>
 	</div>   
 	</c:if>
@@ -42,7 +42,7 @@ $(document).ready(function(){
  
  		<div class="titleDIV" id="lead_update_title">
 		<span class="titleText">
-		    ■ 가망고객 > <a style="cursor: pointer;" onclick="leadlist();"> 가망고객관리</a> > <span id="coupon_form_title">가망고객 수정</span>
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 수정</span>
 		</span>
 	</div>   
  

@@ -24,7 +24,7 @@
 	<div style="height:10px;"></div>
 		<div class="titleDIV" id="lead_detail_title">
 		<span class="titleText">
-		    ■ 가망고객 > <a style="cursor: pointer;" onclick="leadlist();"> 가망고객관리</a> > <span id="coupon_form_title">가망고객 상세정보</span> > 고객상담 이력
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="lead_detail();">고객리드 상세정보</a> > 고객상담 이력
 		</span>
 	</div> 
 	<div style="height:10px;"></div>

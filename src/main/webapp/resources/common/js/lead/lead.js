@@ -559,9 +559,8 @@ function searchKeyword(a){
 }
 
 //검색 조건
-function StatusSearchKeyword(a){
- 
- 	var lead_no_srch = $("#lead_no_srch").val();
+function StatusSearchKeyword(lead_status_cd){  
+  	var lead_no_srch = $("#lead_no_srch").val();
 	var lead_name_srch = $("#lead_name_srch").val();
 	var cust_name = $("#cust_name").val();
 	var emp_name = $("#emp_name").val();
@@ -574,7 +573,8 @@ function StatusSearchKeyword(a){
 		        "cust_name": cust_name, 
 		        "emp_name":emp_name, 
 		        "contact_day_srch":contact_day_srch,
-		        "rank_cd" : rank_cd , "PageNum" : a};
+		        "rank_cd" : rank_cd , "PageNum" : 1
+		        ,"lead_status_cd":lead_status_cd};
 		
  
 			var tbody = $('#lead_list_tbody');

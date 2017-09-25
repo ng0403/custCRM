@@ -74,6 +74,13 @@ public class LeadServiceImpl implements LeadService {
 	}
 
 	@Override
+	public List<LeadVO> leadStatusSearch(Map<String, Object> leadMap) {
+	 
+ 	  return leadDao.leadStatusSearch(leadMap);
+	 
+	}
+	
+	@Override
 	public List<CustVO> custPopupList() {
 		// TODO Auto-generated method stub
 		return leadDao.custPopupList();

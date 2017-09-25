@@ -20,7 +20,7 @@
 	<div style="height:10px;"></div>
 	<div class="titleDIV">
 		<span class="titleText">
-			 ■ 가망고객 > 가망고객 관리 
+			 ■ 고객리드 > 고객리드 관리 
 		</span>
 	</div>
 	<div style="height:10px;"></div>

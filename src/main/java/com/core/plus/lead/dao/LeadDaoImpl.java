@@ -46,6 +46,8 @@ public class LeadDaoImpl implements LeadDao {
 		
 		return vo;
 	}
+	
+	
 
 	@Override
 	public void lead_insert(LeadVO vo) {
@@ -78,6 +80,13 @@ public class LeadDaoImpl implements LeadDao {
 	public List<LeadVO> leadSearch(Map<String, Object> leadMap) {
 		
 		List<LeadVO> obj = sqlSession.selectList("leadList", leadMap);
+		return obj;
+	}
+	
+	@Override
+	public List<LeadVO> leadStatusSearch(Map<String, Object> leadMap) {
+		
+		List<LeadVO> obj = sqlSession.selectList("leadStatusList", leadMap);
 		return obj;
 	}
 
