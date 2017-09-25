@@ -14,6 +14,15 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
 	
+	<!--좌·우 바디 + 어사이드 구조 -->
+	<definition name="twobodyLayout" template="/WEB-INF/views/layout/twobody_layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/common/menu.jsp" />
+		<put-attribute name="subMenu" value="/WEB-INF/views/common/subMenu.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	
 	<!-- lead -->
 	<definition name="lead_list" extends="onebodyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/lead/lead_list.jsp"></put-attribute>
@@ -70,8 +79,9 @@
 	</definition>
 	
 	<!-- code -->
-	<definition name="code_list" extends="onebodyLayout">
-		<put-attribute name="body" value="/WEB-INF/views/code/code_list.jsp"></put-attribute>
+	<definition name="code_list" extends="twobodyLayout">
+		<put-attribute name="leftBody" value="/WEB-INF/views/code/code_list.jsp"></put-attribute>
+		<put-attribute name="rightBody" value="/WEB-INF/views/code/code_detail.jsp"></put-attribute>
 	</definition>
 	
 	<!-- code detail -->

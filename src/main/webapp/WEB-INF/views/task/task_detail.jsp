@@ -65,7 +65,7 @@
 			<table id="task_form_tbl" class="commonDetailTable">
 
 				<tr>
-					<th id="impTh" style="text-align: right; readonly: true">*task번호</th>
+					<th id="impTh" style="text-align: right; readonly: true">*상담번호</th>
 					<td>
 						<c:if test="${ taskNoIndex.task_no != null }">
 							<input name="task_no" id="task_no" type="text"value="${taskNoIndex.task_no}" style="width: 60%;" disabled="disabled">
