@@ -176,8 +176,8 @@ public class LeadController {
 			
 			mov.addObject("pageNum", PageNum); 
 			mov.addObject("main_menu_url", "lead");
-			
 			menuImport(mov, "lead");
+			mov.addObject("lead_status_cd", code);
 			
 			System.out.println("mov ?  " + mov.toString());
 			return mov;
@@ -315,6 +315,40 @@ public class LeadController {
 		 
 		return kwMap;
 	}
+	
+	//조건 검색
+		@RequestMapping(value = "/StatusSearchKeyword", method = RequestMethod.POST)
+		public @ResponseBody Map<String, Object> StatusSearchKeyword(
+				@RequestParam(value = "PageNum", defaultValue = "1") int PageNum,
+				String lead_no_srch,
+				String lead_name_srch, String cust_name, String emp_name, String contact_day_srch, String rank_cd) {
+		 
+			String contact_day;
+			
+			contact_day = contact_day_srch.replace("-", "");
+			 
+			
+			Map<String, Object> kwMap = new HashMap<String, Object>(); 
+	 		System.out.println("page num : " + PageNum);
+	 		kwMap.put("PageNum", PageNum);
+			kwMap.put("lead_no_srch", lead_no_srch);
+			kwMap.put("lead_name_srch", lead_name_srch);
+			kwMap.put("cust_name", cust_name);
+			kwMap.put("emp_name", emp_name);
+			kwMap.put("contact_day", contact_day);
+			kwMap.put("rank_cd", rank_cd);
+			 
+			// paging
+		  PagerVO page = leadService.getLeadListRow(kwMap);
+		 
+		  kwMap.put("page", page); 
+			
+			List<LeadVO> leadList = leadService.leadSearch(kwMap);
+			
+			kwMap.put("leadList", leadList);
+			 
+			return kwMap;
+		}
 	
 	//고객 팝업 리스트
 	@RequestMapping(value="custPopListAjax", method=RequestMethod.POST)

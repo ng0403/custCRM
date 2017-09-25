@@ -558,6 +558,95 @@ function searchKeyword(a){
 	 
 }
 
+//검색 조건
+function StatusSearchKeyword(a){
+ 
+ 	var lead_no_srch = $("#lead_no_srch").val();
+	var lead_name_srch = $("#lead_name_srch").val();
+	var cust_name = $("#cust_name").val();
+	var emp_name = $("#emp_name").val();
+	var contact_day_srch = $("#contact_day_srch").val();
+	var rank_cd = $("#rank_cd").val();
+	
+	
+	var leadData = { "lead_no_srch": lead_no_srch, 
+				"lead_name_srch": lead_name_srch,
+		        "cust_name": cust_name, 
+		        "emp_name":emp_name, 
+		        "contact_day_srch":contact_day_srch,
+		        "rank_cd" : rank_cd , "PageNum" : a};
+		
+ 
+			var tbody = $('#lead_list_tbody');
+			var tbodyContent = "";
+	  
+			$.ajax({
+				url:'/StatusSearchKeyword',
+				type: 'POST',
+				data: leadData,
+				dataType:'json',
+				success: function(data){
+					console.log(data);
+					
+					tbody.children().remove(); 
+			  
+ 					for(var i=0; i<data.leadList.length; i++){ 
+ 					tbodyContent = "<tr>" +
+	 	 			"<td style='text-align: left;' >" +data.leadList[i].lead_no +"</td>" +
+	 	 			"<td style='text-align: left;'>" +
+	 	 			"<a href='#' onclick=leadDetail('"+data.leadList[i].lead_no+"','"+data.PageNum+"'); id='"+data.leadList[i].lead_no+"'>" + data.leadList[i].lead_name+"</a></td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].cust_no +"</td>" +
+	 	 			"<td style='text-align: left;'>" +data.leadList[i].cust_name +"</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].emp_name + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].contact_day + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].rank_cd + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].create_date + "</td>" +
+	 	 			"</tr>";
+ 					tbody.append(tbodyContent);
+					}
+					 
+
+ 					// 페이징
+ 					$(".pagingDiv").empty();
+ 					var pageContent = "";
+
+ 					console.log(data);
+ 					
+ 					if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+ 						pageContent = "◀ <input type='text' id='pageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+ 					} else if(data.PageNum == data.page.startPageNum){
+ 				 
+ 						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
+ 						+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+ 						+"<a onclick=\"searchKeyword("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+ 					} else if(data.PageNum == data.page.endPageNum){
+ 					 
+ 						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
+ 						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+ 						+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+ 						+"<a> / "+data.page.endPageNum+"</a> ▶";
+ 					} else {
+ 	 
+ 						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
+ 						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+ 						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+ 						+"<a onclick=\"searchKeyword("+data.page.PageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+ 					}
+ 					$(".pagingDiv").append(pageContent);
+ 					
+ 					
+					
+				},
+				error: function(){
+					alert("error");
+				}
+			});
+	 
+}
+
 
 function lead_sounsel_read(cust_no){
 
