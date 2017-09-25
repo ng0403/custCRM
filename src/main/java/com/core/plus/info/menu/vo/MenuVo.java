@@ -9,15 +9,15 @@ public class MenuVo {
 	private String menu_lev_cd_nm; //메뉴레벨이름
 	private String up_menu_id;	//상위메뉴id
 	private String act_yn;		//활성화여부
-	private String crt_id;		//생성자id
-	private String crt_dt;		//생성일시
-	private String mdfy_id;		//수정자id
-	private String mdfy_dt;		//수정일시
+//	private String crt_id;		//생성자id
+	private String create_date;		//생성일시
+	private String fin_mdfy_id;		//수정자id
+//	private String mdfy_dt;		//수정일시
 	
-	private String rtrv_yn;     //조회권한여부
-	private String crt_yn;		//생성권한여부
-	private String mdfy_yn;		//수정권한여부
-	private String del_yn;		//삭제권한여부
+	private String retrv_auth_yn;     //조회권한여부
+	private String create_auth_yn;		//생성권한여부
+	private String mdfy_auth_yn;		//수정권한여부
+	private String del_auth_yn;		//삭제권한여부
 	
 	private String auth_id;     //권한id
 	private String up_id;       //상위메뉴id로 출력
@@ -26,14 +26,6 @@ public class MenuVo {
 	private int seq_no;     //사용자id
 	
 	private String mi;
-	
-	public int getSeq_no() {
-		return seq_no;
-	}
-
-	public void setSeq_no(int seq_no) {
-		this.seq_no = seq_no;
-	}
 
 	public String getMenu_id() {
 		return menu_id;
@@ -67,6 +59,14 @@ public class MenuVo {
 		this.menu_lev = menu_lev;
 	}
 
+	public String getMenu_lev_cd_nm() {
+		return menu_lev_cd_nm;
+	}
+
+	public void setMenu_lev_cd_nm(String menu_lev_cd_nm) {
+		this.menu_lev_cd_nm = menu_lev_cd_nm;
+	}
+
 	public String getUp_menu_id() {
 		return up_menu_id;
 	}
@@ -83,68 +83,52 @@ public class MenuVo {
 		this.act_yn = act_yn;
 	}
 
-	public String getCrt_id() {
-		return crt_id;
+	public String getCreate_date() {
+		return create_date;
 	}
 
-	public void setCrt_id(String crt_id) {
-		this.crt_id = crt_id;
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
 	}
 
-	public String getCrt_dt() {
-		return crt_dt;
+	public String getFin_mdfy_id() {
+		return fin_mdfy_id;
 	}
 
-	public void setCrt_dt(String crt_dt) {
-		this.crt_dt = crt_dt;
+	public void setFin_mdfy_id(String fin_mdfy_id) {
+		this.fin_mdfy_id = fin_mdfy_id;
 	}
 
-	public String getMdfy_id() {
-		return mdfy_id;
+	public String getRetrv_auth_yn() {
+		return retrv_auth_yn;
 	}
 
-	public void setMdfy_id(String mdfy_id) {
-		this.mdfy_id = mdfy_id;
+	public void setRetrv_auth_yn(String retrv_auth_yn) {
+		this.retrv_auth_yn = retrv_auth_yn;
 	}
 
-	public String getMdfy_dt() {
-		return mdfy_dt;
+	public String getCreate_auth_yn() {
+		return create_auth_yn;
 	}
 
-	public void setMdfy_dt(String mdfy_dt) {
-		this.mdfy_dt = mdfy_dt;
+	public void setCrt_auth_yn(String crt_auth_yn) {
+		this.create_auth_yn = crt_auth_yn;
 	}
 
-	public String getRtrv_yn() {
-		return rtrv_yn;
+	public String getMdfy_auth_yn() {
+		return mdfy_auth_yn;
 	}
 
-	public void setRtrv_yn(String rtrv_yn) {
-		this.rtrv_yn = rtrv_yn;
+	public void setMdfy_auth_yn(String mdfy_auth_yn) {
+		this.mdfy_auth_yn = mdfy_auth_yn;
 	}
 
-	public String getCrt_yn() {
-		return crt_yn;
+	public String getDel_auth_yn() {
+		return del_auth_yn;
 	}
 
-	public void setCrt_yn(String crt_yn) {
-		this.crt_yn = crt_yn;
-	}
-
-	public String getMdfy_yn() {
-		return mdfy_yn;
-	}
-
-	public void setMdfy_yn(String mdfy_yn) {
-		this.mdfy_yn = mdfy_yn;
-	}
-
-	public String getDel_yn() {
-		return del_yn;
-	}
-
-	public void setDel_yn(String del_yn) {
-		this.del_yn = del_yn;
+	public void setDel_auth_yn(String del_auth_yn) {
+		this.del_auth_yn = del_auth_yn;
 	}
 
 	public String getAuth_id() {
@@ -171,12 +155,12 @@ public class MenuVo {
 		this.user_id = user_id;
 	}
 
-	public String getMenu_lev_cd_nm() {
-		return menu_lev_cd_nm;
+	public int getSeq_no() {
+		return seq_no;
 	}
 
-	public void setMenu_lev_cd_nm(String menu_lev_cd_nm) {
-		this.menu_lev_cd_nm = menu_lev_cd_nm;
+	public void setSeq_no(int seq_no) {
+		this.seq_no = seq_no;
 	}
 
 	public String getMi() {
@@ -186,6 +170,8 @@ public class MenuVo {
 	public void setMi(String mi) {
 		this.mi = mi;
 	}
+	
+
 }
 	
 	

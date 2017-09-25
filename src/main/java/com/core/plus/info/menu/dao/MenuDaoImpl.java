@@ -162,8 +162,10 @@ public class MenuDaoImpl implements MenuDao {
 		map.put("crt_yn", crt_yn);
 		map.put("mdfy_yn", mdfy_yn);
 		map.put("del_yn", del_yn);
-		map.put("crt_id", menuVo.getCrt_id());map.put("crt_dt", menuVo.getCrt_dt());
-		map.put("mdfy_id", menuVo.getMdfy_id());map.put("mdfy_dt", menuVo.getMdfy_dt());
+		map.put("fin_mdfy_id", menuVo.getFin_mdfy_id());
+//		map.put("crt_dt", menuVo.getCrt_dt());
+//		map.put("mdfy_id", menuVo.getMdfy_id());
+//		map.put("mdfy_dt", menuVo.getMdfy_dt());
 		try {
 			authmenu_result1 += sqlSession.insert("authmenuInsert1" , map); //메뉴권한 추가
 			System.out.println("메뉴 dao의 menu_id : " + menu_id + " , " + crt_yn+ " , " + mdfy_yn + " , " + del_yn + " , " + rtrv_yn);
