@@ -118,7 +118,7 @@ public class LeadController {
 		mov.addObject("pageNum", PageNum);
 		mov.addObject("lead_list", vo);
 		mov.addObject("main_menu_url", "lead");
-		
+		mov.addObject("sub_menu_url", "my_lead");
 		menuImport(mov, "lead");
 		
 		System.out.println("mov ?  " + mov.toString());
@@ -148,7 +148,7 @@ public class LeadController {
 			 mov.addObject("lead_list", vo);
 			 mov.addObject("page", page);
 			 mov.addObject("flg", "002");
-			 mov.addObject("sub_menu_url", "lead_status?=code=002");
+			 mov.addObject("sub_menu_url", "lead_status?code=002");
 			}
 			//기회전환
 			else if(code.equals("003")) 
@@ -160,7 +160,7 @@ public class LeadController {
 			  mov.addObject("lead_list", vo);		
 			  mov.addObject("page", page);
 			  mov.addObject("flg", "003");
-			  mov.addObject("sub_menu_url", "lead_status?=code=003");
+			  mov.addObject("sub_menu_url", "lead_status?code=003");
 			}
 			//실패
 			else if(code.equals("004")) 
@@ -172,7 +172,7 @@ public class LeadController {
 			 mov.addObject("lead_list", vo);
 			 mov.addObject("page", page);
 			 mov.addObject("flg", "004");
-			 mov.addObject("sub_menu_url", "lead_status?=code=004");
+			 mov.addObject("sub_menu_url", "lead_status?code=004");
 			} 
 			
 			mov.addObject("pageNum", PageNum); 
@@ -199,7 +199,7 @@ public class LeadController {
 		mov.addObject("PageNum", PageNum);
 		mov.addObject("main_menu_url", "lead");
 		mov.addObject("itemList", itemList);
-		
+		mov.addObject("sub_menu_url", "lead");
 		System.out.println(mov.toString());
 		
 		menuImport(mov, "lead");
@@ -573,6 +573,7 @@ public class LeadController {
 			menuImport(mov, "task");*/
 			menuImport(mov, "lead");
 			mov.addObject("main_menu_url", "lead");
+			mov.addObject("sub_menu_url", "lead");
 			return mov;
 		}
 		

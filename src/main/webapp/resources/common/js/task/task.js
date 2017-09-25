@@ -157,9 +157,9 @@ function task_add(){
 }
 
 //상담 상세정보
-function taskDetail(a, taskPageNum) {
+function taskDetail(a, taskPageNum, lead_no) {
   var no = a; 
-  location.href="/task_detail?task_no=" + no +"&taskPageNum=" + taskPageNum; 
+  location.href="/task_detail?task_no=" + no +"&taskPageNum=" + taskPageNum + "&lead_no=" + lead_no; 
 }
 
 //엔터키 기능

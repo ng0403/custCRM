@@ -206,8 +206,8 @@ public class TaskController {
 	// 상세보기 및 단건등록화면
 	@RequestMapping(value="task_detail")
 	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-			String task_no, String flg) {
-
+			String task_no, String flg, String lead_no) {
+		System.out.println("lead_no ? "  + lead_no);
 		if(task_no == null || task_no == "")	// 단건등록 시
 		{
 			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
@@ -235,13 +235,29 @@ public class TaskController {
 		}
 		else	// 상세보기	
 		{
+			
 			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
 			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
 			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
 			
 			ModelAndView mov = new ModelAndView("task_detail");
-
+			
+			//
+			 if(lead_no.equals("undefined")){
+			 System.out.println("null");
+			 mov.addObject("main_menu_url", "task"); 
+			 mov.addObject("sub_menu_url", "task");
+			 menuImport(mov, "task");
+			}else 
+			{
+			 System.out.println("not null");
+			 mov.addObject("main_menu_url", "lead");
+			 mov.addObject("sub_menu_url", "lead");
+			 mov.addObject("lead_no", lead_no);
+			 menuImport(mov, "lead");
+			}
+			
 			mov.addObject("taskDetail",  taskService.taskDetail(task_no));
 			mov.addObject("dtypeCd", dtypeCd);
 			mov.addObject("scoreCd", scoreCd);
@@ -249,9 +265,8 @@ public class TaskController {
 			mov.addObject("divisCd", divisCd);
 			mov.addObject("flg", "2");
 			mov.addObject("taskPageNum", taskPageNum);
-			mov.addObject("main_menu_url", "task");
-			mov.addObject("sub_menu_url", "task");
-			menuImport(mov, "task");
+			
+			
 			
 			System.out.println(taskService.taskDetail(task_no));
 			

@@ -107,9 +107,17 @@ function task_add_save() {
 //상담 편집버튼 클릭 시 disabled  해제
 function task_modify_btn() {
 	
+	var lead_no = $("#lead_no").val();
+ 
 	if($("#task_single_modify").val() == "편집") {
-		
+	  
+		if(lead_no != null)
+		{
+		 document.getElementById('task_form_title').innerHTML ="고객상담 수정";
+		}else{
 		document.getElementById('task_form_title').innerHTML ="상담 수정";
+		}
+		
 		$("#task_single_modify").val("저장");
 		$("#task_single_modify").removeClass("func_btn");
 		$("#task_single_modify").addClass("tr_btn");
