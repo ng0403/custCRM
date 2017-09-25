@@ -24,7 +24,14 @@
 <!-- 상담 -->
 <div id="task_detail">
 	<div style="height: 10px;"></div>
-
+	<c:if test="${lead_no != null}"> 
+	<div class="titleDIV">
+			<span class="titleText">■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> > 고객상담 이력 >
+			<span id="task_form_title">고객상담 상세정보 </span>
+			</span>
+		</div> 
+	</c:if>
+   <c:if test="${lead_no == null}">
 	<c:if test="${flg == 2 }">
 		<div class="titleDIV">
 			<span class="titleText"> ■ 상담 > <a style="cursor: pointer;"
@@ -50,7 +57,7 @@
 			</span>
 		</div>
 	</c:if>
-
+ </c:if>
 	<%-- 	<c:if test="${flg == 2}"> --%>
 	<!--  		<div class="titleDIV"> -->
 	<!-- 			<span class="titleText"> -->
