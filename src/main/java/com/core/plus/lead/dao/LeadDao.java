@@ -7,8 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.core.plus.contact.cust.vo.CustVO;
 import com.core.plus.emp.vo.EmpVO;
+import com.core.plus.lead.vo.InterestItemVO;
 import com.core.plus.lead.vo.LeadVO;
-import com.core.plus.task.vo.TaskVO;
+import com.core.plus.oppty.vo.OpptyItemVO;
 
 public interface LeadDao {
 	
@@ -20,6 +21,10 @@ public interface LeadDao {
 	
 	public List<LeadVO> leadSearch(Map<String, Object> leadMap); // 가망 고객 조건 검색
 	
+	//Item
+	List<InterestItemVO> leadItemList(String lead_no);
+	int leadItemDelete(String lead_no);
+	int leadItemInsert(List<InterestItemVO> opptyVo);
 	
 	//popup
 	List<CustVO> custPopupList();

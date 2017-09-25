@@ -1,0 +1,649 @@
+/**
+ * 
+ * leadItemAdd()			:: 추가 테이블 생성(tr/td)
+ * leadItemInsert()		:: 관심상품 추가
+ * leadItemDelte()			:: 관심상품 삭제
+ * 
+ */
+
+var ctx = $("#ctx").val();
+var tmp;
+var count = 0;
+var selQty; 
+var main_cate_cd;
+var mid_cate_cd;
+var totalPrice;
+
+$(document).ready(function(){
+
+	mainCatePopup();
+	midCatePopup();
+	smallCatePopup();
+	
+	// 입력하는 수량의 위치를 담아준다.
+	$(document).on( 'click','.qty',function(event) {
+		selQty = $(this);
+	});
+	
+	// 클릭한 input태그(제안금액)를 찾아서 값은 담는다. 
+	$(document).on('click', '.offer_price', function(event) {
+		selDC = $(this);
+		totalPrice = selDC.parent().parent().children().eq(6).children().eq(0).val();
+	});
+	
+	$(document).on('click', '.payment_day', function(event) {
+		console.log($(this));
+	});
+
+	// 숫자만 입력할 수 있게 한다.
+//	$(document).on('keyup', '.qty', function(event){
+//		if(event.keyCode < 48 || event.keyCode > 57) {
+//			alert("숫자만 입력 가능합니다.");
+//			this.value = this.value.replace(/[^0-9]/g,'');
+//			return false;
+//		}
+//	});
+	
+	// 숫자만 입력할 수 있게 한다.
+//	$(document).on('keyup', '.offer_price', function(event){
+//		if(event.keyCode < 48 || event.keyCode > 57) {
+//			alert("숫자만 입력 가능합니다.");
+//			this.value = this.value.replace(/[^0-9]/g,'');
+//			return false;
+//		}
+//	});
+});
+
+//체크박스 전체 선택.
+function actAllChk()
+{
+	var checkbox=$('#leadItemTable tbody').find('input[type=checkbox]');
+	
+	if($('#leadItemChk').is(":checked")){
+		$(checkbox).prop("checked", true);
+	}else{
+		$(checkbox).prop("checked", false);
+	}
+}
+
+// 테이블 동적 생성(Ajax)
+function leadItemAdd()
+{
+	var tbody = $('#lead_item_list_tbody');
+	var tbodyContent = "";
+	
+	// 새로 그려준다.
+	tbody.append(
+		"<tr class='lead_item_list_tr'>"+
+			"<td><input type='checkbox' class='del_chk' name='del_chk'></td>" +
+			"<td style='text-align: left;'>" +
+				"<input type='hidden' class='main_cate_cd' name='main_cate_cd' value=''>" +
+				"<input type='text' class='main_cate_name' name='main_cate_name' readonly='readonly'></td>"+
+			"<td style='text-align: left;'>" +
+				"<input type='hidden' class='mid_cate_cd' name='mid_cate_cd' value=''>" +
+				"<input type='text' class='mid_cate_name' name='mid_cate_name' readonly='readonly'></td>"+
+			"<td style='text-align: left;'>" +
+				"<input type='hidden' class='small_cate_cd' name='small_cate_cd' value=''>" +
+				"<input type='text' class='small_cate_name' name='small_cate_name' readonly='readonly'></td>"+
+			"<td style='text-align: left;'><input type='text' class='qty' name='qty' onkeyup='totalPriceCalc();'></td>"+
+			"<td style='text-align: left;'><input type='text' class='list_price' name='list_price' readonly='readonly'></td>"+
+			"<td style='text-align: left;'><input type='text' class='total_price' name='total_price' readonly='readonly'></td>"+ 
+		"</tr>"
+	);
+	count++;	// datepicker 값을 넣기 위한 id 카운트
+	$(document).find("input[class=payment_day]").removeClass('hasDatepicker').datepicker();		// datepicker 동적 생성
+}
+
+// 매출상품 추가
+function leadItemInsert()
+{
+	var lead_no     = $("#lead_no").val();
+	var main_cat_cd  = [];
+	var mid_cat_cd   = [];
+	var small_cat_cd = [];
+	var qty			 = [];
+	var list_price	 = []; 
+	var leadItemList = [];
+	
+	var tbody = $("#lead_item_list_tbody");
+	var tbodyContent = "";
+	
+	$("#lead_item_list_tbody tr").each(function() {
+		main_cat_cd.push($(this).children().eq(1).children().eq(0).val());
+		mid_cat_cd.push($(this).children().eq(2).children().eq(0).val());
+		small_cat_cd.push($(this).children().eq(3).children().eq(0).val());
+		qty.push($(this).children().eq(4).children().val());
+		list_price.push($(this).children().eq(5).children().val());
+ 		
+		leadItemList.push(main_cat_cd.pop());
+		leadItemList.push(mid_cat_cd.pop());
+		leadItemList.push(small_cat_cd.pop());
+		leadItemList.push(qty.pop());
+		leadItemList.push(list_price.pop());
+  		
+	});
+	
+	console.log(leadItemList);
+	
+	$.ajax({
+		url : ctx + '/leadItemInsert',
+		type: 'POST',
+		dataType : 'json',
+		data : {
+			lead_no	  : lead_no,
+			leadItemList : leadItemList
+		},
+		success:function(data){
+			tbody.children().remove();
+			
+			alert("관심 상품이 추가되었습니다.");
+			console.log(data);
+			
+			var size = data.length;
+			for(var i=0; i<size; i++)
+			{
+				console.log(data[i].offer_price + " : " + data[i].total_price);
+				tbodyContent = "<tr>" +
+				"<td><input type='checkbox' class='del_chk' name='del_chk'></td>" +
+	 			"<td style='text-align: left;'>" +
+	 				"<input type='hidden' class='main_cate_cd' name='main_cate_cd' value='"+ data[i].main_cate_cd +"'>" +
+	 				"<input type='text' class='main_cate_name' name='main_cate_name' value='"+ data[i].main_cate_name +"'></td>" +
+	 			"<td style='text-align: left;'>" +
+	 				"<input type='hidden' class='mid_cate_cd' name='mid_cate_cd' value='"+ data[i].mid_cate_cd +"'>" +
+ 					"<input type='text' class='mid_cate_name' name='mid_cate_name' value='"+ data[i].mid_cate_name +"'></td>" +
+ 				"<td style='text-align: left;'>" +
+	 				"<input type='hidden' class='small_cate_cd' name='small_cate_cd' value='"+ data[i].small_cate_cd +"'>" +
+ 					"<input type='text' class='small_cate_name' name='small_cate_name' value='"+ data[i].small_cate_name +"'></td>" +
+ 				"<td style='text-align: left;'>" +
+ 					"<input type='text' class='qty' name='qty' value='"+ data[i].qty +"'></td>" +
+ 				"<td style='text-align: left;'>" +
+ 					"<input type='text' class='list_price' name='list_price' value='"+ data[i].list_price +"'></td>" +
+ 				"<td style='text-align: left;'>" +
+ 					"<input type='text' class='total_price' name='total_price' value='"+ data[i].total_price +"' readonly='readonly'></td>" +
+	 			"</tr>";
+ 					
+ 				tbody.append(tbodyContent);
+			}
+		},
+		error:function(request){
+			alert("error : " + request.status)
+		}
+	});
+}
+
+// 삭제버튼 눌렀을 시
+function leadItemDelte()
+{
+	var checkbox=$('#leadItemTable tbody').find('input[type=checkbox]:checked');	// 체크된 체크박스를 담는다.
+	var delTr = checkbox.parent().parent();											// 체크된 체크박스의 tr을 담는다.
+	var delQty = checkbox.parent().parent().children().eq(4).children().val();		// 체크된 체크박스의 item의 수량을 담는다.
+	
+	delTr.remove();		// 체크박스가 체크된 tr을 지운다.
+	
+	var checkbox=$('#leadItemTable thead').find('input[type=checkbox]');
+	
+	if($('#leadItemChk').is(":checked")){
+		$(checkbox).prop("checked", false);
+	}
+}
+
+/* Popup */
+function mainCatePopup()
+{
+	$(document).on( 'click','.main_cate_name',function(event) {
+		// 팝업창 표시
+		$.blockUI({ message: $('#mainCateListModalDiv'),
+	    	css: { 
+	    	'left': '65%',
+	    	'top': '50%',
+	    	'margin-left': '-400px',
+	    	'margin-top': '-250px',
+	    	'width': '400px',
+	    	'height': '500px',
+	    	'cursor': 'default'
+	    	}
+			,onOverlayClick : $.unblockUI
+		});
+		
+		tmp = $(this);	// 클릭 한 input 태그 위치 저장.
+
+		viewMainCateList(1);
+		
+	});
+	
+}
+
+function viewMainCateList(mainCatePopupPageNum)
+{
+	var ctx = $("#ctx").val();
+	var s_main_cate_name = $("#s_main_cate_name").val();
+	console.log(s_main_cate_name);
+	
+	$.ajax({
+		url: ctx + "/mainCateListAjax", 
+		type: "POST",  
+		data: { 
+			mainCatePopupPageNum : mainCatePopupPageNum,
+			s_main_cate_name : s_main_cate_name 
+		},
+		dataType: "json",
+		success: function(data) { 
+			
+			$("#mainCateListTbody").empty();
+			$("#s_main_cate_name").bind("keypress", function(event) {
+				enterSearch(event);
+			});
+			
+			if (data.mainCatePopupList.length == 0) {
+				var trElement = $("#mainCateListTableHeader").clone().removeClass().empty();
+				$("#mainCateListTbody").append(trElement);
+				$("#mainCateListTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+			} else {
+				console.log(data);
+				$.each(data.mainCatePopupList, function(i) {
+					var trElement = $("#mainCateListTableHeader").clone().removeClass().empty();
+					var main_cate_cd = this.main_cate_cd;
+					var main_cate_name = this.main_cate_name;
+
+					// 클릭한 tr의 값을 부모창에 입력해준다.
+					trElement.bind("click", function(e) {
+						setTimeout($.unblockUI, 0);
+						tmp.parents().children().eq(0).val(main_cate_cd);
+						tmp.val(main_cate_name);
+
+					});
+					
+					addMouseEvent(trElement);
+					trElement.css("cursor", "pointer");
+					
+					$("#mainCateListTbody").append(trElement);
+					$("#mainCateListTbody tr:last").append("<td width='60%'>" + main_cate_cd + "</td>"
+							+ "<td width='30%'>" + main_cate_name + "</td>");
+				});
+			}
+			console.log(data);
+			
+			// 페이징 그리기
+			$("#mainCatePagingDiv").empty();
+			var pageContent = "";
+			
+			if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+				pageContent = "◀ <input type='text' id='catePageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+			} else if(data.pageNum == data.page.startPageNum){
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"◀ <input type='text' id='catePageInput' value='"+data.page.startPageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+				+"<a onclick=\"viewMainCateList("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewMainCateList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+				
+			} else if(data.pageNum == data.page.endPageNum){
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewMainCateList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='catePageInput' value='"+data.page.endPageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a> / "+data.page.endPageNum+"</a> ▶";
+				
+			} else {
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewMainCateList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='catePageInput' value='"+data.pageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a onclick=\"viewMainCateList("+data.page.pageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewMainCateList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+			}
+			$("#mainCatePagingDiv").append(pageContent);
+			
+		},
+		beforeSend: function(){
+        	viewLoadingShow();			
+        },
+        complete:function(){
+        	viewLoadingHide();	
+        },
+		error: function(data) { 
+			alert("대분류목록을 취득하지 못했습니다.");
+			return false;
+		}
+	});
+}
+
+function midCatePopup()
+{
+//	var main_cate_cd = $("#main_cate_cd").val();
+	
+	$(document).on( 'click','.mid_cate_name',function(event) {
+		tmp = $(this);
+		main_cate_cd = tmp.parent().parent().children().eq(1).children().eq(0).val();	// 선택한 대분류에 포함된 중분류를 가지고 와야하기 떄문에 필요하다.
+		
+		if(main_cate_cd == "" || main_cate_cd == null)
+		{
+			alert("대분류를 먼저 선택하세요.");
+		}
+		else
+		{
+			// 팝업창 표시
+			$.blockUI({ message: $('#midCateListModalDiv'),
+		    	css: { 
+		    	'left': '65%',
+		    	'top': '50%',
+		    	'margin-left': '-400px',
+		    	'margin-top': '-250px',
+		    	'width': '400px',
+		    	'height': '500px',
+		    	'cursor': 'default'
+		    	}
+				,onOverlayClick : $.unblockUI
+			});
+			
+			viewMidCateList(1);
+		}
+	});
+}
+
+function viewMidCateList(mainCatePopupPageNum)
+{
+	var ctx = $("#ctx").val();
+	var s_mid_cate_name = $("#s_mid_cate_name").val();
+	
+	$.ajax({
+		url: ctx + "/midCateListAjax", 
+		type: "POST",  
+		data: {
+			main_cate_cd	: main_cate_cd,
+			s_mid_cate_name : s_mid_cate_name 
+		},
+		dataType: "json",
+		success: function(data) { 
+			
+			$("#midCateListTbody").empty();
+			$("#s_mid_cate_name").bind("keypress", function(event) {
+				enterSearch(event);
+			});
+			
+			if (data.midCatePopupList.length == 0) {
+				var trElement = $("#midCateListTableHeader").clone().removeClass().empty();
+				$("#midCateListTbody").append(trElement);
+				$("#midCateListTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+			} else {
+				console.log(data);
+				$.each(data.midCatePopupList, function(i) {
+					var trElement = $("#midCateListTableHeader").clone().removeClass().empty();
+					var mid_cate_cd = this.mid_cate_cd;
+					var mid_cate_name = this.mid_cate_name;
+
+					trElement.bind("click", function(e) {
+						setTimeout($.unblockUI, 0);
+						tmp.parent().children().eq(0).val(mid_cate_cd);
+						tmp.val(mid_cate_name);
+					});
+					
+					addMouseEvent(trElement);
+					trElement.css("cursor", "pointer");
+					
+					$("#midCateListTbody").append(trElement);
+					$("#midCateListTbody tr:last").append("<td width='60%'>" + mid_cate_cd + "</td>"
+							+ "<td width='30%'>" + mid_cate_name + "</td>");
+				});
+			}
+			
+			// 페이징 그리기
+			$("#midCatePagingDiv").empty();
+			var pageContent = "";
+			
+			if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+				pageContent = "◀ <input type='text' id='catePageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+			} else if(data.pageNum == data.page.startPageNum){
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"◀ <input type='text' id='catePageInput' value='"+data.page.startPageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+				+"<a onclick=\"viewMidCateList("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewMidCateList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+				
+			} else if(data.pageNum == data.page.endPageNum){
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewMidCateList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='catePageInput' value='"+data.page.endPageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a> / "+data.page.endPageNum+"</a> ▶";
+				
+			} else {
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewMainCateList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='catePageInput' value='"+data.pageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a onclick=\"viewMidCateList("+data.page.pageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewMidCateList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+			}
+			$("#midCatePagingDiv").append(pageContent);
+			
+		},
+		beforeSend: function(){
+        	viewLoadingShow();			
+        },
+        complete:function(){
+        	viewLoadingHide();	
+        },
+		error: function(data) { 
+			alert("중분류목록을 취득하지 못했습니다.");
+			return false;
+		}
+	});
+}
+
+function smallCatePopup()
+{
+	
+	$(document).on( 'click','.small_cate_name',function(event) {
+		tmp = $(this);
+		main_cate_cd = tmp.parent().parent().children().eq(1).children().eq(0).val();
+		mid_cate_cd = tmp.parent().parent().children().eq(2).children().eq(0).val();
+		
+		console.log(mid_cate_cd);
+		
+		if(main_cate_cd == "" || main_cate_cd == null)
+		{
+			alert("대분류를 먼저 선택하세요.");
+		}
+		else if(mid_cate_cd == "" || mid_cate_cd == null)
+		{
+			alert("중분류를 먼저 선택하세요.");
+		}
+		else
+		{
+			// 팝업창 표시
+			$.blockUI({ message: $('#smallCateListModalDiv'),
+		    	css: { 
+		    	'left': '65%',
+		    	'top': '50%',
+		    	'margin-left': '-400px',
+		    	'margin-top': '-250px',
+		    	'width': '400px',
+		    	'height': '500px',
+		    	'cursor': 'default'
+		    	}
+				,onOverlayClick : $.unblockUI
+			});
+			
+			viewSmallCateList(1);
+		}
+	});
+}
+
+function viewSmallCateList(smallCatePopupPageNum)
+{
+	var ctx = $("#ctx").val();
+	var s_small_cate_name = $("#s_small_cate_name").val();
+	
+	$.ajax({
+		url: ctx + "/smallCateListAjax", 
+		type: "POST",  
+		data: {
+			main_cate_cd	  : main_cate_cd,
+			mid_cate_cd		  : mid_cate_cd,
+			s_small_cate_name : s_small_cate_name 
+		},
+		dataType: "json",
+		success: function(data) { 
+			
+			$("#smallCateListTbody").empty();
+			$("#s_small_cate_name").bind("keypress", function(event) {
+				enterSearch(event);
+			});
+			
+			if (data.smallCatePopupList.length == 0) {
+				var trElement = $("#smallCateListTableHeader").clone().removeClass().empty();
+				$("#smallCateListTbody").append(trElement);
+				$("#smallCateListTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+			} else {
+				console.log(data);
+				$.each(data.smallCatePopupList, function(i) {
+					var trElement = $("#smallCateListTableHeader").clone().removeClass().empty();
+					var small_cate_cd = this.small_cate_cd;
+					var small_cate_name = this.small_cate_name;
+					var list_price = this.list_price;
+
+					trElement.bind("click", function(e) {
+						setTimeout($.unblockUI, 0);
+						tmp.parent().children().eq(0).val(small_cate_cd);
+						tmp.val(small_cate_name);
+						tmp.parent().parent().children().eq(5).children().eq(0).val(list_price);		
+						
+						console.log(tmp.parent().parent().children().eq(4).val());	// qty
+					});
+					
+					addMouseEvent(trElement);
+					trElement.css("cursor", "pointer");
+					
+					$("#smallCateListTbody").append(trElement);
+					$("#smallCateListTbody tr:last").append("<td width='60%'>" + small_cate_cd + "</td>"
+							+ "<td width='30%'>" + small_cate_name + "</td>");
+				});
+			}
+			
+			// 페이징 그리기
+			$("#smallCatePagingDiv").empty();
+			var pageContent = "";
+			
+			if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+				pageContent = "◀ <input type='text' id='catePageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+			} else if(data.pageNum == data.page.startPageNum){
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"◀ <input type='text' id='catePageInput' value='"+data.page.startPageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+				+"<a onclick=\"viewSmallCateList("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewSmallCateList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+				
+			} else if(data.pageNum == data.page.endPageNum){
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewSmallCateList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='catePageInput' value='"+data.page.endPageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a> / "+data.page.endPageNum+"</a> ▶";
+				
+			} else {
+				pageContent = "<input type='hidden' id='catePageNum' value='"+data.pageNum+"'/><input type='hidden' id='cateEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewSmallCateList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='catePageInput' value='"+data.pageNum+"' onkeypress=\"catePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a onclick=\"viewSmallCateList("+data.page.pageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewSmallCateList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+			}
+			$("#smallCatePagingDiv").append(pageContent);
+			
+		},
+		beforeSend: function(){
+        	viewLoadingShow();			
+        },
+        complete:function(){
+        	viewLoadingHide();	
+        },
+		error: function(data) { 
+			alert("소분류목록을 취득하지 못했습니다.");
+			return false;
+		}
+	});
+}
+
+//대/중/소분류 리스트 페이징 엔터 기능
+function catePageNumInputEnter(event) {
+	$(document).ready(function() {
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		if (keycode == '13') {
+			var prodMenuPageNum = parseInt($("#catePageInput").val());
+			if ($("#catePageInput").val() == '') {
+				alert("페이지 번호를 입력하세요.")
+				$("#catePageInput").val($("#catePageNum").val());
+				$("#catePageInput").focus();
+			} else if(prodMenuPageNum > parseInt($("#cateEndPageNum").val())) {
+				alert("페이지 번호가 너무 큽니다.");
+				$("#catePageInput").val($("#catePageNum").val());
+				$("#catePageInput").focus();
+			} else if (1 > prodMenuPageNum) {
+				alert("페이지 번호가 너무 작습니다.");
+				$("#catePageInput").val($("#catePageNum").val());
+				$("#catePageInput").focus();
+			} else {
+//				viewProdMenuListForGiftBon(prodMenuPageNum, 2);
+			}
+		}
+		event.stopPropagation();
+	});
+}
+
+// 총금액 계산
+function totalPriceCalc()
+{
+	var inputQty = selQty.val();
+	var listPrice = selQty.parent().parent().children().eq(5).children().eq(0).val();
+	var totalPrice = inputQty * listPrice;
+	
+	// total_price에 값 대입
+	total = selQty.parent().parent().children().eq(6).children().eq(0).val(totalPrice);
+	selQty.parent().parent().children().eq(7).children().eq(0).val(0);
+}
+
+function dcPrice()
+{
+	var offerPrice = selDC.parent().parent().children().eq(8).children().eq(0).val();
+	var dcTotalPrice = 0;
+	var reset = 0;
+	
+	totalPrice = parseInt(totalPrice);
+	offerPrice = parseInt(offerPrice);
+	reset = parseInt(reset);
+
+	if(isNaN(offerPrice))
+	{
+		offerPrice = 0;
+	}
+	
+	if(totalPrice < offerPrice)
+	{
+		console.log(offerPrice);
+		alert("총금액보다 제안금액이 큽니다.");
+		return false;
+	}
+	if(totalPrice > offerPrice)
+	{
+		dcTotalPrice = totalPrice - offerPrice;
+		
+		if(dcTotalPrice > 0)
+		{
+			selDC.parent().parent().children().eq(7).children().eq(0).val(dcTotalPrice);
+		}
+		if(offerPrice == NaN || offerPrice == 0)
+		{
+			selDC.parent().parent().children().eq(7).children().eq(0).val(reset);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

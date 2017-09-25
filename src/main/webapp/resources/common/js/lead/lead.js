@@ -559,6 +559,12 @@ function searchKeyword(a){
 }
 
 
+function lead_sounsel_read(cust_no){
+
+	location.href="/cust_task?=" + cust_no;
+}
+
+
 //엑셀 출력 
 function download_list_Excel(formID, flgNum) {
  

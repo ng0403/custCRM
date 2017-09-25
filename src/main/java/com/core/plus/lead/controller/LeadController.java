@@ -1,5 +1,6 @@
 package com.core.plus.lead.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -24,8 +25,10 @@ import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.lead.service.LeadService;
+import com.core.plus.lead.vo.InterestItemVO;
 import com.core.plus.lead.vo.LeadVO;
 import com.core.plus.oppty.service.OpptyService;
+import com.core.plus.task.service.TaskService;
 import com.core.plus.task.vo.TaskVO;
 
 @Controller
@@ -39,6 +42,10 @@ public class LeadController {
 	
 	@Resource
 	OpptyService opptyService;
+	
+	@Resource
+	TaskService taskService;
+	
 	// git test
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
@@ -92,7 +99,8 @@ public class LeadController {
 	public ModelAndView lead_detail(@RequestParam("lead_no") String lead_no, @RequestParam("pageNum") String PageNum){ 
 	 
 		System.out.println("lead_no : " + lead_no);
-		
+		List<InterestItemVO> itemList 	= leadService.leadItemList(lead_no);	// 관심상품 리스트 조회
+		System.out.println("itemList ? " + itemList.toString());
 		
 		ModelAndView mov = new ModelAndView("leadCRUD");
 		mov.addObject("detail", leadService.lead_detail(lead_no));
@@ -100,6 +108,8 @@ public class LeadController {
 		mov.addObject("flg", "0");
 		mov.addObject("PageNum", PageNum);
 		mov.addObject("main_menu_url", "lead");
+		mov.addObject("itemList", itemList);
+		
 		System.out.println(mov.toString());
 		
 		menuImport(mov, "lead");
@@ -145,11 +155,13 @@ public class LeadController {
 	//가망 고객 수정 get.
 		@RequestMapping(value="lead_update" , method=RequestMethod.GET)
 		public ModelAndView lead_update_get(@RequestParam("lead_no") String lead_no){
-			 
+			
+			List<InterestItemVO> itemList 	= leadService.leadItemList(lead_no);	// 관심상품 리스트 조회
+			
 			ModelAndView mov = new ModelAndView("leadCRUD");
 			mov.addObject("detail", leadService.lead_detail(lead_no));
 			mov.addObject("flg", "2");
-			
+			mov.addObject("itemList", itemList);
 			menuImport(mov, "lead");
 			
 			return mov;
@@ -347,5 +359,92 @@ public class LeadController {
 		
 		return result;
 	}
+    
+    
+    /* Item CUD */
+	// 상품추가
+	@RequestMapping(value="leadItemInsert", method=RequestMethod.POST)
+	public @ResponseBody List<InterestItemVO> leadItemInsert(@RequestParam(value="leadItemList[]", required=false) List<String> leadItemList, String lead_no)
+	{
+		System.out.println("Item Insert : " + leadItemList);
+		System.out.println("Item Insert : " + lead_no);
+		 
+		List<InterestItemVO> itemList = new ArrayList<InterestItemVO>();
+	 
+		List<InterestItemVO> ditemList = leadService.leadItemList(lead_no);		// 관심상품 조회
+ 		if(ditemList == null)
+		{
+			System.out.println("list 없음.");
+		}
+		else		// 리스트가 존재하면 전부 삭제한다.
+		{
+			System.out.println("list");
+			int result = leadService.leadItemDelete(lead_no);
+		}
+		
+		if(leadItemList != null)
+		{
+ 			for(int i=0; i<leadItemList.size(); i++)
+			{ 
+				InterestItemVO ovo = new InterestItemVO();
+				
+				ovo.setLead_no(lead_no);
+				ovo.setMain_cate_cd(leadItemList.get(i));
+				ovo.setMid_cate_cd(leadItemList.get(++i));
+				ovo.setSmall_cate_cd(leadItemList.get(++i));
+				ovo.setQty(Integer.parseInt(leadItemList.get(++i)));
+				ovo.setList_price(Integer.parseInt(leadItemList.get(++i)));
+ 				itemList.add(ovo);
+ 			}
+			System.out.println("itemList : " + itemList);
+			// opptyItem Insert
+			int oResult = leadService.leadItemInsert(itemList);	// 매출상품 추가
+		}
+		
+		// 바로 detail 화면으로 뿌려준다.
+//		List<OpptyVO> optyItemList = opptyService.opptyDetail(oppty_no);
+		List<InterestItemVO> interItemList = leadService.leadItemList(lead_no);	// 조회 후 상세보기에 출력
+		System.out.println("interItemList : " + interItemList);
+		
+		return interItemList;
+	}
+	
+	
+	// 상담 이력 조회
+		@RequestMapping(value="/cust_task")
+		public ModelAndView TaskList(HttpSession session,
+										@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
+										String excel, String cust_no) {
+			
+			Map<String, Object> taskMap = new HashMap<String, Object>();
+			taskMap.put("taskPageNum", taskPageNum);
+			taskMap.put("cust_no", cust_no);
+			
+			// paging
+			PagerVO page = taskService.getTaskListRow(taskMap);
+			taskMap.put("page", page);
+			
+			List<TaskVO> taskList = taskService.taskList(taskMap);		// 전체 리스트
+			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
+			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
+			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
+			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
+			
+			ModelAndView mov = new ModelAndView("cust_task_list");
+			
+			mov.addObject("page", page);
+			mov.addObject("taskPageNum", taskPageNum);
+			mov.addObject("taskList", taskList);
+			mov.addObject("dtypeCd", dtypeCd);
+			mov.addObject("scoreCd", scoreCd);
+			mov.addObject("ttypeCd", ttypeCd);
+			mov.addObject("divisCd", divisCd);
+			mov.addObject("main_menu_url", "task");
+			mov.addObject("sub_menu_url", "task");
+			menuImport(mov, "task");
+			
+			return mov;
+		}
+	
 
 }

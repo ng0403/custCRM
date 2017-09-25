@@ -12,6 +12,7 @@ import com.core.plus.common.PagerVO;
 import com.core.plus.contact.cust.vo.CustVO;
 import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.lead.dao.LeadDao;
+import com.core.plus.lead.vo.InterestItemVO;
 import com.core.plus.lead.vo.LeadVO;
 import com.core.plus.task.vo.TaskVO;
 
@@ -123,5 +124,22 @@ public class LeadServiceImpl implements LeadService {
 			return leadDao.leadNoIndex();
 		}
 
+		//Item
+		@Override
+		public List<InterestItemVO> leadItemList(String lead_no) {
+			// TODO Auto-generated method stub
+			return leadDao.leadItemList(lead_no);
+		}
+
+		@Override
+		public int leadItemDelete(String lead_no) {
+			// TODO Auto-generated method stub
+			return leadDao.leadItemDelete(lead_no);
+		}
+
+		@Override
+		public int leadItemInsert(List<InterestItemVO> interVo) {
+			return leadDao.leadItemInsert(interVo);
+		}
 
 }

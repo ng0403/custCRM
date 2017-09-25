@@ -19,6 +19,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/lead/lead_list.jsp"></put-attribute>
 	</definition>
 	
+	<!-- lead cust_counsel detail -->
+	<definition name="cust_task_list" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/lead/cust_task_list.jsp"></put-attribute>
+	</definition>
+	
 	<!-- lead detail -->
 		<definition name="lead_detail" extends="onebodyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/lead/lead_detail.jsp"></put-attribute>

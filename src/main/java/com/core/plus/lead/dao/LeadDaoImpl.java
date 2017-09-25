@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.core.plus.contact.cust.vo.CustVO;
 import com.core.plus.emp.vo.EmpVO;
+import com.core.plus.lead.vo.InterestItemVO;
 import com.core.plus.lead.vo.LeadVO;
+import com.core.plus.oppty.vo.OpptyItemVO;
 import com.core.plus.task.vo.TaskVO;
 
 @Repository
@@ -315,5 +317,35 @@ public class LeadDaoImpl implements LeadDao {
 		System.out.println(result);
 		
 		return result;
+	}
+	
+	
+	//Item
+	@Override
+	public List<InterestItemVO> leadItemList(String lead_no) {
+		
+		List<InterestItemVO> vo = sqlSession.selectList("lead.leadItemList", lead_no);
+		
+		
+		return vo;
+	} 
+	@Override
+	public int leadItemDelete(String lead_no) {
+		int result = sqlSession.delete("lead.leadItemDelete", lead_no);
+		
+		return result;
+	}
+
+	@Override
+	public int leadItemInsert(List<InterestItemVO> itemList) {
+		// TODO Auto-generated method stub
+				int result = 0;
+				System.out.println("DAO : " + itemList);
+				for(int i=0; i<itemList.size(); i++)
+				{
+					result = sqlSession.insert("lead.leadItemInsert", itemList.get(i));
+				}
+				
+				return result;
 	}
 }
