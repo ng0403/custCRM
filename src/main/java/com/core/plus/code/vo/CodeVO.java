@@ -1,4 +1,4 @@
-package com.core.plus.coed.vo;
+package com.core.plus.code.vo;
 
 public class CodeVO {
 
@@ -8,6 +8,7 @@ public class CodeVO {
 	private String create_date;
 	private String update_date;
 	private String display_yn;
+	
 	public String getCode_no() {
 		return code_no;
 	}

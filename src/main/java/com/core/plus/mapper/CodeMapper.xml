@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="code">
+
+	<!-- Paging -->
+	<select id="codeListTotalRow" resultType="int">
+      SELECT 
+      		count(*)
+      FROM tb_code
+      WHERE 1=1
+      	and display_yn = 'Y'
+      	<if test="code_no_srch != null and code_no_srch != ''">
+            AND (code_no like concat('%', #{code_no_srch}, '%'))
+         </if>
+         <if test="code_srch != null and code_srch != ''">
+            AND (code like concat('%', #{code_srch}, '%'))
+         </if>
+         <if test="code_name_srch != null and code_name_srch != ''">
+            AND (code_name in ( code_name like concat('%', #{code_name_srch}, '%')))
+         </if>
+	</select>
+
+	<!-- List -->
+	<select id="codeList" resultType="com.core.plus.code.vo.CodeVO" parameterType="java.util.Map">
+		SELECT P.*
+		FROM (
+				select 
+					code_no ,
+					code ,
+					code_name , 
+					date_format(create_date, '%Y-%m-%d %H:%i') as create_date
+				from tb_code
+				where 1=1 
+					and display_yn = 'Y'
+					<if test="code_no_srch != null and code_no_srch != ''">
+			            AND (code_no like concat('%', #{code_no_srch}, '%'))
+			         </if>
+			         <if test="code_srch != null and code_srch != ''">
+			            AND (code like concat('%', #{code_srch}, '%'))
+			         </if>
+			         <if test="code_name_srch != null and code_name_srch != ''">
+			            AND (code_name in ( code_name like concat('%', #{code_name_srch}, '%')))
+			         </if>
+				order by update_date desc	
+			  )p
+		<!-- LIMIT #{page.limitStartNum}, #{page.pageSize} -->
+	</select>
+   
+
+</mapper>
