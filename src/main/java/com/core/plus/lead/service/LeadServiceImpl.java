@@ -142,4 +142,29 @@ public class LeadServiceImpl implements LeadService {
 			return leadDao.leadItemInsert(interVo);
 		}
 
+		//페이징
+		@Override
+		public PagerVO getTaskListRow(Map<String, Object> map) {
+			
+			int taskPageNum = (Integer)map.get("taskPageNum");
+			PagerVO page = new PagerVO(taskPageNum, 0, 10, 10);
+			
+			int totalRowCount = leadDao.getTaskListRow(map);
+			page = new PagerVO(taskPageNum, totalRowCount, 10, 10);
+			
+			return page;
+		}
+
+		//List 
+		@Override
+		public List<TaskVO> taskList() {
+			return leadDao.taskList();
+		}
+
+		//List 페이징
+		@Override
+		public List<TaskVO> taskList(Map<String, Object> taskMap) {
+			return leadDao.taskList(taskMap);
+		}
+
 }

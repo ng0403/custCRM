@@ -22,11 +22,11 @@
 <!-- task : task조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
-	<div class="titleDIV">
+		<div class="titleDIV" id="lead_detail_title">
 		<span class="titleText">
-			 ■ 상담 > 상담 관리 
+		    ■ 가망고객 > <a style="cursor: pointer;" onclick="leadlist();"> 가망고객관리</a> > <span id="coupon_form_title">가망고객 상세정보</span> > 고객상담 이력
 		</span>
-	</div>
+	</div> 
 	<div style="height:10px;"></div>
 	<div class="commonList">
 	    <form name="taskListForm" id="taskListForm" method="post" action="${ctx}/couponManager" >

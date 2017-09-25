@@ -11,6 +11,7 @@ import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.lead.vo.InterestItemVO;
 import com.core.plus.lead.vo.LeadVO;
 import com.core.plus.oppty.vo.OpptyItemVO;
+import com.core.plus.task.vo.TaskVO;
 
 public interface LeadService {
 	
@@ -21,6 +22,10 @@ public interface LeadService {
 	void lead_delete(String lead_no); // 가망 고객 삭제
 	public List<LeadVO> leadSearch(Map<String,Object> leadMap); //가망 고객 조건 검색
 	
+	//상담이력
+	PagerVO getTaskListRow(Map<String, Object> map);					// 페이징
+	List<TaskVO> taskList();											// List
+	List<TaskVO> taskList(Map<String, Object> taskMap);					// List 페이징
 	
 	//Item
 	List<InterestItemVO> leadItemList(String lead_no);

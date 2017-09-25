@@ -25,6 +25,9 @@
          <if test="dtype_cd_srch != null and dtype_cd_srch != ''">
             AND (dtype_cd like concat('%', #{dtype_cd_srch}, '%'))
          </if>
+         <if test="cust_no != null and cust_no != ''">
+            AND (cust_no like concat('%', #{cust_no}, '%'))
+         </if>
    </select>
    
    <!-- Paging -->
@@ -102,6 +105,9 @@
             <if test="dtype_cd_srch != null and dtype_cd_srch != ''">
                AND (t.dtype_cd like concat('%', #{dtype_cd_srch}, '%'))
             </if>
+            <if test="cust_no !=null and cust_no !=''">
+              AND (t.cust_no like concat('%', #{cust_no}, '%'))
+             </if>
          order by t.update_date desc
        )p
     

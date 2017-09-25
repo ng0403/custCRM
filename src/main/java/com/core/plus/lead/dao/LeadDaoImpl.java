@@ -348,4 +348,33 @@ public class LeadDaoImpl implements LeadDao {
 				
 				return result;
 	}
+
+	//List
+		@Override
+		public List<TaskVO> taskList() {
+			
+			List<TaskVO> vo = sqlSession.selectList("lead.taskList");
+			return vo;
+		}
+
+		//List 페이지
+		@Override
+		public List<TaskVO> taskList(Map<String, Object> taskMap) {
+ 			List<TaskVO> vo = sqlSession.selectList("lead.taskList", taskMap);
+			return vo;
+		}
+
+		@Override
+		public int getTaskListRow(Map<String, Object> map) {
+			
+			int totalCount = 0;
+			try {
+				totalCount = sqlSession.selectOne("lead.taskListTotalRow", map);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return totalCount;
+		}
 }

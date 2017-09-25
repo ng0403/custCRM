@@ -10,6 +10,7 @@ import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.lead.vo.InterestItemVO;
 import com.core.plus.lead.vo.LeadVO;
 import com.core.plus.oppty.vo.OpptyItemVO;
+import com.core.plus.task.vo.TaskVO;
 
 public interface LeadDao {
 	
@@ -20,6 +21,11 @@ public interface LeadDao {
 	void lead_delete(String lead_no); // 가망 고객 삭제
 	
 	public List<LeadVO> leadSearch(Map<String, Object> leadMap); // 가망 고객 조건 검색
+	
+	//상담이력
+	List<TaskVO> taskList();											// List
+	List<TaskVO> taskList(Map<String, Object> taskMap);					// List 페이징
+	int getTaskListRow(Map<String, Object> map);						// 고객 팝업
 	
 	//Item
 	List<InterestItemVO> leadItemList(String lead_no);

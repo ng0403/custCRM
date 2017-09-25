@@ -39,7 +39,7 @@ public class TaskDAOImpl implements TaskDAO {
 	//List 페이지
 	@Override
 	public List<TaskVO> taskList(Map<String, Object> taskMap) {
-		
+		System.out.println("task taskMap? " + taskMap.toString());
 		List<TaskVO> vo = sqlSession.selectList("task.taskList", taskMap);
 		return vo;
 	}

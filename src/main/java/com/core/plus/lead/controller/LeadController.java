@@ -424,7 +424,7 @@ public class LeadController {
 			PagerVO page = taskService.getTaskListRow(taskMap);
 			taskMap.put("page", page);
 			
-			List<TaskVO> taskList = taskService.taskList(taskMap);		// 전체 리스트
+			List<TaskVO> taskList = leadService.taskList(taskMap);		// 전체 리스트
 			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
 			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
