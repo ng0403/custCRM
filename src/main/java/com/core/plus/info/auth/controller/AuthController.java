@@ -208,8 +208,8 @@ public class AuthController {
 		
 		//등록, 수정자 ID 세팅
 		String user_id = session.getAttribute("user").toString();
-		menuVo.setCrt_id(user_id);
-		menuVo.setMdfy_id(user_id);
+		menuVo.setFin_mdfy_id(user_id);
+//		menuVo.setMdfy_id(user_id);
 		
 		//메뉴 그리기
 		menuImport(mov, "auth");
@@ -221,10 +221,10 @@ public class AuthController {
 		
 		String [] menu_id = menuVo.getMenu_id().split(",");
 		
-		String [] crt_yn  = menuVo.getCrt_yn().split(",");
-		String [] mdfy_yn = menuVo.getMdfy_yn().split(",");
-		String [] del_yn  = menuVo.getDel_yn().split(",");
-		String [] rtrv_yn = menuVo.getRtrv_yn().split(",");
+		String [] crt_yn  = menuVo.getCreate_auth_yn().split(",");
+		String [] mdfy_yn = menuVo.getMdfy_auth_yn().split(",");
+		String [] del_yn  = menuVo.getDel_auth_yn().split(",");
+		String [] rtrv_yn = menuVo.getRetrv_auth_yn().split(",");
 		
 		for (int i=0; i<menu_id.length-1; i++) {
 			authmenu_result1 = menuService.getAuthMenuInsert1(menu_id[i], menuVo.getAuth_id()
