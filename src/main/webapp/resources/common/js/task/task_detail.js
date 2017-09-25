@@ -281,3 +281,13 @@ function task_cancel(taskPageNum) {
 function taskList() {
 	location.href="/task";
 }
+
+
+//리드 상세정보
+function leadDetail(a,b) {
+   var no = a; 
+
+  console.log(no);
+  location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b; 
+	 
+}

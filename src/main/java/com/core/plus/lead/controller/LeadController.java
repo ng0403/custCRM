@@ -89,7 +89,7 @@ public class LeadController {
 		mov.addObject("pageNum", PageNum);
 		mov.addObject("lead_list", vo);
 		mov.addObject("main_menu_url", "lead");
-		
+		mov.addObject("sub_menu_url", "lead");
 		menuImport(mov, "lead");
 		
 		System.out.println("mov ?  " + mov.toString());
@@ -148,6 +148,7 @@ public class LeadController {
 			 mov.addObject("lead_list", vo);
 			 mov.addObject("page", page);
 			 mov.addObject("flg", "002");
+			 mov.addObject("sub_menu_url", "lead_status?=code=002");
 			}
 			//기회전환
 			else if(code.equals("003")) 
@@ -159,6 +160,7 @@ public class LeadController {
 			  mov.addObject("lead_list", vo);		
 			  mov.addObject("page", page);
 			  mov.addObject("flg", "003");
+			  mov.addObject("sub_menu_url", "lead_status?=code=003");
 			}
 			//실패
 			else if(code.equals("004")) 
@@ -170,13 +172,13 @@ public class LeadController {
 			 mov.addObject("lead_list", vo);
 			 mov.addObject("page", page);
 			 mov.addObject("flg", "004");
+			 mov.addObject("sub_menu_url", "lead_status?=code=004");
 			} 
 			
 			mov.addObject("pageNum", PageNum); 
 			mov.addObject("main_menu_url", "lead");
 			menuImport(mov, "lead");
-			mov.addObject("lead_status_cd", code);
-			
+			mov.addObject("lead_status_cd", code); 
 			System.out.println("mov ?  " + mov.toString());
 			return mov;
 			
@@ -537,8 +539,9 @@ public class LeadController {
 		@RequestMapping(value="/cust_task")
 		public ModelAndView TaskList(HttpSession session,
 										@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-										String excel, String cust_no) {
+										String excel, String cust_no, String lead_no, String PageNum) {
 			
+			System.out.println("lead_no" + lead_no);
 			Map<String, Object> taskMap = new HashMap<String, Object>();
 			taskMap.put("taskPageNum", taskPageNum);
 			taskMap.put("cust_no", cust_no);
@@ -563,6 +566,8 @@ public class LeadController {
 			mov.addObject("scoreCd", scoreCd);
 			mov.addObject("ttypeCd", ttypeCd);
 			mov.addObject("divisCd", divisCd);
+			mov.addObject("lead_no", lead_no);
+			mov.addObject("PageNum", PageNum);
 		/*	mov.addObject("main_menu_url", "task");
 			mov.addObject("sub_menu_url", "task");
 			menuImport(mov, "task");*/

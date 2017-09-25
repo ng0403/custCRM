@@ -349,12 +349,16 @@ function taskCheckFileType(filePath)
 
 }
 
-
+//가망고객 리스트 이동.
+function leadlist(){
+	 
+	 location.href="/lead";
+}
 
 
 //lead 고객 상담조회
-function custtaskSchList(cust_no) { 
-   var pageNum;
+function custtaskSchList(cust_no,paNum) { 
+ 
    var task_no_srch    = $("#task_no_srch").val();
    var subject_srch    = $("#subject_srch").val();
    var cust_name_srch  = $("#cust_name_srch").val();

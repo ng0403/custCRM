@@ -7,7 +7,8 @@
 <c:set var="ctx" value="${pageContext.request.contextPath }" />
 
 <script type="text/javascript" src="${ctx}/resources/common/js/task/task.js"></script> 
-<script type="text/javascript" src="${ctx}/resources/common/js/task/task_detail.js"></script> 
+<script type="text/javascript" src="${ctx}/resources/common/js/task/task_detail.js"></script>
+ 
 <script src="http://malsup.github.com/jquery.form.js"></script>
 
 <script type="text/javascript">
@@ -24,7 +25,7 @@
 	<div style="height:10px;"></div>
 		<div class="titleDIV" id="lead_detail_title">
 		<span class="titleText">
-		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="lead_detail();">고객리드 상세정보</a> > 고객상담 이력
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> > 고객상담 이력
 		</span>
 	</div> 
 	<div style="height:10px;"></div>
@@ -143,20 +144,20 @@
 				</c:when>
 				<c:when test="${taskPageNum == page.startPageNum}">
 					 ◀ <input type="text" id="pageInput" value="${page.startPageNum}" onkeypress="taskPageNumInputEnter(event);"/>  
-					<a style="cursor: pointer;" onclick="taskSchList('${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
-					<a style="cursor: pointer;" onclick="taskSchList('${taskPageNum+1}');" id="pNum"> ▶ </a>
+					<a style="cursor: pointer;" onclick="custtaskSchList('${cust_no}','${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="custtaskSchList('${cust_no}','${taskPageNum+1}');" id="pNum"> ▶ </a>
 				</c:when>
 				<c:when test="${taskPageNum == page.endPageNum}">
-					<a style="cursor: pointer;" onclick="taskSchList('${taskPageNum-1}');" id="pNum"> ◀ </a>
+					<a style="cursor: pointer;" onclick="custtaskSchList('${cust_no}','${taskPageNum-1}');" id="pNum"> ◀ </a>
 					<input type="text" id="pageInput"  value="${page.endPageNum}" onkeypress="taskPageNumInputEnter(event);"/> 
-					<a style="cursor: pointer;" onclick="taskSchList('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="custtaskSchList('${cust_no}','${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
 					<a style="color: black; text-decoration: none;"> ▶ </a>
 				</c:when>
 				<c:otherwise>
-					<a style="cursor: pointer;" onclick="taskSchList('${taskPageNum-1}');" id="pNum" > ◀ </a>
+					<a style="cursor: pointer;" onclick="custtaskSchList('${cust_no}','${taskPageNum-1}');" id="pNum" > ◀ </a>
 					<input type="text" id="pageInput"  value="${taskPageNum}" onkeypress="taskPageNumInputEnter(event);"/>  
-					<a style="cursor: pointer;" onclick="taskSchList('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
-					<a style="cursor: pointer;" onclick="taskSchList('${taskPageNum+1}');" id="pNum"> ▶ </a>
+					<a style="cursor: pointer;" onclick="custtaskSchList('${cust_no}','${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="custtaskSchList('${cust_no}','${taskPageNum+1}');" id="pNum"> ▶ </a>
 				</c:otherwise>
 			</c:choose>
 		</div>

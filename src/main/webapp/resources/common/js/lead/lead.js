@@ -559,7 +559,7 @@ function searchKeyword(a){
 }
 
 //검색 조건
-function StatusSearchKeyword(lead_status_cd){  
+function StatusSearchKeyword(lead_status_cd, b){  
   	var lead_no_srch = $("#lead_no_srch").val();
 	var lead_name_srch = $("#lead_name_srch").val();
 	var cust_name = $("#cust_name").val();
@@ -573,7 +573,7 @@ function StatusSearchKeyword(lead_status_cd){
 		        "cust_name": cust_name, 
 		        "emp_name":emp_name, 
 		        "contact_day_srch":contact_day_srch,
-		        "rank_cd" : rank_cd , "PageNum" : 1
+		        "rank_cd" : rank_cd , "PageNum" : b
 		        ,"lead_status_cd":lead_status_cd};
 		
  
@@ -648,9 +648,9 @@ function StatusSearchKeyword(lead_status_cd){
 }
 
 
-function lead_sounsel_read(cust_no){
-
-	location.href="/cust_task?cust_no=" + cust_no;
+function lead_counsel_read(cust_no, PageNum){
+     var lead_no = $("#lead_no").val();
+ 	location.href="/cust_task?cust_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum;
 }
 
 

@@ -130,9 +130,7 @@
 	 	 </table>
    	
 		<div class="listFootDiv">
- 		 	 <input type="button" class="func_btn" id="lead_add" value="단건등록" onclick="lead_add();">
-		 	 <input type="button" class="func_btn" id="lead_add_multi" value="다건등록" onclick="leadExcelImportOpen();">
-		 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('leadListForm','0');" >	
+ 		 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('leadListForm','0');" >	
 			 <input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿출력"  onclick="download_list_Excel('leadListForm','1');" >
 		</div>
 	 	<div class="pagingDiv">
@@ -144,23 +142,23 @@
 					<a style="color: black; text-decoration: none;"> ◀ </a><input type="text" id="pageInput" value="${page.startPageNum}" readonly="readonly"/>  
 					<a style="color: black; text-decoration: none;"> / 1</a>
 					<a style="color: black; text-decoration: none;"> ▶ </a>
-				</c:when>
+				</c:when> 
 				<c:when test="${pageNum == page.startPageNum}">
 					 ◀ <input type="text" id="pageInput" value="${page.startPageNum}"  onkeypress="leadPageNumInputEnter(event);"/>  
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum+1}');" id="pNum"> ▶ </a>
+					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${pageNum+1}');" id="pNum"> ▶ </a>
 				</c:when>
 				<c:when test="${pageNum == page.endPageNum}">
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum-1}');" id="pNum"> ◀ </a>
+					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${pageNum-1}');" id="pNum"> ◀ </a>
 					<input type="text" id="pageInput"  value="${page.endPageNum}" onkeypress="leadPageNumInputEnter(event);"/> 
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
 					<a style="color: black; text-decoration: none;"> ▶ </a>
 				</c:when>
 				<c:otherwise>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum-1}');" id="pNum" > ◀ </a>
+					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${pageNum-1}');" id="pNum" > ◀ </a>
 					<input type="text" id="pageInput"  value="${pageNum}" onkeypress="leadPageNumInputEnter(event);"/>  
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum+1}');" id="pNum"> ▶ </a>
+					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${pageNum+1}');" id="pNum"> ▶ </a>
 				</c:otherwise>
 			</c:choose>
 		</div>
