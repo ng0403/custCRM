@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import com.core.plus.common.PagerVO;
 import com.core.plus.contact.cust.vo.CustVO;
@@ -30,6 +31,8 @@ import com.core.plus.lead.vo.LeadVO;
 import com.core.plus.oppty.service.OpptyService;
 import com.core.plus.task.service.TaskService;
 import com.core.plus.task.vo.TaskVO;
+
+import net.sf.json.JSONArray;
 
 @Controller
 public class LeadController {
@@ -410,7 +413,7 @@ public class LeadController {
 	}
 	
 	
-	// 상담 이력 조회
+	// 상담 이력 리스트
 		@RequestMapping(value="/cust_task")
 		public ModelAndView TaskList(HttpSession session,
 										@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
@@ -434,6 +437,7 @@ public class LeadController {
 			
 			mov.addObject("page", page);
 			mov.addObject("taskPageNum", taskPageNum);
+			mov.addObject("cust_no", cust_no);
 			mov.addObject("taskList", taskList);
 			mov.addObject("dtypeCd", dtypeCd);
 			mov.addObject("scoreCd", scoreCd);
@@ -441,10 +445,47 @@ public class LeadController {
 			mov.addObject("divisCd", divisCd);
 			mov.addObject("main_menu_url", "task");
 			mov.addObject("sub_menu_url", "task");
-			menuImport(mov, "task");
+			menuImport(mov, "t	ask");
 			
 			return mov;
 		}
-	
+		
+		
+		// 상담이력 조회
+		@RequestMapping(value="/cust_task_sch", method=RequestMethod.POST)
+		@ResponseBody
+		public  ModelAndView taskSchList(HttpSession session,
+											  @RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
+											  String task_no_srch, String subject_srch, 
+											  String cust_name_srch, String emp_name_srch,
+											  String next_day_srch, String dtype_cd_srch, String cust_no,
+											  String excel) {
+			
+			ModelAndView mov = new ModelAndView(new MappingJacksonJsonView());
+			JSONArray json = new JSONArray();
+			
+			Map<String, Object> taskMap = new HashMap<String, Object>();
+			
+			taskMap.put("taskPageNum", taskPageNum);
+			taskMap.put("task_no_srch", task_no_srch);
+			taskMap.put("subject_srch", subject_srch);
+			taskMap.put("cust_name_srch", cust_name_srch);
+			taskMap.put("emp_name_srch", emp_name_srch);
+			taskMap.put("next_day_srch", next_day_srch);
+			taskMap.put("dtype_cd_srch", dtype_cd_srch);
+			taskMap.put("cust_no", cust_no);
+			// paging
+			PagerVO page = leadService.getTaskListRow(taskMap);
+			taskMap.put("page", page);
+			
+			List<TaskVO> srcList = leadService.taskSchList(taskMap);
+			taskMap.put("srcList", srcList);
+					
+			mov.addObject("page", page);
+			mov.addObject("taskPageNum", taskPageNum);
+			mov.addObject("srcList", srcList);
+			
+			return mov;
+		}
 
 }

@@ -26,7 +26,8 @@ public interface LeadService {
 	PagerVO getTaskListRow(Map<String, Object> map);					// 페이징
 	List<TaskVO> taskList();											// List
 	List<TaskVO> taskList(Map<String, Object> taskMap);					// List 페이징
-	
+	List<TaskVO> taskSchList(Map<String, Object> taskMap);				// 조회
+
 	//Item
 	List<InterestItemVO> leadItemList(String lead_no);
 	int leadItemDelete(String lead_no);

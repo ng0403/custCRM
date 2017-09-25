@@ -377,4 +377,12 @@ public class LeadDaoImpl implements LeadDao {
 			
 			return totalCount;
 		}
+		
+		//조회
+		@Override
+		public List<TaskVO> taskSchList(Map<String, Object> taskMap) {
+			
+			List<TaskVO> vo = sqlSession.selectList("lead.taskList", taskMap);
+			return vo;
+		}
 }

@@ -26,6 +26,7 @@ public interface LeadDao {
 	List<TaskVO> taskList();											// List
 	List<TaskVO> taskList(Map<String, Object> taskMap);					// List 페이징
 	int getTaskListRow(Map<String, Object> map);						// 고객 팝업
+	List<TaskVO> taskSchList(Map<String, Object> taskMap);				// 조회
 	
 	//Item
 	List<InterestItemVO> leadItemList(String lead_no);
