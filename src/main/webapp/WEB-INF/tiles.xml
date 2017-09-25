@@ -79,15 +79,20 @@
 	</definition>
 	
 	<!-- code -->
-	<definition name="code_list" extends="twobodyLayout">
-		<put-attribute name="leftBody" value="/WEB-INF/views/code/code_list.jsp"></put-attribute>
-		<put-attribute name="rightBody" value="/WEB-INF/views/code/code_detail.jsp"></put-attribute>
+	<definition name="code_list" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/code/code_list.jsp"></put-attribute>
 	</definition>
 	
+	<!-- code -->
+<!-- 	<definition name="code_list" extends="twobodyLayout"> -->
+<!-- 		<put-attribute name="leftBody" value="/WEB-INF/views/code/code_list.jsp"></put-attribute> -->
+<!-- 		<put-attribute name="rightBody" value="/WEB-INF/views/code/code_detail.jsp"></put-attribute> -->
+<!-- 	</definition> -->
+	
 	<!-- code detail -->
-	<definition name="code_detail" extends="onebodyLayout">
-		<put-attribute name="body" value="/WEB-INF/views/code/code_detail.jsp"></put-attribute>
-	</definition>
+<!-- 	<definition name="code_detail" extends="onebodyLayout"> -->
+<!-- 		<put-attribute name="body" value="/WEB-INF/views/code/code_detail.jsp"></put-attribute> -->
+<!-- 	</definition> -->
 	
 	<!-- test -->
 	<definition name="test" extends="onebodyLayout">
