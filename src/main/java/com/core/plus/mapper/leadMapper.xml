@@ -42,6 +42,45 @@
            </choose>
    </select>
    
+    <select id="leadStatusListTotalRow" resultType="int">
+     <!--  SELECT count(*)
+      FROM tb_lead
+      WHERE del_yn = 'N'  -->
+      SELECT count(*)
+      FROM tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_emp em on l.emp_no = em.emp_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
+      WHERE l.del_yn = 'N' and l.lead_status_cd = #{lead_status_code}
+      <choose>
+            <when test="lead_no_srch !=null and lead_no_srch !=''">
+               and(lead_no like concat('%', #{lead_no_srch}, '%') )
+            </when> 
+          </choose>
+          <choose>
+              <when test="lead_name_srch !=null and lead_name_srch !=''">
+               and(lead_name like concat('%', #{lead_name_srch}, '%') )
+            </when> 
+         </choose> 
+          <choose>
+             <when test="cust_name !=null and cust_name !=''">
+               and(cust_name like concat('%', #{cust_name}, '%') )
+            </when> 
+         </choose>
+          <choose>
+            <when test="emp_name !=null and emp_name !=''">
+               and(emp_name like concat('%', #{emp_name}, '%') )
+            </when> 
+          </choose>
+           <choose>
+               <when test="contact_day !=null and contact_day !=''">
+               and(contact_day like concat('%', #{contact_day}, '%') )
+            </when> 
+         </choose>
+           <choose>
+               <when test="rank_cd !=null and rank_cd !=''">
+               and(rank_cd like concat('%', #{rank_cd}, '%') )
+            </when> 
+           </choose>
+   </select>
+   
    
    <!-- Paging -->
    <select id="taskListTotalRow" resultType="int">
@@ -96,6 +135,65 @@
       from 
          tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_emp em on l.emp_no = em.emp_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
       where 1=1 and l.del_yn ='N'
+         <choose>
+            <when test="lead_no_srch !=null and lead_no_srch !=''">
+               and(lead_no like concat('%', #{lead_no_srch}, '%') )
+            </when> 
+          </choose>
+          <choose>
+              <when test="lead_name_srch !=null and lead_name_srch !=''">
+               and(lead_name like concat('%', #{lead_name_srch}, '%') )
+            </when> 
+         </choose> 
+          <choose>
+             <when test="cust_name !=null and cust_name !=''">
+               and(cust_name like concat('%', #{cust_name}, '%') )
+            </when> 
+         </choose>
+          <choose>
+            <when test="emp_name !=null and emp_name !=''">
+               and(emp_name like concat('%', #{emp_name}, '%') )
+            </when> 
+          </choose>
+           <choose>
+               <when test="contact_day !=null and contact_day !=''">
+               and(contact_day like concat('%', #{contact_day}, '%') )
+            </when> 
+         </choose>
+           <choose>
+               <when test="rank_cd !=null and rank_cd !=''">
+               and(rank_cd like concat('%', #{rank_cd}, '%') )
+            </when> 
+           </choose>
+         order by l.update_date DESC
+     ) P
+     limit #{page.limitStartNum}, #{page.pageSize}
+   </select>
+   
+   <!-- 리드 리스트  -->
+   <select id="leadStatusList" resultType="com.core.plus.lead.vo.LeadVO" parameterType="java.util.Map">
+	   select P.*
+	   from (
+      	select
+         l.lead_no,
+         l.lead_name,
+         l.cust_no,
+           case when (emp_name) is null then ' '
+                  else (emp_name) end as emp_name ,
+           case when (cust_name) is null then ' '
+                  else (cust_name) end as cust_name , 
+           case when (phone_area_no) is null then ' '
+              	   else (phone_area_no) end as phone_area_no, 
+           case when (concat(p.phone_area_no, p.phone_no)) is null then ' '
+           			else concat(p.phone_area_no, p.phone_no) end as phone,
+           case when (phone_no) is null then ' '
+                  else (phone_no) end as phone_no ,  
+         l.contact_day,
+         l.rank_cd,
+         date_format(l.create_date, '%Y-%m-%d %H:%i') as create_date
+      from 
+         tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_emp em on l.emp_no = em.emp_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
+      where 1=1 and l.del_yn ='N' and l.lead_status_cd = #{lead_status_cd}
          <choose>
             <when test="lead_no_srch !=null and lead_no_srch !=''">
                and(lead_no like concat('%', #{lead_no_srch}, '%') )

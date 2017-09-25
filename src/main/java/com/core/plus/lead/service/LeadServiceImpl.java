@@ -28,6 +28,15 @@ public class LeadServiceImpl implements LeadService {
 		
 		return vo;
 	}
+	
+	@Override
+	public List<LeadVO> lead_status_list(Map<String, Object> map) {
+		
+		List<LeadVO> vo = leadDao.lead_status_list(map);
+		
+		return vo;
+	}
+
 
 	@Override
 	public void lead_insert(LeadVO vo) {
@@ -96,6 +105,19 @@ public class LeadServiceImpl implements LeadService {
 		PagerVO page = new PagerVO(PageNum, 0, 10, 10);
 		
 		int totalRowCount = leadDao.getLeadListRow(map);
+		
+		page = new PagerVO(PageNum, totalRowCount, 10, 10);
+		
+		return page;
+	}
+	
+	@Override
+	public PagerVO getLeadStatusListRow(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int PageNum = (Integer)map.get("PageNum");
+		PagerVO page = new PagerVO(PageNum, 0, 10, 10);
+		
+		int totalRowCount = leadDao.getLeadStatusListRow(map);
 		
 		page = new PagerVO(PageNum, totalRowCount, 10, 10);
 		

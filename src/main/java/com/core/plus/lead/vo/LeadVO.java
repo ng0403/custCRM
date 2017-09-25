@@ -20,7 +20,15 @@ public class LeadVO {
 	private String emp_name;
 	
 	private String phone;
+	private String lead_status_cd;
 	
+	public String getLead_status_cd() {
+		return lead_status_cd;
+	}
+	public void setLead_status_cd(String lead_status_cd) {
+		this.lead_status_cd = lead_status_cd;
+	}
+	 
 	public String getPhone() {
 		return phone;
 	}
@@ -112,7 +120,8 @@ public class LeadVO {
 		return "LeadVO [lead_no=" + lead_no + ", lead_name=" + lead_name + ", cust_no=" + cust_no + ", emp_no=" + emp_no
 				+ ", contact_day=" + contact_day + ", rank_cd=" + rank_cd + ", reason_cd=" + reason_cd + ", remark_cn="
 				+ remark_cn + ", create_date=" + create_date + ", update_date=" + update_date + ", cust_name="
-				+ cust_name + ", phone_no=" + phone_no + ", emp_name=" + emp_name + ", phone=" + phone + "]";
+				+ cust_name + ", phone_no=" + phone_no + ", emp_name=" + emp_name + ", phone=" + phone
+				+ ", lead_status_cd=" + lead_status_cd + "]";
 	}
 	
 	

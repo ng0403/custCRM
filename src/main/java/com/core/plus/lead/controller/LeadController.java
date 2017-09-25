@@ -97,6 +97,93 @@ public class LeadController {
 		
 	}
 	
+	//내 담당 리드 list 출력
+	@RequestMapping(value="my_lead")
+	public ModelAndView my_lead_list(@RequestParam(value = "pageNum", defaultValue = "1") int PageNum) {
+		System.out.println("entering" + PageNum);
+		
+		Map<String, Object> leadMap = new HashMap<String, Object>();
+		leadMap.put("PageNum", PageNum);
+		
+		// paging
+		PagerVO page = leadService.getLeadListRow(leadMap);
+		leadMap.put("page", page); 
+		
+		System.out.println("page?? " + page.toString());
+		
+		List<LeadVO> vo = leadService.lead_list(leadMap);
+		System.out.println("vovo ?? " + vo.toString());
+		ModelAndView mov = new ModelAndView("lead_list");
+		mov.addObject("page", page);
+		mov.addObject("pageNum", PageNum);
+		mov.addObject("lead_list", vo);
+		mov.addObject("main_menu_url", "lead");
+		
+		menuImport(mov, "lead");
+		
+		System.out.println("mov ?  " + mov.toString());
+		return mov;
+		
+	}
+	
+	//리드 상태(보류, 전환, 실패) list 출력
+		@RequestMapping(value="lead_status")
+		public ModelAndView lead_status(@RequestParam(value = "pageNum", defaultValue = "1") int PageNum, @RequestParam(value="code") String code) {
+			System.out.println("entering" + PageNum);
+			
+			Map<String, Object> leadMap = new HashMap<String, Object>();
+			leadMap.put("PageNum", PageNum);
+			
+		
+			
+			ModelAndView mov = new ModelAndView("lead_list"); 
+			 
+			//보류 
+			if(code.equals("002"))
+			{
+			 leadMap.put("lead_status_cd", "002");
+			 // paging
+			 PagerVO page = leadService.getLeadStatusListRow(leadMap);
+			 leadMap.put("page", page);  
+			
+			 List<LeadVO> vo = leadService.lead_status_list(leadMap);
+			 mov.addObject("lead_list", vo);
+			 mov.addObject("page", page);
+
+			}
+			//기회전환
+			else if(code.equals("003")) 
+			{
+			  leadMap.put("lead_status_cd", "003");
+			  PagerVO page = leadService.getLeadStatusListRow(leadMap);
+		      leadMap.put("page", page); 
+			  List<LeadVO> vo = leadService.lead_status_list(leadMap);
+			  mov.addObject("lead_list", vo);		
+			  mov.addObject("page", page);
+
+			}
+			//실패
+			else if(code.equals("004")) 
+			{
+			 leadMap.put("lead_status_cd", "004");
+			 PagerVO page = leadService.getLeadStatusListRow(leadMap);
+			 leadMap.put("page", page); 
+			 List<LeadVO> vo = leadService.lead_status_list(leadMap);
+			 mov.addObject("lead_list", vo);
+			 mov.addObject("page", page);
+
+			} 
+			
+			mov.addObject("pageNum", PageNum); 
+			mov.addObject("main_menu_url", "lead");
+			
+			menuImport(mov, "lead");
+			
+			System.out.println("mov ?  " + mov.toString());
+			return mov;
+			
+		}
+	
 	//가망 고객 상세정보
 	@RequestMapping(value="lead_detail", method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView lead_detail(@RequestParam("lead_no") String lead_no, @RequestParam("pageNum") String PageNum){ 
@@ -443,10 +530,11 @@ public class LeadController {
 			mov.addObject("scoreCd", scoreCd);
 			mov.addObject("ttypeCd", ttypeCd);
 			mov.addObject("divisCd", divisCd);
-			mov.addObject("main_menu_url", "task");
+		/*	mov.addObject("main_menu_url", "task");
 			mov.addObject("sub_menu_url", "task");
-			menuImport(mov, "t	ask");
-			
+			menuImport(mov, "task");*/
+			menuImport(mov, "lead");
+			mov.addObject("main_menu_url", "lead");
 			return mov;
 		}
 		
@@ -484,7 +572,7 @@ public class LeadController {
 			mov.addObject("page", page);
 			mov.addObject("taskPageNum", taskPageNum);
 			mov.addObject("srcList", srcList);
-			
+			mov.addObject("main_menu_url", "lead");
 			return mov;
 		}
 

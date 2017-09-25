@@ -42,6 +42,14 @@
 			</span>
 		</div>
 	</c:if>
+	
+	<c:if test="${flg == 3 }">
+		<div class="titleDIV">
+			<span class="titleText"> 
+				■ 가망고객 > <a style="cursor: pointer;" onclick="leadlist();"> 가망고객관리</a> > <span id="coupon_form_title">가망고객 상세정보</span> > 고객상담 이력 > 고객 상담 상세정보
+			</span>
+		</div>
+	</c:if>
 
 	<%-- 	<c:if test="${flg == 2}"> --%>
 	<!--  		<div class="titleDIV"> -->

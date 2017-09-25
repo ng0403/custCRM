@@ -38,6 +38,14 @@ public class LeadDaoImpl implements LeadDao {
 		
 		return vo;
 	}
+	
+	@Override
+	public List<LeadVO> lead_status_list(Map<String, Object> map) {
+		
+		List<LeadVO> vo = sqlSession.selectList("leadStatusList", map);
+		
+		return vo;
+	}
 
 	@Override
 	public void lead_insert(LeadVO vo) {
@@ -113,6 +121,22 @@ public class LeadDaoImpl implements LeadDao {
 		
 		try {
 			totalCount = sqlSession.selectOne("lead.leadListTotalRow", map);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return totalCount;
+	}
+	
+	@Override
+	public int getLeadStatusListRow(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int totalCount = 0;
+		
+		try {
+			totalCount = sqlSession.selectOne("lead.leadStatusListTotalRow", map);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
