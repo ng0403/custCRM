@@ -521,7 +521,7 @@ public class LeadController {
 				ovo.setList_price(Integer.parseInt(leadItemList.get(++i)));
  				itemList.add(ovo);
  			}
-			System.out.println("itemList : " + itemList);
+			System.out.println("it emList : " + itemList);
 			// opptyItem Insert
 			int oResult = leadService.leadItemInsert(itemList);	// 매출상품 추가
 		}
