@@ -252,7 +252,6 @@ public class TaskController {
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
 			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
 						
-			
 
 			ModelAndView mov = new ModelAndView("task_detail");
 
@@ -271,7 +270,8 @@ public class TaskController {
 		}
 		else	// 상세보기	
 		{
-			
+			System.out.println("lead_no ? " + lead_no);
+
 			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
 			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형

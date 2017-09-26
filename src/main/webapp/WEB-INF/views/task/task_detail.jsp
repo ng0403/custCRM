@@ -21,7 +21,7 @@
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="taskPageNum" value="${taskPageNum}">
-<!-- 상담 -->
+ <!-- 상담 -->
 <div id="task_detail">
 	<div style="height: 10px;"></div>
 	<c:if test="${lead_no != null}"> 
@@ -307,7 +307,7 @@
 						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						
 						    </c:if>
 						    <c:if test="${lead_no != null}">
-						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}');">						
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}','${lead_no}');">						
 						    </c:if>
 					</div>
 				</c:if>
@@ -323,7 +323,7 @@
 						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						
 						    </c:if>
 						    <c:if test="${lead_no != null}">
-						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}');">						
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}','${lead_no}');">						
 						    </c:if>
 					</div>
 				</c:if>
@@ -338,7 +338,7 @@
 						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						
 						    </c:if>
 						    <c:if test="${lead_no != null}">
-						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}');">						
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}','${lead_no}');">						
 						    </c:if>
 					</div>
 				</c:if>
