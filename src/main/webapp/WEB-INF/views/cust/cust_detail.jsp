@@ -302,7 +302,7 @@ $(document).ready(function(){
 		 	<input type="button" class="func_btn" id="cust_list" onclick="cust_cancel('${custPageNum}');" value="취소">
 			
 		 	<input type="button" class="func_btn" id="cust_task_list" onclick="" value="상담이력">
-		 	<input type="button" class="func_btn" id="cust_lead_list" onclick="" value="고객리드">
+		 	<input type="button" class="func_btn" id="cust_lead_list" onclick="cust_lead_btn('${custDlist.cust_no}')" value="고객리드">
 		 	<input type="button" class="func_btn" id="cust_opty_list" onclick="cust_opty_btn('${custDlist.cust_no}')" value="영업기회">
 	 	 </div> 
 	 </c:if>

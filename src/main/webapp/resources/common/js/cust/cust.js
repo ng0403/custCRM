@@ -973,6 +973,7 @@ function download_list_Excel(formID, flg)
 	
 }
 
+// 재욱
 function cust_opty_btn(cust_no)
 {
 	console.log(cust_no);
@@ -980,7 +981,12 @@ function cust_opty_btn(cust_no)
 	location.href = "/oppty?cust_opty_no=" + cust_no;
 }
 
-
+function cust_lead_btn(cust_no)
+{
+	console.log(cust_no);
+	
+	location.href = "/lead?cust_lead_no=" + cust_no;
+}
 
 
 

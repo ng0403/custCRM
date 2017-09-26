@@ -58,6 +58,12 @@ public class LeadServiceImpl implements LeadService {
 		return leadDao.lead_detail(lead_no);
 		
 	}
+	
+	@Override
+	public LeadVO lead_detail(String lead_no, String cust_lead_no) {
+		// TODO Auto-generated method stub
+		return leadDao.lead_detail(lead_no, cust_lead_no);
+	}
 
 	@Override
 	public void lead_delete(String lead_no) {

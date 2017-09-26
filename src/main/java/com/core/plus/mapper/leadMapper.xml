@@ -48,6 +48,12 @@
                and(rank_cd like concat('%', #{rank_cd}, '%') )
             </when> 
            </choose>
+           <!-- 재욱 -->
+           <choose>
+               <when test="cust_lead_no !=null and cust_lead_no !=''">
+               and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
+            </when> 
+           </choose>
    </select>
    
     <select id="leadStatusListTotalRow" resultType="int">
@@ -171,6 +177,11 @@
            <choose>
                <when test="rank_cd !=null and rank_cd !=''">
                and(rank_cd like concat('%', #{rank_cd}, '%') )
+            </when> 
+           </choose>
+           <choose>
+               <when test="cust_lead_no !=null and cust_lead_no !=''">
+               and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
             </when> 
            </choose>
          order by l.update_date DESC
@@ -339,6 +350,27 @@
     l.lead_status_cd
    from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_emp e on l.emp_no = e.emp_no
    where lead_no= #{lead_no}
+   </select>
+   
+   <!-- 고객 리드이력 상세정보  -->
+   <select id="cust_lead_detail" resultType="com.core.plus.lead.vo.LeadVO" parameterType="java.util.Map">
+   
+   select
+    l.lead_no,
+    l.create_date,
+    l.lead_name,
+    l.cust_no,
+    c.cust_name, 
+    l.emp_no,
+    e.emp_name,
+    l.contact_day, 
+    l.rank_cd, 
+    l.reason_cd, 
+    l.remark_cn,
+    l.possibility_cd,
+    l.lead_status_cd
+   from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_emp e on l.emp_no = e.emp_no
+   where lead_no= #{lead_no} and l.cust_no = #{cust_no}
    </select>
    
    <!-- Paging -->

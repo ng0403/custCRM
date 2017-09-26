@@ -70,11 +70,12 @@ public class LeadController {
 	
 	//초기 list 출력
 	@RequestMapping(value="lead")
-	public ModelAndView lead_list(@RequestParam(value = "pageNum", defaultValue = "1") int PageNum) {
+	public ModelAndView lead_list(@RequestParam(value = "pageNum", defaultValue = "1") int PageNum, String cust_lead_no) {
 		System.out.println("entering" + PageNum);
 		
 		Map<String, Object> leadMap = new HashMap<String, Object>();
 		leadMap.put("PageNum", PageNum);
+		leadMap.put("cust_lead_no", cust_lead_no);
 		
 		// paging
 		PagerVO page = leadService.getLeadListRow(leadMap);
@@ -85,12 +86,25 @@ public class LeadController {
 		List<LeadVO> vo = leadService.lead_list(leadMap);
 		System.out.println("vovo ?? " + vo.toString());
 		ModelAndView mov = new ModelAndView("lead_list");
+		
 		mov.addObject("page", page);
 		mov.addObject("pageNum", PageNum);
+		mov.addObject("cust_lead_no", cust_lead_no);
 		mov.addObject("lead_list", vo);
-		mov.addObject("main_menu_url", "lead");
-		mov.addObject("sub_menu_url", "lead");
-		menuImport(mov, "lead");
+		
+		// 재욱
+		if(cust_lead_no == null)
+		{
+			mov.addObject("main_menu_url", "lead");
+			mov.addObject("sub_menu_url", "lead");
+			menuImport(mov, "lead");
+		}
+		if(cust_lead_no != null)
+		{
+			mov.addObject("main_menu_url", "cust");
+			mov.addObject("sub_menu_url", "cust");
+			menuImport(mov, "cust");
+		}
 		
 		System.out.println("mov ?  " + mov.toString());
 		return mov;
@@ -186,7 +200,7 @@ public class LeadController {
 	
 	//가망 고객 상세정보
 	@RequestMapping(value="lead_detail", method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView lead_detail(@RequestParam("lead_no") String lead_no, @RequestParam("pageNum") String PageNum){ 
+	public ModelAndView lead_detail(@RequestParam("lead_no") String lead_no, @RequestParam("pageNum") String PageNum, String cust_lead_no){ 
 	 
 		// 관심상품 리스트 조회
  		List<InterestItemVO> itemList 	= leadService.leadItemList(lead_no);	
@@ -195,20 +209,63 @@ public class LeadController {
 		List<LeadVO> status = leadService.leadStatusCode();
  		List<LeadVO> opptycd = leadService.leadOpptyCode();
 		System.out.println("opptycd ? " + opptycd.toString());
+		System.out.println("cust_lead_no ? " + cust_lead_no);
 		
 		ModelAndView mov = new ModelAndView("leadCRUD");
-		mov.addObject("detail", leadService.lead_detail(lead_no));
+		
+		if(cust_lead_no == null)
+		{
+			mov.addObject("detail", leadService.lead_detail(lead_no));
+			
+			mov.addObject("main_menu_url", "lead");
+			mov.addObject("sub_menu_url", "lead");
+			mov.addObject("flg", "0");
+			
+			menuImport(mov, "lead");
+		}
+		if(cust_lead_no != null)
+		{
+			if(cust_lead_no.equals("undefined") || cust_lead_no.equals(" "))
+			{
+				mov.addObject("detail", leadService.lead_detail(lead_no));
+				
+				mov.addObject("main_menu_url", "lead");
+				mov.addObject("sub_menu_url", "lead");
+				mov.addObject("flg", "0");
+				
+				menuImport(mov, "lead");
+			}
+			else if(cust_lead_no.equals(null))
+			{
+				mov.addObject("detail", leadService.lead_detail(lead_no));
+				
+				mov.addObject("main_menu_url", "lead");
+				mov.addObject("sub_menu_url", "lead");
+				mov.addObject("flg", "0");
+				
+				menuImport(mov, "lead");
+			}
+			else
+			{
+				mov.addObject("detail", leadService.lead_detail(lead_no, cust_lead_no));
+				
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				mov.addObject("flg", "007");
+				
+				menuImport(mov, "cust");
+			}
+		}
+		
+		
 		mov.addObject("nal","2017-08-09");
-		mov.addObject("flg", "0");
 		mov.addObject("PageNum", PageNum);
-		mov.addObject("main_menu_url", "lead");
 		mov.addObject("itemList", itemList);
-		mov.addObject("sub_menu_url", "lead");
 		mov.addObject("leadstatuscode", status);
+		mov.addObject("cust_lead_no", cust_lead_no);
 		mov.addObject("opptycd", opptycd);
 		System.out.println(mov.toString());
 		
-		menuImport(mov, "lead");
 		return mov;
 	}
 	

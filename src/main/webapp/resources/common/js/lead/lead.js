@@ -74,10 +74,22 @@ function leadPageNumInputEnter(event) {
  
 // 리드 상세정보
  function leadDetail(a,b) {
-   var no = a; 
+   var no = a;
+   var cust_no = $("#cust_lead_no").val();
  
-   console.log(no);
-   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b; 
+//   console.log(no);
+   console.log(cust_no);
+   
+   if(cust_no == null || cust_no == '')
+   {
+	   console.log("A");
+	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b; 
+   }
+   if(cust_no != null && cust_no != '')
+   {
+	   console.log("B");
+	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b + "&cust_lead_no=" + cust_no; 
+   }
 	 
  }
  
@@ -852,9 +864,28 @@ function leadCheckFileType(filePath)
 
 }
 
-
 //Popup 닫기
 function popClose()
 {
 	$.unblockUI();
+}
+
+
+// 재욱
+function lcustList(pageNum)
+{
+	var ctx = $("#ctx").val();
+	location.href = ctx + '/cust?custPageNum=' + pageNum;
+}
+
+function lcustDetail(custNo)
+{
+	var ctx = $("#ctx").val();
+	location.href = ctx + '/custForm?cust_no=' + custNo;
+}
+
+function leadCustList(custNo)
+{
+	var ctx = $("#ctx").val();
+	location.href = "/lead?cust_lead_no=" + custNo;
 }

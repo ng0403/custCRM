@@ -1,6 +1,7 @@
 package com.core.plus.lead.dao;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,6 @@ public class LeadDaoImpl implements LeadDao {
 
 	@Override
 	public List<LeadVO> lead_list(Map<String, Object> map) {
-		
 		List<LeadVO> vo = sqlSession.selectList("leadList", map);
 		
 		return vo;
@@ -67,6 +67,18 @@ public class LeadDaoImpl implements LeadDao {
 	public LeadVO lead_detail(String lead_no) {
 		 System.out.println("Dao : " + lead_no);
 		return sqlSession.selectOne("lead_detail", lead_no);
+	}
+	
+	@Override
+	public LeadVO lead_detail(String lead_no, String cust_lead_no) {
+		// TODO Auto-generated method stub
+		Map<String, Object> custLeadDetail = new HashMap<String, Object>();
+		custLeadDetail.put("lead_no", lead_no);
+		custLeadDetail.put("cust_no", cust_lead_no);
+		
+		System.out.println("DAO : " + custLeadDetail);
+		
+		return sqlSession.selectOne("cust_lead_detail", custLeadDetail);
 	}
 
 	@Override
@@ -431,4 +443,5 @@ public class LeadDaoImpl implements LeadDao {
 			
 			return sqlSession.selectList("lead.leadOpptyCode");
 		}
+
 }

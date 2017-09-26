@@ -20,6 +20,7 @@ public interface LeadService {
 	void lead_insert(LeadVO vo); //가망 고객 추가
 	void lead_update(LeadVO vo); // 가망 고객 수정
 	LeadVO lead_detail(String lead_no); // 가망 고객 디테일
+	LeadVO lead_detail(String lead_no, String cust_lead_no); // 가망 고객 디테일
 	void lead_delete(String lead_no); // 가망 고객 삭제
 	
 	//코드 관련

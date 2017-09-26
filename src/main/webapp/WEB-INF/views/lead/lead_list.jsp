@@ -15,13 +15,20 @@
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
+<input type="hidden" id="cust_lead_no" value="${cust_lead_no}">
+
 <!-- 쿠폰관리 : 쿠폰목록조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
 	<div class="titleDIV">
-		<span class="titleText">
-			 ■ 고객리드 > 고객리드 관리 
-		</span>
+		<c:if test="${cust_lead_no != null}">
+			<span class="titleText"> ■ 고객 > <a style="cursor: pointer;" onclick="lcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="lcustDetail('${cust_lead_no}');"> 고객 상세정보 </a> > 고객리드이력 </span>
+		</c:if>
+		<c:if test="${cust_lead_no == null}">
+			<span class="titleText">
+				 ■ 고객리드 > 고객리드 관리 
+			</span>
+		</c:if>
 	</div>
 	<div style="height:10px;"></div>
 	<div class="commonList">
@@ -110,10 +117,17 @@
 	 	 </table>
    	
 		<div class="listFootDiv">
- 		 	 <input type="button" class="func_btn" id="lead_add" value="단건등록" onclick="lead_add();">
-		 	 <input type="button" class="func_btn" id="lead_add_multi" value="다건등록" onclick="leadExcelImportOpen();">
-		 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('leadListForm','0');" >	
-			 <input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿출력"  onclick="download_list_Excel('leadListForm','1');" >
+			<c:if test="${ cust_lead_no == null }">
+	 		 	<input type="button" class="func_btn" id="lead_add" value="단건등록" onclick="lead_add();">
+			 	<input type="button" class="func_btn" id="lead_add_multi" value="다건등록" onclick="leadExcelImportOpen();">
+			 	<input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('leadListForm','0');" >	
+				<input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿출력"  onclick="download_list_Excel('leadListForm','1');" >
+			</c:if>
+			<c:if test="${ cust_lead_no != null }">
+			 	<input type="button" class="func_btn" id="exportBtn"      value="뒤로"  onclick="lcustDetail('${cust_lead_no}');" >	
+			 	<input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('leadListForm','0');" >	
+				<input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿출력"  onclick="download_list_Excel('leadListForm','1');" >
+			</c:if>
 		</div>
 	 	<div class="pagingDiv">
 			<input type="hidden" id="endPageNum" value="${page.endPageNum}"/>
