@@ -9,6 +9,8 @@ public class CustVO {
 	private String resident_no;
 	private String chart_no;
 	private String cust_id;
+	private String cust_type;
+	private String cust_rank;
 	private String visit_cd;
 	private String visit_dtl_cd;
 	private String visit_cn;
@@ -178,17 +180,31 @@ public class CustVO {
 	public void setDel_yn(String del_yn) {
 		this.del_yn = del_yn;
 	}
+	public String getCust_type() {
+		return cust_type;
+	}
+	public void setCust_type(String cust_type) {
+		this.cust_type = cust_type;
+	}
+	public String getCust_rank() {
+		return cust_rank;
+	}
+	public void setCust_rank(String cust_rank) {
+		this.cust_rank = cust_rank;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "CustVO [cust_no=" + cust_no + ", create_date=" + create_date + ", update_date=" + update_date
 				+ ", cust_name=" + cust_name + ", resident_no=" + resident_no + ", chart_no=" + chart_no + ", cust_id="
-				+ cust_id + ", visit_cd=" + visit_cd + ", visit_dtl_cd=" + visit_dtl_cd + ", visit_cn=" + visit_cn
-				+ ", rec_per=" + rec_per + ", remark_cn=" + remark_cn + ", del_yn=" + del_yn + ", phone_type_cd="
-				+ phone_type_cd + ", phone_country_cd=" + phone_country_cd + ", phone_area_no=" + phone_area_no
-				+ ", phone_no=" + phone_no + ", primary_yn=" + primary_yn + ", addr_type_cd=" + addr_type_cd
-				+ ", road_yn=" + road_yn + ", zip_no=" + zip_no + ", main_address=" + main_address + ", detail_address="
-				+ detail_address + ", cust_key=" + cust_key + "]";
+				+ cust_id + ", cust_type=" + cust_type + ", cust_rank=" + cust_rank + ", visit_cd=" + visit_cd
+				+ ", visit_dtl_cd=" + visit_dtl_cd + ", visit_cn=" + visit_cn + ", rec_per=" + rec_per + ", remark_cn="
+				+ remark_cn + ", del_yn=" + del_yn + ", phone_type_cd=" + phone_type_cd + ", phone_country_cd="
+				+ phone_country_cd + ", phone_area_no=" + phone_area_no + ", phone_no=" + phone_no + ", primary_yn="
+				+ primary_yn + ", addr_type_cd=" + addr_type_cd + ", road_yn=" + road_yn + ", zip_no=" + zip_no
+				+ ", main_address=" + main_address + ", detail_address=" + detail_address + ", cust_key=" + cust_key
+				+ "]";
 	}
-	
 	
 }

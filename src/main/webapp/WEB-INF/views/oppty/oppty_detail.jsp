@@ -27,15 +27,43 @@ $(document).ready(function(){
 </script>
 
 <input type="hidden" id="ctx" value="${ctx}">
+<input type="hidden" id="hoppty_status_cd" value="${hoppty_status_cd}">
 <input type="hidden" id="tmp" value="">
 
 <div id="oppty_detail">
 	<div style="height:10px;"></div>
 	
 	<div class="titleDIV">
-		<span class="titleText">
-		    ■ 매출 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 매출기회관리</a> > <span id="coupon_form_title">매출기회관리 상세 정보</span>
-		</span>
+		<c:if test="${ cust_opty_no == null } && ${ hoppty_status_cd == null}">
+			<span class="titleText">
+			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 영업기회관리</a> > <span id="coupon_form_title">영업기회 상세정보</span>
+			</span>
+		</c:if>
+		<c:if test="${ cust_opty_no != null }">
+			<span class="titleText"> 
+				■ 고객 > <a style="cursor: pointer;" onclick="odCustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="odCustDetail('${cust_opty_no}');"> 고객 상세정보 </a> > <a style="cursor: pointer;" onclick="optyCustList('${cust_opty_no}');"> 영업기회이력 </a> > 영업기회이력 상세정보 
+			</span>
+		</c:if>
+		<c:if test="${ hoppty_status_cd == 001}">
+			<span class="titleText">
+			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 진행중 영업기회</a> > <span id="coupon_form_title">진행중 영업기회 상세정보</span>
+			</span>
+		</c:if>
+		<c:if test="${ hoppty_status_cd == 002}">
+			<span class="titleText">
+			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 보류된 영업기회</a> > <span id="coupon_form_title">보류된 영업기회 상세정보</span>
+			</span>
+		</c:if>
+		<c:if test="${ hoppty_status_cd == 003}">
+			<span class="titleText">
+			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 성공한 영업기회</a> > <span id="coupon_form_title">성공한 영업기회 상세정보</span>
+			</span>
+		</c:if>
+		<c:if test="${ hoppty_status_cd == 004}">
+			<span class="titleText">
+			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 실패한 영업기회</a> > <span id="coupon_form_title">실패한 영업기회 상세정보</span>
+			</span>
+		</c:if>
 	</div>
 	
 	<div style="height:10px;"></div>
@@ -310,9 +338,12 @@ $(document).ready(function(){
 					<input type="button" class="func_btn" id="oppty_list" onclick="opptyList('${opptyPageNum}');" value="취소">
 				</c:if>
 				<c:if test="${ opptyDetail.oppty_no != null }">
- 		 			<input type="button" class="func_btn" id="oppty_detail_mdfy" onclick="opptyMody();" value="편집">
- 		 			<input type="button" class="tr_btn" id="oppty_detail_del" onclick="opptyDel();" value="삭제">
-					<input type="button" class="func_btn" id="oppty_list" onclick="opptyList('${opptyPageNum}');" value="취소">
+					<c:if test="${ cust_opty_no == null }">
+	 		 			<input type="button" class="func_btn" id="oppty_detail_mdfy" onclick="opptyMody();" value="편집">
+	 		 			<input type="button" class="tr_btn" id="oppty_detail_del" onclick="opptyDel();" value="삭제">
+						<input type="button" class="func_btn" id="oppty_list" onclick="opptyList('${opptyPageNum}');" value="취소">
+					</c:if>
+					
 				</c:if>
  			</div>
 		 	<div id="coupon_mdfy_btn_div">
@@ -330,10 +361,11 @@ $(document).ready(function(){
 			</span>
 		</div>	
 		<div id="coupon_mdfy_btn_div" style="float: right;">
-<!-- 			<input type="button" class="func_btn" id="oppty_list" onclick="opptyList();" value="조회">				 -->
-			<input type="button" class="func_btn" id="opptyItem_add" onclick="opptyItemAdd();" value="추가">
-			<input type="button" class="tr_btn" id="opptyItem_save" onclick="opptyItemInsert();" value="저장" >
-			<input type="button" class="tr_btn" id="opptyItem_save" onclick="opptyItemDelte();" value="삭제" >
+			<c:if test="${ cust_opty_no == null }">
+				<input type="button" class="func_btn" id="opptyItem_add" onclick="opptyItemAdd();" value="추가">
+				<input type="button" class="tr_btn" id="opptyItem_save" onclick="opptyItemInsert();" value="저장" >
+				<input type="button" class="tr_btn" id="opptyItem_save" onclick="opptyItemDelte();" value="삭제" >
+			</c:if>			
 		</div>		
 		<div style="height:10px;"></div>
 		

@@ -37,4 +37,12 @@ public class CommonCodeVO {
 	public void setPar_code_no(String par_code_no) {
 		this.par_code_no = par_code_no;
 	}
+	
+	@Override
+	public String toString() {
+		return "CommonCodeVO [code_no=" + code_no + ", code=" + code + ", code_name=" + code_name + ", seq=" + seq
+				+ ", par_code_no=" + par_code_no + "]";
+	}
+	
+	
 }

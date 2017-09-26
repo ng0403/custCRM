@@ -44,7 +44,7 @@ $(document).ready(function(){
 	<c:if test="${flg == 0 }">
  		<div class="titleDIV">
 		<span class="titleText">
-		    ■  <a style="cursor: pointer;" onclick="custList('1');"> 고객</a> > <span id="cust_form_title">고객 상세정보</span>
+		    ■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 고객관리</a> > <span id="cust_form_title">고객 상세정보</span>
 		</span>
 	</div>   
 	</c:if>
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	<c:if test="${flg == 1 }">
  		<div class="titleDIV">
 		<span class="titleText">
-		    ■  <a style="cursor: pointer;" onclick="custList('1');"> 고객</a> > <span id="cust_form_title">고객 추가</span>
+		    ■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 고객관리</a> > <span id="cust_form_title">고객 추가</span>
 		</span>
 	</div>   
 	</c:if>
@@ -60,7 +60,7 @@ $(document).ready(function(){
 	<c:if test="${flg == 2}">
  		<div class="titleDIV">
 		<span class="titleText">
-		    ■  <a style="cursor: pointer;" onclick="custList('1');"> 고객</a> > <span id="cust_form_title">고객 수정</span>
+		    ■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 고객관리</a> > <span id="cust_form_title">고객 수정</span>
 		</span>
 	</div>   
 	</c:if>
@@ -110,6 +110,71 @@ $(document).ready(function(){
 		       		<input type="text" id="cust_id" name="cust_id" value="${custDlist.cust_id}"> 
 				</c:if>
  			</td>
+		</tr>
+		<tr>
+			<th class="discount_cost" style="text-align:right;">고객등급</th>
+			<td>
+				<c:if test="${ flg == 2 }">
+					<select id="cust_rank" name="cust_rank" disabled="disabled" 
+							style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+						<option value="">선택해 주십시오</option>
+						<c:forEach var="custRankCdList" items="${ custRankCdList }">
+							<c:if test= "${ custRankCdList.code eq custDlist.cust_rank }">
+								<option value="${ custRankCdList.code }" selected="selected">${ custRankCdList.code_name }</option>
+							</c:if>
+							<c:if test= "${ custRankCdList.code ne custDlist.cust_rank }">
+								<option value="${ custRankCdList.code }">${ custRankCdList.code_name }</option>
+							</c:if>
+						</c:forEach>
+					</select>
+				</c:if>
+				<c:if test="${ flg == 1 }">
+					<select id="cust_rank" name="cust_rank" 
+							style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+						<option value="">선택해 주십시오</option>
+						<c:forEach var="custRankCdList" items="${ custRankCdList }">
+<%-- 							<c:if test= "${ custRankCdList.code eq custDlist.cust_rank }"> --%>
+<%-- 								<option value="${ custRankCdList.code }" selected="selected">${ custRankCdList.code_name }</option> --%>
+<%-- 							</c:if> --%>
+<%-- 							<c:if test= "${ custRankCdList.code ne custDlist.cust_rank }"> --%>
+								<option value="${ custRankCdList.code }">${ custRankCdList.code_name }</option>
+<%-- 							</c:if> --%>
+						</c:forEach>
+					</select>
+				</c:if>
+			</td>
+			
+			<th class="discount_cost" style="text-align:right;">고객유형</th>
+			<td>
+				<c:if test="${ flg == 2 }">
+					<select id="cust_type" name="cust_type" disabled="disabled" 
+							style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+						<option value="">선택해 주십시오</option>
+						<c:forEach var="custTypeCdList" items="${ custTypeCdList }">
+							<c:if test= "${ custTypeCdList.code eq custDlist.cust_type }">
+								<option value="${ custTypeCdList.code }" selected="selected">${ custTypeCdList.code_name }</option>
+							</c:if>
+							<c:if test= "${ custTypeCdList.code ne custDlist.cust_type }">
+								<option value="${ custTypeCdList.code }">${ custTypeCdList.code_name }</option>
+							</c:if>
+						</c:forEach>
+					</select>
+				</c:if>
+				<c:if test="${ flg == 1 }">
+					<select id="cust_type" name="cust_type" 
+							style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+						<option value="">선택해 주십시오</option>
+						<c:forEach var="custTypeCdList" items="${ custTypeCdList }">
+<%-- 							<c:if test= "${ custTypeCdList.code eq custDlist.cust_type }"> --%>
+<%-- 								<option value="${ custTypeCdList.code }" selected="selected">${ custTypeCdList.code_name }</option> --%>
+<%-- 							</c:if> --%>
+<%-- 							<c:if test= "${ vititCdList.code ne custDlist.cust_type }"> --%>
+								<option value="${ custTypeCdList.code }">${ custTypeCdList.code_name }</option>
+<%-- 							</c:if> --%>
+						</c:forEach>
+					</select>
+				</c:if>
+			</td>
 		</tr>
 		<tr>
 			<th class="discount_cost" style="text-align:right;">소개자</th>
@@ -235,6 +300,10 @@ $(document).ready(function(){
 	 		<input type="button" class="func_btn" id="cust_single_modify" value="편집" onclick="cust_modify();">
 	 		<input type="button" class="tr_btn" id="cust_delete" value="삭제" onclick="custDelete();">
 		 	<input type="button" class="func_btn" id="cust_list" onclick="cust_cancel('${custPageNum}');" value="취소">
+			
+		 	<input type="button" class="func_btn" id="cust_task_list" onclick="" value="상담이력">
+		 	<input type="button" class="func_btn" id="cust_lead_list" onclick="" value="고객리드">
+		 	<input type="button" class="func_btn" id="cust_opty_list" onclick="cust_opty_btn('${custDlist.cust_no}')" value="영업기회">
 	 	 </div> 
 	 </c:if>
     </div>

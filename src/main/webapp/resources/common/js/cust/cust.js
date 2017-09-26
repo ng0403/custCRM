@@ -372,6 +372,9 @@ function cust_add_save()
 		alert("내원경로상세를 선택해주세요.");
 		return false;
 	}
+	
+	console.log($("#cust_rank").val());
+	console.log($("#cust_type").val());
 	 
 	$(document).ready(function() {
 		var cust_no = $("#cust_no").val();
@@ -390,7 +393,9 @@ function cust_add_save()
 					visit_dtl_cd 	: $("#visit_dtl_cd ").val(),
 					visit_cn		: $("#visit_cn").val(),
 					rec_per			: $("#rec_per").val(),
-					remark_cn		: $("#remark_cn").val()
+					remark_cn		: $("#remark_cn").val(),
+					cust_type		: $("#cust_type").val(),
+					cust_rank		: $("#cust_rank").val()
 				},
 				dataType : "json",
 				success : function(data) {
@@ -425,6 +430,8 @@ function cust_add_save()
 		$("#visit_cn").prop("readonly", false);
 		$("#rec_per").prop("readonly", false);
 
+		$("#cust_type").prop("disabled", false);
+		$("#cust_rank").prop("disabled", false);
 		$("#visit_cd").prop("disabled", false);
 		$("#visit_dtl_cd").prop("disabled", false);
 		
@@ -456,6 +463,9 @@ function cust_modify_save()
 		return false;
 	}
 	
+	console.log($("#cust_rank").val());
+	console.log($("#cust_type").val());
+	
 	$(document).ready(function() {
 		var cust_no = $("#cust_no").val();
 		var ynChk = confirm("해당 고객을 수정하시겠습니까?");
@@ -469,6 +479,8 @@ function cust_modify_save()
 //					resident_no		: $("#resident_no").val(),
 					chart_no		: $("#chart_no").val(),
 					cust_id			: $("#cust_id").val(),
+					cust_type       : $("#cust_type").val(),
+					cust_rank		: $("#cust_rank").val(),
 					visit_cd		: $("#visit_cd").val(),
 					visit_dtl_cd 	: $("#visit_dtl_cd ").val(),
 					rec_per			: $("#rec_per").val(),
@@ -961,7 +973,12 @@ function download_list_Excel(formID, flg)
 	
 }
 
-
+function cust_opty_btn(cust_no)
+{
+	console.log(cust_no);
+	
+	location.href = "/oppty?cust_opty_no=" + cust_no;
+}
 
 
 

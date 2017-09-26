@@ -46,6 +46,8 @@
 		         ,a.cust_name
 		         ,case when(a.chart_no) is null then '' else (a.chart_no) end as chart_no
 		         ,a.cust_id
+		         ,a.cust_type
+		         ,a.cust_rank
 		         ,a.visit_cd
 		         ,a.visit_dtl_cd
 		         ,a.visit_cn
@@ -141,6 +143,8 @@
 			,a.resident_no
 			,a.chart_no
 			,a.cust_id
+			,a.cust_rank
+			,a.cust_type
 			,a.visit_cd
 			,a.visit_dtl_cd
 			,a.visit_cn
@@ -174,6 +178,8 @@
 							,resident_no
 							,chart_no
 							,cust_id
+							,cust_type
+							,cust_rank
 							,visit_cd
 							,visit_dtl_cd
 							,visit_cn
@@ -186,6 +192,8 @@
            	,#{resident_no}
            	,#{chart_no}
            	,#{cust_id}
+           	,#{cust_type}
+           	,#{cust_rank}
            	,#{visit_cd}
            	,#{visit_dtl_cd}
            	,#{visit_cn}
@@ -205,6 +213,8 @@
 			cust_name = #{cust_name}
 			,chart_no = #{chart_no}
 			,cust_id = #{cust_id}
+			,cust_type = #{cust_type}
+			,cust_rank = #{cust_rank}
 			,visit_cd = #{visit_cd}
 			,visit_dtl_cd = #{visit_dtl_cd}
 			,visit_cn = #{visit_cn}

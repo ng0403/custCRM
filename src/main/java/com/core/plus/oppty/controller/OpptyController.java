@@ -57,16 +57,18 @@ public class OpptyController {
 	// 처음 list 화면
 	@RequestMapping(value="/oppty")
 	public ModelAndView opptyList(HttpSession session,
-			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd)
+			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd, String cust_opty_no)
 	{
 		Map<String, Object> opptyMap = new HashMap<String, Object>();
 		opptyMap.put("opptyPageNum", opptyPageNum);
 		opptyMap.put("oppty_status_cd", oppty_status_cd);
+		opptyMap.put("cust_opty_no", cust_opty_no);
 		
 		// paging
 		PagerVO page = opptyService.getOpptyListRow(opptyMap);
 		
 		System.out.println("oppty_status_cd : " + oppty_status_cd);
+		System.out.println("cust_opty_no : " + cust_opty_no);
 		System.out.println("page : " + page);
 		opptyMap.put("page", page);
 		
@@ -87,14 +89,46 @@ public class OpptyController {
 		mov.addObject("opptyStageCd", stage);
 		mov.addObject("dtypeCd", dtype);
 		mov.addObject("purchaseType", purchase);
-		mov.addObject("main_menu_url", "oppty");
-		mov.addObject("sub_menu_url", "oppty");
 		mov.addObject("hoppty_status_cd", oppty_status_cd);
 
-		menuImport(mov, "oppty");
+		if(cust_opty_no == null)
+		{
+//			mov.addObject("cust_opty_no", "1");
+			mov.addObject("main_menu_url", "oppty");
+			mov.addObject("sub_menu_url", "oppty");
+			
+			menuImport(mov, "oppty");
+		}
+		if(cust_opty_no != null)
+		{
+			if(cust_opty_no.equals("undefined") || cust_opty_no.equals(" "))
+			{
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty");
+				
+				menuImport(mov, "oppty");
+			}
+			else if(cust_opty_no.equals(null))
+			{
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty");
+				
+				menuImport(mov, "oppty");
+			}
+			else
+			{
+				mov.addObject("cust_opty_no", cust_opty_no);
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				
+				menuImport(mov, "cust");
+			}
+		}
 		
 		return mov;
 	}
+	
+	// 영업
 	
 	// List Ajax(검색, 페이징)
 	@RequestMapping(value="oppty_sch", method=RequestMethod.POST)
@@ -180,11 +214,12 @@ public class OpptyController {
 	
 	// 상세보기 및 단건등록화면
 	@RequestMapping(value="oppty_detail")
-	public ModelAndView opptyDetail(@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_no, String hoppty_status_cd)
+	public ModelAndView opptyDetail(@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_no, String hoppty_status_cd, String cust_opty_no)
 	{
 		System.out.println(oppty_no);
 		System.out.println("opptyPageNum? " + opptyPageNum);
 		System.out.println("hoppty_status_cd? " + hoppty_status_cd);
+		System.out.println("cust_opty_no? " + cust_opty_no);
 		
 		if(oppty_no == null || oppty_no == "")	// 단건등록 시
 		{
@@ -234,9 +269,68 @@ public class OpptyController {
 			mov.addObject("paymentCd", payment);
 			mov.addObject("recperCd", recper);
 			mov.addObject("opptyPageNum", opptyPageNum);
-			mov.addObject("main_menu_url", "oppty");
+			mov.addObject("hoppty_status_cd", hoppty_status_cd);
 			
-			menuImport(mov, "oppty");
+			if(cust_opty_no != null && cust_opty_no == " ")
+			{
+				System.out.println("A");
+				
+				mov.addObject("cust_opty_no", cust_opty_no);
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+					
+				menuImport(mov, "cust");
+			}
+			else if(cust_opty_no != null)
+			{
+				System.out.println("A");
+				
+				mov.addObject("cust_opty_no", cust_opty_no);
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+					
+				menuImport(mov, "cust");
+			}
+			else
+			{
+				System.out.println("B");
+				
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty");
+				
+				menuImport(mov, "oppty");
+			}
+			
+//			if(cust_opty_no.equals(" "))
+//			{
+//				mov.addObject("main_menu_url", "oppty");
+//				mov.addObject("sub_menu_url", "oppty");
+//				
+//				menuImport(mov, "oppty");
+//			}
+//			else if(cust_opty_no.equals(null))
+//			{
+//				mov.addObject("main_menu_url", "oppty");
+//				mov.addObject("sub_menu_url", "oppty");
+//				
+//				menuImport(mov, "oppty");
+//			}
+//			
+//			if(cust_opty_no == null || cust_opty_no == "")
+//			{
+//				mov.addObject("main_menu_url", "oppty");
+//				mov.addObject("sub_menu_url", "oppty");
+//				
+//				menuImport(mov, "oppty");
+//			}
+//			if(cust_opty_no != null)
+//			{
+//				mov.addObject("cust_opty_no", cust_opty_no);
+//				mov.addObject("main_menu_url", "cust");
+//				mov.addObject("sub_menu_url", "cust");
+//				
+//				menuImport(mov, "cust");
+//			}
 			
 			return mov;
 		}

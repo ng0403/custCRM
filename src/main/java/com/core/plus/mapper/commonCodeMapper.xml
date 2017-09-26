@@ -61,4 +61,14 @@
 			code_no = '1005'
 		order by code
 	</select>
+	
+	<!-- Code -->
+	<select id="custTypeCode" resultType="com.core.plus.contact.cust.vo.CommonCodeVO">
+		SELECT code_name, code FROM tb_code WHERE code_no = '1022'
+	</select>
+
+	<select id="custRankCode" resultType="com.core.plus.contact.cust.vo.CommonCodeVO">
+		SELECT code_name, code FROM tb_code WHERE code_no = '1021'
+	</select>
+	
 </mapper>

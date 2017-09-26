@@ -164,7 +164,10 @@ public class CustController {
 	public ModelAndView custForm(@RequestParam("cust_no") String cust_no, @RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum){
 		
 		List<CommonCodeVO> vititCdList = commonCode.vititCdList();
-		List<CommonCodeVO> vititDtlCdList = commonCode.vititDtlCdList();			
+		List<CommonCodeVO> vititDtlCdList = commonCode.vititDtlCdList();
+		List<CommonCodeVO> custTypeCdList = commonCode.custTypeCdList();
+		List<CommonCodeVO> custRankCdList = commonCode.custRankCdList();
+		
 		List<CommonCodeVO> phoneTypeCdList = commonCode.phoneTypeCdList(); 			//전화번호구분
 		List<CommonCodeVO> phoneCountryCdList = commonCode.phoneCountryCdList(); 	//국가번호
 		List<CommonCodeVO> addrTypeCdList = commonCode.addrTypeCdList();			//주소구분
@@ -172,6 +175,9 @@ public class CustController {
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("cust_detail");
+		
+		System.out.println("cust_type : " + custTypeCdList.toString());
+		System.out.println("cust_rank : " + custRankCdList.toString());
 		
 		if(cust_no == null || cust_no == "" ){	// 단건등록
 			
@@ -195,11 +201,14 @@ public class CustController {
 		
 		mav.addObject("vititCdList", vititCdList);
 		mav.addObject("vititDtlCdList", vititDtlCdList);
+		mav.addObject("custTypeCdList", custTypeCdList);
+		mav.addObject("custRankCdList", custRankCdList);
 		mav.addObject("phoneTypeCdList", phoneTypeCdList);
 		mav.addObject("phoneCountryCdList", phoneCountryCdList);
 		mav.addObject("addrTypeCdList", addrTypeCdList);
 		mav.addObject("custPageNum", custPageNum);
 		mav.addObject("main_menu_url", "cust");
+		mav.addObject("sub_menu_url", "cust");
 		
 		menuImport(mav, "cust");
 		
@@ -213,6 +222,8 @@ public class CustController {
 			CustVO cvoS, String cust_no){
 		int result;
 		CustVO custVO = null;
+		
+		System.out.println("Save : " + cvoS);
 		
 		if(cust_no == null || cust_no == ""){
 			result = custService.custAdd(cvoS);
