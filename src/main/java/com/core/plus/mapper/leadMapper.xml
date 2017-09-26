@@ -423,7 +423,7 @@
               l.rank_cd,
               date_format(l.create_date, '%Y-%m-%d %H:%i') as create_date
          from 
-            tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_emp em on l.emp_no = em.emp_no left join tb_cust_phone p on l.cust_no = p.cust_no
+            tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_emp em on l.emp_no = em.emp_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn='Y'
             where 1=1 
            and l.del_yn ='N'
            <choose>
@@ -454,6 +454,11 @@
            <choose>
                <when test="rank_cd !=null and rank_cd !=''">
                and(rank_cd like concat('%', #{rank_cd}, '%') )
+            </when> 
+           </choose>
+              <choose>
+               <when test="code !=null and code !=''">
+               and(lead_status_cd like concat('%', #{code}, '%') )
             </when> 
            </choose>
          order by l.update_date DESC

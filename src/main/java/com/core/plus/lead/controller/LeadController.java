@@ -426,9 +426,10 @@ public class LeadController {
 	//엑셀 출력 
 	@RequestMapping(value = "/toLeadExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch,
-			String lead_name_srch, String cust_no, String emp_no, String contact_day_srch, String rank_cd, String flg) {
+			String lead_name_srch, String cust_no, String emp_no, String contact_day_srch, String rank_cd, String flg, String code_flg) {
 		
-		String contact_day;
+		System.out.println("code ? " + code_flg);
+ 		String contact_day;
 		
 		contact_day = contact_day_srch.replace("-", "");
 		 
@@ -441,7 +442,7 @@ public class LeadController {
 		leadMap.put("emp_no", emp_no);
 		leadMap.put("contact_day", contact_day);
 		leadMap.put("rank_cd", rank_cd);
-		
+		leadMap.put("code", code_flg);
 		//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 		if(temp == '0'){
  			List<LeadVO> list = leadService.leadExcelExport(leadMap);	// 쿼리

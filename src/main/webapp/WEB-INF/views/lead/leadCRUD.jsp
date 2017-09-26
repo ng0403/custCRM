@@ -173,7 +173,7 @@ $(document).ready(function(){
 			</span>
 		</div>	
 		<div style="float:right" >
-<!-- 			<input type="button" class="func_btn" id="lead_list" onclick="leadList();" value="조회">				 -->
+<!-- 		  <input type="button" class="func_btn" id="lead_list" onclick="leadList();" value="조회">				 -->
 			<input type="button" class="func_btn" id="leadItem_add" onclick="leadItemAdd();" value="추가">
 			<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemInsert();" value="저장" >
 			<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemDelte();" value="삭제" >
