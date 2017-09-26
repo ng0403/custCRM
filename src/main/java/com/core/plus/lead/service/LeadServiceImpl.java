@@ -180,7 +180,7 @@ public class LeadServiceImpl implements LeadService {
 		//페이징
 		@Override
 		public PagerVO getTaskListRow(Map<String, Object> map) {
-			
+			System.out.println("Service map ? " + map.toString());
 			int taskPageNum = (Integer)map.get("taskPageNum");
 			PagerVO page = new PagerVO(taskPageNum, 0, 10, 10);
 			

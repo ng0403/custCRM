@@ -411,7 +411,7 @@ public class LeadDaoImpl implements LeadDao {
 
 		@Override
 		public int getTaskListRow(Map<String, Object> map) {
-			
+			System.out.println("dao ? " + map.toString());
 			int totalCount = 0;
 			try {
 				totalCount = sqlSession.selectOne("lead.taskListTotalRow", map);

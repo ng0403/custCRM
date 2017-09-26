@@ -891,3 +891,7 @@ function leadCustList(custNo)
 	var ctx = $("#ctx").val();
 	location.href = "/lead?cust_lead_no=" + custNo;
 }
+
+
+
+ 

@@ -361,4 +361,88 @@ function leadlist(){
 	 location.href="/lead";
 }
 
+//lead 고객 상담조회
+function custtaskSchList(cust_no,pageNum) {
+	   
+	   var task_no_srch    = $("#task_no_srch").val();
+	   var subject_srch    = $("#subject_srch").val();
+	   var cust_name_srch  = $("#cust_name_srch").val();
+	   var emp_name_srch   = $("#emp_name_srch").val();
+	   var next_day_srch   = $("#next_day_srch").val();
+	   var dtype_cd_srch   = $("#dtype_cd_srch").val();
+	   
 
+	   var tbody = $('#task_list_tbody');
+	   var tbodyContent = "";
+	   
+	   $.ajax({
+	      url:ctx + '/cust_task_sch',
+	      type: 'POST',
+	      data: {
+	         taskPageNum       : pageNum,
+	         task_no_srch      : task_no_srch,
+	         subject_srch      : subject_srch,
+	         cust_name_srch    : cust_name_srch,
+	         emp_name_srch     : emp_name_srch,
+	         next_day_srch     : next_day_srch,
+	         dtype_cd_srch     : dtype_cd_srch,
+	         cust_no  	       : cust_no
+	      },
+	      dataType:'json',
+	      success: function(data){
+	    	  tbody.children().remove();
+	    	  if(data.srcList == 0){
+	    		  tbodyContent = "<tr style='height: 75px;'><td colspan='9' style='width: 1320px; text-align: center;  vertical-align: middle;'>검색 결과가 없습니다.</td></tr>";
+	    		  tbody.append(tbodyContent);
+				}else{
+					
+			         var size = data.srcList.length;
+			         for(var i=0; i<size; i++)
+			         {
+			            tbodyContent = "<tr>" +
+			             "<td style='text-align: left;' >" +data.srcList[i].task_no +"</td>" +
+			             "<td style='text-align: left;'>" +
+			                "<a onclick=taskDetail('"+data.srcList[i].task_no+"','"+data.taskPageNum+"'); id='"+data.srcList[i].task_no+"'>" + data.srcList[i].subject+"</a></td>" +
+			             "<td style='text-align: left;'>" + data.srcList[i].cust_no +"</td>" +
+			             "<td style='text-align: left;'>" + data.srcList[i].cust_name +"</td>" +
+			             "<td style='text-align: left;'>" + data.srcList[i].phone_no + "</td>" +
+			             "<td style='text-align: left;'>" + data.srcList[i].emp_no + "</td>" +
+			             "<td style='text-align: left;'>" + data.srcList[i].next_day + "</td>" +
+			             "<td style='text-align: left;'>" + data.srcList[i].dtype_cd + "</td>" +
+			             "<td style='text-align: left;'>" + data.srcList[i].create_date + "</td>" +
+			             "</tr>"
+
+			            tbody.append(tbodyContent);
+			         }
+				}
+
+	    	  	// 페이징
+		         $(".pagingDiv").empty();
+		         var pageContent = "";
+		
+		         if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+		            pageContent = "◀ <input type='text' id='taskPageNum' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+		         } else if(data.taskPageNum == data.page.startPageNum){
+		            pageContent = "<input type='hidden' id='taskPageNum' value='"+data.taskPageNum+"'/><input type='hidden' id='taskEndPageNum' value='"+data.page.endPageNum+"'/>"
+		            +"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"taskPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+		            +"<a onclick=\"custtaskSchList('"+cust_no+"' , "+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+		            +"<a onclick=\"custtaskSchList('"+cust_no+"' , "+(data.taskPageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+		         } else if(data.taskPageNum == data.page.endPageNum){
+		            pageContent = "<input type='hidden' id='taskPageNum' value='"+data.taskPageNum+"'/><input type='hidden' id='taskEndPageNum' value='"+data.page.endPageNum+"'/>"
+		            +"<a onclick=\"custtaskSchList('"+cust_no+"' , "+(data.taskPageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+		            +"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"taskPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+		            +"<a> / "+data.page.endPageNum+"</a> ▶";
+		         } else {
+		            pageContent = "<input type='hidden' id='taskPageNum' value='"+data.taskPageNum+"'/><input type='hidden' id='taskEndPageNum' value='"+data.page.endPageNum+"'/>"
+		            +"<a onclick=\"custtaskSchList('"+cust_no+"' , "+(data.taskPageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+		            +"<input type='text' id='pageInput' value='"+data.taskPageNum+"' onkeypress=\"taskPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+		            +"<a onclick=\"custtaskSchList('"+cust_no+"' , "+data.page.taskPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+		            +"<a onclick=\"custtaskSchList('"+cust_no+"' , "+(data.taskPageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+		         }
+		         $(".pagingDiv").append(pageContent);
+		      },
+		      error: function(){
+		         alert("error");
+		      }
+		   });
+	}

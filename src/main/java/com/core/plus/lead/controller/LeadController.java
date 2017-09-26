@@ -658,7 +658,7 @@ public class LeadController {
 											  String cust_name_srch, String emp_name_srch,
 											  String next_day_srch, String dtype_cd_srch, String cust_no,
 											  String excel) {
-			
+			System.out.println("entrering" + cust_no);
 			ModelAndView mov = new ModelAndView(new MappingJacksonJsonView());
 			JSONArray json = new JSONArray();
 			
@@ -674,9 +674,11 @@ public class LeadController {
 			taskMap.put("cust_no", cust_no);
 			// paging
 			PagerVO page = leadService.getTaskListRow(taskMap);
+			System.out.println("page ? " + page.toString());
 			taskMap.put("page", page);
 			
 			List<TaskVO> srcList = leadService.taskSchList(taskMap);
+			System.out.println("srcList ? " + srcList.toString());
 			taskMap.put("srcList", srcList);
 					
 			mov.addObject("page", page);
