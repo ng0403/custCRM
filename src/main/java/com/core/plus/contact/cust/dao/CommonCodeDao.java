@@ -16,4 +16,8 @@ public interface CommonCodeDao {
 
 	List<CommonCodeVO> addrTypeCdList();
 
+	List<CommonCodeVO> custTypeCdList();
+
+	List<CommonCodeVO> custRankCdList();
+
 }

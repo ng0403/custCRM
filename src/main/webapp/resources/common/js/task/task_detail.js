@@ -285,6 +285,18 @@ function task_cancel(taskPageNum) {
 	location.href="/task?taskPageNum=" + taskPageNum;
 }
 
+//가망 고객 취소 페이지 이동
+function lead_cancel(a){
+
+	 if(confirm("리스트 페이지로 이동하시겠습니까?")){
+		 alert("가망고객 리스트로 이동합니다.");
+		 location.href="/lead?pageNum=" + a;
+	 }
+	 else{
+		 return false;
+	 }
+}
+
 //리스트 이동 클릭함수
 function taskList() {
 	location.href="/task";

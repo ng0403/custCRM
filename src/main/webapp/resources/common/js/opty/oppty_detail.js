@@ -14,6 +14,20 @@
  */
 var ctx = $("#ctx").val();
 
+function odCustList(custPageNum)
+{
+	location.href = ctx + '/cust?custPageNum=' + custPageNum;
+}
+
+function odCustDetail(custNo)
+{
+	location.href = ctx + '/custForm?cust_no=' + custNo;
+}
+
+function optyCustList(custNo)
+{
+	location.href = "/oppty?cust_opty_no=" + custNo;
+}
 
 function wordch(thisword)
 {

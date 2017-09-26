@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="lead">
 
+<select id="leadStatusCode" resultType="com.core.plus.lead.vo.LeadVO">
+		SELECT code_name, code FROM tb_code WHERE code_no = '1010'
+ </select>
+ <select id="leadOpptyCode" resultType="com.core.plus.lead.vo.LeadVO">
+ SELECT code_name, code FROM tb_code WHERE code_no = '1009'
+ </select>
+
+
 <!-- Paging -->
    <select id="leadListTotalRow" resultType="int">
      <!--  SELECT count(*)
@@ -40,6 +48,12 @@
                and(rank_cd like concat('%', #{rank_cd}, '%') )
             </when> 
            </choose>
+           <!-- 재욱 -->
+           <choose>
+               <when test="cust_lead_no !=null and cust_lead_no !=''">
+               and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
+            </when> 
+           </choose>
    </select>
    
     <select id="leadStatusListTotalRow" resultType="int">
@@ -48,7 +62,7 @@
       WHERE del_yn = 'N'  -->
       SELECT count(*)
       FROM tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_emp em on l.emp_no = em.emp_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
-      WHERE l.del_yn = 'N' and l.lead_status_cd = #{lead_status_code}
+      WHERE l.del_yn = 'N' and l.lead_status_cd = #{lead_status_cd}
       <choose>
             <when test="lead_no_srch !=null and lead_no_srch !=''">
                and(lead_no like concat('%', #{lead_no_srch}, '%') )
@@ -163,6 +177,11 @@
            <choose>
                <when test="rank_cd !=null and rank_cd !=''">
                and(rank_cd like concat('%', #{rank_cd}, '%') )
+            </when> 
+           </choose>
+           <choose>
+               <when test="cust_lead_no !=null and cust_lead_no !=''">
+               and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
             </when> 
            </choose>
          order by l.update_date DESC
@@ -287,9 +306,9 @@
      </selectKey> 
       
    insert into tb_lead
-   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn)
+   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn, possibility_cd, lead_status_cd)
    values
-   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn})
+   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn}, #{possibility_cd}, #{lead_status_cd})
    
    </insert>
    
@@ -299,7 +318,7 @@
    update tb_lead
    set lead_name=#{lead_name}, cust_no =#{cust_no}, emp_no =#{emp_no},
    contact_day= date_format(#{contact_day}, '%Y%m%d'), rank_cd = #{rank_cd}, reason_cd = #{reason_cd},
-   remark_cn = #{remark_cn}, update_date = now()
+   remark_cn = #{remark_cn}, update_date = now(), possibility_cd = #{possibility_cd}, lead_status_cd = #{lead_status_cd}
    where lead_no = #{lead_no}   
    
    </update>
@@ -326,9 +345,32 @@
     l.contact_day, 
     l.rank_cd, 
     l.reason_cd, 
-    l.remark_cn
+    l.remark_cn,
+    l.possibility_cd,
+    l.lead_status_cd
    from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_emp e on l.emp_no = e.emp_no
    where lead_no= #{lead_no}
+   </select>
+   
+   <!-- 고객 리드이력 상세정보  -->
+   <select id="cust_lead_detail" resultType="com.core.plus.lead.vo.LeadVO" parameterType="java.util.Map">
+   
+   select
+    l.lead_no,
+    l.create_date,
+    l.lead_name,
+    l.cust_no,
+    c.cust_name, 
+    l.emp_no,
+    e.emp_name,
+    l.contact_day, 
+    l.rank_cd, 
+    l.reason_cd, 
+    l.remark_cn,
+    l.possibility_cd,
+    l.lead_status_cd
+   from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_emp e on l.emp_no = e.emp_no
+   where lead_no= #{lead_no} and l.cust_no = #{cust_no}
    </select>
    
    <!-- Paging -->
@@ -413,7 +455,7 @@
               l.rank_cd,
               date_format(l.create_date, '%Y-%m-%d %H:%i') as create_date
          from 
-            tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_emp em on l.emp_no = em.emp_no left join tb_cust_phone p on l.cust_no = p.cust_no
+            tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_emp em on l.emp_no = em.emp_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn='Y'
             where 1=1 
            and l.del_yn ='N'
            <choose>
@@ -446,6 +488,11 @@
                and(rank_cd like concat('%', #{rank_cd}, '%') )
             </when> 
            </choose>
+              <choose>
+               <when test="code !=null and code !=''">
+               and(lead_status_cd like concat('%', #{code}, '%') )
+            </when> 
+           </choose>
          order by l.update_date DESC
       )X
    </select>
@@ -457,9 +504,9 @@
      </selectKey> 
 		
      insert into tb_lead
-   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn)
+   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn, possibility_cd, lead_status_cd )
    values
-   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn})
+   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn}, #{possibility_cd}, #{lead_status_cd})
 	
 	
 	</insert>

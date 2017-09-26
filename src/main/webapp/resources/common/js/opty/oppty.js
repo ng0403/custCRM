@@ -8,6 +8,16 @@
 
 var ctx = $("#ctx").val();
 
+function ocustList(custPageNum)
+{
+	location.href = ctx + '/cust?custPageNum=' + custPageNum;
+}
+
+function ocustDetail(custNo)
+{
+	location.href = ctx + '/custForm?cust_no=' + custNo;
+}
+
 // 검색 조건 초기화
 function opptySchReset()
 {
@@ -39,9 +49,18 @@ function opptyEnterSearch(event) {
 
 function opptyDetail(oppty_no, opptyPageNum)
 {
-	var hoppty_status_cd 	 = $("#hoppty_status_cd").val();
+	var hoppty_status_cd = $("#hoppty_status_cd").val();
+	var cust_opty_no = $("#cust_opty_no").val();
 	
-	location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd;
+	console.log(cust_opty_no);
+	
+	if(cust_opty_no == null || cust_opty_no == '')
+		location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd;
+//		console.log("A");
+	if(cust_opty_no != null && cust_opty_no != '')
+			location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&cust_opty_no=" + cust_opty_no;
+//		console.log("B");
+	
 }
 
 // 단건 등록

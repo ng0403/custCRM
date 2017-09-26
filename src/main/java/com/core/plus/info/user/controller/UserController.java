@@ -224,7 +224,7 @@ public class UserController {
 				e.printStackTrace();
 			}
 		}
-		userVO.setCrt_id((String)session.getAttribute("user"));
+//		userVO.setCrt_id((String)session.getAttribute("user"));
 		
 		if(service.userInsert(userVO) != 0){
 			userInResult = 1;
@@ -233,7 +233,7 @@ public class UserController {
 		for(int i=0;i<auth_ids.length;i++){
 			service.userAuthInsert(auth_ids[i],userVO.getUser_id());			
 		}
-		userVO.setCrt_id((String)session.getAttribute("user"));
+//		userVO.setCrt_id((String)session.getAttribute("user"));
 		
 		Map<String, Object> map = new HashMap<String, Object>();	// 검색 값을 넣을 Map생성
 		map.put("pageNum",pageNum);
@@ -305,7 +305,7 @@ public class UserController {
 			}		
 		}		
 		// 생성자 아이디 입력
-		userVO.setCrt_id((String)session.getAttribute("user"));		
+//		userVO.setCrt_id((String)session.getAttribute("user"));		
 			service.userUpdate(userVO);
 			// 아이디값의 권한 다 삭제 
 			service.userAuthDelete(userVO.getUser_id());			
@@ -385,12 +385,12 @@ public class UserController {
 	// 메뉴 가져오기
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
-		String user_id = session.getAttribute("user").toString();
+//		String user_id = session.getAttribute("user").toString();
 			
 		// 메뉴에 따른 권한 주기
 		Map<String, String> menuAuthMap = new HashMap<String, String>();
 		menuAuthMap.put("menu_url", url);
-		menuAuthMap.put("user_id", user_id);
+//		menuAuthMap.put("user_id", user_id);
 		menuAuthMap.put("menu_id", menu_id);
 //		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
 //		mav.addObject("menuAuth", menuAuth);

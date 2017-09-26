@@ -263,10 +263,10 @@
         
         <div id="content_wrap">
         
-        	<input type="hidden" id="ma_crt_yn" value="${menuAuth.crt_yn}">
-        	<input type="hidden" id="ma_mdfy_yn" value="${menuAuth.mdfy_yn}">
-        	<input type="hidden" id="ma_del_yn" value="${menuAuth.del_yn}">
-        	<input type="hidden" id="ma_rtrv_yn" value="${menuAuth.rtrv_yn}">
+        	<input type="hidden" id="ma_crt_yn" value="${menuAuth.create_auth_yn}">
+        	<input type="hidden" id="ma_mdfy_yn" value="${menuAuth.mdfy_auth_yn}">
+        	<input type="hidden" id="ma_del_yn" value="${menuAuth.del_auth_yn}">
+        	<input type="hidden" id="ma_rtrv_yn" value="${menuAuth.retrv_auth_yn}">
    			<div id="viewLoadingImg" style="display: none;">
 					<img src="${ctx}/resources/images/viewLoading.gif">
 			</div>

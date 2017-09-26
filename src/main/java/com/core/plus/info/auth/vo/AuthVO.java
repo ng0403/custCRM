@@ -10,10 +10,10 @@ public class AuthVO{
 	private String mdfy_id;		//수정자id
 	private String mdfy_dt;		//수정일시
 	
-	private String rtrv_yn;     //조회권한여부
-	private String crt_yn;		//생성권한여부
-	private String mdfy_yn;		//수정권한여부
-	private String del_yn;		//삭제권한여부
+	private String retrv_auth_yn;     //조회권한여부
+	private String create_auth_yn;		//생성권한여부
+	private String mdfy_auth_yn;		//수정권한여부
+	private String del_auth_yn;		//삭제권한여부
 	
 	private String user_id;     //사용자id
 	private String user_nm;		//사용자이름
@@ -34,6 +34,30 @@ public class AuthVO{
 	private String email;	    //메일id + 메일주소
 	private String org_id;		//부서id
 	
+	public String getRetrv_auth_yn() {
+		return retrv_auth_yn;
+	}
+	public void setRetrv_auth_yn(String retrv_auth_yn) {
+		this.retrv_auth_yn = retrv_auth_yn;
+	}
+	public String getCreate_auth_yn() {
+		return create_auth_yn;
+	}
+	public void setCreate_auth_yn(String create_auth_yn) {
+		this.create_auth_yn = create_auth_yn;
+	}
+	public String getMdfy_auth_yn() {
+		return mdfy_auth_yn;
+	}
+	public void setMdfy_auth_yn(String mdfy_auth_yn) {
+		this.mdfy_auth_yn = mdfy_auth_yn;
+	}
+	public String getDel_auth_yn() {
+		return del_auth_yn;
+	}
+	public void setDel_auth_yn(String del_auth_yn) {
+		this.del_auth_yn = del_auth_yn;
+	}
 	public String getAuth_id() {
 		return auth_id;
 	}
@@ -76,30 +100,30 @@ public class AuthVO{
 	public void setMdfy_dt(String mdfy_dt) {
 		this.mdfy_dt = mdfy_dt;
 	}
-	public String getRtrv_yn() {
-		return rtrv_yn;
-	}
-	public void setRtrv_yn(String rtrv_yn) {
-		this.rtrv_yn = rtrv_yn;
-	}
-	public String getCrt_yn() {
-		return crt_yn;
-	}
-	public void setCrt_yn(String crt_yn) {
-		this.crt_yn = crt_yn;
-	}
-	public String getMdfy_yn() {
-		return mdfy_yn;
-	}
-	public void setMdfy_yn(String mdfy_yn) {
-		this.mdfy_yn = mdfy_yn;
-	}
-	public String getDel_yn() {
-		return del_yn;
-	}
-	public void setDel_yn(String del_yn) {
-		this.del_yn = del_yn;
-	}
+//	public String getRtrv_yn() {
+//		return rtrv_yn;
+//	}
+//	public void setRtrv_yn(String rtrv_yn) {
+//		this.rtrv_yn = rtrv_yn;
+//	}
+//	public String getCrt_yn() {
+//		return crt_yn;
+//	}
+//	public void setCrt_yn(String crt_yn) {
+//		this.crt_yn = crt_yn;
+//	}
+//	public String getMdfy_yn() {
+//		return mdfy_yn;
+//	}
+//	public void setMdfy_yn(String mdfy_yn) {
+//		this.mdfy_yn = mdfy_yn;
+//	}
+//	public String getDel_yn() {
+//		return del_yn;
+//	}
+//	public void setDel_yn(String del_yn) {
+//		this.del_yn = del_yn;
+//	}
 	public String getUser_id() {
 		return user_id;
 	}

@@ -19,6 +19,8 @@ $(document).ready(function(){
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
+<input type="hidden" id="cust_lead_no" value="${cust_lead_no}">
+
 <!-- 가망고객 -->
 <div id="coupon_detail">
 	<div style="height:10px;"></div>
@@ -26,25 +28,37 @@ $(document).ready(function(){
 	<c:if test="${flg == 0 }">
  		<div class="titleDIV" id="lead_detail_title">
 		<span class="titleText">
-		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 상세정보</span>
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 상세정보</span>
 		</span>
 	</div>   
 	</c:if>
-	
 	<c:if test="${flg == 1 }">
  		<div class="titleDIV" id ="lead_insert_title">
-		<span class="titleText">
-		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 추가</span>
-		</span>
-	</div>   
+			<span class="titleText">
+			    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 추가</span>
+			</span>
+		</div>   
 	</c:if>
-	
- 
+	<c:if test="${flg == 1 }">
+ 		<div class="titleDIV" id ="lead_insert_title">
+			<span class="titleText">
+			    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 추가</span>
+			</span>
+		</div>   
+	</c:if>
  		<div class="titleDIV" id="lead_update_title">
 		<span class="titleText">
-		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 수정</span>
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 수정</span>
 		</span>
 	</div>   
+	
+	<c:if test="${flg == 007 }">
+ 		<div class="titleDIV" id ="lead_insert_title">
+			<span class="titleText">
+			    ■ 고객 > <a style="cursor: pointer;" onclick="lcustList('1');"> 고객관리</a> > <a style="cursor: pointer;" onclick="lcustDetail('${cust_lead_no}');"> 고객 상세정보 > </a> <a style="cursor: pointer;" onclick="leadCustList('${cust_lead_no}');"> 고객리드관리 > </a><span id="coupon_form_title">  고객리드 상세정보</span> 
+			</span>
+		</div>   
+	</c:if>
  
 	
 	<div style="height:10px;"></div>
@@ -88,15 +102,43 @@ $(document).ready(function(){
 				<input name="contact_day" id="contact_day" type="text" value="${detail.contact_day}" class="expt_fin_d" 
 							 readonly="readonly" placeholder ="접촉일자" style="text-align: center; cursor: pointer;">
 			</td>
-			<th style="text-align:right;">순위</th>
-			<td>
-		  <input type="text" id="rank_cd" name="rank_cd" value="${detail.rank_cd}">
+			<th style="text-align:right;">상태</th>
+			<td> 
+				   <select id="lead_status_cd_sel" name="lead_status_cd" 
+									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+								<option value="">선택해 주십시오</option>
+									<c:forEach var="status" items="${ leadstatuscode }">
+										<c:if test="${ detail.lead_status_cd == status.code }">
+											<option selected="selected" value="${ status.code }">${ status.code_name }</option>
+										</c:if>
+										<c:if test="${ detail.lead_status_cd != status.code }">
+											<option value="${ status.code }">${ status.code_name }</option>
+										</c:if>
+									</c:forEach>
+				 </select>
+				   
  			</td>
 		</tr>
 		<tr>
 			<th style="text-align:right;">포기사유</th>
-			<td colspan="3">	
+			<td>	
 			<input type="text" id="reason_cd" name="reason_cd" value="${detail.reason_cd}">
+ 			</td>
+ 			<th>가능성</th>
+ 			<td>
+ 			     <select id="possibility_cd_sel" name="possibility_cd" 
+									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+								<option value="">선택해 주십시오</option>
+									<c:forEach var="status" items="${ opptycd }">
+										<c:if test="${ detail.possibility_cd == status.code }">
+											<option selected="selected" value="${ status.code }">${ status.code_name }</option>
+										</c:if>
+										<c:if test="${ detail.possibility_cd != status.code }">
+											<option value="${ status.code }">${ status.code_name }</option>
+										</c:if>
+									</c:forEach>
+				 </select>
+ 			
  			</td>
  		</tr>
 		<tr>
@@ -145,10 +187,16 @@ $(document).ready(function(){
 			</span>
 		</div>	
 		<div style="float:right" >
-<!-- 			<input type="button" class="func_btn" id="lead_list" onclick="leadList();" value="조회">				 -->
-			<input type="button" class="func_btn" id="leadItem_add" onclick="leadItemAdd();" value="추가">
-			<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemInsert();" value="저장" >
-			<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemDelte();" value="삭제" >
+			<c:if test="${ cust_lead_no == null }">
+				<input type="button" class="func_btn" id="leadItem_add" onclick="leadItemAdd();" value="추가">
+				<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemInsert();" value="저장" >
+				<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemDelte();" value="삭제" >
+			</c:if>
+			<c:if test="${ cust_lead_no != null }">
+<!-- 				<input type="button" class="func_btn" id="leadItem_add" onclick="leadItemAdd();" value="추가"> -->
+<!-- 				<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemInsert();" value="저장" > -->
+<!-- 				<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemDelte();" value="삭제" > -->
+			</c:if>
 		</div>		
 		<div style="height:10px;"></div>
 		<table class="commonTable" id="leadItemTable">

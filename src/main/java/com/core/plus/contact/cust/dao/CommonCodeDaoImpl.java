@@ -53,4 +53,20 @@ public class CommonCodeDaoImpl implements CommonCodeDao{
 		return addrTypeCdList;
 	}
 
+	@Override
+	public List<CommonCodeVO> custTypeCdList() {
+		// TODO Auto-generated method stub
+		List<CommonCodeVO> custTypeCdList = sqlSession.selectList("commonCode.custTypeCode");
+		
+		return custTypeCdList;
+	}
+
+	@Override
+	public List<CommonCodeVO> custRankCdList() {
+		// TODO Auto-generated method stub
+		List<CommonCodeVO> custRankCdList = sqlSession.selectList("commonCode.custRankCode");
+		
+		return custRankCdList;
+	}
+
 }

@@ -54,4 +54,20 @@ public class CommonCodeServiceImpl implements CommonCodeService{
 		return addrTypeCdList;
 	}
 
+	@Override
+	public List<CommonCodeVO> custTypeCdList() {
+		// TODO Auto-generated method stub
+		List<CommonCodeVO> custTypeCdList = commonCodeDao.custTypeCdList();
+		
+		return custTypeCdList;
+	}
+
+	@Override
+	public List<CommonCodeVO> custRankCdList() {
+		// TODO Auto-generated method stub
+		List<CommonCodeVO> custRankCdList = commonCodeDao.custRankCdList();
+		
+		return custRankCdList;
+	}
+
 }

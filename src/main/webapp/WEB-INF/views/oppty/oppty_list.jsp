@@ -20,6 +20,7 @@
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="hoppty_status_cd" value="${ hoppty_status_cd }" >
+<input type="hidden" id="cust_opty_no" value="${ cust_opty_no }" >
 
 <!-- 매출관리 : 매출기회조회 -->
 
@@ -27,9 +28,24 @@
 	<div style="height:10px;"></div>
 	
 	<div class="titleDIV">
-		<span class="titleText">
-			 ■ 영업기회 > 영업기회관리 
-		</span>
+		<c:if test="${cust_opty_no == null} && ${hoppty_status_cd == null}">
+			<span class="titleText"> ■ 영업기회 > 영업기회관리 </span>
+		</c:if>
+		<c:if test="${cust_opty_no != null}">
+			<span class="titleText"> ■ 고객 > <a style="cursor: pointer;" onclick="ocustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="ocustDetail('${cust_opty_no}');"> 고객 상세정보 </a> > 영업기회이력 </span>
+		</c:if>
+		<c:if test="${ hoppty_status_cd == 001 }">
+			<span class="titleText"> ■ 영업기회 > 진행중 영업기회 </span>
+		</c:if>
+		<c:if test="${ hoppty_status_cd == 002 }">
+			<span class="titleText"> ■ 영업기회 > 보류된 영업기회 </span>
+		</c:if>
+		<c:if test="${ hoppty_status_cd == 003 }">
+			<span class="titleText"> ■ 영업기회 > 성공한 영업기회 </span>
+		</c:if>
+		<c:if test="${ hoppty_status_cd == 004 }">
+			<span class="titleText"> ■ 영업기회 > 실패한 영업기회 </span>
+		</c:if>
 	</div>
 	
 	<div style="height:10px;"></div>
@@ -173,7 +189,7 @@
 		 	 			</tr>
 		 	 		</c:forEach>
 		 	 	</c:if>
-		 	 	<c:if test="${ opptyList == null }">
+		 	 	<c:if test="${ opptyList == ' ' || opptyList == null || opptyList eq null}">
 		 	 		<tr>
 		 		 		<td style="text-align: center;" colspan="13">리스트가 존재하지 않습니다.</td>
 		 	 		</tr>
@@ -184,12 +200,25 @@
    	
 <%--    		<c:if test="${ opptyNoIndex.oppty_no != null }"> --%>
    		<c:if test="${ hoppty_status_cd eq null }">
-			<div class="listFootDiv">
-			 	 <input type="button" class="func_btn" id="oppty_single_add" value="단건등록" onclick="opptySingleAddForm();">
-			 	 <input type="button" class="func_btn" id="oppty_multi_add" value="다건등록" onclick="opptyExcelImportOpen();">
-			 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('opptyListForm', 0);" >	
-			 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀템플릿 출력"  onclick="download_list_Excel('opptyListForm', 1);" >	
-			</div>
+   			<c:if test="${ cust_opty_no == null }">
+				<div class="listFootDiv">
+				 	 <input type="button" class="func_btn" id="oppty_single_add" value="단건등록" onclick="opptySingleAddForm();">
+				 	 <input type="button" class="func_btn" id="oppty_multi_add" value="다건등록" onclick="opptyExcelImportOpen();">
+				 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('opptyListForm', 0);" >	
+				 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀템플릿 출력"  onclick="download_list_Excel('opptyListForm', 1);" >	
+				</div>
+   			</c:if>
+   		
+   			<c:if test="${ cust_opty_no != null }">
+				<div class="listFootDiv">
+<!-- 				 	 <input type="button" class="func_btn" id="oppty_single_add" value="단건등록" onclick="opptySingleAddForm();"> -->
+<!-- 				 	 <input type="button" class="func_btn" id="oppty_multi_add" value="다건등록" onclick="opptyExcelImportOpen();"> -->
+				 	 <input type="button" class="func_btn" id="exportBtn"      value="뒤로"  onclick="ocustDetail('${cust_opty_no}');" >	
+				 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('opptyListForm', 0);" >	
+				 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀템플릿 출력"  onclick="download_list_Excel('opptyListForm', 1);" >	
+				</div>
+   			
+   			</c:if>
    		</c:if>
    		<div class="listFootDiv">
    		</div>

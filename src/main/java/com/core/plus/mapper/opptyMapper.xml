@@ -37,6 +37,9 @@
 		<if test="purchase_type_srch != null and purchase_type_srch != ''">
 			AND (purchase_type like concat('%', #{purchase_type_srch}, '%'))
 		</if>
+		<if test="cust_opty_no != null and cust_opty_no != ''">
+			AND (cust_no like concat('%', #{cust_opty_no}, '%'))
+		</if>
 	</select>
 	
 	<!-- Paging -->
@@ -142,6 +145,9 @@
 			</if>
 			<if test="purchase_type_srch != null and purchase_type_srch != ''">
 				AND (purchase_type like concat('%', #{purchase_type_srch}, '%'))
+			</if>
+			<if test="cust_opty_no != null and cust_opty_no != ''">
+				AND (cust_no like concat('%', #{cust_opty_no}, '%'))
 			</if>
 		ORDER BY update_date DESC
 		) P

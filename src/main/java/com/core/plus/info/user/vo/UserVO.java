@@ -25,7 +25,7 @@ public class UserVO {
 	private String act_yn;
 	private String auth_id;
 	private String auth_nm;
-	private String crt_id;
+//	private String crt_id;
 	private String auth_id_1;
 	private String auth_id_2;
 	private String auth_id_3;
@@ -34,8 +34,8 @@ public class UserVO {
 	private String auth_nm_2;
 	private String auth_nm_3;
 	private String auth_nm_4;
-	private String pwd_err_cnt;
-	
+//	private String pwd_err_cnt;
+
 	public String getUser_id(){
 		return user_id;
 	}
@@ -174,12 +174,12 @@ public class UserVO {
 	public void setAuth_nm(String auth_nm) {
 		this.auth_nm = auth_nm;
 	}
-	public String getCrt_id() {
-		return crt_id;
-	}
-	public void setCrt_id(String crt_id) {
-		this.crt_id = crt_id;
-	}
+//	public String getCrt_id() {
+//		return crt_id;
+//	}
+//	public void setCrt_id(String crt_id) {
+//		this.crt_id = crt_id;
+//	}
 	public String getAuth_id_1() {
 		return auth_id_1;
 	}
@@ -228,12 +228,12 @@ public class UserVO {
 	public void setAuth_nm_4(String auth_nm_4) {
 		this.auth_nm_4 = auth_nm_4;
 	}
-	public String getPwd_err_cnt() {
-		return pwd_err_cnt;
-	}	
-	public void setPwd_err_cnt(String pwd_err_cnt) {
-		this.pwd_err_cnt = pwd_err_cnt;
-	}	
+//	public String getPwd_err_cnt() {
+//		return pwd_err_cnt;
+//	}	
+//	public void setPwd_err_cnt(String pwd_err_cnt) {
+//		this.pwd_err_cnt = pwd_err_cnt;
+//	}	
 	@Override
 	public String toString() {
 		return "UserVO [user_id=" + user_id + ", user_nm=" + user_nm + ", pwd="
@@ -246,13 +246,13 @@ public class UserVO {
 				+ ", com_ph2=" + com_ph2 + ", com_ph3=" + com_ph3
 				+ ", user_auth=" + user_auth + ", user_type_nm=" + user_type_nm
 				+ ", user_type_cd=" + user_type_cd + ", act_yn=" + act_yn
-				+ ", auth_id=" + auth_id + ", auth_nm=" + auth_nm + ", crt_id="
-				+ crt_id + ", auth_id_1=" + auth_id_1 + ", auth_id_2="
+				+ ", auth_id=" + auth_id + ", auth_nm=" + auth_nm /*+ ", crt_id="
+				+ crt_id*/ + ", auth_id_1=" + auth_id_1 + ", auth_id_2="
 				+ auth_id_2 + ", auth_id_3=" + auth_id_3 + ", auth_id_4="
 				+ auth_id_4 + ", auth_nm_1=" + auth_nm_1 + ", auth_nm_2="
 				+ auth_nm_2 + ", auth_nm_3=" + auth_nm_3 + ", auth_nm_4="
-				+ auth_nm_4 + ", pwd_err_cnt="
-						+ pwd_err_cnt + "]";
+				+ auth_nm_4 /*+ ", pwd_err_cnt="
+						+ pwd_err_cnt*/ + "]";
 	}
 	
 	

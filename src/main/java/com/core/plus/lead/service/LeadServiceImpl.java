@@ -58,6 +58,12 @@ public class LeadServiceImpl implements LeadService {
 		return leadDao.lead_detail(lead_no);
 		
 	}
+	
+	@Override
+	public LeadVO lead_detail(String lead_no, String cust_lead_no) {
+		// TODO Auto-generated method stub
+		return leadDao.lead_detail(lead_no, cust_lead_no);
+	}
 
 	@Override
 	public void lead_delete(String lead_no) {
@@ -174,7 +180,7 @@ public class LeadServiceImpl implements LeadService {
 		//페이징
 		@Override
 		public PagerVO getTaskListRow(Map<String, Object> map) {
-			
+			System.out.println("Service map ? " + map.toString());
 			int taskPageNum = (Integer)map.get("taskPageNum");
 			PagerVO page = new PagerVO(taskPageNum, 0, 10, 10);
 			
@@ -199,5 +205,17 @@ public class LeadServiceImpl implements LeadService {
 		@Override
 		public List<TaskVO> taskSchList(Map<String, Object> taskMap) {
 			return leadDao.taskSchList(taskMap);
+		}
+
+		@Override
+		public List<LeadVO> leadStatusCode() {
+			 
+			return leadDao.leadStatusCode();
+		}
+
+		@Override
+		public List<LeadVO> leadOpptyCode() {
+			 
+			return leadDao.leadOpptyCode();
 		}
 }

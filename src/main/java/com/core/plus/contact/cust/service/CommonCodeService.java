@@ -16,4 +16,8 @@ public interface CommonCodeService {
 
 	List<CommonCodeVO> addrTypeCdList();
 
+	List<CommonCodeVO> custTypeCdList();
+
+	List<CommonCodeVO> custRankCdList();
+
 }

@@ -78,7 +78,7 @@
 <!-- 		                      ,  mdfy_id -->
 <!-- 		                      ,  mdfy_dt -->
 		                      ,  seq_no)
-		               values(
+		               values(#{menu_id}
 		                     , #{menu_nm}
 		                     , #{menu_url}
 		                     , #{menu_lev}
@@ -187,7 +187,7 @@
 	         , ma.crt_yn
 	         , ma.mdfy_yn
 	         , ma.del_yn
-	         , ma.rtrv_yn
+	         , ma.retrv_yn
          from  tb_menu_auth ma
 	         , tb_menu m left join tb_menu m1 on m.up_menu_id = m1.menu_id
          where m.menu_id = ma.menu_id

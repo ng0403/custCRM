@@ -26,7 +26,8 @@
 	<div style="height: 10px;"></div>
 	<c:if test="${lead_no != null}"> 
 	<div class="titleDIV">
-			<span class="titleText">■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> > 고객상담 이력 >
+			<span class="titleText">■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> >
+			<a onclick="lead_counsel_read('${cust_no}', '${PageNum}');"> 고객상담 이력 </a> >
 			<span id="task_form_title">고객상담 상세정보 </span>
 			</span>
 		</div> 
@@ -300,9 +301,14 @@
 						<input type="button" class="func_btn" id="task_update" value="편집"
 							onclick="task_modify(${taskDetail.task_no});"> <input
 							type="button" class="func_btn" id="task_delete" value="삭제"
-							onclick="task_remove();"> <input type="button"
-							class="func_btn" id="task_detail_cancel" value="취소"
-							onclick="task_cancel('${taskPageNum}');">
+							onclick="task_remove();"> 
+							
+							<c:if test="${lead_no == null}">
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						
+						    </c:if>
+						    <c:if test="${lead_no != null}">
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}');">						
+						    </c:if>
 					</div>
 				</c:if>
 
@@ -311,9 +317,14 @@
 						<input type="button" class="tr_btn" id="task_single_add"
 							value="저장" onclick="task_add_save();"> <input
 							type="button" class="tr_btn" id="task_single_del" value="초기화"
-							onclick="task_reset();"> <input type="button"
-							class="func_btn" id="task_single_cancel" value="취소"
-							onclick="task_cancel('${taskPageNum}');">
+							onclick="task_reset();">
+							
+							<c:if test="${lead_no == null}">
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						
+						    </c:if>
+						    <c:if test="${lead_no != null}">
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}');">						
+						    </c:if>
 					</div>
 				</c:if>
 				<c:if test="${flg == 2 }">
@@ -321,9 +332,14 @@
 						<input type="button" class="func_btn" id="task_single_modify"
 							value="편집" onclick="task_modify_btn();"> <input
 							type="button" class="tr_btn" id="task_single_del" value="삭제"
-							onclick="task_del_save();"> <input type="button"
-							class="func_btn" id="task_single_cancel" value="취소"
-							onclick="task_cancel('${taskPageNum}');">
+							onclick="task_del_save();">
+							
+							<c:if test="${lead_no == null}">
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						
+						    </c:if>
+						    <c:if test="${lead_no != null}">
+						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="lead_cancel('${taskPageNum}');">						
+						    </c:if>
 					</div>
 				</c:if>
 			</div>

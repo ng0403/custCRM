@@ -20,14 +20,61 @@ public class LeadVO {
 	private String emp_name;
 	
 	private String phone;
-	private String lead_status_cd;
 	
+	private String code_no;
+	private String code;
+	private String code_name;
+	
+	private String possibility_cd;
+	private String possibility_cd_name;
+	private String lead_status_cd; 
+ 	private String lead_status_cd_name;
+ 	
+ 	 
 	public String getLead_status_cd() {
 		return lead_status_cd;
 	}
 	public void setLead_status_cd(String lead_status_cd) {
 		this.lead_status_cd = lead_status_cd;
 	}
+	public String getLead_status_cd_name() {
+		return lead_status_cd_name;
+	}
+	public void setLead_status_cd_name(String lead_status_cd_name) {
+		this.lead_status_cd_name = lead_status_cd_name;
+	}
+	public String getPossibility_cd() {
+		return possibility_cd;
+	}
+	public void setPossibility_cd(String possibility_cd) {
+		this.possibility_cd = possibility_cd;
+	}
+	public String getPossibility_cd_name() {
+		return possibility_cd_name;
+	}
+	public void setPossibility_cd_name(String possibility_cd_name) {
+		this.possibility_cd_name = possibility_cd_name;
+	}
+	 
+	public String getCode_no() {
+		return code_no;
+	}
+	public void setCode_no(String code_no) {
+		this.code_no = code_no;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getCode_name() {
+		return code_name;
+	}
+	public void setCode_name(String code_name) {
+		this.code_name = code_name;
+	}
+	 
 	 
 	public String getPhone() {
 		return phone;
@@ -120,8 +167,10 @@ public class LeadVO {
 		return "LeadVO [lead_no=" + lead_no + ", lead_name=" + lead_name + ", cust_no=" + cust_no + ", emp_no=" + emp_no
 				+ ", contact_day=" + contact_day + ", rank_cd=" + rank_cd + ", reason_cd=" + reason_cd + ", remark_cn="
 				+ remark_cn + ", create_date=" + create_date + ", update_date=" + update_date + ", cust_name="
-				+ cust_name + ", phone_no=" + phone_no + ", emp_name=" + emp_name + ", phone=" + phone
-				+ ", lead_status_cd=" + lead_status_cd + "]";
+				+ cust_name + ", phone_no=" + phone_no + ", emp_name=" + emp_name + ", phone=" + phone + ", code_no="
+				+ code_no + ", code=" + code + ", code_name=" + code_name + ", possibility_cd=" + possibility_cd
+				+ ", possibility_cd_name=" + possibility_cd_name + ", lead_status_cd=" + lead_status_cd
+				+ ", lead_status_cd_name=" + lead_status_cd_name + "]";
 	}
 	
 	

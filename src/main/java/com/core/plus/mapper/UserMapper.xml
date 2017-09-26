@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+	<!-- 전체 행의 개수 -->
+	<select id="selectUserListCount" parameterType="String" resultType="int">
+		SELECT	count(*)
+		from 	tb_user a,	tb_org b,
+			tb_code c	
+		where a.org_id = b.org_id
+		and c.code_no = '1023'
+		and c.code = a.user_type_cd
+		<if test="user_id!=null and user_id!='' ">
+		  	and a.user_id LIKE '%' || #{user_id} || '%'
+		</if>
+		<if test="user_nm!=null and user_nm!='' ">
+		  	and a.user_nm LIKE '%' || #{user_nm} || '%' 
+		</if>	
+		<if test="org_nm!=null and org_nm!='' ">
+		  	and b.org_nm LIKE '%' || #{org_nm} || '%'
+		</if>
+	</select>
+	
+	<!-- 사용자관리 리스트  -->	
+	<select id="userList" parameterType="java.util.Map" resultType="com.core.plus.info.user.vo.UserVO">
+		SELECT 	a.user_id,
+			a.user_nm,
+			b.org_nm,
+			concat(a.email_id,'@',a.email_dm) as email,
+			a.email_id,a.email_dm,
+			concat(a.cell_ph1,'-',a.cell_ph2,'-',a.cell_ph3) as cell_ph,				
+			a.cell_ph1 as cell_ph1,
+			a.cell_ph2 as cell_ph2,
+			a.cell_ph3 as cell_ph3,
+			c.code_no as user_type_cd,
+			c.code_name as user_type_nm,
+			a.act_yn,
+<!-- 			a.pwd_err_cnt, -->
+			a.create_date
+		FROM 	tb_user a,	tb_org b,
+			tb_code c	
+		WHERE a.org_id = b.org_id
+		AND c.code_no = '1023'
+		AND c.code = a.user_type_cd
+		<if test="user_id!=null and user_id!='' ">
+		  	AND a.user_id LIKE '%' || #{user_id} || '%'
+		</if>
+		<if test="user_nm!=null and user_nm!='' ">
+		  	AND a.user_nm LIKE '%' || #{user_nm} || '%' 
+		</if>	
+		<if test="org_nm!=null and org_nm!='' ">
+		  	AND b.org_nm LIKE '%' || #{org_nm} || '%'
+		</if>
+		ORDER BY a.update_date DESC
+		limit #{page.pageSize} OFFSET #{page.endRow}
+	</select>
+	
+	<select id="userDetail" parameterType="String" resultType="com.core.plus.info.user.vo.UserVO">
+		SELECT 
+		a.user_id,
+		a.user_nm,
+		b.name as user_type_cd,
+		b.val as user_type_nm,
+		a.cell_ph1,
+		a.cell_ph2,
+		a.cell_ph3,
+		a.home_ph1,
+		a.home_ph2,
+		a.home_ph3,
+		a.com_ph1,
+		a.com_ph2,
+		a.com_ph3,
+		a.email_id,
+		a.email_dm,
+		a.org_id,
+		c.org_nm,
+		a.act_yn
+		FROM tb_user a,tb_code b
+		,tb_org c
+		WHERE a.user_type_cd = b.code
+		AND a.org_id = c.org_id
+		AND b.code_no = '1023'
+		AND user_id = #{user_id}	
+	</select>
+	<insert id="userInsert" parameterType="com.core.plus.info.user.vo.UserVO">
+		INSERT INTO tb_user(
+		user_id,user_nm,
+		pwd,user_type_cd,
+		cell_ph1,cell_ph2,cell_ph3,
+		home_ph1,home_ph2,home_ph3,
+		com_ph1,com_ph2,com_ph3,
+		email_id,email_dm,
+		org_id
+		)
+		VALUES(#{user_id},#{user_nm},#{pwd},#{user_type_cd},#{cell_ph1},#{cell_ph2},#{cell_ph3}
+		,#{home_ph1},#{home_ph2},#{home_ph3},#{com_ph1},#{com_ph2},#{com_ph3},#{email_id},#{email_dm}
+		,#{org_id})
+	</insert>
+	<update id="userUpdate" parameterType="com.core.plus.info.user.vo.UserVO">
+		UPDATE tb_user 
+		SET
+		user_nm = #{user_nm},
+		<if test="pwd!=null and pwd!=''">
+			pwd = #{pwd},
+		</if>
+		user_type_cd = #{user_type_cd},
+		cell_ph1 = #{cell_ph1},
+		cell_ph2 = #{cell_ph2},
+		cell_ph3 = #{cell_ph3},
+		home_ph1 = #{home_ph1},
+		home_ph2 = #{home_ph2},
+		home_ph3 = #{home_ph3},
+		com_ph1 = #{com_ph1},
+		com_ph2 = #{com_ph2},
+		com_ph3 = #{com_ph3},
+		email_id = #{email_id},
+		email_dm = #{email_dm},
+		org_id = #{org_id},
+<!-- 		mdfy_id = #{crt_id}, -->
+<!-- 		mdfy_dt = to_char(now(),'YYYYMMDDHH24MISS'), -->
+<!-- 		pwd_err_cnt = 0, -->
+		act_yn = #{act_yn}
+		WHERE user_id = #{user_id}
+	</update>
+	<select id="authList" resultType="com.core.plus.info.user.vo.UserVO">
+		select auth_id,
+				auth_nm
+		from tb_auth
+	</select>
+	<select id="userAuthList" parameterType="String" resultType="com.core.plus.info.user.vo.UserVO">
+		select  a.user_id as user_id,
+				a.auth_id as auth_id,
+				b.auth_nm as auth_nm
+		from tb_user_auth a,tb_auth b
+		where a.auth_id = b.auth_id
+		and a.user_id = #{user_id}
+	</select>
+	<insert id="userAuthInsert" parameterType="Map">
+		INSERT INTO tb_user_auth(user_id,auth_id)
+		VALUES(#{user_id},#{auth_id})
+	</insert>
+	<update id="userAuthDelete" parameterType="String">		
+		DELETE
+		FROM tb_user_auth
+		WHERE user_id = #{user_id}
+	</update>
+	
+	
+	<!-- 부서 모달 리스트 -->
+	<select id="userOrgList" parameterType="map" resultType="map">
+		SELECT org_id,org_nm 
+		FROM tb_org
+		WHERE 1=1
+			<if test="org_id!=null and org_id!='' ">
+			  	AND org_id = #{org_id}
+			</if>
+			<if test="org_nm!=null and org_nm!='' ">
+			  	AND org_nm LIKE '%' || #{org_nm} || '%'
+			</if>
+		ORDER BY org_id		
+		limit #{page.pageSize} OFFSET #{page.endRow}
+	</select>
+	
+	<!-- 부서 모달 리스트 카운트 -->
+	<select id="userOrgListCount" parameterType="map" resultType="int">
+		SELECT COUNT(a.*)
+		FROM(
+			SELECT org_id,org_nm 
+			FROM tb_org
+			WHERE 1=1
+				<if test="org_id!=null and org_id!='' ">
+			  	AND org_id = #{org_id}
+				</if>
+				<if test="org_nm!=null and org_nm!='' ">
+				  	AND org_nm LIKE '%' || #{org_nm} || '%'
+				</if>
+			ORDER BY org_id
+		) a		
+	</select>
+	
+	
+	<select id="userType" resultType="com.core.plus.info.user.vo.UserVO">
+	 	SELECT 
+		 	name as user_type_cd,
+		 	val as user_type_nm
+		FROM tb_code
+		WHERE code_no ='1023'
+	</select>	
+	<delete id="userDelete" parameterType="String">
+		DELETE
+		FROM tb_user
+		WHERE user_id = #{user_id}	
+	</delete>	
+	
+	<!-- 사용자리스트 삭제(여러개) -->
+	<delete id="userChkDelete" parameterType="String">
+		delete
+		  from tb_user
+		 where user_id = #{user_id}
+	</delete>
+	<delete id="userChkDelete1" parameterType="String">
+		DELETE
+		FROM tb_user_auth
+		WHERE user_id = #{user_id}
+	</delete>
+</mapper>

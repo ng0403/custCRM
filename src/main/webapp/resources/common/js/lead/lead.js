@@ -14,6 +14,8 @@ $(function(){
 			$("#emp_list_pop").attr("disabled", true);
 			$("#cust_list_pop").attr("disabled", true);
 			$("#contact_day").attr("disabled", true);
+			$("#possibility_cd_sel").attr("disabled", true);
+			$("#lead_status_cd_sel").attr("disabled", true);
 			$("#contact_day").css('background-color', 'white');
 	  }
 	  
@@ -72,10 +74,22 @@ function leadPageNumInputEnter(event) {
  
 // 리드 상세정보
  function leadDetail(a,b) {
-   var no = a; 
+   var no = a;
+   var cust_no = $("#cust_lead_no").val();
  
-   console.log(no);
-   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b; 
+//   console.log(no);
+   console.log(cust_no);
+   
+   if(cust_no == null || cust_no == '')
+   {
+	   console.log("A");
+	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b; 
+   }
+   if(cust_no != null && cust_no != '')
+   {
+	   console.log("B");
+	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b + "&cust_lead_no=" + cust_no; 
+   }
 	 
  }
  
@@ -381,9 +395,13 @@ function lead_modify(){
 	$("#emp_list_pop").attr("disabled", false);
 	$("#cust_list_pop").attr("disabled", false);
 	$("#contact_day").attr("disabled", false);
+	$("#lead_status_cd_sel").attr("disabled", false);
+	$("#possibility_cd_sel").attr("disabled",false);
+	
 	
 	$("#lead_detail_div").css("display", "none");
 	$("#lead_update_div").css("display", "block");
+	
 	
 	
 	$("#lead_detail_title").css("display", "none");
@@ -560,6 +578,8 @@ function searchKeyword(a){
 
 //검색 조건
 function StatusSearchKeyword(lead_status_cd, b){  
+	alert(lead_status_cd);
+	alert(b);
   	var lead_no_srch = $("#lead_no_srch").val();
 	var lead_name_srch = $("#lead_name_srch").val();
 	var cust_name = $("#cust_name").val();
@@ -619,21 +639,21 @@ function StatusSearchKeyword(lead_status_cd, b){
  				 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
- 						+"<a onclick=\"searchKeyword("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+ 						+"<a onclick=\"StatusSearchKeyword( '"+lead_status_cd+"', "+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					} else if(data.PageNum == data.page.endPageNum){
  					 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
  						+"<a> / "+data.page.endPageNum+"</a> ▶";
  					} else {
  	 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+ 						+"<a onclick=\"StatusSearchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
- 						+"<a onclick=\"searchKeyword("+data.page.PageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+data.page.PageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					}
  					$(".pagingDiv").append(pageContent);
  					
@@ -656,19 +676,20 @@ function lead_counsel_read(cust_no, PageNum){
 
 //엑셀 출력 
 function download_list_Excel(formID, flgNum) {
- 
+	var code = $("#flg").val();
+	 
 	var ctx = $("#ctx").val();
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $('<input type="hidden" value="'+flgNum+'" name="flg">');
-	
+	var code_flg = $('<input type="hidden" value="'+code+'" name="code_flg">')
 	if(flgNum == '0'){
 	if(confirm("리스트를 출력하시겠습니까? 대량의 경우 대기시간이 필요합니다.")) 
 	{
 		
 		form.append(excel);
 		form.append(flg);
-	 
+	    form.append(code_flg);
 		
 		form.attr("action", "/toLeadExcel?flg=" + flgNum);
 		form.submit();
@@ -695,7 +716,7 @@ function download_list_Excel(formID, flgNum) {
 		 
 			form.append(excel);
 			form.append(flg);
-		 
+			form.append(code);
 			
 			form.attr("action", "/toLeadExcel?flg=" + flgNum);
 			form.submit();
@@ -845,9 +866,32 @@ function leadCheckFileType(filePath)
 
 }
 
-
 //Popup 닫기
 function popClose()
 {
 	$.unblockUI();
 }
+
+
+// 재욱
+function lcustList(pageNum)
+{
+	var ctx = $("#ctx").val();
+	location.href = ctx + '/cust?custPageNum=' + pageNum;
+}
+
+function lcustDetail(custNo)
+{
+	var ctx = $("#ctx").val();
+	location.href = ctx + '/custForm?cust_no=' + custNo;
+}
+
+function leadCustList(custNo)
+{
+	var ctx = $("#ctx").val();
+	location.href = "/lead?cust_lead_no=" + custNo;
+}
+
+
+
+ 
