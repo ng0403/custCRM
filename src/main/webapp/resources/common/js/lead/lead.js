@@ -14,6 +14,8 @@ $(function(){
 			$("#emp_list_pop").attr("disabled", true);
 			$("#cust_list_pop").attr("disabled", true);
 			$("#contact_day").attr("disabled", true);
+			$("#possibility_cd_sel").attr("disabled", true);
+			$("#lead_status_cd_sel").attr("disabled", true);
 			$("#contact_day").css('background-color', 'white');
 	  }
 	  
@@ -381,9 +383,13 @@ function lead_modify(){
 	$("#emp_list_pop").attr("disabled", false);
 	$("#cust_list_pop").attr("disabled", false);
 	$("#contact_day").attr("disabled", false);
+	$("#lead_status_cd_sel").attr("disabled", false);
+	$("#possibility_cd_sel").attr("disabled",false);
+	
 	
 	$("#lead_detail_div").css("display", "none");
 	$("#lead_update_div").css("display", "block");
+	
 	
 	
 	$("#lead_detail_title").css("display", "none");

@@ -206,8 +206,8 @@ public class TaskController {
 	// 상세보기 및 단건등록화면
 	@RequestMapping(value="task_detail")
 	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-			String task_no, String flg, String lead_no) {
-		System.out.println("lead_no ? "  + lead_no);
+			String task_no, String flg, String lead_no, String cust_no, String PageNum) {
+		System.out.println("PageNum ? "  + PageNum);
 		if(task_no == null || task_no == "")	// 단건등록 시
 		{
 			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
@@ -255,6 +255,8 @@ public class TaskController {
 			 mov.addObject("main_menu_url", "lead");
 			 mov.addObject("sub_menu_url", "lead");
 			 mov.addObject("lead_no", lead_no);
+			 mov.addObject("cust_no", cust_no);
+			 mov.addObject("PageNum", PageNum); 
 			 menuImport(mov, "lead");
 			}
 			

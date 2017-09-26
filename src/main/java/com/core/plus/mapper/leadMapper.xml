@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="lead">
 
+<select id="leadStatusCode" resultType="com.core.plus.lead.vo.LeadVO">
+		SELECT code_name, code FROM tb_code WHERE code_no = '1010'
+ </select>
+ <select id="leadOpptyCode" resultType="com.core.plus.lead.vo.LeadVO">
+ SELECT code_name, code FROM tb_code WHERE code_no = '1009'
+ </select>
+
+
 <!-- Paging -->
    <select id="leadListTotalRow" resultType="int">
      <!--  SELECT count(*)
@@ -287,9 +295,9 @@
      </selectKey> 
       
    insert into tb_lead
-   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn)
+   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn, possibility_cd, lead_status_cd)
    values
-   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn})
+   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn}, #{possibility_cd}, #{lead_status_cd})
    
    </insert>
    
@@ -299,7 +307,7 @@
    update tb_lead
    set lead_name=#{lead_name}, cust_no =#{cust_no}, emp_no =#{emp_no},
    contact_day= date_format(#{contact_day}, '%Y%m%d'), rank_cd = #{rank_cd}, reason_cd = #{reason_cd},
-   remark_cn = #{remark_cn}, update_date = now()
+   remark_cn = #{remark_cn}, update_date = now(), possibility_cd = #{possibility_cd}, lead_status_cd = #{lead_status_cd}
    where lead_no = #{lead_no}   
    
    </update>
@@ -326,7 +334,9 @@
     l.contact_day, 
     l.rank_cd, 
     l.reason_cd, 
-    l.remark_cn
+    l.remark_cn,
+    l.possibility_cd,
+    l.lead_status_cd
    from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_emp e on l.emp_no = e.emp_no
    where lead_no= #{lead_no}
    </select>
@@ -457,9 +467,9 @@
      </selectKey> 
 		
      insert into tb_lead
-   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn)
+   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn, possibility_cd, lead_status_cd )
    values
-   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn})
+   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn}, #{possibility_cd}, #{lead_status_cd})
 	
 	
 	</insert>

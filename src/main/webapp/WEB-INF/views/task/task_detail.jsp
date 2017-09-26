@@ -26,7 +26,8 @@
 	<div style="height: 10px;"></div>
 	<c:if test="${lead_no != null}"> 
 	<div class="titleDIV">
-			<span class="titleText">■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> > 고객상담 이력 >
+			<span class="titleText">■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> >
+			<a onclick="lead_counsel_read('${cust_no}', '${PageNum}');"> 고객상담 이력 </a> >
 			<span id="task_form_title">고객상담 상세정보 </span>
 			</span>
 		</div> 

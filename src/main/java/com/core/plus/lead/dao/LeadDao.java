@@ -24,6 +24,9 @@ public interface LeadDao {
 	public List<LeadVO> leadSearch(Map<String, Object> leadMap); // 가망 고객 조건 검색
 	public List<LeadVO> leadStatusSearch(Map<String, Object> leadMap); // 가망 고객 조건 검색
 	
+	//코드 관련
+	List<LeadVO> leadStatusCode(); 
+	List<LeadVO> leadOpptyCode();
 	
 	//상담이력
 	List<TaskVO> taskList();											// List

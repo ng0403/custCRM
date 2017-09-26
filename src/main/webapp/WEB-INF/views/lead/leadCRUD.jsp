@@ -88,15 +88,43 @@ $(document).ready(function(){
 				<input name="contact_day" id="contact_day" type="text" value="${detail.contact_day}" class="expt_fin_d" 
 							 readonly="readonly" placeholder ="접촉일자" style="text-align: center; cursor: pointer;">
 			</td>
-			<th style="text-align:right;">순위</th>
-			<td>
-		  <input type="text" id="rank_cd" name="rank_cd" value="${detail.rank_cd}">
+			<th style="text-align:right;">상태</th>
+			<td> 
+				   <select id="lead_status_cd_sel" name="lead_status_cd" 
+									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+								<option value="">선택해 주십시오</option>
+									<c:forEach var="status" items="${ leadstatuscode }">
+										<c:if test="${ detail.lead_status_cd == status.code }">
+											<option selected="selected" value="${ status.code }">${ status.code_name }</option>
+										</c:if>
+										<c:if test="${ detail.lead_status_cd != status.code }">
+											<option value="${ status.code }">${ status.code_name }</option>
+										</c:if>
+									</c:forEach>
+				 </select>
+				   
  			</td>
 		</tr>
 		<tr>
 			<th style="text-align:right;">포기사유</th>
-			<td colspan="3">	
+			<td>	
 			<input type="text" id="reason_cd" name="reason_cd" value="${detail.reason_cd}">
+ 			</td>
+ 			<th>가능성</th>
+ 			<td>
+ 			     <select id="possibility_cd_sel" name="possibility_cd" 
+									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+								<option value="">선택해 주십시오</option>
+									<c:forEach var="status" items="${ opptycd }">
+										<c:if test="${ detail.possibility_cd == status.code }">
+											<option selected="selected" value="${ status.code }">${ status.code_name }</option>
+										</c:if>
+										<c:if test="${ detail.possibility_cd != status.code }">
+											<option value="${ status.code }">${ status.code_name }</option>
+										</c:if>
+									</c:forEach>
+				 </select>
+ 			
  			</td>
  		</tr>
 		<tr>

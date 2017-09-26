@@ -418,4 +418,17 @@ public class LeadDaoImpl implements LeadDao {
 			List<TaskVO> vo = sqlSession.selectList("lead.taskList", taskMap);
 			return vo;
 		}
+		
+		//리드 상태코드
+		@Override
+		public List<LeadVO> leadStatusCode() {
+			
+			return sqlSession.selectList("lead.leadStatusCode");
+		}
+
+		@Override
+		public List<LeadVO> leadOpptyCode() {
+			
+			return sqlSession.selectList("lead.leadOpptyCode");
+		}
 }

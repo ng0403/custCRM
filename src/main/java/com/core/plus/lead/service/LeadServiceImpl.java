@@ -200,4 +200,16 @@ public class LeadServiceImpl implements LeadService {
 		public List<TaskVO> taskSchList(Map<String, Object> taskMap) {
 			return leadDao.taskSchList(taskMap);
 		}
+
+		@Override
+		public List<LeadVO> leadStatusCode() {
+			 
+			return leadDao.leadStatusCode();
+		}
+
+		@Override
+		public List<LeadVO> leadOpptyCode() {
+			 
+			return leadDao.leadOpptyCode();
+		}
 }

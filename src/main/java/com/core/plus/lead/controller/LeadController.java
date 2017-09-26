@@ -188,9 +188,13 @@ public class LeadController {
 	@RequestMapping(value="lead_detail", method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView lead_detail(@RequestParam("lead_no") String lead_no, @RequestParam("pageNum") String PageNum){ 
 	 
-		System.out.println("lead_no : " + lead_no);
-		List<InterestItemVO> itemList 	= leadService.leadItemList(lead_no);	// 관심상품 리스트 조회
-		System.out.println("itemList ? " + itemList.toString());
+		// 관심상품 리스트 조회
+ 		List<InterestItemVO> itemList 	= leadService.leadItemList(lead_no);	
+ 		
+ 		//코드 load
+		List<LeadVO> status = leadService.leadStatusCode();
+ 		List<LeadVO> opptycd = leadService.leadOpptyCode();
+		System.out.println("opptycd ? " + opptycd.toString());
 		
 		ModelAndView mov = new ModelAndView("leadCRUD");
 		mov.addObject("detail", leadService.lead_detail(lead_no));
@@ -200,6 +204,8 @@ public class LeadController {
 		mov.addObject("main_menu_url", "lead");
 		mov.addObject("itemList", itemList);
 		mov.addObject("sub_menu_url", "lead");
+		mov.addObject("leadstatuscode", status);
+		mov.addObject("opptycd", opptycd);
 		System.out.println(mov.toString());
 		
 		menuImport(mov, "lead");
@@ -210,6 +216,11 @@ public class LeadController {
 	@RequestMapping(value="lead_single_add" , method=RequestMethod.GET)
 	public ModelAndView lead_single_add_get(LeadVO vo) {
 		System.out.println("single enter");
+				//코드 load
+		 List<LeadVO> status = leadService.leadStatusCode();
+		 List<LeadVO> opptycd = leadService.leadOpptyCode();
+		
+		
 		
 		LeadVO leadNoIndex	 = leadService.leadNoIndex();
  		ModelAndView mov = new ModelAndView("leadCRUD");
@@ -217,6 +228,8 @@ public class LeadController {
 		mov.addObject("PageNum", "1");
 		mov.addObject("leadNoIndex", leadNoIndex);
 		mov.addObject("main_menu_url", "lead");
+		mov.addObject("leadstatuscode", status);
+		mov.addObject("opptycd",opptycd );
 		menuImport(mov, "lead");
 		
 		return mov;

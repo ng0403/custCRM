@@ -157,9 +157,15 @@ function task_add(){
 }
 
 //상담 상세정보
-function taskDetail(a, taskPageNum, lead_no) {
+function taskDetail(a, PageNum, lead_no, cust_no) {
   var no = a; 
-  location.href="/task_detail?task_no=" + no +"&taskPageNum=" + taskPageNum + "&lead_no=" + lead_no; 
+  location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no; 
+}
+
+//고객 상담 이력 돌아가기.
+function lead_counsel_read(cust_no, PageNum){
+    var lead_no = $("#lead_no").val();
+	location.href="/cust_task?cust_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum;
 }
 
 //엔터키 기능
