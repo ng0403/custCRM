@@ -18,14 +18,22 @@
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
+<input type="hidden" id="cust_task_no" value="${cust_task_no}">
   
 <!-- task : task조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
 	<div class="titleDIV">
-		<span class="titleText">
-			 ■ 상담 > 상담 관리 
-		</span>
+		<c:if test="${ cust_task_no == null }">
+			<span class="titleText">
+				 ■ 상담 > 상담 관리 
+			</span>
+		</c:if>
+		<c:if test="${ cust_task_no != null }">
+			<span class="titleText">
+				 ■ 고객 > <a style="cursor: pointer;" onclick="tcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="tcustDetail('${cust_opty_no}');"> 고객 상세정보 </a> > 상담이력관리 
+			</span>
+		</c:if>
 	</div>
 	<div style="height:10px;"></div>
 	<div class="commonList">
@@ -124,10 +132,16 @@
 		 	 </table>
    		</form>	
 		<div class="listFootDiv">
- 		 	 <input type="button" class="func_btn" id="task_add"       value="단건등록" onclick="task_add();">
-		 	 <input type="button" class="func_btn" id="task_add_multi" value="다건등록" onclick="taskExcelImportOpen();">
-		 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('taskListForm','0');" >
-		 	 <input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿 출력"  onclick="download_list_Excel('taskListForm','1');" >	
+			<c:if test="${ cust_task_no == null }">
+	 		 	<input type="button" class="func_btn" id="task_add"       value="단건등록" onclick="task_add();">
+			 	<input type="button" class="func_btn" id="task_add_multi" value="다건등록" onclick="taskExcelImportOpen();">
+			 	<input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('taskListForm','0');" >
+			 	<input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿 출력"  onclick="download_list_Excel('taskListForm','1');" >	
+			</c:if>
+			<c:if test="${ cust_task_no != null }">
+			 	<input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('taskListForm','0');" >
+			 	<input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿 출력"  onclick="download_list_Excel('taskListForm','1');" >	
+			</c:if>
 <!-- 		 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="exportToExcel();" >	 -->
 		</div>
 		

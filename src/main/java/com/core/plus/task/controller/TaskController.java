@@ -62,10 +62,11 @@ public class TaskController {
 	@RequestMapping(value="/task")
 	public ModelAndView TaskList(HttpSession session,
 									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-									String excel ) {
+									String excel, String cust_task_no) {
 		
 		Map<String, Object> taskMap = new HashMap<String, Object>();
 		taskMap.put("taskPageNum", taskPageNum);
+		taskMap.put("cust_no", cust_task_no);
 		
 		// paging
 		PagerVO page = taskService.getTaskListRow(taskMap);
@@ -77,6 +78,9 @@ public class TaskController {
 		List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
 		List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
 		
+		System.out.println("cust_task_no : " + cust_task_no);
+		System.out.println("taskList : " + taskList);
+		
 		ModelAndView mov = new ModelAndView("task_list");
 		
 		mov.addObject("page", page);
@@ -86,9 +90,35 @@ public class TaskController {
 		mov.addObject("scoreCd", scoreCd);
 		mov.addObject("ttypeCd", ttypeCd);
 		mov.addObject("divisCd", divisCd);
-		mov.addObject("main_menu_url", "task");
-		mov.addObject("sub_menu_url", "task");
-		menuImport(mov, "task");
+		mov.addObject("cust_task_no", cust_task_no);
+		
+		if(cust_task_no == null)
+		{
+			mov.addObject("main_menu_url", "task");
+			mov.addObject("sub_menu_url", "task");
+			menuImport(mov, "task");
+		}
+		if(cust_task_no != null)
+		{
+			if(cust_task_no.equals("undefined") || cust_task_no.equals(" "))
+			{
+				mov.addObject("main_menu_url", "task");
+				mov.addObject("sub_menu_url", "task");
+				menuImport(mov, "task");
+			}
+			else if(cust_task_no.equals(null))
+			{
+				mov.addObject("main_menu_url", "task");
+				mov.addObject("sub_menu_url", "task");
+				menuImport(mov, "task");
+			}
+			else
+			{
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				menuImport(mov, "cust");
+			}
+		}
 		
 		return mov;
 	}
@@ -244,20 +274,22 @@ public class TaskController {
 			ModelAndView mov = new ModelAndView("task_detail");
 			
 			//
-			 if(lead_no.equals("undefined")){
-			 System.out.println("null");
-			 mov.addObject("main_menu_url", "task"); 
-			 mov.addObject("sub_menu_url", "task");
-			 menuImport(mov, "task");
-			}else 
+			if(lead_no.equals("undefined"))
 			{
-			 System.out.println("not null");
-			 mov.addObject("main_menu_url", "lead");
-			 mov.addObject("sub_menu_url", "lead");
-			 mov.addObject("lead_no", lead_no);
-			 mov.addObject("cust_no", cust_no);
-			 mov.addObject("PageNum", PageNum); 
-			 menuImport(mov, "lead");
+				System.out.println("null");
+				mov.addObject("main_menu_url", "task"); 
+				mov.addObject("sub_menu_url", "task");
+				menuImport(mov, "task");
+			}
+			else 
+			{
+				System.out.println("not null");
+				mov.addObject("main_menu_url", "lead");
+				mov.addObject("sub_menu_url", "lead");
+				mov.addObject("lead_no", lead_no);
+				mov.addObject("cust_no", cust_no);
+				mov.addObject("PageNum", PageNum); 
+				menuImport(mov, "lead");
 			}
 			
 			mov.addObject("taskDetail",  taskService.taskDetail(task_no));

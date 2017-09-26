@@ -988,7 +988,12 @@ function cust_lead_btn(cust_no)
 	location.href = "/lead?cust_lead_no=" + cust_no;
 }
 
-
+function cust_task_btn(cust_no)
+{
+	console.log(cust_no);
+	
+	location.href = "/task?cust_task_no=" + cust_no;
+}
 
 
 
