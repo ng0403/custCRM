@@ -44,34 +44,34 @@ $(document).ready(function() {
 		$("#act_y").prop("checked", false);
 	}
 	
-	if('${menuVo.rtrv_yn}' == 'Y'){  //조회권한여부
+	if('${menuVo.retrv_auth_yn}' == 'Y'){  //조회권한여부
 		$("#rtrv_y").prop("checked", true);
 		$("#rtrv_n").prop("checked", false);
-	} else if('${menuVo.rtrv_yn}' == 'N'){
+	} else if('${menuVo.retrv_auth_yn}' == 'N'){
 		$("#rtrv_n").prop("checked", true);
 		$("#rtrv_y").prop("checked", false);
 	}
 	
-	if('${menuVo.crt_yn}' == 'Y'){  //생성권한여부
+	if('${menuVo.create_auth_yn}' == 'Y'){  //생성권한여부
 		$("#crt_y").prop("checked", true);
 		$("#crt_n").prop("checked", false);
-	} else if('${menuVo.crt_yn}' == 'N'){
+	} else if('${menuVo.create_auth_yn}' == 'N'){
 		$("#crt_n").prop("checked", true);
 		$("#crt_y").prop("checked", false);
 	}
 	
-	if('${menuVo.mdfy_yn}' == 'Y'){  //수정권한여부
+	if('${menuVo.mdfy_auth_yn}' == 'Y'){  //수정권한여부
 		$("#mdfy_y").prop("checked", true);
 		$("#mdfy_n").prop("checked", false);
-	} else if('${menuVo.mdfy_yn}' == 'N'){
+	} else if('${menuVo.mdfy_auth_yn}' == 'N'){
 		$("#mdfy_n").prop("checked", true);
 		$("#mdfy_y").prop("checked", false);
 	}
 	
-	if('${menuVo.del_yn}' == 'Y'){  //삭제권한여부
+	if('${menuVo.del_auth_yn}' == 'Y'){  //삭제권한여부
 		$("#del_y").prop("checked", true);
 		$("#del_n").prop("checked", false);
-	} else if('${menuVo.del_yn}' == 'N'){
+	} else if('${menuVo.del_auth_yn}' == 'N'){
 		$("#del_n").prop("checked", true);
 		$("#del_y").prop("checked", false);
 	}

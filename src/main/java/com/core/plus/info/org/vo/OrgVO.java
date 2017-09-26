@@ -15,7 +15,7 @@ public class OrgVO {
 	private String fax_no3;
 	private String act_yn;
 	private String org_type;
-	private String crt_id;
+//	private String crt_id;
 	private String user_id;
 	private String user_nm;
 	private String user_type_nm;
@@ -104,12 +104,12 @@ public class OrgVO {
 	public void setOrg_type(String org_type) {
 		this.org_type = org_type;
 	}
-	public String getCrt_id() {
-		return crt_id;
-	}
-	public void setCrt_id(String crt_id) {
-		this.crt_id = crt_id;
-	}
+//	public String getCrt_id() {
+//		return crt_id;
+//	}
+//	public void setCrt_id(String crt_id) {
+//		this.crt_id = crt_id;
+//	}
 	public String getUser_id() {
 		return user_id;
 	}
@@ -136,7 +136,7 @@ public class OrgVO {
 				+ ", rep_emp_id=" + rep_emp_id + ", fax_no=" + fax_no
 				+ ", fax_no1=" + fax_no1 + ", fax_no2=" + fax_no2
 				+ ", fax_no3=" + fax_no3 + ", act_yn=" + act_yn + ", org_type="
-				+ org_type + ", crt_id=" + crt_id + ", user_id=" + user_id
+				+ org_type + ", user_id=" + user_id
 				+ ", user_nm=" + user_nm + ", user_type_nm=" + user_type_nm
 				+ "]";
 	}

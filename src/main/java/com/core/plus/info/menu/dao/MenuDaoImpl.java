@@ -158,10 +158,10 @@ public class MenuDaoImpl implements MenuDao {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("menu_id", menu_id);
 		map.put("auth_id", auth_id);
-		map.put("rtrv_yn", rtrv_yn);
-		map.put("crt_yn", crt_yn);
-		map.put("mdfy_yn", mdfy_yn);
-		map.put("del_yn", del_yn);
+		map.put("retrv_auth_yn", rtrv_yn);
+		map.put("create_auth_yn", crt_yn);
+		map.put("mdfy_auth_yn", mdfy_yn);
+		map.put("del_auth_yn", del_yn);
 		map.put("fin_mdfy_id", menuVo.getFin_mdfy_id());
 //		map.put("crt_dt", menuVo.getCrt_dt());
 //		map.put("mdfy_id", menuVo.getMdfy_id());
