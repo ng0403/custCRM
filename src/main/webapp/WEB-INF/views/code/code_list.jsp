@@ -133,13 +133,13 @@
 				<tr>
 					<th style="text-align: right; readonly: true">코드번호</th>
 					<td>
-						<input type="text" id="code_no" name="code_no" value="" style="width: 60%;" readonly="readonly">
+						<input type="number" id="code_no" name="code_no" value="" style="width: 60%;" min="4" max="5" readonly="readonly">
 					</td>
 				</tr>
 				<tr>	
 					<th  style="text-align: right;">코드</th>
 					<td>
-						<input type="text" id="code" name="code" value="" readonly="readonly">
+						<input type="number" id="code" name="code" value="" style="width: 60%;" min="3" max="5"  readonly="readonly">
 					</td>
 				</tr>
 
