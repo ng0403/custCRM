@@ -578,6 +578,8 @@ function searchKeyword(a){
 
 //검색 조건
 function StatusSearchKeyword(lead_status_cd, b){  
+	alert(lead_status_cd);
+	alert(b);
   	var lead_no_srch = $("#lead_no_srch").val();
 	var lead_name_srch = $("#lead_name_srch").val();
 	var cust_name = $("#cust_name").val();
@@ -637,21 +639,21 @@ function StatusSearchKeyword(lead_status_cd, b){
  				 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
- 						+"<a onclick=\"searchKeyword("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+ 						+"<a onclick=\"StatusSearchKeyword( '"+lead_status_cd+"', "+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					} else if(data.PageNum == data.page.endPageNum){
  					 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
  						+"<a> / "+data.page.endPageNum+"</a> ▶";
  					} else {
  	 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+ 						+"<a onclick=\"StatusSearchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
- 						+"<a onclick=\"searchKeyword("+data.page.PageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+data.page.PageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					}
  					$(".pagingDiv").append(pageContent);
  					
