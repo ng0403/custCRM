@@ -143,6 +143,16 @@ html { font-size: 50%; }
 /* 	border-bottom: 2px solid #a0a0a0; */
 }
 
+.twoCommonList{/* 공통 리스트 DIV twoBody*/
+	width: 50%;
+	margin-bottom: 1%;
+	padding-bottom: 0.5%;
+	float: left;
+/* 	border-bottom: 2px solid #a0a0a0; */
+}
+
+
+
 /* 공통 리스트 테이블 */
 .commonTable{
 	border-collapse: collapse;
@@ -170,10 +180,20 @@ html { font-size: 50%; }
 	cursor: pointer;
 }
 
-.commonDetail {/* 공통 상세 DIV */
+.commonDetail {/* 공통 상세 DIV  */
 	width: 98%;
 	margin-bottom: 1%;
 	padding-bottom: 1%;
+/* 	border-bottom: 2px solid #a0a0a0; */
+}
+
+.twoCommonDetail {/* 공통 상세 DIV twoBody */
+	width: 48%;
+	margin-bottom: 1%;
+	padding-bottom: 1%;
+	float: left;
+	margin-top: 59px;
+	
 /* 	border-bottom: 2px solid #a0a0a0; */
 }
 

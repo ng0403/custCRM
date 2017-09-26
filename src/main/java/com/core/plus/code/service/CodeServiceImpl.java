@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.core.plus.code.dao.CodeDAO;
 import com.core.plus.code.vo.CodeVO;
 import com.core.plus.common.PagerVO;
+import com.core.plus.task.vo.TaskVO;
 
 @Service
 public class CodeServiceImpl implements CodeService {
@@ -21,17 +22,59 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public PagerVO getCodeListRow(Map<String, Object> map) {
 		int codePageNum = (Integer)map.get("codePageNum");
-		PagerVO page = new PagerVO(codePageNum, 0, 10, 10);
+		PagerVO page = new PagerVO(codePageNum, 0, 15, 100);
 		
 		int totalRowCount = codeDao.getCodeListRow(map);
-		page = new PagerVO(codePageNum, totalRowCount, 10, 10);
+		page = new PagerVO(codePageNum, totalRowCount, 15, 100);
 		
 		return page;
 	}
 	
+	//전체 리스트
 	@Override
 	public List<CodeVO> codeList(Map<String, Object> codeMap) {
-		return codeDao.codeList();
+		return codeDao.codeList(codeMap);
+	}
+
+	//조회
+	@Override
+	public List<CodeVO> codeSchList(Map<String, Object> codeMap) {
+		return codeDao.codeSchList(codeMap);
+	}
+
+	//상세보기
+	@Override
+	public List<CodeVO> codeDetail(Map<String, Object> codeMap) {
+		return codeDao.recodeDetail(codeMap);
+	}
+
+	//코드 추가
+//	@Override
+//	public int getCodeInsert(CodeVO codeVO) {
+//		int result = codeDao.getCodeInsert(codeVO);
+//		return result;
+//	}
+
+	//코드 수정
+//	@Override
+//	public int codeUpdateSave(Map<String, Object> map) {
+//		int codeUpdateSave = codeDao.codeUpdateSave(map);
+//		return codeUpdateSave;
+//	}
+
+	@Override
+	public int codeInsert(CodeVO codeVO) {
+		return codeDao.codeInsert(codeVO);
+	}
+
+	@Override
+	public int codeEdit(CodeVO codeVO) {
+		return codeDao.codeEdit(codeVO);
+	}
+
+	@Override
+	public int codeDelete(CodeVO codeVO) {
+		return codeDao.codeDelete(codeVO);
 	}
 	
 	

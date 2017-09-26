@@ -5,18 +5,25 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import com.core.plus.code.service.CodeService;
 import com.core.plus.code.vo.CodeVO;
 import com.core.plus.common.PagerVO;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
+import com.core.plus.task.vo.TaskVO;
+
+import net.sf.json.JSONArray;
 
 @Controller
 public class CodeController {
@@ -71,6 +78,98 @@ public class CodeController {
 		return mov;
 	}
 	
+	// 조회
+	@RequestMapping(value="/code_sch", method=RequestMethod.POST)
+	@ResponseBody
+	public  ModelAndView codeSchList(HttpSession session,
+										  @RequestParam(value = "codePageNum", defaultValue = "1") int codePageNum,
+										  String code_no_srch, String code_srch, String code_name_srch, 
+										  String excel) {
+		
+		ModelAndView mov = new ModelAndView(new MappingJacksonJsonView());
+		JSONArray json = new JSONArray();
+		
+		Map<String, Object> codeMap = new HashMap<String, Object>();
+		
+		codeMap.put("codePageNum", codePageNum);
+		codeMap.put("code_no_srch", code_no_srch);
+		codeMap.put("code_srch", code_srch);
+		codeMap.put("code_name_srch", code_name_srch);
+		
+		// paging
+		PagerVO page = codeService.getCodeListRow(codeMap);
+		codeMap.put("page", page);
+		
+		List<CodeVO> srcList = codeService.codeSchList(codeMap);
+		codeMap.put("srcList", srcList);
+				
+		mov.addObject("page", page);
+		mov.addObject("codePageNum", codePageNum);
+		mov.addObject("srcList", srcList);
+		
+		return mov;
+	}
 	
+	//코드명 눌렀을 때 상세정보
+	@RequestMapping(value="/codeDetailAjax" , method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> codeDetail(  @RequestParam(value = "codePageNum", defaultValue = "1") int codePageNum,
+										String code_no, String code) {
+		
+		Map<String, Object> codeMap = new HashMap<String, Object>();
+		codeMap.put("codePageNum", codePageNum);
+		codeMap.put("code_no", code_no);
+		codeMap.put("code", code);
+		
+		// paging
+		PagerVO page = codeService.getCodeListRow(codeMap);
+		codeMap.put("page", page);
+		
+		List<CodeVO> codeDetail = codeService.codeDetail(codeMap);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("codeDetail", codeDetail);
+		
+		System.out.println("codeDetail : " + codeDetail);
+		
+		return map;
+	}
+	
+	
+	// 추가
+	@RequestMapping(value="code_add", method=RequestMethod.POST)
+	public @ResponseBody int codeInsert(CodeVO codeVO, HttpSession session, HttpServletRequest request,
+												@RequestParam(value = "codePageNum", defaultValue = "1") int codePageNum) {
+		int flg=1;
+		int result = 0;
+		result = codeService.codeInsert(codeVO);
+		
+		return 0;
+	}
+	
+	// 수정
+	@RequestMapping(value="code_edit", method=RequestMethod.POST)
+	public @ResponseBody int codeEdit(CodeVO codeVO, HttpSession session,
+										@RequestParam(value = "codePageNum", defaultValue = "1") int codePageNum) {
+		
+		int result = 0;
+		int flg=2;
+		
+		result = codeService.codeEdit(codeVO);
+
+		return result;
+	}
+	
+	// 삭제
+	@RequestMapping(value="code_delete", method=RequestMethod.POST)
+	public @ResponseBody int codeDelete(CodeVO codeVO, HttpSession session,
+											@RequestParam(value = "codePageNum", defaultValue = "1") int codePageNum) {
+		
+		int result = 0;
+		
+		result = codeService.codeDelete(codeVO);
+		
+		return result;
+	}
 	
 }

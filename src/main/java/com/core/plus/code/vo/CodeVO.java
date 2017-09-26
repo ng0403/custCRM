@@ -5,9 +5,10 @@ public class CodeVO {
 	private String code_no;
 	private String code;
 	private String code_name;
+	private String display_yn;
+	private String par_code_no;
 	private String create_date;
 	private String update_date;
-	private String display_yn;
 	
 	public String getCode_no() {
 		return code_no;
@@ -45,12 +46,17 @@ public class CodeVO {
 	public void setDisplay_yn(String display_yn) {
 		this.display_yn = display_yn;
 	}
-	
+	public String getPar_code_no() {
+		return par_code_no;
+	}
+	public void setPar_code_no(String par_code_no) {
+		this.par_code_no = par_code_no;
+	}
 	@Override
 	public String toString() {
-		return "CodeVO [code_no=" + code_no + ", code=" + code + ", code_name=" + code_name + ", create_date="
-				+ create_date + ", update_date=" + update_date + ", display_yn=" + display_yn + "]";
+		return "CodeVO [code_no=" + code_no + ", code=" + code + ", code_name=" + code_name + ", display_yn="
+				+ display_yn + ", par_code_no=" + par_code_no + ", create_date=" + create_date + ", update_date="
+				+ update_date + "]";
 	}
-	
 	
 }

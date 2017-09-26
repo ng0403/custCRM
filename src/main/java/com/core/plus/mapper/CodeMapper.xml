@@ -4,20 +4,20 @@
 
 	<!-- Paging -->
 	<select id="codeListTotalRow" resultType="int">
-      SELECT 
-      		count(*)
-      FROM tb_code
-      WHERE 1=1
-      	and display_yn = 'Y'
-      	<if test="code_no_srch != null and code_no_srch != ''">
-            AND (code_no like concat('%', #{code_no_srch}, '%'))
-         </if>
-         <if test="code_srch != null and code_srch != ''">
-            AND (code like concat('%', #{code_srch}, '%'))
-         </if>
-         <if test="code_name_srch != null and code_name_srch != ''">
-            AND (code_name in ( code_name like concat('%', #{code_name_srch}, '%')))
-         </if>
+		SELECT 
+			count(*)
+		FROM tb_code
+		WHERE 1=1
+			and display_yn = 'Y'
+	      	<if test="code_no_srch != null and code_no_srch != ''">
+	            AND (code_no like concat('%', #{code_no_srch}, '%'))
+	         </if>
+	         <if test="code_srch != null and code_srch != ''">
+	            AND (code like concat('%', #{code_srch}, '%'))
+	         </if>
+	         <if test="code_name_srch != null and code_name_srch != ''">
+	            AND (code_name like concat('%', #{code_name_srch}, '%'))
+	         </if>
 	</select>
 
 	<!-- List -->
@@ -39,12 +39,60 @@
 			            AND (code like concat('%', #{code_srch}, '%'))
 			         </if>
 			         <if test="code_name_srch != null and code_name_srch != ''">
-			            AND (code_name in ( code_name like concat('%', #{code_name_srch}, '%')))
+			            AND (code_name like concat('%', #{code_name_srch}, '%'))
 			         </if>
 				order by update_date desc	
 			  )p
-		<!-- LIMIT #{page.limitStartNum}, #{page.pageSize} -->
+		LIMIT #{page.limitStartNum}, #{page.pageSize}
 	</select>
    
+	<!-- 상세보기 -->
+	<select id="codeDetail" parameterType="java.util.Map" resultType="com.core.plus.code.vo.CodeVO">
+		select 
+			code_no ,
+			code ,
+			code_name ,
+			display_yn ,
+			par_code_no 
+		from tb_code
+		where 1=1 
+			and code_no = #{code_no}
+			and code = #{code}
+	</select>
+	
+	<insert id="codeInsert"  parameterType="com.core.plus.code.vo.CodeVO">
+		insert into tb_code
+		(
+			code_no ,
+			code ,
+			code_name ,
+			display_yn
+			
+		)	
+		values
+		(
+			#{code_no} ,
+			#{code} ,
+			#{code_name} ,
+			#{display_yn} 
+		)
+	</insert>
+	
+	<update id="codeEdit"  parameterType="com.core.plus.code.vo.CodeVO">
+		update tb_code
+		set code_name  = #{code_name},
+			display_yn = #{display_yn}
+		where 1=1
+			and code_no = #{code_no} 
+			and code 	= #{code}
+	</update>
+	
+	<delete id="codeDelete"  parameterType="com.core.plus.code.vo.CodeVO">
+		update tb_code
+      set display_yn = 'N'
+      where 1=1
+      		and code_no = #{code_no} 
+			and code 	= #{code}
+	</delete>
 
 </mapper>
