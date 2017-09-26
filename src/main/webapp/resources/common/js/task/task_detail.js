@@ -287,10 +287,11 @@ function task_cancel(taskPageNum) {
 
 //가망 고객 취소 페이지 이동
 function lead_cancel(a){
-
-	 if(confirm("리스트 페이지로 이동하시겠습니까?")){
+var cust_no = $("#cust_no").val();
+ 
+if(confirm("리스트 페이지로 이동하시겠습니까?")){
 		 alert("가망고객 리스트로 이동합니다.");
-		 location.href="/lead?pageNum=" + a;
+		 location.href="/cust_task?pageNum=" + a + "&cust_no=" + cust_no;
 	 }
 	 else{
 		 return false;
