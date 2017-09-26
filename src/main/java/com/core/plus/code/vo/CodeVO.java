@@ -11,7 +11,7 @@ public class CodeVO {
 	private String update_date;
 	
 	public String getCode_no() {
-		return code_no;
+		return code_no; 
 	}
 	public void setCode_no(String code_no) {
 		this.code_no = code_no;

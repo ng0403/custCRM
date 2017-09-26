@@ -76,7 +76,7 @@
 			#{code_name} ,
 			#{display_yn} 
 		)
-	</insert>
+	</insert>  
 	
 	<update id="codeEdit"  parameterType="com.core.plus.code.vo.CodeVO">
 		update tb_code

@@ -48,30 +48,19 @@ public class CodeServiceImpl implements CodeService {
 		return codeDao.recodeDetail(codeMap);
 	}
 
-	//코드 추가
-//	@Override
-//	public int getCodeInsert(CodeVO codeVO) {
-//		int result = codeDao.getCodeInsert(codeVO);
-//		return result;
-//	}
-
-	//코드 수정
-//	@Override
-//	public int codeUpdateSave(Map<String, Object> map) {
-//		int codeUpdateSave = codeDao.codeUpdateSave(map);
-//		return codeUpdateSave;
-//	}
-
+	//추가
 	@Override
 	public int codeInsert(CodeVO codeVO) {
 		return codeDao.codeInsert(codeVO);
 	}
-
+	
+	//편집
 	@Override
 	public int codeEdit(CodeVO codeVO) {
 		return codeDao.codeEdit(codeVO);
 	}
 
+	//삭제
 	@Override
 	public int codeDelete(CodeVO codeVO) {
 		return codeDao.codeDelete(codeVO);

@@ -108,7 +108,7 @@ public class CodeController {
 		mov.addObject("srcList", srcList);
 		
 		return mov;
-	}
+	} 
 	
 	//코드명 눌렀을 때 상세정보
 	@RequestMapping(value="/codeDetailAjax" , method=RequestMethod.POST)

@@ -1,8 +1,10 @@
 /**
-*codeSchList(pageNum)							:: 코드조회
-*
-*
-*/
+*codeSchList(pageNum)							:: 코드 조회
+*codeDetail(code_no, code)						:: 코드 상세정보
+*code_add_save()								:: 코드 추가
+*code_modify_save()								:: 코드 편집
+*code_del_save()								:: 코드 삭제
+*/ 
 
 $(document).ready(function(){
 	
@@ -298,7 +300,7 @@ function code_modify_save() {
 }
 
 //코드 삭제
-function code_del_save() {
+function code_del_save() {   
 	$(document).ready(function() {
 		if($("#code_no").val() == '' || $("#code_no").val() == null){
 			alert("삭제할 항목을 선택해 주십시오.");

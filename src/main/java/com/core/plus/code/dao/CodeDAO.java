@@ -13,11 +13,9 @@ public interface CodeDAO {
 	List<CodeVO> codeList(Map<String, Object> codeMap);							// 전체 리스트
 	List<CodeVO> codeSchList(Map<String, Object> codeMap);						// 조회
 	List<CodeVO> recodeDetail(Map<String, Object> codeMap);						// 상세보기
-//	int getCodeInsert(CodeVO codeVO);											// 코드추가		
-//	int codeUpdateSave(Map<String, Object> map);								// 코드수정
-	int codeInsert(CodeVO codeVO);
-	int codeEdit(CodeVO codeVO);
-	int codeDelete(CodeVO codeVO);
+	int codeInsert(CodeVO codeVO);												// 추가
+	int codeEdit(CodeVO codeVO);												// 편집
+	int codeDelete(CodeVO codeVO);												// 삭제
 
-
+ 
 }

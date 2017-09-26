@@ -13,8 +13,6 @@ public interface CodeService {
 	List<CodeVO> codeList(Map<String, Object> codeMap);								// 전체 리스트
 	List<CodeVO> codeSchList(Map<String, Object> codeMap);							// 조회
 	List<CodeVO> codeDetail(Map<String, Object> codeMap);							// 상세보기
-//	int getCodeInsert(CodeVO codeVO);												// 코드 추가
-//	int codeUpdateSave(Map<String, Object> map);									// 코드 수정
 	int codeInsert(CodeVO codeVO);
 	int codeEdit(CodeVO codeVO);
 	int codeDelete(CodeVO codeVO);

@@ -162,7 +162,7 @@
 						<input type="text" id="par_code_no" name="par_code_no" value="" readonly="readonly" >
 					</td>
 				</tr>
-			</table>
+			</table> 
 			
 			<div style="height: 10px;"></div>
 			
