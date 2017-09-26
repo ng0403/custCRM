@@ -199,11 +199,16 @@ public class TaskController {
 	@RequestMapping(value = "/toExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, 
 									String task_no_srch,  String subject_srch,  String cust_name_srch, 
-									String emp_name_srch, String next_day_srch, String dtype_cd_srch, String flg ) {
+									String emp_name_srch, String next_day_srch, String dtype_cd_srch, String flg, String cst_num ) {
 		
-		char temp = flg.charAt(flg.length()-1);
+		//form 지속적인 append로 cust_no 스트링 자르기.
+		String custtmp = cst_num.substring(0, 15);
 		
-		ModelAndView result = new ModelAndView();
+		System.out.println(custtmp);
+ 		char temp = flg.charAt(flg.length()-1);
+		  
+ 		
+ 		ModelAndView result = new ModelAndView();
 		Map<String, Object> taskMap = new HashMap<String, Object> ();
 		if(temp == '0')
 		{
@@ -214,10 +219,11 @@ public class TaskController {
 			taskMap.put("emp_name_srch", emp_name_srch);
 			taskMap.put("next_day_srch", next_day_srch);
 			taskMap.put("dtype_cd_srch", dtype_cd_srch);
-			
+			taskMap.put("cust_no", custtmp);
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 			 
 			List<TaskVO> list = taskService.taskExcelExport(taskMap);	// 쿼리
+			System.out.println("list ?? " + list.toString());
 			System.out.println("taskMap"+ taskMap.toString());
 			result.addObject("taskExcelExport", list); 					// 쿼리 결과를 model에 담아줌
 			result.setViewName("/task/taskList_excel");					// 엑셀로 출력하기 위한 jsp 페이지

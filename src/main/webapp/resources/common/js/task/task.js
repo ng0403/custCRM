@@ -222,24 +222,27 @@ function taskPaging(pageNum) {
 
 //엑셀 출력 적용 함수
 function download_list_Excel(formID, flg) 
-{
-	var t = flg;
+{	
+	var cust_no = $("#cust_no").val();
+ 	var t = flg;
 	var ctx = $("#ctx").val();
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $('<input type="hidden" value="'+flg+'" name="flg">');
-   
+    var cust_flg = $('<input type="hidden" value="'+cust_no+'" name="cst_num">');
 	if(t == 0)
 	{
 		if(confirm("리스트를 출력하시겠습니까? 대량의 경우 대기시간이 필요합니다.")) 
 		{
 			form.append(excel);
 			form.append(flg);
+			form.append(cust_flg);
 			form.attr("action", "/toExcel");
 			form.submit();
 			
 		} 
-		$("input[name=excel]").val("");
+		form[0].reset();
+		/*$("input[name=excel]").val("");*/
 	}
 	else if(t == 1)
 	{
@@ -250,6 +253,7 @@ function download_list_Excel(formID, flg)
 		
 		$("input[name=excel]").val("");
 	}
+	form[0].reset();
 }
 
 //엑셀 양식 다운로드 

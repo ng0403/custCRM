@@ -485,7 +485,7 @@ public class LeadController {
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch,
 			String lead_name_srch, String cust_no, String emp_no, String contact_day_srch, String rank_cd, String flg, String code_flg) {
 		
-		System.out.println("cod e ? " + code_flg);
+		System.out.println("code ? " + code_flg);
  		String contact_day;
 		
 		contact_day = contact_day_srch.replace("-", "");
