@@ -47,8 +47,7 @@ public class LeadController {
 	OpptyService opptyService;
 	
 	@Resource
-	TaskService taskService;
-	
+	TaskService taskService; 
 	// git test
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
@@ -113,12 +112,17 @@ public class LeadController {
 	
 	//내 담당 리드 list 출력
 	@RequestMapping(value="my_lead")
-	public ModelAndView my_lead_list(@RequestParam(value = "pageNum", defaultValue = "1") int PageNum) {
-		System.out.println("entering" + PageNum);
+	public ModelAndView my_lead_list(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int PageNum) {
+		
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		String user_id = session.getAttribute("user").toString(); 
 		
 		Map<String, Object> leadMap = new HashMap<String, Object>();
 		leadMap.put("PageNum", PageNum);
-		
+		leadMap.put("user_id", user_id);
 		// paging
 		PagerVO page = leadService.getLeadListRow(leadMap);
 		leadMap.put("page", page); 
@@ -133,6 +137,7 @@ public class LeadController {
 		mov.addObject("lead_list", vo);
 		mov.addObject("main_menu_url", "lead");
 		mov.addObject("sub_menu_url", "my_lead");
+		mov.addObject("session", user_id);
 		menuImport(mov, "lead");
 		
 		System.out.println("mov ?  " + mov.toString());
@@ -356,12 +361,13 @@ public class LeadController {
 	
 	//조건 검색
 	@RequestMapping(value = "/searchKeyword", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> searchKeyword(
+	public @ResponseBody Map<String, Object> searchKeyword( 
 			@RequestParam(value = "PageNum", defaultValue = "1") int PageNum,
 			String lead_no_srch,
-			String lead_name_srch, String cust_name, String emp_name, String contact_day_srch, String rank_cd) {
+			String lead_name_srch, String cust_name, String emp_name, String contact_day_srch, String rank_cd, String session) {
 	 
-		String contact_day;
+ 		System.out.println("session ? " + session);
+ 		String contact_day;
 		
 		contact_day = contact_day_srch.replace("-", "");
 		 
@@ -375,7 +381,7 @@ public class LeadController {
 		kwMap.put("emp_name", emp_name);
 		kwMap.put("contact_day", contact_day);
 		kwMap.put("rank_cd", rank_cd);
-		 
+		kwMap.put("user_id", session); 
 		// paging
 	  PagerVO page = leadService.getLeadListRow(kwMap);
 	 
@@ -485,10 +491,12 @@ public class LeadController {
 	//엑셀 출력 
 	@RequestMapping(value = "/toLeadExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch,
-			String lead_name_srch, String cust_no, String emp_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no) {
+			String lead_name_srch, String cust_no, String emp_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no, String user_id) {
 		
 		System.out.println("code ? " + code_flg);
- 		String contact_day;
+  		
+		
+		String contact_day;
 		
 		contact_day = contact_day_srch.replace("-", "");
 		 
@@ -502,7 +510,8 @@ public class LeadController {
 		leadMap.put("contact_day", contact_day);
 		leadMap.put("rank_cd", rank_cd);
 		leadMap.put("code", code_flg);
-		//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
+		leadMap.put("user_id", user_id);
+ 		//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 		
 		if(cust_lead_no != null)
 		{

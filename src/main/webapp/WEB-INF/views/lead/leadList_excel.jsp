@@ -47,7 +47,8 @@
 			<td class="header" style="width: 10%;">전화번호</td>
 			<td class="header" style="width: 10%;">담당자명</td>
 			<td class="header" style="width: 10%;">접촉할일자</td>
-			<td class="header" style="width: 10%;">순위</td>
+			<td class="header" style="width: 10%;">상태코드</td>
+			<td class="header" style="width: 10%;">가능성</td>
 			<td class="header" style="width: 10%;">등록일시</td>
 		</tr>
 		</c:if>
@@ -59,8 +60,8 @@
 			<td class="header" style="width: 10%;">담당자번호</td>
 			<td class="header" style="width: 10%;">담당자명</td>
 			<td class="header" style="width: 10%;">접촉할일자</td>
-			<td class="header" style="width: 10%;">순위</td>
-			<td class="header" style="width: 10%;">포기사유</td>
+			<td class="header" style="width: 10%;">상태코드</td>
+ 			<td class="header" style="width: 10%;">포기사유</td>
 			<td class="header" style="width: 10%;">특이사항</td> 
 		 </c:if>
 		 
@@ -76,7 +77,8 @@
 					<td class="body"><c:out value="${leadExcelExport.phone_no}"></c:out></td>
 					<td class="body"><c:out value="${leadExcelExport.emp_name}"></c:out></td>
 					<td class="body"><c:out value="${leadExcelExport.contact_day}"></c:out></td>
-					<td class="body"><c:out value="${leadExcelExport.rank_cd}"></c:out></td>
+					<td class="body"><c:out value="${leadExcelExport.lead_status_cd}"></c:out></td>
+					<td class="body"><c:out value="${leadExcelExport.possibility_cd}"></c:out></td>
 					<td class="body"><c:out value="${leadExcelExport.create_date}"></c:out></td>
 				</tr>
 			</c:forEach>
@@ -90,7 +92,7 @@
 					<td class="body" id="no" ></td>
 					<td class="body"></td>
 					<td class="body"></td>
-					<td class="body"></td>
+ 					<td class="body"></td>
 					<td class="body"></td>
 					<td class="body"></td>
 				

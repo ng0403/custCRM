@@ -54,6 +54,11 @@
                and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
             </when> 
            </choose>
+           <choose>
+               <when test="user_id !=null and user_id !=''">
+               and(em.user_id like concat('%', #{user_id}, '%') )
+            </when> 
+           </choose>
    </select>
    
     <select id="leadStatusListTotalRow" resultType="int">
@@ -122,6 +127,7 @@
          <if test="cust_no != null and cust_no != ''">
             AND (cust_no like concat('%', #{cust_no}, '%'))
          </if>
+         
    </select>
 
 
@@ -182,6 +188,11 @@
            <choose>
                <when test="cust_lead_no !=null and cust_lead_no !=''">
                and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
+            </when> 
+           </choose>
+             <choose>
+               <when test="user_id !=null and user_id !=''">
+               and(em.user_id like concat('%', #{user_id}, '%') )
             </when> 
            </choose>
          order by l.update_date DESC
@@ -498,6 +509,11 @@
                and(lead_status_cd like concat('%', #{code}, '%') )
             </when> 
            </choose>
+           <choose>
+               <when test="user_id !=null and user_id !=''">
+               and(user_id like concat('%', #{user_id}, '%') )
+            </when> 
+           </choose>
          order by l.update_date DESC
       )X
    </select>
@@ -509,9 +525,9 @@
      </selectKey> 
 		
      insert into tb_lead
-   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn, possibility_cd, lead_status_cd )
+   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, lead_status_cd, reason_cd, remark_cn)
    values
-   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn}, #{possibility_cd}, #{lead_status_cd})
+   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{lead_status_cd}, #{reason_cd}, #{remark_cn} )
 	
 	
 	</insert>

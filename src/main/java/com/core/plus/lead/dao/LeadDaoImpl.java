@@ -206,7 +206,7 @@ public class LeadDaoImpl implements LeadDao {
 			String emp_no  = null;
 			String emp_name = null;
 			String contact_day = null;
-			String rank_cd  = null;
+			String lead_status_cd  = null;
 			String reason_cd = null;
 			String remark_cn = null;
 			
@@ -299,16 +299,19 @@ public class LeadDaoImpl implements LeadDao {
 					contact_day = String.valueOf(tmp);
 					System.out.println(i + "번째 contact_day ? " + contact_day);
 				}
+				 
 				
 				cell = row.getCell(6);
-				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+				lead_status_cd = cell.getStringCellValue().trim();
+				System.out.println("lead_status_cd ? " + lead_status_cd);
+				/*if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
-					System.out.println("rank_cd enter");
+					System.out.println("setLead_status_cd enter");
 					int tmp = (int) cell.getNumericCellValue();
-					rank_cd = String.format("%03d", tmp);
+					lead_status_cd = String.format("%03d", tmp);
 					
-					System.out.println(i + "번째 rank_cd ? " + rank_cd);
-				}
+					System.out.println(i + "번째 rank_cd ? " + lead_status_cd);
+				}*/
 				
 				cell = row.getCell(7);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
@@ -339,7 +342,7 @@ public class LeadDaoImpl implements LeadDao {
 				leadVo.setEmp_no(emp_no);
 				leadVo.setEmp_name(emp_name);
 				leadVo.setContact_day(contact_day);
-				leadVo.setRank_cd(rank_cd);
+				leadVo.setLead_status_cd(lead_status_cd);
 				leadVo.setReason_cd(reason_cd);
 				leadVo.setRemark_cn(remark_cn);
 				

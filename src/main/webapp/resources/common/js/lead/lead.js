@@ -495,15 +495,17 @@ function searchKeyword(a){
 	var emp_name = $("#emp_name").val();
 	var contact_day_srch = $("#contact_day_srch").val();
 	var rank_cd = $("#rank_cd").val();
-	
-	
+	var session = $("#session").val();
+ 	
 	var leadData = { "lead_no_srch": lead_no_srch, 
 				"lead_name_srch": lead_name_srch,
 		        "cust_name": cust_name, 
 		        "emp_name":emp_name, 
 		        "contact_day_srch":contact_day_srch,
-		        "rank_cd" : rank_cd , "PageNum" : a};
-		
+		        "rank_cd" : rank_cd , "PageNum" : a,
+		        "session" : session
+		        };
+				
  
 			var tbody = $('#lead_list_tbody');
 			var tbodyContent = "";
@@ -682,8 +684,9 @@ function download_list_Excel(formID, flgNum) {
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $('<input type="hidden" value="'+flgNum+'" name="flg">');
 	var code_flg = $('<input type="hidden" value="'+code+'" name="code_flg">')
-	
-	if(cust_lead_no != null && cust_lead_no != '')
+	var session = $("#session").val();
+	var user_id = $('<input type="hidden" value="'+session+'" name="user_id">')
+ 	if(cust_lead_no != null && cust_lead_no != '')
 	{
 		var cust_no = $('<input type="hidden" value="'+cust_lead_no+'" name="cust_lead_no">');
 		form.append(cust_no);
@@ -699,7 +702,7 @@ function download_list_Excel(formID, flgNum) {
 		form.append(excel);
 		form.append(flg);
 	    form.append(code_flg);
-		
+		form.append(user_id);
 		form.attr("action", "/toLeadExcel?flg=" + flgNum);
 		form.submit();
 		
