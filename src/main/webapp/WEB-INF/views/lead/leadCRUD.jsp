@@ -38,14 +38,7 @@ $(document).ready(function(){
 			    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 추가</span>
 			</span>
 		</div>   
-	</c:if>
-	<c:if test="${flg == 1 }">
- 		<div class="titleDIV" id ="lead_insert_title">
-			<span class="titleText">
-			    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 추가</span>
-			</span>
-		</div>   
-	</c:if>
+	</c:if> 
  		<div class="titleDIV" id="lead_update_title">
 		<span class="titleText">
 		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 수정</span>

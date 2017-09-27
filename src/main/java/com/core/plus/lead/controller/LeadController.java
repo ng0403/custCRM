@@ -287,6 +287,8 @@ public class LeadController {
 		mov.addObject("main_menu_url", "lead");
 		mov.addObject("leadstatuscode", status);
 		mov.addObject("opptycd",opptycd );
+		mov.addObject("main_menu_url", "lead");
+		mov.addObject("sub_menu_url", "lead"); 
 		menuImport(mov, "lead");
 		
 		return mov;
