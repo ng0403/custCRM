@@ -7,13 +7,20 @@ function LoginValidate(ctx){
 	$('#loginBtn').click(function(){
 		var id = $.trim($('#user').val());
 		var pass = $.trim($('#pass').val());
-//		alert("input data : " + id, pass);
-		if(id == ''){
+ 		if(id == ''){
 			alert('아이디를 입력해 주세요.');
 		}else if(pass == ''){
 			alert('비밀번호를 입력해 주세요.');
 		}else{
-			var obj = new Object();
+			
+			 var formObj = $("form[role='form']");
+		       
+			 formObj.attr("action", "/login");
+			 formObj.attr("method", "post");
+			 formObj.submit();  
+			 
+			
+			/*var obj = new Object();
 			obj.id_nm=id;
 			obj.pwd=pass;
 			
@@ -38,7 +45,7 @@ function LoginValidate(ctx){
 		        error: function(){
 		            alert("올바르게 로그인처리 되지 않았습니다.");
 		        }
-			});
+			});*/
 		}
 	});
 	

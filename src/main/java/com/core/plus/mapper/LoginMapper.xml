@@ -9,4 +9,24 @@
 		WHERE user_id=#{id_nm} and pwd=#{pwd}
 	</select>
 	
+	  <!-- 사용자정보 조회  -->
+	<select id="selectUser" parameterType="com.core.plus.login.vo.LoginVO" resultType="com.core.plus.login.vo.LoginVO">
+		SELECT *
+		FROM
+		    tb_user
+		WHERE
+			user_id = #{user_id} AND
+			act_yn = 'Y'
+	</select>
+	
+	 <!-- 사용자 비밀번호 오류 횟수 설정  -->
+	<update id="updatePwdErnmYn" parameterType="com.core.plus.login.vo.LoginVO">
+		UPDATE
+		    tb_user
+		SET
+		    pwd_err_cnt = #{pwd_err_cnt}
+		WHERE
+		    user_id = #{user_id}
+	</update>
+	
 </mapper>

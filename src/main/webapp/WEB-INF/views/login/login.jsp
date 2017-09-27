@@ -44,7 +44,7 @@
        <c:if test="${empty sessionScope.user}">
        
         <p class="h1Ttx" id="mainContE" style="display:none">As true partner, one that raises the value of its customers through SIBEL CRM<br />
-        <form id="loginForm" action="${ctx}/home" method="POST">       
+        <form role="form"  id="loginForm" action="${ctx}/login" method="POST">       
         <fieldset>
             <legend>로그인</legend>
             <div>
@@ -52,7 +52,7 @@
             	<p>세션:${sessionScope.user}</p>
             	</c:if>
                 <p>
-                    <input type="text" name="id_nm" id="user" placeholder="Your ID" autocomplete="off"></input> <!-- tabIndex=1 --> 
+                    <input type="text" name="user_id" id="user" placeholder="Your ID" autocomplete="off"></input> <!-- tabIndex=1 --> 
                 </p>
                 <p>
                     <input type="password" name="pwd" id="pass" placeholder="Your PW"></input>
