@@ -88,7 +88,7 @@
               , date_format(t.create_date, '%Y-%m-%d %H:%i') as create_date
          from tb_task t left join tb_cust c on t.cust_no = c.cust_no 
                   left join tb_cust_phone p on t.cust_no = p.cust_no
-                  left join tb_user e on t.emp_no = e.emp_no
+                  left join tb_user e on t.emp_no = e.user_no
          WHERE t.del_yn = 'N'
             <if test="task_no_srch != null and task_no_srch != ''">
                AND (t.task_no like concat('%', #{task_no_srch}, '%'))
@@ -199,7 +199,7 @@
         , t.cust_no
         , (select cust_name from tb_cust where cust_no = c.cust_no ) as cust_name
         , t.emp_no
-            , (select user_nm from tb_user where user_no = e.emp_no) as emp_name
+            , (select user_nm from tb_user where user_no = e.user_no) as emp_name
             , DATE_FORMAT(t.next_day, '%Y-%m-%d') as next_day
           , (select code_name from tb_code where code_no = '1008' and code = t.dtype_cd) as dtype_name
           , t.dtype_cd
