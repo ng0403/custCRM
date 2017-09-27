@@ -93,11 +93,46 @@ public class OpptyController {
 
 		if(cust_opty_no == null)
 		{
+			System.out.println("여기 들어옴??");
 //			mov.addObject("cust_opty_no", "1");
-			mov.addObject("main_menu_url", "oppty");
-			mov.addObject("sub_menu_url", "oppty");
+			if(oppty_status_cd==null)
+			{
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty");
+				
+				menuImport(mov, "oppty");
+			}
+			else if(oppty_status_cd.equals("001"))
+			{
+				System.out.println("001");
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=001");
+				
+				menuImport(mov, "oppty?oppty_status_cd=001");
+			}
+			else if(oppty_status_cd.equals("002"))
+			{
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=002");
+				
+				menuImport(mov, "oppty?oppty_status_cd=002");
+			}
+			else if(oppty_status_cd.equals("003"))
+			{
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=003");
+				
+				menuImport(mov, "oppty?oppty_status_cd=003");
+			}
+			else if(oppty_status_cd.equals("004"))
+			{
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=004");
+				
+				menuImport(mov, "oppty?oppty_status_cd=004");
+			}
 			
-			menuImport(mov, "oppty");
+			
 		}
 		if(cust_opty_no != null)
 		{
