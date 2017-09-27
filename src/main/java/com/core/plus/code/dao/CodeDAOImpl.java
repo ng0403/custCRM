@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.core.plus.code.vo.CodeVO;
+import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.task.vo.TaskVO;
 
@@ -73,6 +74,28 @@ public class CodeDAOImpl implements CodeDAO {
 	public int codeDelete(CodeVO codeVO) {
 		int result = sqlSession.insert("code.codeDelete", codeVO);
 		return result;
+	}
+
+	//상위코드 팝업 페이징
+	@Override
+	public int getCodePopupRow(Map<String, Object> map) {
+		
+		int totalCount = 0;
+		try {
+			totalCount = sqlSession.selectOne("code.codePopupRow", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return totalCount;
+	}
+
+	//상위코드 팝업 리스트
+	@Override
+	public List<CodeVO> codePopupList(Map<String, Object> map) {
+		List<CodeVO> codePopList = sqlSession.selectList("code.codePopupList", map);
+		return codePopList;
 	}
 
 

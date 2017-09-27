@@ -19,6 +19,7 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 import com.core.plus.code.service.CodeService;
 import com.core.plus.code.vo.CodeVO;
 import com.core.plus.common.PagerVO;
+import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.task.vo.TaskVO;
@@ -170,6 +171,40 @@ public class CodeController {
 		result = codeService.codeDelete(codeVO);
 		
 		return result;
+	}
+	
+	// 상위코드를 위한 팝업
+	@RequestMapping(value="codeUpListAjax", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> codeUpListPopup(@RequestParam(value = "codePopupPageNum", defaultValue = "1") 
+																int codePopupPageNum, String s_code_no) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("codePopupPageNum", codePopupPageNum);
+		
+		// paging
+		PagerVO page = codeService.getCodePopupRow(map);
+		map.put("page", page);
+		map.put("pageNum", codePopupPageNum);
+		
+		
+		// 상위코드번호를 불러오는 서비스/다오/맵퍼 작성
+		if(s_code_no == null || s_code_no == "") {
+			
+			List<CodeVO> codePopupList = codeService.codePopupList(map);
+			
+			map.put("codePopupList", codePopupList);
+			
+			return map;
+			
+		} else {
+			
+			map.put("s_code_no", s_code_no);
+			
+			List<CodeVO> schcodePopupList = codeService.codePopupList(map);
+			
+			map.put("codePopupList", schcodePopupList);
+			
+			return map;
+		}
 	}
 	
 }

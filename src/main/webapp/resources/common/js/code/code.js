@@ -1,9 +1,13 @@
 /**
-*codeSchList(pageNum)							:: 코드 조회
-*codeDetail(code_no, code)						:: 코드 상세정보
-*code_add_save()								:: 코드 추가
-*code_modify_save()								:: 코드 편집
-*code_del_save()								:: 코드 삭제
+* codeSchList(pageNum)							:: 코드 조회
+* codeDetail(code_no, code)						:: 코드 상세정보
+* code_add_save()								:: 코드 추가
+* code_modify_save()							:: 코드 편집
+* code_del_save()								:: 코드 삭제
+* codeCancelList()								:: 검색 input text 값 삭제(빈칸)
+* enterSearch(event)                			:: 엔터키 기능
+* codePageNumInputEnter(event)          		:: 페이징 엔터키 기능
+* codePaging(pageNum)              	 			:: 페이징 함수
 */ 
 
 $(document).ready(function(){
@@ -21,9 +25,11 @@ $(document).ready(function(){
 			$("#code_add_btn_div").show();
 			
 			$("#code_no").val('').attr("readonly", false);
+			$("#code_no").css('background-color', 'white');
 			$("#code").val('').attr("readonly", false);
+			$("#code").css('background-color', 'white');
 			$("#code_name").val('').attr("readonly", false);
-			$("#par_code_no").val('').attr("readonly", false);
+			$("#par_code_no").val('').attr("disabled", false);
 			$("#code_form_tbl input[type=radio]").prop("disabled", false);
 			$("#code_no").focus();
 			
@@ -37,10 +43,11 @@ $(document).ready(function(){
 			$("#code_no").val('').attr("readonly", false);
 			$("#code").val('').attr("readonly", false);
 			$("#code_name").val('').attr("readonly", false);
-			$("#par_code_no").val('').attr("readonly", false);
+			$("#par_code_no").val('').attr("disabled", false);
 			$("#code_form_tbl input[type=radio]").prop("disabled", false);
 			
 			$("#code_no").focus();
+			
 		}
 	});
 	
@@ -95,6 +102,7 @@ $(document).ready(function(){
 
 var ctx 	= $("#ctx").val();
 var flg		= $("#flg").val();
+var pageNum	= $("#pageNum").val();
 var code_no = $("#code_no").val();
 var code 	= $("#code").val();
 
@@ -334,6 +342,133 @@ function code_del_save() {
 		}
 		
 	});
+}
+
+
+//검색 취소버튼
+function codeCancelList() {
+	$('#code_no_srch').val('');
+	$('#code_srch').val('');
+	$('#code_name_srch').val('');
+}
+
+//상위코드 서치 팝업 오픈
+function codeSchPopupOpen()
+{
+	// 팝업창 표시
+	$.blockUI({ message: $('#codeListModalDiv'),
+    	css: { 
+    	'left': '65%',
+    	'top': '50%',
+    	'margin-left': '-400px',
+    	'margin-top': '-250px',
+    	'width': '400px',
+    	'height': '500px',
+    	'cursor': 'default'
+    	}
+		,onOverlayClick : $.unblockUI
+	});
+	
+	// list 불러오는 함수.
+	viewCodeList(pageNum);
+}
+
+
+//상위코드 Popup
+function viewCodeList(pageNum) {
+	
+	var ctx = $("#ctx").val();
+ 	var s_code_no   = $("#s_code_no").val();
+    var s_code      = $("#s_code").val();
+    var s_code_name = $("#s_code_name").val();
+ 	
+ 	$.ajax({
+ 	      url:ctx + '/codeUpListAjax',
+ 	      type: 'POST',
+ 	      data: {
+ 	    	 codePopupPageNum     : pageNum,
+ 	    	 s_code_no   : s_code_no,
+ 	    	 s_code      : s_code,
+ 	         s_code_name : s_code_name,
+ 	      },
+ 	      dataType:'json',
+ 	      success: function(data){
+ 	    	  
+ 	    	 $("#codeListTbody").empty();
+  			 $("#s_code_no").bind("keypress", function(event) {
+  				enterSearch(event);
+  			});
+  			 
+  			if (data.codePopupList.length == 0) {
+ 				var trElement = $("#codeListTableHeader").clone().removeClass().empty();
+ 				$("#codeListTbody").append(trElement);
+ 				$("#codeListTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+ 			} else {
+ 				console.log(data);
+ 				$.each(data.codePopupList, function(i) {
+ 					var trElement = $("#codeListTableHeader").clone().removeClass().empty();
+ 					var code_no = this.code_no;
+ 					var code = this.code;
+ 					var code_name = this.code_name;
+
+ 					trElement.bind("click", function(e) {
+ 						setTimeout($.unblockUI, 0);
+ 						$("#par_code_no").val(code_no);
+ 						
+ 					});
+ 					
+ 					addMouseEvent(trElement);
+ 					trElement.css("cursor", "pointer");
+ 					
+ 					$("#codeListTbody").append(trElement);
+ 					$("#codeListTbody tr:last").append("<td width='30%'>" + code_no + "</td>"+ "<td width='30%'>" + code + "</td>"+ "<td width='60%'>" + code_name + "</td>");
+ 				});
+ 			} 
+ 	    	  	// 페이징
+  			$("#codePopupPagingDiv").empty();
+			var pageContent = "";
+ 		
+			if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+				pageContent = "◀ <input type='text' id='codePopupInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+			} else if(data.pageNum == data.page.startPageNum){
+				pageContent = "<input type='hidden' id='codePageNum' value='"+data.pageNum+"'/><input type='hidden' id='codeEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"◀ <input type='text' id='codePopupInput' value='"+data.page.startPageNum+"' onkeypress=\"codePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+				+"<a onclick=\"viewCodeList("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewCodeList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+			} else if(data.pageNum == data.page.endPageNum){
+				pageContent = "<input type='hidden' id='codePageNum' value='"+data.pageNum+"'/><input type='hidden' id='codeEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewCustList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='codePopupInput' value='"+data.page.endPageNum+"' onkeypress=\"codePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a> / "+data.page.endPageNum+"</a> ▶";
+			} else {
+				pageContent = "<input type='hidden' id='codePageNum' value='"+data.pageNum+"'/><input type='hidden' id='codeEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewCodeList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='codePopupInput' value='"+data.pageNum+"' onkeypress=\"codePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a onclick=\"viewCodeList("+data.pageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewCodeList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+			}
+			$("#codePopupPagingDiv").append(pageContent);
+			
+ 			
+ 		},
+ 		beforeSend: function(){
+         	viewLoadingShow();			
+         },
+         complete:function(){
+         	viewLoadingHide();	
+         },
+ 		error: function(data) { 
+ 			alert("코드 목록을 취득하지 못했습니다.");
+ 			return false;
+ 		}
+ 	});
+	
+}
+
+//Popup 닫기
+function popupClose()
+{
+	$.unblockUI();
 }
 
 //엔터키 기능

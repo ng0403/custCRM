@@ -33,16 +33,16 @@
 		 	<div id="searchDiv">
 	        	<table id="cupnSearchTable" class="commonTable">
 					<tr style="background-color: white; cursor:default; border:0;">
-						 <th style="width:5%;">코드번호</th>
-						 <td style="width:15%;">
+						 <th style="width:7%;">코드번호</th>
+						 <td style="width:13%;">
 						    <input type="text" id="code_no_srch" name="code_no_srch" value="" style="width:80%" onkeypress="codeenterSearch(event);">
 						 </td> 
 						 <th style="width:5%;">코드</th>
-						 <td style="width:15%;">
+						 <td style="width:13%;">
 						    <input type="text" id="code_srch" name="code_srch" value="" style="width:80%" onkeypress="codeenterSearch(event);">
 						 </td>
 						  <th style="width:5%;">코드명</th>
-						 <td style="width:15%;">
+						 <td style="width:13%;">
 						    <input type="text" id="code_name_srch" name="code_name_srch" value="" style="width:80%" onkeypress="codeenterSearch(event);">
 						 </td>
  		                 <td style="width: 12%;">
@@ -133,13 +133,13 @@
 				<tr>
 					<th style="text-align: right; readonly: true">코드번호</th>
 					<td>
-						<input type="number" id="code_no" name="code_no" value="" style="width: 60%;" min="4" max="5" readonly="readonly">
+						<input type="number" id="code_no" name="code_no" value="" style="width: 60%; background-color: rgb(235, 235, 228);"  readonly="readonly">
 					</td>
 				</tr>
 				<tr>	
 					<th  style="text-align: right;">코드</th>
 					<td>
-						<input type="number" id="code" name="code" value="" style="width: 60%;" min="3" max="5"  readonly="readonly">
+						<input type="number" id="code" name="code" value="" style="width: 60%; background-color: rgb(235, 235, 228);" min="3" max="5"  readonly="readonly">
 					</td>
 				</tr>
 
@@ -159,7 +159,8 @@
 				<tr>
 					<th  style="text-align: right;">상위코드번호</th>
 					<td>
-						<input type="text" id="par_code_no" name="par_code_no" value="" readonly="readonly" >
+						<input type="text" id="par_code_no" name="par_code_no" value="" disabled="disabled" onclick="codeSchPopupOpen();">
+						<!-- codeSchPopupOpen -->
 					</td>
 				</tr>
 			</table> 
@@ -184,35 +185,46 @@
 		</div>
 	</form>
 	
-	
-<!-- 다건등록 모달창 테스트 -->
-<div id="multiInsertModalDiv" style="display: none;">
-    <div style="width: 100%; height:7%; background-color: #ececec;" align="right">
- 		<input type="button" value="X" id="popupBoxClose" onclick="popupClose();" >
- 	</div>
- 	
- 	<form id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data" method="post" action="${ctx}/codeExcelUpload">
-<!-- 	<form method='post' name='custListPopup' id='custListPopup'> -->
-	<div id="multiInsertModalContent" style="margin: 0 1.5% 0 1.5%;">
-		<div class="titleDIV" style="text-align: left; width: 100%;">
-			<span class="titleText">■ 다건 등록(Excel Import)</span>
-		</div>
-		<div style="height:25px;"></div>
-		<div id="multiInsertModalList" class="commonList">
-			 	<table id="multiInsertModalTables" style="width: 100%;">
-			 	 	<thead>
-			 	 		<tr id="multiInsertTableHeader">
-							<td style="width: 40%; text-align: right;">
-								<input id="excelFile" type="file" name="excelFile" class="btn btn-default" style="float: center;"/>
-							</td>
-							<td>
-								<input type="button" value="업로드" class="back_btn" style="float: right;" onclick="codeExcelCheck();"/> <!-- onclick="viewProdMenuList(1); -->
-							</td>
-			 	 		</tr>
-			 	 	</thead>
-			 	</table>
-		</div>	
+<!-- 상위코드 모달창 시작 -->
+<div id="codeListModalDiv" style="display: none;">
+	<div style="width: 100%; height: 7%; background-color: #ececec;"
+		align="right">
+		<input type="button" value="X" id="popupBoxClose" onclick="popupClose();">
 	</div>
+	<form method='post' name='codeListPopup' id='codeListPopup'>
+		<div id="codeListModalContent" style="margin: 0 1.5% 0 1.5%;">
+			<div class="titleDIV" style="text-align: left; width: 100%;">
+				<span class="titleText">■ 코드 리스트</span>
+			</div>
+			<div id="codeModalList" class="commonList">
+				<table id="codeListModalTables" style="width: 100%;">
+					<thead>
+						<tr id="codeListTableHeader">
+							<th style="width: 20%; text-align: right; padding-right: 1%;">코드번호:</th>
+							<td style="width: 40%;">
+								<input type="text" id="s_code_no" name="s_code_no" style="width: 70%;" maxlength="100" />&nbsp;&nbsp;
+							</td>
+							<td style="width: 40%; text-align: right;">
+								<input type="button" value="검색" class="back_btn" style="float: right;" onclick="viewCodeList();" /> 
+							</td>
+						</tr>
+					</thead>
+				</table>
+				<br>
+				<table class="commonTable">
+					<thead>
+						<tr id="codeListTableHeader">
+							<th width="30%">코드번호</th>
+							<th width="30%">코드</th>
+							<th width="35%">코드명</th>
+						</tr>
+					</thead>
+					<tbody id="codeListTbody"></tbody>
+				</table>
+				<!-- 페이징 DIV -->
+				<div class="pagingDiv" id="codePopupPagingDiv" style="width: 100%; text-align: center;"></div>
+			</div>
+		</div>
 	</form>
 	<input type="hidden" id="h_nm_menu">
 </div>

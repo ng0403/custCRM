@@ -19,6 +19,17 @@
 	            AND (code_name like concat('%', #{code_name_srch}, '%'))
 	         </if>
 	</select>
+	
+	<!-- 상위코드 팝업 페이징 -->
+	<select id="codePopupRow" resultType="int">
+		SELECT 
+			count(*)
+      	FROM tb_code
+      	WHERE display_yn = 'Y'
+			<if test="s_code_no != null and s_code_no != ''">
+				AND (code_no like concat('%', #{s_code_no}, '%'))
+			</if>
+	</select>
 
 	<!-- List -->
 	<select id="codeList" resultType="com.core.plus.code.vo.CodeVO" parameterType="java.util.Map">
@@ -66,7 +77,8 @@
 			code_no ,
 			code ,
 			code_name ,
-			display_yn
+			display_yn ,
+			par_code_no
 			
 		)	
 		values
@@ -74,14 +86,16 @@
 			#{code_no} ,
 			#{code} ,
 			#{code_name} ,
-			#{display_yn} 
+			#{display_yn} ,
+			#{par_code_no}
 		)
 	</insert>  
 	
 	<update id="codeEdit"  parameterType="com.core.plus.code.vo.CodeVO">
 		update tb_code
-		set code_name  = #{code_name},
-			display_yn = #{display_yn}
+		set code_name   = #{code_name},
+			display_yn  = #{display_yn},
+			par_code_no = #{par_code_no}
 		where 1=1
 			and code_no = #{code_no} 
 			and code 	= #{code}
@@ -94,5 +108,24 @@
       		and code_no = #{code_no} 
 			and code 	= #{code}
 	</delete>
+	
+	<!-- PopUp -->
+	<select id="codePopupList" resultType="com.core.plus.code.vo.CodeVO" parameterType="java.util.Map">
+    	SELECT P.*
+      	FROM (
+	      SELECT
+	         code_no,
+	         code,
+	         code_name
+	      FROM
+	         tb_code
+	      WHERE
+	         display_yn = 'Y'
+	      <if test="s_code_no != null and s_code_no != ''">
+	         AND (code_no like concat('%', #{s_code_no}, '%'))
+	      </if>
+       )p
+       LIMIT #{page.limitStartNum}, #{page.pageSize}
+   </select>
 
 </mapper>

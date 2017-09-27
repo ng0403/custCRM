@@ -65,6 +65,24 @@ public class CodeServiceImpl implements CodeService {
 	public int codeDelete(CodeVO codeVO) {
 		return codeDao.codeDelete(codeVO);
 	}
+
+	//상위코드 팝업 페이징
+	@Override
+	public PagerVO getCodePopupRow(Map<String, Object> map) {
+		int codePopupPageNum = (Integer)map.get("codePopupPageNum");
+		PagerVO page = new PagerVO(codePopupPageNum, 0, 10, 100);
+		
+		int totalRowCount = codeDao.getCodePopupRow(map);
+		page = new PagerVO(codePopupPageNum, totalRowCount, 10, 100);
+		
+		return page;
+	}
+
+	//상위코드 팝업 리스트
+	@Override
+	public List<CodeVO> codePopupList(Map<String, Object> map) {
+		return codeDao.codePopupList(map);
+	}
 	
 	
 
