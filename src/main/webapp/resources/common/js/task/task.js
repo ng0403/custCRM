@@ -226,11 +226,22 @@ function download_list_Excel(formID, flg)
   	var cust_no = $("#cust_no").val();
  	var t = flg;
 	var ctx = $("#ctx").val();
+	var cust_task_no = $("#cust_task_no").val();
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $('<input type="hidden" value="'+flg+'" name="flg">');
     var cust_flg = $('<input type="hidden" value="'+cust_no+'" name="cst_num">');
-	if(t == 0)
+	
+    if(cust_task_no != null && cust_task_no != '')
+	{
+		var cust_no = $('<input type="hidden" value="'+cust_task_no+'" name="cust_task_no">');
+		form.append(cust_no);
+		
+		console.log(cust_no);
+		console.log(cust_task_no);
+	}
+    
+    if(t == 0)
 	{
 		if(confirm("리스트를 출력하시겠습니까? 대량의 경우 대기시간이 필요합니다.")) 
 		{
@@ -450,3 +461,27 @@ function custtaskSchList(cust_no,pageNum) {
 		      }
 		   });
 	}
+
+
+//고객관리 리스트
+function tcustList(pageNum)
+{
+	location.href = ctx + '/cust?custPageNum=' + pageNum;
+}
+
+// 고객상세정보
+function tcustDetail(cust_no)
+{
+	console.log(cust_no);
+	location.href = ctx + '/custForm?cust_no=' + cust_no;
+}
+
+function custTaskList(cust_no)
+{
+	location.href = ctx + "/task?cust_task_no=" + cust_no;
+}
+
+
+
+
+

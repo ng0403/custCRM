@@ -173,12 +173,14 @@ public class OpptyController {
 			 String oppty_no_srch, String oppty_name_srch, 
 			  String cust_name_srch, String emp_name_srcj,
 			  String oppty_status_cd_srch, String oppty_stage_cd_srch,
-			  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String flg) {
+			  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String flg,
+			  String hoppty_status_cd, String cust_opty_no) {
 		
 		
 		char temp = flg.charAt(flg.length()-1);
 		
 		System.out.println(temp);
+		System.out.println(cust_opty_no);
 		ModelAndView result = new ModelAndView();
 		Map<String, Object> opptykMap = new HashMap<String, Object> ();
 		
@@ -193,6 +195,15 @@ public class OpptyController {
 			opptykMap.put("exp_close_dt_srch", exp_close_dt_srch);
 			opptykMap.put("dtype_cd_srch", dtype_cd_srch);
 			opptykMap.put("purchase_type_srch", purchase_type_srch);
+			
+			if(hoppty_status_cd != null)
+			{
+				opptykMap.put("oppty_status_cd", hoppty_status_cd);
+			}
+			if(cust_opty_no != null)
+			{
+				opptykMap.put("cust_opty_no", cust_opty_no);
+			}
 			//taskMap.put("some",req.getParameter("some"));    				// where에 들어갈 조건??
 			
 			List<OpptyVO> list = opptyService.opptyExcelExport(opptykMap);	// 쿼리

@@ -199,17 +199,26 @@ public class TaskController {
 	@RequestMapping(value = "/toExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, 
 									String task_no_srch,  String subject_srch,  String cust_name_srch, 
-									String emp_name_srch, String next_day_srch, String dtype_cd_srch, String flg, String cst_num ) {
+									String emp_name_srch, String next_day_srch, String dtype_cd_srch, String flg, 
+									String cst_num, String cust_task_no ) {
 		
 		String custtmp;
 	
 		
 		System.out.println(flg);
+		System.out.println(cust_task_no);
+		System.out.println(cst_num);
  		char temp = flg.charAt(flg.length()-1);
 		  
  		
  		ModelAndView result = new ModelAndView();
 		Map<String, Object> taskMap = new HashMap<String, Object> ();
+		
+		if(cust_task_no != null)
+		{
+			taskMap.put("cust_task_no", cust_task_no);
+		}
+		
 		if(temp == '0')
 		{
 			// 검색 조건
@@ -220,9 +229,11 @@ public class TaskController {
 			taskMap.put("next_day_srch", next_day_srch);
 			taskMap.put("dtype_cd_srch", dtype_cd_srch);
 			//form 지속적인 append로 cust_no 스트링 자르기.
-			if(cst_num != null){
-			 custtmp = cst_num.substring(0, 15);
- 			 taskMap.put("cust_no", custtmp);
+			
+			if(cst_num != null && !cst_num.equals("undefined")){
+				System.out.println("ASD");
+				custtmp = cst_num.substring(0, 15);
+				taskMap.put("cust_no", custtmp);
 			}
 			
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??

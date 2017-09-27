@@ -473,6 +473,11 @@
                and(c.cust_name like concat('%', #{cust_name}, '%') )
             </when> 
          </choose>
+         <choose>
+             <when test="cust_lead_no !=null and cust_lead_no !=''">
+               and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
+            </when> 
+         </choose>
           <choose>
             <when test="emp_name !=null and emp_name !=''">
                and(em.emp_name like concat('%', #{emp_name}, '%') )

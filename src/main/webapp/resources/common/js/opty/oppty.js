@@ -300,9 +300,29 @@ function download_list_Excel(formID, flg) {
 	
 	var t = flg;
 	var ctx = $("#ctx").val();
+	var hoppty_status_cd = $("#hoppty_status_cd").val();
+	var cust_opty_no = $("#cust_opty_no").val();
+	
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $("<input type='hidden' value='"+ flg +"' name='flg'>");
+	
+	if(hoppty_status_cd != null && hoppty_status_cd != '')
+	{
+		var oppty_status_cd = $("<input type='hidden' value='"+ hoppty_status_cd +"' name='hoppty_status_cd'>");
+		form.append(oppty_status_cd);
+		
+		console.log("A");
+		console.log(oppty_status_cd);
+		console.log(hoppty_status_cd);
+	}
+	if(cust_opty_no != null && cust_opty_no != '')
+	{
+		var cust_opty_no = $("<input type='hidden' value='"+ cust_opty_no +"' name='cust_opty_no'>");
+		form.append(cust_opty_no);
+		
+		console.log("BA");
+	}
 	
 	if(t == 0)
 	{

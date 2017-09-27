@@ -215,6 +215,9 @@
 				<if test="oppty_status_cd_srch != null and oppty_status_cd_srch != ''">
 					AND (oppty_status_cd like concat('%', #{oppty_status_cd_srch}, '%'))
 				</if>
+				<if test="oppty_status_cd != null and oppty_status_cd != ''">
+					AND (oppty_status_cd like concat('%', #{oppty_status_cd}, '%'))
+				</if>
 				<if test="oppty_stage_cd_srch != null and oppty_stage_cd_srch != ''">
 					AND (oppty_stage_cd like concat('%', #{oppty_stage_cd_srch}, '%'))
 				</if>
@@ -226,6 +229,9 @@
 				</if>
 				<if test="purchase_type_srch != null and purchase_type_srch != ''">
 					AND (purchase_type like concat('%', #{purchase_type_srch}, '%'))
+				</if>
+				<if test="cust_opty_no != null and cust_opty_no != ''">
+					AND (cust_no like concat('%', #{cust_opty_no}, '%'))
 				</if>
 			ORDER BY update_date DESC
 		)X

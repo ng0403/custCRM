@@ -235,7 +235,7 @@ public class TaskDAOImpl implements TaskDAO {
 	//엑셀 출력
 	@Override
 	public List<TaskVO> taskExcelExport(Map<String, Object> taskMap) {
-		
+		System.out.println("DAO taskMap : " + taskMap);
 		List<TaskVO> taskExcelExport = null;
 		try {
 			taskExcelExport = sqlSession.selectList("task.taskExcelExport", taskMap);

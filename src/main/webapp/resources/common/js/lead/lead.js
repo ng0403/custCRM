@@ -677,12 +677,22 @@ function lead_counsel_read(cust_no, PageNum){
 //엑셀 출력 
 function download_list_Excel(formID, flgNum) {
 	var code = $("#flg").val();
-	 
+	var cust_lead_no = $("#cust_lead_no").val();
 	var ctx = $("#ctx").val();
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $('<input type="hidden" value="'+flgNum+'" name="flg">');
 	var code_flg = $('<input type="hidden" value="'+code+'" name="code_flg">')
+	
+	if(cust_lead_no != null && cust_lead_no != '')
+	{
+		var cust_no = $('<input type="hidden" value="'+cust_lead_no+'" name="cust_lead_no">');
+		form.append(cust_no);
+		
+		console.log(cust_lead_no);
+		console.log(cust_no);
+	}
+	
 	if(flgNum == '0'){
 	if(confirm("리스트를 출력하시겠습니까? 대량의 경우 대기시간이 필요합니다.")) 
 	{

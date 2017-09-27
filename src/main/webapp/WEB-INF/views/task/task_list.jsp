@@ -31,7 +31,7 @@
 		</c:if>
 		<c:if test="${ cust_task_no != null }">
 			<span class="titleText">
-				 ■ 고객 > <a style="cursor: pointer;" onclick="tcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="tcustDetail('${cust_opty_no}');"> 고객 상세정보 </a> > 상담이력관리 
+				 ■ 고객 > <a style="cursor: pointer;" onclick="tcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="tcustDetail('${cust_task_no}');"> 고객 상세정보 </a> > 상담이력관리 
 			</span>
 		</c:if>
 	</div>
@@ -139,6 +139,7 @@
 			 	<input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿 출력"  onclick="download_list_Excel('taskListForm','1');" >	
 			</c:if>
 			<c:if test="${ cust_task_no != null }">
+			<input type="button" class="func_btn" id="exportBtn"      value="뒤로"  onclick="tcustDetail('${cust_task_no}');" >
 			 	<input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('taskListForm','0');" >
 			 	<input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿 출력"  onclick="download_list_Excel('taskListForm','1');" >	
 			</c:if>
