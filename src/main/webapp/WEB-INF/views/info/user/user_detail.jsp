@@ -88,7 +88,8 @@ $(document).ready(function(){
 	   	 	<tr>
 	   	 		<th style="color: red;">* 사용자ID</th>
 	   	 		<td>
-	   	 			<input type="text" id="user_id" name="user_id" value="${userVO.user_id}">	
+	   	 			<input type="text" id="user_id" name="user_id" value="${userVO.user_id}">
+	   	 			<input class="back_btn" type="button" id="idChkBtn" value="ID중복체크">
 	   	 		</td>
 	   	 		<th style="color: red;">* 사용자명</th>
 	   	 		<td><input type="text" id="user_nm" name="user_nm" value="${userVO.user_nm}"></td>
@@ -223,7 +224,8 @@ $(document).ready(function(){
 	   	 		</td>
 	   	 	</tr>
 	   	 	<tr>
-	   	 		<th style="color: red;">* 권한명</th>
+<!-- 	   	 		<th style="color: red;">* 권한명</th> -->
+	   	 		<th>(선택)권한명</th>
 	   	 		<td colspan="3">
 	   	 		<div style="float : left;width : 28.2%">
 	   	 			<input type="hidden" id="auth_id" name="auth_id" value="${userVO.auth_id}">

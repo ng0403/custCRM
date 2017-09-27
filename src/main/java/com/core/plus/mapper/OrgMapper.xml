@@ -7,13 +7,13 @@
 		select	count(*)
 		from	(SELECT  a.org_id as org_id
 					,	a.org_nm as org_nm
-					,	a.org_ph1 ||'-'|| a.org_ph2 ||'-'|| a.org_ph3 as org_ph
+					,	concat(a.org_ph1,'-',a.org_ph2,'-',a.org_ph3) as org_ph
 					,	a.org_ph1 as org_ph1
 					,	a.org_ph2 as org_ph2
 					,	a.org_ph3 as org_ph3
 					,   a.rep_emp_id as rep_emp_id
 					,	b.user_nm as rep_emp_nm
-					,	a.fax_no1 ||'-'|| a.fax_no2 ||'-'|| a.fax_no3 as fax_no
+					,	concat(a.fax_no1,'-',a.fax_no2,'-',a.fax_no3) as fax_no
 					,	a.fax_no1 as fax_no1
 					,	a.fax_no2 as fax_no2
 					,	a.fax_no3 as fax_no3
@@ -23,7 +23,7 @@
 				ON	a.rep_emp_id = b.user_id
 				WHERE 1 = 1
 					<if test="org_nm!=null and org_nm!='' ">
-					  	and a.org_nm LIKE '%' || #{org_nm} || '%'
+					  	and a.org_nm LIKE concat('%',#{org_nm},'%')
 					</if> 
 				ORDER BY a.org_id DESC) org
 		where	1 = 1 
@@ -33,13 +33,13 @@
 	<select id="orgList" parameterType="java.util.Map" resultType="com.core.plus.info.org.vo.OrgVO">
 		SELECT  a.org_id as org_id
 			,	a.org_nm as org_nm
-			,	a.org_ph1 ||'-'|| a.org_ph2 ||'-'|| a.org_ph3 as org_ph
+			,	concat(a.org_ph1,'-',a.org_ph2,'-',a.org_ph3) as org_ph
 			,	a.org_ph1 as org_ph1
 			,	a.org_ph2 as org_ph2
 			,	a.org_ph3 as org_ph3
 			,   a.rep_emp_id as rep_emp_id
 			,	b.user_nm as rep_emp_nm
-			,	a.fax_no1 ||'-'|| a.fax_no2 ||'-'|| a.fax_no3 as fax_no
+			,	concat(a.fax_no1,'-',a.fax_no2,'-',a.fax_no3) as fax_no
 			,	a.fax_no1 as fax_no1
 			,	a.fax_no2 as fax_no2
 			,	a.fax_no3 as fax_no3
@@ -48,7 +48,7 @@
 		ON	a.rep_emp_id = b.user_id
 		WHERE 1=1
 			<if test="org_nm!=null and org_nm!='' ">
-			  	and a.org_nm LIKE '%' || #{org_nm} || '%'
+			  	and a.org_nm LIKE concat('%',#{org_nm},'%')
 			</if> 
 		ORDER BY a.org_id DESC
 		limit #{page.pageSize} OFFSET #{page.endRow}
@@ -56,13 +56,13 @@
 	<select id="orgDetail" parameterType="String" resultType="com.core.plus.info.org.vo.OrgVO">
 		SELECT	a.org_id
 			,	a.org_nm
-			,	a.org_ph1 ||'-'|| a.org_ph2 ||'-'|| a.org_ph3 as org_ph
+			,	concat(a.org_ph1,'-',a.org_ph2,'-',a.org_ph3)
 			,	a.org_ph1 as org_ph1
 			,	a.org_ph2 as org_ph2
 			,	a.org_ph3 as org_ph3
 			,   a.rep_emp_id as rep_emp_id
 			,	b.user_nm as rep_emp_nm
-			,	a.fax_no1 ||'-'|| a.fax_no2 ||'-'|| a.fax_no3 as fax_no
+			,	concat(a.fax_no1,'-',a.fax_no2,'-',a.fax_no3) as fax_no
 			,	a.fax_no1 as fax_no1
 			,	a.fax_no2 as fax_no2
 			,	a.fax_no3 as fax_no3
@@ -75,7 +75,7 @@
 	
 	<insert id="orgInsert" parameterType="com.core.plus.info.org.vo.OrgVO">
 		<selectKey keyProperty="org_id" resultType="String" order="BEFORE">
-         SELECT IF(SUBSTR(MAX(org_id), 1, 3) = 'ORG', concat(SUBSTR(MAX(org_id),1,3),LPAD(SUBSTR(MAX(menu_id),4,7)+1,7,'0')), concat('ORG','0000001')) org_id 
+         SELECT IF(SUBSTR(MAX(org_id), 1, 3) = 'ORG', concat(SUBSTR(MAX(org_id),1,3),LPAD(SUBSTR(MAX(org_id),4,7)+1,7,'0')), concat('ORG','0000001')) org_id 
          FROM tb_org USE INDEX(PRIMARY)
 		</selectKey>
 		insert into tb_org
@@ -120,23 +120,23 @@
 		WHERE a.user_type_cd = b.code
 			AND b.code_no = '1023'
 		<if test="rep_user_id != null and rep_user_id !=''">
-		   	AND user_id LIKE '%'||#{rep_user_id}||'%'
+		   	AND user_id LIKE concat('%',#{rep_user_id},'%')
 		   </if>
 		   <if test="rep_user_nm != null and rep_user_nm !=''">
-			AND user_nm LIKE '%'||#{rep_user_nm}||'%'
+			AND user_nm LIKE concat('%',#{rep_user_nm},'%')
 		   </if>
 	</select>
 	
 	<select id="repOrgList" resultType="com.core.plus.info.org.vo.OrgVO">
-		SELECT a.user_id,a.user_nm,b.val as user_type_nm
+		SELECT a.user_id,a.user_nm,b.code_name as user_type_nm
 		FROM tb_user a, tb_code b
 		WHERE a.user_type_cd = b.code
 			AND b.code_no = '1023'
 			<if test="rep_user_id != null and rep_user_id !=''">
-		   	AND user_id LIKE '%'||#{rep_user_id}||'%'
+		   	AND user_id LIKE concat('%',#{rep_user_id},'%')
 		   </if>
 		   <if test="rep_user_nm != null and rep_user_nm !=''">
-			AND user_nm LIKE '%'||#{rep_user_nm}||'%'
+			AND user_nm LIKE concat('%',#{rep_user_nm},'%')
 		   </if>
 		order by user_id	
 		limit #{page.pageSize} OFFSET #{page.endRow}	   

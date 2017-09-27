@@ -11,7 +11,7 @@ $(document).ready(function() {
 		if(me != ''){
 			alert(me);
 		}
-		montgtActiveFormSubmit("/user",'');
+// 		montgtActiveFormSubmit("/user",'');
 	}
 
 	if('${userInResult}' == 2){
@@ -19,7 +19,7 @@ $(document).ready(function() {
 		if(me != ''){
 			alert(me);
 		}
-		montgtActiveFormSubmit("/user",'');
+// 		montgtActiveFormSubmit("/user",'');
 	}
 	
 	//사용자리스트 삭제(여러개)

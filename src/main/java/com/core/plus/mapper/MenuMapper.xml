@@ -119,7 +119,7 @@
 			  where menu_id=#{mi}
 	</delete>
 	<delete id="menuDelete1" parameterType="com.core.plus.info.menu.vo.MenuVo">
-		delete from tb_menu_auth
+		delete from tb_auth_menu
 			  where menu_id=#{menu_id}
 	</delete>
 	
@@ -129,13 +129,13 @@
 			  where menu_id=#{menu_id}
 	</delete>
 	<delete id="menuChkDelete1" parameterType="String">
-		delete from tb_menu_auth
+		delete from tb_auth_menu_auth
 			  where menu_id=#{menu_id}
 	</delete>
 	
 	<!-- 메뉴권한 체크 삭제 (여러개 삭제) -->
 	<delete id="authmenuChkDelete1" parameterType="String">
-		delete from tb_menu_auth
+		delete from tb_auth_menu
 			  where menu_id=#{menu_id}
 			    and auth_id=#{auth_id}
 	</delete>
@@ -184,11 +184,11 @@
 		     , m.menu_id
 	         , m.menu_nm
 	         , COALESCE(m1.menu_nm, '-') as up_menu_id
-	         , ma.crt_yn
-	         , ma.mdfy_yn
-	         , ma.del_yn
-	         , ma.retrv_yn
-         from  tb_menu_auth ma
+	         , ma.create_auth_yn
+	         , ma.mdfy_auth_yn
+	         , ma.del_auth_yn
+	         , ma.retrv_auth_yn
+         from  tb_auth_menu ma
 	         , tb_menu m left join tb_menu m1 on m.up_menu_id = m1.menu_id
          where m.menu_id = ma.menu_id
            and ma.auth_id = #{auth_id}
@@ -217,7 +217,7 @@
 	
     <!-- 메뉴권한 추가  -->
 	<insert id="authmenuInsert1" parameterType="Map">
-		insert into tb_menu_auth (menu_id
+		insert into tb_auth_menu (menu_id
 							  	   ,  auth_id
 							  	   ,  create_auth_yn
 							  	   ,  mdfy_auth_yn

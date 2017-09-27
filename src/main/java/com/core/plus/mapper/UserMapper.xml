@@ -4,7 +4,7 @@
 <mapper namespace="user">
 
 	<!-- 전체 행의 개수 -->
-	<select id="selectUserListCount" parameterType="String" resultType="int">
+	<select id="selectUserListCount" parameterType="java.util.Map" resultType="int">
 		SELECT	count(*)
 		from 	tb_user a,	tb_org b,
 			tb_code c	
@@ -12,13 +12,13 @@
 		and c.code_no = '1023'
 		and c.code = a.user_type_cd
 		<if test="user_id!=null and user_id!='' ">
-		  	and a.user_id LIKE '%' || #{user_id} || '%'
+		  	and a.user_id LIKE concat('%',#{user_id},'%')
 		</if>
 		<if test="user_nm!=null and user_nm!='' ">
-		  	and a.user_nm LIKE '%' || #{user_nm} || '%' 
+		  	and a.user_nm LIKE concat('%',#{user_nm},'%')
 		</if>	
 		<if test="org_nm!=null and org_nm!='' ">
-		  	and b.org_nm LIKE '%' || #{org_nm} || '%'
+		  	and b.org_nm LIKE concat('%',#{org_nm},'%')
 		</if>
 	</select>
 	
@@ -36,21 +36,21 @@
 			c.code_no as user_type_cd,
 			c.code_name as user_type_nm,
 			a.act_yn,
-<!-- 			a.pwd_err_cnt, -->
+			a.pwd_err_cnt,
 			a.create_date
 		FROM 	tb_user a,	tb_org b,
 			tb_code c	
 		WHERE a.org_id = b.org_id
 		AND c.code_no = '1023'
 		AND c.code = a.user_type_cd
-		<if test="user_id!=null and user_id!='' ">
-		  	AND a.user_id LIKE '%' || #{user_id} || '%'
+		<if test="user_id !=null and user_id !='' ">
+		  	and a.user_id LIKE concat('%',#{user_id},'%')
 		</if>
-		<if test="user_nm!=null and user_nm!='' ">
-		  	AND a.user_nm LIKE '%' || #{user_nm} || '%' 
+		<if test="user_nm !=null and user_nm !='' ">
+		  	and a.user_nm LIKE concat('%',#{user_nm},'%')
 		</if>	
-		<if test="org_nm!=null and org_nm!='' ">
-		  	AND b.org_nm LIKE '%' || #{org_nm} || '%'
+		<if test="org_nm !=null and org_nm !='' ">
+		  	and b.org_nm LIKE concat('%',#{org_nm},'%')
 		</if>
 		ORDER BY a.update_date DESC
 		limit #{page.pageSize} OFFSET #{page.endRow}
@@ -60,17 +60,17 @@
 		SELECT 
 		a.user_id,
 		a.user_nm,
-		b.name as user_type_cd,
-		b.val as user_type_nm,
+		b.code as user_type_cd,
+		b.code_name as user_type_nm,
 		a.cell_ph1,
 		a.cell_ph2,
 		a.cell_ph3,
 		a.home_ph1,
 		a.home_ph2,
 		a.home_ph3,
-		a.com_ph1,
-		a.com_ph2,
-		a.com_ph3,
+<!-- 		a.com_ph1, -->
+<!-- 		a.com_ph2, -->
+<!-- 		a.com_ph3, -->
 		a.email_id,
 		a.email_dm,
 		a.org_id,
@@ -84,17 +84,23 @@
 		AND user_id = #{user_id}	
 	</select>
 	<insert id="userInsert" parameterType="com.core.plus.info.user.vo.UserVO">
+		<selectKey keyProperty="user_no" resultType="String" order="BEFORE">
+	         SELECT IF(SUBSTR(MAX(user_no), 1, 10) = DATE_FORMAT(now(), '%Y%m%d%H'), MAX(user_no)+1, concat(DATE_FORMAT(now(), '%Y%m%d%H'),'00001')) user_no
+	         FROM tb_user USE INDEX(PRIMARY)
+     	</selectKey>
 		INSERT INTO tb_user(
-		user_id,user_nm,
+		user_no,user_id,user_nm,
 		pwd,user_type_cd,
 		cell_ph1,cell_ph2,cell_ph3,
 		home_ph1,home_ph2,home_ph3,
-		com_ph1,com_ph2,com_ph3,
+<!-- 		com_ph1,com_ph2,com_ph3, -->
 		email_id,email_dm,
 		org_id
 		)
-		VALUES(#{user_id},#{user_nm},#{pwd},#{user_type_cd},#{cell_ph1},#{cell_ph2},#{cell_ph3}
-		,#{home_ph1},#{home_ph2},#{home_ph3},#{com_ph1},#{com_ph2},#{com_ph3},#{email_id},#{email_dm}
+		VALUES(#{user_no},#{user_id},#{user_nm},#{pwd},#{user_type_cd},#{cell_ph1},#{cell_ph2},#{cell_ph3}
+		,#{home_ph1},#{home_ph2},#{home_ph3}
+<!-- 		,#{com_ph1},#{com_ph2},#{com_ph3} -->
+		,#{email_id},#{email_dm}
 		,#{org_id})
 	</insert>
 	<update id="userUpdate" parameterType="com.core.plus.info.user.vo.UserVO">
@@ -111,15 +117,15 @@
 		home_ph1 = #{home_ph1},
 		home_ph2 = #{home_ph2},
 		home_ph3 = #{home_ph3},
-		com_ph1 = #{com_ph1},
-		com_ph2 = #{com_ph2},
-		com_ph3 = #{com_ph3},
+<!-- 		com_ph1 = #{com_ph1}, -->
+<!-- 		com_ph2 = #{com_ph2}, -->
+<!-- 		com_ph3 = #{com_ph3}, -->
 		email_id = #{email_id},
 		email_dm = #{email_dm},
 		org_id = #{org_id},
 <!-- 		mdfy_id = #{crt_id}, -->
 <!-- 		mdfy_dt = to_char(now(),'YYYYMMDDHH24MISS'), -->
-<!-- 		pwd_err_cnt = 0, -->
+		pwd_err_cnt = 0,
 		act_yn = #{act_yn}
 		WHERE user_id = #{user_id}
 	</update>
@@ -164,7 +170,7 @@
 	
 	<!-- 부서 모달 리스트 카운트 -->
 	<select id="userOrgListCount" parameterType="map" resultType="int">
-		SELECT COUNT(a.*)
+		SELECT COUNT(*)
 		FROM(
 			SELECT org_id,org_nm 
 			FROM tb_org
@@ -182,8 +188,8 @@
 	
 	<select id="userType" resultType="com.core.plus.info.user.vo.UserVO">
 	 	SELECT 
-		 	name as user_type_cd,
-		 	val as user_type_nm
+		 	code as user_type_cd,
+		 	code_name as user_type_nm
 		FROM tb_code
 		WHERE code_no ='1023'
 	</select>	

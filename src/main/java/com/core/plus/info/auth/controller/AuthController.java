@@ -92,10 +92,10 @@ public class AuthController {
 		mov.addObject("sub_menu_url", "auth");
 		
 		//등록, 수정자 ID 세팅
-		String user_id = session.getAttribute("user").toString();
-		authVo.setCrt_id(user_id);
-		authVo.setMdfy_id(user_id);
-		
+//		String user_id = session.getAttribute("user").toString();
+//		authVo.setCrt_id(user_id);
+//		authVo.setMdfy_id(user_id);
+		authVo.setFin_mdfy_id("admin");
 		//메뉴 그리기
 		menuImport(mov, "auth");
 		
@@ -116,8 +116,8 @@ public class AuthController {
 		mov.addObject("sub_menu_url", "auth");
 		
 		//수정자 ID 가져오기
-		String user_id = session.getAttribute("user").toString();
-		
+//		String user_id = session.getAttribute("user").toString();
+		authVo.setFin_mdfy_id("admin");
 		//메뉴 그리기
 		menuImport(mov, "auth");
 		
@@ -327,12 +327,12 @@ public class AuthController {
 	// 메뉴 가져오기
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
-		String user_id = session.getAttribute("user").toString();
+//		String user_id = session.getAttribute("user").toString();
 			
 		// 메뉴에 따른 권한 주기
 		Map<String, String> menuAuthMap = new HashMap<String, String>();
 		menuAuthMap.put("menu_url", url);
-		menuAuthMap.put("user_id", user_id);
+//		menuAuthMap.put("user_id", user_id);
 		menuAuthMap.put("menu_id", menu_id);
 //		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
 //		mav.addObject("menuAuth", menuAuth);

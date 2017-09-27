@@ -5,10 +5,11 @@ public class AuthVO{
 	private String auth_id;		//권한id
 	private String auth_nm;		//권한이름
 	private String act_yn;		//활성화여부
-	private String crt_id;		//생성자id
-	private String crt_dt;		//생성일시
-	private String mdfy_id;		//수정자id
-	private String mdfy_dt;		//수정일시
+	private String fin_mdfy_id; //최종수정자id
+//	private String crt_id;		//생성자id
+//	private String crt_dt;		//생성일시
+//	private String mdfy_id;		//수정자id
+//	private String mdfy_dt;		//수정일시
 	
 	private String retrv_auth_yn;     //조회권한여부
 	private String create_auth_yn;		//생성권한여부
@@ -34,6 +35,12 @@ public class AuthVO{
 	private String email;	    //메일id + 메일주소
 	private String org_id;		//부서id
 	
+	public String getFin_mdfy_id() {
+		return fin_mdfy_id;
+	}
+	public void setFin_mdfy_id(String fin_mdfy_id) {
+		this.fin_mdfy_id = fin_mdfy_id;
+	}
 	public String getRetrv_auth_yn() {
 		return retrv_auth_yn;
 	}
@@ -76,30 +83,30 @@ public class AuthVO{
 	public void setAct_yn(String act_yn) {
 		this.act_yn = act_yn;
 	}
-	public String getCrt_id() {
-		return crt_id;
-	}
-	public void setCrt_id(String crt_id) {
-		this.crt_id = crt_id;
-	}
-	public String getCrt_dt() {
-		return crt_dt;
-	}
-	public void setCrt_dt(String crt_dt) {
-		this.crt_dt = crt_dt;
-	}
-	public String getMdfy_id() {
-		return mdfy_id;
-	}
-	public void setMdfy_id(String mdfy_id) {
-		this.mdfy_id = mdfy_id;
-	}
-	public String getMdfy_dt() {
-		return mdfy_dt;
-	}
-	public void setMdfy_dt(String mdfy_dt) {
-		this.mdfy_dt = mdfy_dt;
-	}
+//	public String getCrt_id() {
+//		return crt_id;
+//	}
+//	public void setCrt_id(String crt_id) {
+//		this.crt_id = crt_id;
+//	}
+//	public String getCrt_dt() {
+//		return crt_dt;
+//	}
+//	public void setCrt_dt(String crt_dt) {
+//		this.crt_dt = crt_dt;
+//	}
+//	public String getMdfy_id() {
+//		return mdfy_id;
+//	}
+//	public void setMdfy_id(String mdfy_id) {
+//		this.mdfy_id = mdfy_id;
+//	}
+//	public String getMdfy_dt() {
+//		return mdfy_dt;
+//	}
+//	public void setMdfy_dt(String mdfy_dt) {
+//		this.mdfy_dt = mdfy_dt;
+//	}
 //	public String getRtrv_yn() {
 //		return rtrv_yn;
 //	}

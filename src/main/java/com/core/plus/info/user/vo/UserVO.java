@@ -1,7 +1,7 @@
 package com.core.plus.info.user.vo;
 
 public class UserVO {
-	;
+	private String user_no;
 	private String user_id;
 	private String user_nm;
 	private String pwd;
@@ -34,8 +34,14 @@ public class UserVO {
 	private String auth_nm_2;
 	private String auth_nm_3;
 	private String auth_nm_4;
-//	private String pwd_err_cnt;
+	private String pwd_err_cnt;
 
+	public String getUser_no() {
+		return user_no;
+	}
+	public void setUser_no(String user_no) {
+		this.user_no = user_no;
+	}
 	public String getUser_id(){
 		return user_id;
 	}
@@ -228,12 +234,12 @@ public class UserVO {
 	public void setAuth_nm_4(String auth_nm_4) {
 		this.auth_nm_4 = auth_nm_4;
 	}
-//	public String getPwd_err_cnt() {
-//		return pwd_err_cnt;
-//	}	
-//	public void setPwd_err_cnt(String pwd_err_cnt) {
-//		this.pwd_err_cnt = pwd_err_cnt;
-//	}	
+	public String getPwd_err_cnt() {
+		return pwd_err_cnt;
+	}	
+	public void setPwd_err_cnt(String pwd_err_cnt) {
+		this.pwd_err_cnt = pwd_err_cnt;
+	}	
 	@Override
 	public String toString() {
 		return "UserVO [user_id=" + user_id + ", user_nm=" + user_nm + ", pwd="
@@ -251,8 +257,8 @@ public class UserVO {
 				+ auth_id_2 + ", auth_id_3=" + auth_id_3 + ", auth_id_4="
 				+ auth_id_4 + ", auth_nm_1=" + auth_nm_1 + ", auth_nm_2="
 				+ auth_nm_2 + ", auth_nm_3=" + auth_nm_3 + ", auth_nm_4="
-				+ auth_nm_4 /*+ ", pwd_err_cnt="
-						+ pwd_err_cnt*/ + "]";
+				+ auth_nm_4 + ", pwd_err_cnt="
+						+ pwd_err_cnt + "]";
 	}
 	
 	

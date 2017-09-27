@@ -91,7 +91,7 @@ public class OrgController{
 		menuImport(mav, "org");
 		
 		// 사용자 ID 세팅
-		String user_id = session.getAttribute("user").toString();
+//		String user_id = session.getAttribute("user").toString();
 //		orgVO.setCrt_id(user_id);
 		int orgResult = 0;
 		
@@ -123,8 +123,8 @@ public class OrgController{
 		}
 		
 		// 대표검색 리스트
-		List<OrgVO> replist = orgService.repOrgList(orgMap);		
-		mav.addObject("replist", replist);
+//		List<OrgVO> replist = orgService.repOrgList(orgMap);		
+//		mav.addObject("replist", replist);
 		
 		return mav;
 	}

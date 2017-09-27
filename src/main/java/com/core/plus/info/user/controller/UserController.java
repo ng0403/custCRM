@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.core.plus.common.Commons;
 import com.core.plus.common.PagerVO;
@@ -114,7 +115,10 @@ public class UserController {
 				String modes,
 				@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
 				){
-			ModelAndView mov = new ModelAndView("userlist");
+			RedirectView rv = new RedirectView("user");
+			rv.setExposeModelAttributes(false);
+			
+			ModelAndView mov = new ModelAndView(rv);
 			mov.addObject("main_menu_url", "org");
 			mov.addObject("sub_menu_url", "user");
 			
@@ -159,9 +163,11 @@ public class UserController {
 			mov.addObject("main_menu_url", "org");
 			mov.addObject("sub_menu_url", "user");
 			
-			UserVO userVO = service.userDetail(user_id);
 			List<UserVO> userTypeList = service.userType();
-			List<UserVO> orgList = service.userOrgList(map);
+			
+			if(mode.equals("detail")){
+			UserVO userVO = service.userDetail(user_id);
+//			List<UserVO> orgList = service.userOrgList(map);
 			List<UserVO> authList = service.authList();		
 					
 			List<UserVO> userAuthList = service.userAuthList(user_id);     		
@@ -183,9 +189,11 @@ public class UserController {
 			
 			mov.addObject("userVO", userVO);
 			mov.addObject("userAuthList", userAuthList);
-			mov.addObject("orgList", orgList);
-			mov.addObject("userType", userTypeList);
+//			mov.addObject("orgList", orgList);
 			mov.addObject("authList", authList);
+			}
+			
+			mov.addObject("userType", userTypeList);
 			mov.addObject("mode", mode);
 			menuImport(mov, "user");		
 			return mov;
@@ -211,7 +219,11 @@ public class UserController {
 			System.out.println(">>>>NM>>>>"+a);
 		}*/
 		
-		ModelAndView mov = new ModelAndView("userlist");
+		RedirectView rv = new RedirectView("user");
+		rv.setExposeModelAttributes(false);
+		
+		
+		ModelAndView mov = new ModelAndView(rv);
 		mov.addObject("main_menu_url", "org");
 		mov.addObject("sub_menu_url", "user");
 		
@@ -291,7 +303,10 @@ public class UserController {
 			System.out.println(">>>>NM>>>>"+a);
 		}
 		
-		ModelAndView mov = new ModelAndView("userlist");		
+		RedirectView rv = new RedirectView("user");
+		rv.setExposeModelAttributes(false);
+		
+		ModelAndView mov = new ModelAndView(rv);		
 		mov.addObject("main_menu_url", "org");
 		mov.addObject("sub_menu_url", "user");
 		
