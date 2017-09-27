@@ -425,7 +425,7 @@ public class LeadController {
 	
 	//고객 팝업 리스트
 	@RequestMapping(value="custPopListAjax", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> custListPopup(@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, String s_cust_name)
+	public @ResponseBody Map<String, Object> custListPopup(@RequestParam(value = "custPopupPageNum", defaultValue = "1") int PageNum, String s_cust_name)
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("custPopupPageNum", PageNum);

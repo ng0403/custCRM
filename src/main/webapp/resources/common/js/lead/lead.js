@@ -143,14 +143,13 @@ function leadPageNumInputEnter(event) {
  	var ctx = $("#ctx").val();
  	
  	var s_cust_name = $("#s_cust_name").val();
- 	
- 	console.log(s_cust_name);
+  
  	
  	$.ajax({
  		url: ctx + "/custPopListAjax", 
  		type: "POST",  
  		data: {
- 			pageNum     : pageNum,
+ 			custPopupPageNum     : pageNum,
  			s_cust_name : s_cust_name 
  		},
  		dataType: "json",
