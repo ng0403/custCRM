@@ -189,7 +189,7 @@
 		 	 			</tr>
 		 	 		</c:forEach>
 		 	 	</c:if>
-		 	 	<c:if test="${ opptyList == ' ' || opptyList == null || opptyList eq null}">
+		 	 	<c:if test="${ empty opptyList }">
 		 	 		<tr>
 		 		 		<td style="text-align: center;" colspan="13">리스트가 존재하지 않습니다.</td>
 		 	 		</tr>

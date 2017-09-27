@@ -176,10 +176,7 @@ public class CustDAOImpl implements CustDAO{
 				cell = row.getCell(6);	// visit_cn
 				visit_cn = cell.getStringCellValue().trim();
 				
-				cell = row.getCell(7);	// rec_per
-				rec_per = cell.getStringCellValue().trim();
-
-				cell = row.getCell(8);	// cust_rank
+				cell = row.getCell(7);	// cust_rank
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					int tmp = (int) cell.getNumericCellValue();
@@ -188,7 +185,7 @@ public class CustDAOImpl implements CustDAO{
 					System.out.println("cust_rank : " + cust_rank);
 				}
 				
-				cell = row.getCell(9);	// cust_type
+				cell = row.getCell(8);	// cust_type
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					int tmp = (int) cell.getNumericCellValue();
@@ -196,6 +193,9 @@ public class CustDAOImpl implements CustDAO{
 					
 					System.out.println("cust_type : " + cust_type);
 				}
+				
+				cell = row.getCell(9);	// rec_per
+				rec_per = cell.getStringCellValue().trim();
 				
 				cell = row.getCell(10);	// remark_cn
 				remark_cn = cell.getStringCellValue().trim();
