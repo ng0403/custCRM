@@ -11,6 +11,8 @@ public class OpptyVO {
 	private String cust_phone;		// 전화번호
 	private String emp_no; 			// 담당자번호
 	private String emp_name;		// 담당자이름
+	private String user_no;			// 담당자번호(user)
+	private String user_nm;			// 담당자이름
 	private String oppty_status_cd; // 기회상태구분
 	private String oppty_stage_cd; 	// 기회단계구분
 	private String exp_close_day; 	// 예상종료일자
@@ -97,14 +99,6 @@ public class OpptyVO {
 		this.emp_no = emp_no;
 	}
 	
-	public String getEmp_name() {
-		return emp_name;
-	}
-
-	public void setEmp_name(String emp_name) {
-		this.emp_name = emp_name;
-	}
-
 	public String getOppty_status_cd() {
 		return oppty_status_cd;
 	}
@@ -258,20 +252,45 @@ public class OpptyVO {
 		this.rec_per_name = rec_per_name;
 	}
 
+	public String getUser_no() {
+		return user_no;
+	}
+
+	public void setUser_no(String user_no) {
+		this.user_no = user_no;
+	}
+
+	public String getUser_nm() {
+		return user_nm;
+	}
+
+	public void setUser_nm(String user_nm) {
+		this.user_nm = user_nm;
+	}
+
+	public String getEmp_name() {
+		return emp_name;
+	}
+
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+
 	@Override
 	public String toString() {
 		return "OpptyVO [oppty_no=" + oppty_no + ", create_date=" + create_date + ", update_date=" + update_date
-				+ ", oppty_name=" + oppty_name + ", cust_no=" + cust_no + ", cust_name=" + cust_name + ", emp_no="
-				+ emp_no + ", emp_name=" + emp_name + ", oppty_status_cd=" + oppty_status_cd + ", oppty_stage_cd="
-				+ oppty_stage_cd + ", exp_close_day=" + exp_close_day + ", dtype_cd=" + dtype_cd + ", sur_plan_cn="
-				+ sur_plan_cn + ", purchase_type=" + purchase_type + ", payment_cd=" + payment_cd + ", rec_per_cd="
-				+ rec_per_cd + ", remark_cn=" + remark_cn + ", score=" + score + ", code_no=" + code_no + ", code="
-				+ code + ", code_name=" + code_name + ", oppty_status_name=" + oppty_status_name + ", oppty_stage_name="
-				+ oppty_stage_name + ", dtype_name=" + dtype_name + ", purchase_type_name=" + purchase_type_name
-				+ ", payment_name=" + payment_name + ", rec_per_name=" + rec_per_name + ", getOppty_no()="
-				+ getOppty_no() + ", getCreate_date()=" + getCreate_date() + ", getUpdate_date()=" + getUpdate_date()
+				+ ", oppty_name=" + oppty_name + ", cust_no=" + cust_no + ", cust_name=" + cust_name + ", cust_phone="
+				+ cust_phone + ", emp_no=" + emp_no + ", user_no=" + user_no + ", user_nm=" + user_nm
+				+ ", oppty_status_cd=" + oppty_status_cd + ", oppty_stage_cd=" + oppty_stage_cd + ", exp_close_day="
+				+ exp_close_day + ", dtype_cd=" + dtype_cd + ", sur_plan_cn=" + sur_plan_cn + ", purchase_type="
+				+ purchase_type + ", payment_cd=" + payment_cd + ", rec_per_cd=" + rec_per_cd + ", remark_cn="
+				+ remark_cn + ", score=" + score + ", code_no=" + code_no + ", code=" + code + ", code_name="
+				+ code_name + ", oppty_status_name=" + oppty_status_name + ", oppty_stage_name=" + oppty_stage_name
+				+ ", dtype_name=" + dtype_name + ", purchase_type_name=" + purchase_type_name + ", payment_name="
+				+ payment_name + ", rec_per_name=" + rec_per_name + ", getOppty_no()=" + getOppty_no()
+				+ ", getCreate_date()=" + getCreate_date() + ", getUpdate_date()=" + getUpdate_date()
 				+ ", getOppty_name()=" + getOppty_name() + ", getCust_no()=" + getCust_no() + ", getCust_name()="
-				+ getCust_name() + ", getEmp_no()=" + getEmp_no() + ", getEmp_name()=" + getEmp_name()
+				+ getCust_name() + ", getCust_phone()=" + getCust_phone() + ", getEmp_no()=" + getEmp_no()
 				+ ", getOppty_status_cd()=" + getOppty_status_cd() + ", getOppty_stage_cd()=" + getOppty_stage_cd()
 				+ ", getExp_close_day()=" + getExp_close_day() + ", getDtype_cd()=" + getDtype_cd()
 				+ ", getSur_plan_cn()=" + getSur_plan_cn() + ", getPurchase_type()=" + getPurchase_type()
@@ -280,8 +299,10 @@ public class OpptyVO {
 				+ getCode() + ", getCode_name()=" + getCode_name() + ", getOppty_status_name()="
 				+ getOppty_status_name() + ", getOppty_stage_name()=" + getOppty_stage_name() + ", getDtype_name()="
 				+ getDtype_name() + ", getPurchase_type_name()=" + getPurchase_type_name() + ", getPayment_name()="
-				+ getPayment_name() + ", getRec_per_name()=" + getRec_per_name() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ getPayment_name() + ", getRec_per_name()=" + getRec_per_name() + ", getUser_no()=" + getUser_no()
+				+ ", getUser_nm()=" + getUser_nm() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
 	}
+
 
 }

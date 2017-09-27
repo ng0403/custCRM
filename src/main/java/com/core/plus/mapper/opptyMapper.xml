@@ -17,7 +17,7 @@
 			AND (cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
 		</if>
 		<if test="emp_name_srch != null and emp_name_srch != ''">
-			AND (emp_no like ( select emp_no from tb_emp where emp_name like concat('%', #{emp_name_srch}, '%')))
+			AND (emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
 		</if>
 		<if test="oppty_status_cd_srch != null and oppty_status_cd_srch != ''">
 			AND (oppty_status_cd like concat('%', #{oppty_status_cd_srch}, '%'))
@@ -54,10 +54,10 @@
 	
 	<select id="empPopupRow" resultType="int">
 		SELECT count(*)
-		FROM tb_emp
-		WHERE del_yn = 'N'
+		FROM tb_user
+		WHERE act_yn = 'Y' AND user_id != 'admin'
 		<if test="s_emp_name != null and s_emp_name != ''">
-			AND (emp_name like concat('%', #{s_emp_name}, '%'))
+			AND (user_nm like concat('%', #{s_emp_name}, '%'))
 		</if>
 	</select>
 	
@@ -104,7 +104,7 @@
 			(select cust_name from tb_cust cust where cust.cust_no = opty.cust_no) cust_name,
 			case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no) is null then '' 
 			else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no) end as cust_phone,
-			(select emp_name  from tb_emp  emp  where emp.emp_no = opty.emp_no) emp_name,
+			(select user_nm  from tb_user  emp  where emp.user_no = opty.emp_no) emp_name,
 			(select code_name from tb_code where code_no = '1010' and code = oppty_status_cd) oppty_status_cd,
 			(select code_name from tb_code where code_no = '1011' and code = oppty_stage_cd)  oppty_stage_cd,
 			exp_close_day,
@@ -126,7 +126,7 @@
 				AND (cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
 			</if>
 			<if test="emp_name_srch != null and emp_name_srch != ''">
-				AND (emp_no like ( select emp_no from tb_emp where emp_name like concat('%', #{emp_name_srch}, '%')))
+				AND (emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
 			</if>
 			<if test="oppty_status_cd_srch != null and oppty_status_cd_srch != ''">
 				AND (oppty_status_cd like concat('%', #{oppty_status_cd_srch}, '%'))
@@ -188,7 +188,7 @@
 				(select cust_name from tb_cust cust where cust.cust_no = opty.cust_no) cust_name,
 				case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no) is null then '' 
 				else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no) end as cust_phone,
-				(select emp_name  from tb_emp  emp  where emp.emp_no = opty.emp_no) emp_name,
+				(select user_nm  from tb_user  emp  where emp.user_no = opty.emp_no) emp_name,
 				(select code_name from tb_code where code_no = '1010' and code = oppty_status_cd) oppty_status_cd,
 				(select code_name from tb_code where code_no = '1011' and code = oppty_stage_cd)  oppty_stage_cd,
 				exp_close_day,
@@ -210,7 +210,7 @@
 					AND (cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
 				</if>
 				<if test="emp_name_srch != null and emp_name_srch != ''">
-					AND (emp_no like ( select emp_no from tb_emp where emp_name like concat('%', #{emp_name_srch}, '%')))
+					AND (emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
 				</if>
 				<if test="oppty_status_cd_srch != null and oppty_status_cd_srch != ''">
 					AND (oppty_status_cd like concat('%', #{oppty_status_cd_srch}, '%'))
@@ -245,7 +245,7 @@
 			cust_no,
 			(select cust_name from tb_cust cust where cust.cust_no = opty.cust_no) cust_name,
 			emp_no,
-			(select emp_name  from tb_emp  emp  where emp.emp_no = opty.emp_no) emp_name,
+			(select user_nm  from tb_user  emp  where emp.user_no = opty.emp_no) emp_name,
 			oppty_status_cd,
 			(select code_name from tb_code where code_no = '1010' and code = oppty_status_cd) oppty_status_name,
 			oppty_stage_cd,
@@ -385,19 +385,19 @@
 		LIMIT #{page.limitStartNum}, #{page.pageSize}
 	</select>
 	
-	<select id="empPopupList" resultType="com.core.plus.emp.vo.EmpVO" parameterType="java.util.Map">
+	<select id="empPopupList" resultType="com.core.plus.info.user.vo.UserVO" parameterType="java.util.Map">
 		SELECT P.*
 		FROM 
 		(
 			SELECT
-				emp_no,
-				emp_name
+				user_no,
+				user_nm
 			FROM
-				tb_emp
+				tb_user
 			WHERE
-				del_yn = 'N'
+				act_yn = 'Y' AND user_id != 'admin'
 			<if test="s_emp_name != null and s_emp_name != ''">
-				AND (emp_name like concat('%', #{s_emp_name}, '%'))
+				AND (user_nm like concat('%', #{s_emp_name}, '%'))
 			</if>
 		) P
 		LIMIT #{page.limitStartNum}, #{page.pageSize}

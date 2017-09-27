@@ -295,9 +295,10 @@ function viewEmpList(empPopupPageNum) {
 				$("#empListTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
 			} else {
 				$.each(data.empPopupList, function(i) {
+					console.log(this.user_no);
 					var trElement = $("#empListTableHeader").clone().removeClass().empty();
-					var emp_no = this.emp_no;
-					var emp_name = this.emp_name;
+					var emp_no = this.user_no;
+					var emp_name = this.user_nm;
 
 					trElement.bind("click", function(e) {
 						setTimeout($.unblockUI, 0);

@@ -17,7 +17,7 @@
             AND (cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
          </if>
          <if test="emp_name_srch != null and emp_name_srch != ''">
-            AND (emp_no like ( select emp_no from tb_emp where emp_name like concat('%', #{emp_name_srch_srch}, '%')))
+            AND (emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch_srch}, '%')))
          </if>
          <if test="next_day_srch != null and next_day_srch != ''">
             AND (next_day like concat('%', #{next_day_srch}, '%'))
@@ -45,10 +45,10 @@
    
    <select id="empPopupRow" resultType="int">
       SELECT count(*)
-      FROM tb_emp
-      WHERE del_yn = 'N'
+      FROM tb_user
+      WHERE act_yn = 'Y' AND user_id != 'admin'
       <if test="s_emp_name != null and s_emp_name != ''">
-         AND (emp_name like concat('%', #{s_emp_name}, '%'))
+         AND (user_nm like concat('%', #{s_emp_name}, '%'))
       </if>
    </select>
    
@@ -81,14 +81,14 @@
            	  , (select cust_name from tb_cust c where c.cust_no = t.cust_no ) as cust_name
               , case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = t.cust_no and primary_yn = 'Y')  is null then ' ' 
                    else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = t.cust_no and primary_yn = 'Y') end as phone_no
-              , case when (select emp_name from tb_emp e where e.emp_no = t.emp_no) is null then ' ' 
-                    else (select emp_name from tb_emp e where e.emp_no = t.emp_no) end as emp_no
+              , case when (select user_nm from tb_user e where e.user_no = t.emp_no) is null then ' ' 
+                    else (select user_nm from tb_user e where e.user_no = t.emp_no) end as emp_no
               , t.next_day
               , (select code_name from tb_code code where code_no = '1008' and code.code = t.dtype_cd) as dtype_cd
               , date_format(t.create_date, '%Y-%m-%d %H:%i') as create_date
          from tb_task t left join tb_cust c on t.cust_no = c.cust_no 
                   left join tb_cust_phone p on t.cust_no = p.cust_no
-                  left join tb_emp e on t.emp_no = e.emp_no
+                  left join tb_user e on t.emp_no = e.emp_no
          WHERE t.del_yn = 'N'
             <if test="task_no_srch != null and task_no_srch != ''">
                AND (t.task_no like concat('%', #{task_no_srch}, '%'))
@@ -100,7 +100,7 @@
                AND (t.cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
             </if>
             <if test="emp_name_srch != null and emp_name_srch != ''">
-               AND (t.emp_no like ( select emp_no from tb_emp where emp_name like concat('%', #{emp_name_srch}, '%')))
+               AND (t.emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
             </if>
             <if test="next_day_srch != null and next_day_srch != ''">
                AND (t.next_day like concat('%', DATE_FORMAT(#{next_day_srch}, '%Y%m%d'), '%'))
@@ -132,14 +132,14 @@
               , (select cust_name from tb_cust c where c.cust_no = t.cust_no ) as cust_name
               , case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = t.cust_no and primary_yn = 'Y')  is null then ' ' 
                    else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = t.cust_no and primary_yn = 'Y') end as phone_no
-              , case when (select emp_name from tb_emp e where e.emp_no = t.emp_no) is null then ' ' 
-                     else (select emp_name from tb_emp e where e.emp_no = t.emp_no) end as emp_no
+              , case when (select user_nm from tb_user e where e.user_no = t.emp_no) is null then ' ' 
+                     else (select user_nm from tb_user e where e.user_no = t.emp_no) end as emp_no
               , t.next_day
               , (select code_name from tb_code code where code_no = '1008' and code.code = t.dtype_cd) as dtype_cd
               , date_format(t.create_date, '%Y-%m-%d %H:%i') as create_date
          from tb_task t left join tb_cust c on t.cust_no = c.cust_no 
                   left join tb_cust_phone p on t.cust_no = p.cust_no
-                  left join tb_emp e on t.emp_no = e.emp_no
+                  left join tb_user e on t.emp_no = e.user_no
          WHERE t.del_yn = 'N'
             <if test="task_no_srch != null and task_no_srch != ''">
                AND (t.task_no like concat('%', #{task_no_srch}, '%'))
@@ -151,7 +151,7 @@
                AND (t.cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
             </if>
             <if test="emp_name_srch != null and emp_name_srch != ''">
-               AND (t.emp_no like ( select emp_no from tb_emp where emp_name like concat('%', #{emp_name_srch}, '%')))
+               AND (t.emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
             </if>
             <if test="next_day_srch != null and next_day_srch != ''">
                AND (t.next_day like concat('%', DATE_FORMAT(#{next_day_srch}, '%Y%m%d'), '%'))
@@ -199,7 +199,7 @@
         , t.cust_no
         , (select cust_name from tb_cust where cust_no = c.cust_no ) as cust_name
         , t.emp_no
-            , (select emp_name from tb_emp where emp_no = e.emp_no) as emp_name
+            , (select user_nm from tb_user where user_no = e.emp_no) as emp_name
             , DATE_FORMAT(t.next_day, '%Y-%m-%d') as next_day
           , (select code_name from tb_code where code_no = '1008' and code = t.dtype_cd) as dtype_name
           , t.dtype_cd
@@ -217,7 +217,7 @@
           , t.remark_cn 
       from tb_task t left join tb_cust c on t.cust_no = c.cust_no 
                   left join tb_cust_phone p on t.cust_no = p.cust_no
-                  left join tb_emp e on t.emp_no = e.emp_no    
+                  left join tb_user e on t.emp_no = e.user_no    
                       left join tb_lead l on t.lead_no = l.lead_no
                       left join tb_oppty o on t.oppty_no = o.oppty_no
       where t.task_no = #{task_no}
@@ -295,18 +295,18 @@
        LIMIT #{page.limitStartNum}, #{page.pageSize}
    </select>
    
-   <select id="empPopupList" resultType="com.core.plus.emp.vo.EmpVO" parameterType="java.util.Map">
+   <select id="empPopupList" resultType="com.core.plus.info.user.vo.UserVO" parameterType="java.util.Map">
     	SELECT P.*
       	FROM (
 	      SELECT
-	         emp_no,
-	         emp_name
+	         user_no,
+	         user_nm
 	      FROM
-	         tb_emp
+	         tb_user
 	      WHERE
-	         del_yn = 'N'
+	         act_yn = 'Y' and user_id != 'admin'
 	      <if test="s_emp_name != null and s_emp_name != ''">
-	         AND (emp_name like concat('%', #{s_emp_name}, '%'))
+	         AND (user_nm like concat('%', #{s_emp_name}, '%'))
 	      </if>
        )p
        LIMIT #{page.limitStartNum}, #{page.pageSize}
