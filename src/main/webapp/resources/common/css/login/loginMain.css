@@ -62,6 +62,7 @@ body, input, textarea, button, select, table {font:12px '돋움',Dotum,sans-seri
 /*로그인*/
 /* body {	background: #fffbcc; } */
 body { background: #131230; }
+/* body { background: #1D4088; } */
 #wrap {
 		position:absolute;
 		left:50%;top:50%;

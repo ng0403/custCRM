@@ -32,7 +32,7 @@
     <div class="loginWrap">
     	
         <h1 class="h1Logo"><img id="logo" src="${ctx}/resources/images/coreplus.jpg" alt="CorePlus" /></h1>
-        <p id="mainLogo">Sales Force Automation</p>
+        <p id="mainLogo">Customer Relationship Management</p>
         <p class="h1Ttx" id="mainContK" style="display:block">CorePlus는 마케팅/영업/서비스/성과관리의 통합 관리를 통한<br />고객 Single View 제공 및 고객 대응력과 서비스 만족도 향상에 기여하는<br />고객을 위한, 고객중심의 4C(Consumer, Cost, Convenience, Communication)지향 시스템입니다.</p>
        <c:if test="${not empty sessionScope.user}"> 
        
