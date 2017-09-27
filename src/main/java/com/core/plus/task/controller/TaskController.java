@@ -201,10 +201,10 @@ public class TaskController {
 									String task_no_srch,  String subject_srch,  String cust_name_srch, 
 									String emp_name_srch, String next_day_srch, String dtype_cd_srch, String flg, String cst_num ) {
 		
-		//form 지속적인 append로 cust_no 스트링 자르기.
-		String custtmp = cst_num.substring(0, 15);
+		String custtmp;
+	
 		
-		System.out.println(custtmp);
+		System.out.println(flg);
  		char temp = flg.charAt(flg.length()-1);
 		  
  		
@@ -219,7 +219,12 @@ public class TaskController {
 			taskMap.put("emp_name_srch", emp_name_srch);
 			taskMap.put("next_day_srch", next_day_srch);
 			taskMap.put("dtype_cd_srch", dtype_cd_srch);
-			taskMap.put("cust_no", custtmp);
+			//form 지속적인 append로 cust_no 스트링 자르기.
+			if(cst_num != null){
+			 custtmp = cst_num.substring(0, 15);
+ 			 taskMap.put("cust_no", custtmp);
+			}
+			
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 			 
 			List<TaskVO> list = taskService.taskExcelExport(taskMap);	// 쿼리

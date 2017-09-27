@@ -223,7 +223,7 @@ function taskPaging(pageNum) {
 //엑셀 출력 적용 함수
 function download_list_Excel(formID, flg) 
 {	
-	var cust_no = $("#cust_no").val();
+  	var cust_no = $("#cust_no").val();
  	var t = flg;
 	var ctx = $("#ctx").val();
 	var form = $("#"+formID);
