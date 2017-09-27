@@ -368,33 +368,47 @@ public class UserController {
 	}	
 	
 	//부서검색리스트 , 페이징 Ajax통신
-		@RequestMapping(value="/orgMoList")
-		public @ResponseBody Map<String,Object> OrgModalList(HttpSession session
-				, @RequestParam(value = "pageNum", defaultValue = "1")int pageNum
-				, @RequestParam Map<String, Object> orgMap)throws ParseException{
-			System.out.println(orgMap.toString());
-			//map에 사용자검색부분을 넣어줌. 
-			orgMap.put("pageNum", pageNum);
-				
-			//페이지정보얻기
-			PagerVO page = service.getOrgModalListCount(orgMap);
-			if(page.getEndRow()==1){
-				page.setEndRow(0);
-			}
-			orgMap.put("page", page);
+	@RequestMapping(value="/orgMoList")
+	public @ResponseBody Map<String,Object> OrgModalList(HttpSession session
+			, @RequestParam(value = "pageNum", defaultValue = "1")int pageNum
+			, @RequestParam Map<String, Object> orgMap)throws ParseException{
+		System.out.println(orgMap.toString());
+		//map에 사용자검색부분을 넣어줌. 
+		orgMap.put("pageNum", pageNum);
 			
-			// 부서검색 리스트
-			List<Map<String, Object>> orgMlist = service.getOrgModalList(orgMap);
-			
-			for (Map<String, Object> map : orgMlist) {
-				System.out.println(map.toString());
-			}
-			
-			orgMap.put("orgMlist", orgMlist);
-			orgMap.put("orgMlistSize", orgMlist.size());
-			
-			return orgMap;
+		//페이지정보얻기
+		PagerVO page = service.getOrgModalListCount(orgMap);
+		if(page.getEndRow()==1){
+			page.setEndRow(0);
 		}
+		orgMap.put("page", page);
+		
+		// 부서검색 리스트
+		List<Map<String, Object>> orgMlist = service.getOrgModalList(orgMap);
+		
+		for (Map<String, Object> map : orgMlist) {
+			System.out.println(map.toString());
+		}
+		
+		orgMap.put("orgMlist", orgMlist);
+		orgMap.put("orgMlistSize", orgMlist.size());
+		
+		return orgMap;
+	}
+	
+	//ID 중복체크
+	@RequestMapping(value="/idChk")
+	public @ResponseBody int idChk(HttpSession session
+			, @RequestParam(value = "user_id")String user_id)throws ParseException{
+		System.out.println(user_id.toString());
+		
+		int result = 0;
+					
+		// ID 존재여부 확인
+		result = service.getUserIdCount(user_id);
+		
+		return result;
+	}
 	
 	
 	// 메뉴 가져오기

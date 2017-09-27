@@ -23,5 +23,6 @@ public interface UserDao {
 	
 
 	List<Map<String,Object>> getOrgModalList(Map<String,Object> map);
-	int getOrgModalListCount(Map<String,Object> map);	
+	int getOrgModalListCount(Map<String,Object> map);
+	public int getUserIdCount(String user_id);	
 }

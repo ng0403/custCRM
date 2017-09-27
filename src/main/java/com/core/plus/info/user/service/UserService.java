@@ -25,5 +25,6 @@ public interface UserService {
 	
 	List<Map<String,Object>> getOrgModalList(Map<String,Object> map);
 	PagerVO getOrgModalListCount(Map<String,Object> map);
+	int getUserIdCount(String user_id);
 
 }

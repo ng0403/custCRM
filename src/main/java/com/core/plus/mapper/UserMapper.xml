@@ -83,6 +83,19 @@
 		AND b.code_no = '1023'
 		AND user_id = #{user_id}	
 	</select>
+	
+	<!-- 아이디 중복체크 -->
+	<select id="userIdCount" parameterType="String" resultType="int">
+		SELECT	count(*)
+		from 	tb_user a,	tb_org b,
+			tb_code c	
+		where a.org_id = b.org_id
+		and c.code_no = '1023'
+		and c.code = a.user_type_cd
+		and a.user_id = #{user_id}
+	</select>
+	
+	
 	<insert id="userInsert" parameterType="com.core.plus.info.user.vo.UserVO">
 		<selectKey keyProperty="user_no" resultType="String" order="BEFORE">
 	         SELECT IF(SUBSTR(MAX(user_no), 1, 10) = DATE_FORMAT(now(), '%Y%m%d%H'), MAX(user_no)+1, concat(DATE_FORMAT(now(), '%Y%m%d%H'),'00001')) user_no

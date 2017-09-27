@@ -69,7 +69,8 @@ function user_detail_set(){
 	$("#org_nms").prop("readonly",true);
 	$("#auth_id").prop("readonly",true);
 	$("#auth_nm").prop("readonly",true);
-	$(".userDetail").hide();	
+	$(".userDetail").hide();
+	$(".userIdChk").hide();
 	// 배경 하얀색
 	$("#user_id").css("background","white");
 	$("#user_nm").css("background","white");
@@ -440,7 +441,55 @@ $(document).ready(function(){
 			$.unblockUI();
 		});
 	});	
+	$("#idChkBtn").click(function(){
+		if($("#user_id").val()==""){
+			alert("아이디를 입력해주세요.");
+			$("#user_id").focus();
+		}else{
+			idChk();
+		}
+	});
+	$("#idChk_flg").val(0);
 });
+//ID 중복체크
+function idChk(){
+	var ctx = $("#ctx").val();
+	var user_id = $("#user_id").val();
+//	var sendData = "";
+//	sendData = {
+//			"user_id": user_id
+//	};
+	
+	$.ajax({
+		url : ctx+'/idChk',
+		type : 'POST',
+		data : /*sendData*/{
+			"user_id": user_id
+		},
+		success : function(data) {
+			if(data > 0){
+				alert("아이디 "+user_id+" 는 이미 사용중입니다.\n 다른 아이디를 입력해 주세요");
+				$("#user_id").val("");
+				$("#user_id").focus();
+			}else{
+				alert("아이디 "+user_id+" 는 사용가능한 아이디 입니다.");
+				$("#idChk_flg").val(1);
+				$("#user_nm").focus();
+			}
+		},
+		beforeSend: function(){
+        	viewLoadingShow();			
+        },
+        complete:function(){
+        	viewLoadingHide();	
+        },
+		error : function(request,status,error) {
+	          alert("사용자페이징code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	      }
+	})
+	
+}
+
 //부서명 검색
 function schOrgList(pageNum, schDiv){
 	$(document).ready(function() {

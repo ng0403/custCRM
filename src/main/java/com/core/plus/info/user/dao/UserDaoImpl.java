@@ -193,5 +193,11 @@ public class UserDaoImpl implements UserDao{
 		
 		return totalCount;
 	}
+
+	@Override
+	public int getUserIdCount(String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user.userIdCount", user_id);
+	}
 	
 }

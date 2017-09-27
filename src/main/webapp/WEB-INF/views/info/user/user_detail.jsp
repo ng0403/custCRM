@@ -17,6 +17,9 @@ $(document).ready(function(){
 		if($("#user_id").val()==""){
 				alert("아이디를 입력해주세요.");
 				$("#user_id").focus();
+		}else if($("#idChk_flg").val()==0){
+			alert("ID중복체크를 해주세요.");
+			$("#user_id").focus();
 		}else if($("#user_nm").val()==""){
 			alert("사용자명을 입력해주세요.");
 			$("#user_nm").focus();
@@ -88,8 +91,13 @@ $(document).ready(function(){
 	   	 	<tr>
 	   	 		<th style="color: red;">* 사용자ID</th>
 	   	 		<td>
-	   	 			<input type="text" id="user_id" name="user_id" value="${userVO.user_id}">
-	   	 			<input class="back_btn" type="button" id="idChkBtn" value="ID중복체크">
+	   	 			<div style="float : left; width:56%;">
+	   	 				<input type="text" id="user_id" name="user_id" value="${userVO.user_id}">
+	   	 			</div>
+	   	 			<div class="userIdChk" style="float : left;">
+	   	 				<input class="back_btn" type="button" id="idChkBtn" value="ID중복체크">
+	   	 				<input type="hidden" id="idChk_flg">
+	   	 			</div>
 	   	 		</td>
 	   	 		<th style="color: red;">* 사용자명</th>
 	   	 		<td><input type="text" id="user_nm" name="user_nm" value="${userVO.user_nm}"></td>

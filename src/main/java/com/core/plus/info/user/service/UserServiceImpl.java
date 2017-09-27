@@ -115,4 +115,10 @@ public class UserServiceImpl implements UserService{
 		
 		return page;
 	}
+
+	@Override
+	public int getUserIdCount(String user_id) {
+		// TODO Auto-generated method stub
+		return userDao.getUserIdCount(user_id);
+	}
 }
