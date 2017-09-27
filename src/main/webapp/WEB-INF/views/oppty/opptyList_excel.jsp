@@ -79,8 +79,8 @@
 					<td class="body"><c:out value="${opptyExcelExport.oppty_name}"></c:out></td>
 					<td class="body" id="no"><c:out value="${opptyExcelExport.cust_no}"></c:out></td>
 					<td class="body"><c:out value="${opptyExcelExport.cust_name}"></c:out></td>
-					<td class="body"><c:out value="${opptyExcelExport.phone_no}"></c:out></td>
-					<td class="body"><c:out value="${opptyExcelExport.emp_no}"></c:out></td>
+					<td class="body"><c:out value="${opptyExcelExport.cust_phone}"></c:out></td>
+					<td class="body"><c:out value="${opptyExcelExport.emp_name}"></c:out></td>
 					<td class="body"><c:out value="${opptyExcelExport.oppty_status_cd}"></c:out></td>
 					<td class="body"><c:out value="${opptyExcelExport.oppty_stage_cd}"></c:out></td>
 					<td class="body"><c:out value="${opptyExcelExport.exp_close_day}"></c:out></td>

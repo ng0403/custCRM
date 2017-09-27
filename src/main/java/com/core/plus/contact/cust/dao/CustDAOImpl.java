@@ -106,6 +106,8 @@ public class CustDAOImpl implements CustDAO{
 			String visit_dtl_cd = null;
 			String visit_cn = null;
 			String rec_per = null;
+			String cust_rank = null;
+			String cust_type = null;
 			String remark_cn = null;
 			
 			int rows = sheet.getPhysicalNumberOfRows();
@@ -176,8 +178,26 @@ public class CustDAOImpl implements CustDAO{
 				
 				cell = row.getCell(7);	// rec_per
 				rec_per = cell.getStringCellValue().trim();
+
+				cell = row.getCell(8);	// cust_rank
+				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+				{
+					int tmp = (int) cell.getNumericCellValue();
+					cust_rank = String.format("%03d", tmp);
+					
+					System.out.println("cust_rank : " + cust_rank);
+				}
 				
-				cell = row.getCell(8);	// remark_cn
+				cell = row.getCell(9);	// cust_type
+				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+				{
+					int tmp = (int) cell.getNumericCellValue();
+					cust_type = String.format("%03d", tmp);
+					
+					System.out.println("cust_type : " + cust_type);
+				}
+				
+				cell = row.getCell(10);	// remark_cn
 				remark_cn = cell.getStringCellValue().trim();
 
 				// VO
@@ -191,6 +211,8 @@ public class CustDAOImpl implements CustDAO{
 				custVo.setVisit_dtl_cd(visit_dtl_cd);
 				custVo.setVisit_cn(visit_cn);
 				custVo.setRec_per(rec_per);
+				custVo.setCust_rank(cust_rank);
+				custVo.setCust_type(cust_type);
 				custVo.setRemark_cn(remark_cn);
 				
 				System.out.println("VO : " + custVo);

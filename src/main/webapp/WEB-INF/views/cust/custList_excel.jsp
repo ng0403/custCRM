@@ -60,6 +60,8 @@
 				<td class="header" style="width: 10%;">내원경로</td>
 				<td class="header" style="width: 10%;">내원경로상세</td>
 				<td class="header" style="width: 10%;">내원경로내용</td>
+				<td class="header" style="width: 10%;">고객등급</td>
+				<td class="header" style="width: 10%;">고객유형</td>
 				<td class="header" style="width: 10%;">소개자</td>
 				<td class="header" style="width: 10%;">특이사항</td>
 			</tr>
@@ -84,6 +86,8 @@
 			
 		<c:if test="${fn:length(custExcelExport) == 0}">
 			<tr style="cursor: default; background-color: white;">
+				<td class="body"></td>
+				<td class="body"></td>
 				<td class="body"></td>
 				<td class="body"></td>
 				<td class="body"></td>
