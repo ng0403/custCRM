@@ -153,8 +153,10 @@ function task_modify_btn() {
 function task_modify_save() {
 	
 	 $(document).ready(function() {
-		 
-	 	var task_no   = $("#task_no").val();
+		var lead_no = $("#lead_no").val();
+		var cust_no = $("#cust_no").val();
+		var taskPageNum = $("#taskPageNum").val();
+ 	 	var task_no   = $("#task_no").val();
 	 	var subject   = $("#subject").val();
 	 	var emp_no    = $("#emp_no").val();
 	 	var cust_no   = $("#cust_no").val();
@@ -211,6 +213,7 @@ function task_modify_save() {
 			$.ajax({
 				type : 'POST',
 				url : ctx + '/task_edit',
+				async:false,
 				data : {
 					
 					task_no 	: task_no,
@@ -231,10 +234,21 @@ function task_modify_save() {
 				dataType : "json",
 				success : function(data) {
 					
-					alert("상담이 수정되었습니다.");
-					alert("상담 리스트로 이동합니다.");
+					
 					//location.href= ctx + '/task';
-					taskList();
+					if(lead_no != null)
+					{
+						alert("상담이 수정되었습니다.");
+						alert("고객 상담 리스트로 이동합니다.");
+					 
+						window.location.href="/cust_task?pageNum=" + taskPageNum + "&cust_no=" + cust_no + "&lead_no="+lead_no;
+					}
+					else{
+						alert("상담이 수정되었습니다.");
+						alert("상담 리스트로 이동합니다.");
+						taskList();	
+					}
+					
 					
 				}, error : function(request,status,error) {
 				        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

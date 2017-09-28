@@ -21,6 +21,7 @@
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="taskPageNum" value="${taskPageNum}">
+<input type="hidden" id="lead_no" value="${lead_no}">
  <!-- 상담 -->
 <div id="task_detail">
 	<div style="height: 10px;"></div>
@@ -299,9 +300,8 @@
 				<c:if test="${flg == 0 }">
 					<div id="cust_detail_div">
 						<input type="button" class="func_btn" id="task_update" value="편집"
-							onclick="task_modify(${taskDetail.task_no});"> <input
-							type="button" class="func_btn" id="task_delete" value="삭제"
-							onclick="task_remove();"> 
+							onclick="task_modify(${taskDetail.task_no});">
+						<input type="button" class="func_btn" id="task_delete" value="삭제" onclick="task_remove();"> 
 							
 							<c:if test="${lead_no == null}">
 						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						

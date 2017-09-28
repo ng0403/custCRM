@@ -366,7 +366,12 @@ function lead_single_save(){
     	alert("접촉할 일자를 입력해 주세요.");
     	return false;
     } 
- 
+    
+    
+    if($("#lead_status_cd_sel").val() == null || $("#lead_status_cd_sel").val()==""){
+    	alert("상태 코드를 입력해 주세요.");
+    	return false;
+    } 
   
 
 	  if(confirm("저장 하시겠습니까?")){ 
