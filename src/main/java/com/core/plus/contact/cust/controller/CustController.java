@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +32,7 @@ import com.core.plus.contact.cust.vo.CustVO;
 import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
+import com.core.plus.login.dao.LoginDAO;
 import com.core.plus.oppty.service.OpptyService;
 import com.core.plus.oppty.vo.OpptyVO;
 import com.core.plus.task.vo.TaskVO;
@@ -55,6 +57,12 @@ public class CustController {
 	
 	@Resource
 	OpptyService opptyService;
+	
+	@Resource
+	LoginDAO loginDao;
+	
+	@Autowired
+	private HttpSession session;
 	
 	@RequestMapping(value="/cust")
 	public ModelAndView custList(HttpSession session, 
@@ -422,16 +430,16 @@ public class CustController {
 
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
-//		String user_id = session.getAttribute("user").toString();
+		String user_id = session.getAttribute("user").toString();
 	
 		Map<String, String> menuAuthMap = new HashMap<String, String>();
 		menuAuthMap.put("menu_url", url);
-//		menuAuthMap.put("user_id", user_id);
+		menuAuthMap.put("user_id", user_id);
 		menuAuthMap.put("menu_id", menu_id);
-//		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-//		mav.addObject("menuAuth", menuAuth);
+		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+		mav.addObject("menuAuth", menuAuth);
 			
-		List<MenuVo> mainMenuList = menuService.getMainMenuList(/*user_id*/);
+		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
 		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
 		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
 		mav.addObject("subMenuList", subMenuList);    //subMenuList
