@@ -232,14 +232,16 @@ function taskPaging(pageNum) {
 //엑셀 출력 적용 함수
 function download_list_Excel(formID, flg) 
 {	
-  	var cust_no = $("#cust_no").val();
+	var session = $("#session").val();
+   	var cust_no = $("#cust_no").val();
  	var t = flg;
 	var ctx = $("#ctx").val();
 	var cust_task_no = $("#cust_task_no").val();
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $('<input type="hidden" value="'+flg+'" name="flg">');
-    var cust_flg = $('<input type="hidden" value="'+cust_no+'" name="cst_num">');
+    var cst_num = $('<input type="hidden" value="'+cust_no+'" name="cst_num">');
+    var my_user_id = $('<input type="hidden" value="'+session+'" name="my_user_id">');
 	
     if(cust_task_no != null && cust_task_no != '')
 	{
@@ -256,13 +258,17 @@ function download_list_Excel(formID, flg)
 		{
 			form.append(excel);
 			form.append(flg);
-			form.append(cust_flg);
+			if(cst_num != null && cst_num !='' && cst_num !='undefined'){
+				form.append(cst_num);	
+			}
+			
+			form.append(my_user_id);
 			form.attr("action", "/toExcel");
 			form.submit();
 			
 		} 
-		form[0].reset();
-		/*$("input[name=excel]").val("");*/
+		 
+		$("input[name=excel]").val("");
 	}
 	else if(t == 1)
 	{
@@ -273,7 +279,7 @@ function download_list_Excel(formID, flg)
 		
 		$("input[name=excel]").val("");
 	}
-	form[0].reset();
+	 
 }
 
 //엑셀 양식 다운로드 

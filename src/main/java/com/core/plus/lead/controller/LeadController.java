@@ -539,11 +539,10 @@ public class LeadController {
 			code_flg = "";
  		}
 	
-		//code flg가 not null일 때 form문의 
+		//code flg가 not null일 때 form문의 (보류, 기회전환, 실패한 리드)
 		if(!code_flg.isEmpty() && !code_flg.equals(""))
 		{
-			System.out.println("enter2");
-			String code = code_flg.substring(0,3);
+ 			String code = code_flg.substring(0,3);
 	  		System.out.println("code ? " + code); 
 	  		leadMap.put("code", code);
 		}

@@ -66,7 +66,7 @@ public class TaskController {
 									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
 									String excel, String cust_task_no) {
 		
-		Map<String, Object> taskMap = new HashMap<String, Object>();
+ 		Map<String, Object> taskMap = new HashMap<String, Object>();
 		taskMap.put("taskPageNum", taskPageNum);
 		taskMap.put("cust_no", cust_task_no);
 		
@@ -215,15 +215,16 @@ public class TaskController {
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, 
 									String task_no_srch,  String subject_srch,  String cust_name_srch, 
 									String emp_name_srch, String next_day_srch, String dtype_cd_srch, String flg, 
-									String cst_num, String cust_task_no ) {
+									String cst_num, String cust_task_no, String my_user_id ) {
 		
+		System.out.println("cst_num ? " + cst_num);
 		String custtmp;
 
 //		System.out.println(flg);
 //		System.out.println(cust_task_no);
 //		System.out.println(cst_num);
  		char temp = flg.charAt(flg.length()-1);
-		  
+		
  		
  		ModelAndView result = new ModelAndView();
 		Map<String, Object> taskMap = new HashMap<String, Object> ();
@@ -242,16 +243,39 @@ public class TaskController {
 			taskMap.put("emp_name_srch", emp_name_srch);
 			taskMap.put("next_day_srch", next_day_srch);
 			taskMap.put("dtype_cd_srch", dtype_cd_srch);
+
+			if(my_user_id.contains(","))
+			{
+				String[] id_user = my_user_id.split(",");
+				my_user_id = id_user[0].toString();
+ 				 taskMap.put("my_user_id", my_user_id);
+			}
+			else{
+				 taskMap.put("my_user_id", my_user_id);
+			}
+			
 			//form 지속적인 append로 cust_no 스트링 자르기.
 			
-			if(cst_num != null && !cst_num.equals("undefined")){
-//				System.out.println("ASD");
-				custtmp = cst_num.substring(0, 15);
-				taskMap.put("cust_no", custtmp);
+			if(cst_num != null){
+				System.out.println("enter2");
+				if(cst_num.contains(",")&& cst_num.equals("undefined")){
+					cst_num = "";
+					taskMap.put("cust_no", cst_num);
+				} else{
+				  String[] num_cst = cst_num.split(",");
+				  cst_num = num_cst[0].toString();
+				  taskMap.put("cust_no", cst_num);
+				}
+				/*custtmp = cst_num.substring(0, 15);
+				System.out.println(custtmp);
+				taskMap.put("cust_no", custtmp);*/
+			}else{
+				System.out.println("enter1");
+				custtmp = "";
 			}
 			
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
-			 
+			System.out.println("task map ? " + taskMap.toString()); 
 			List<TaskVO> list = taskService.taskExcelExport(taskMap);	// 쿼리
 //			System.out.println("list ?? " + list.toString());
 //			System.out.println("taskMap"+ taskMap.toString());
