@@ -213,15 +213,19 @@
 <!--  		 where m.menu_id  -->
 <!--         NOT IN (select a.menu_id from mid.tm_com_menu a, mid.tm_com_auth_menu b where a.menu_id = b.menu_id) -->
 
-        select distinct m.menu_id
-     		 , m.menu_nm
-     		 , COALESCE(m1.menu_nm, '-') as up_menu_id
-     		 , m.menu_url
-     		 , m.seq_no
- 		  from tb_menu m left join tb_menu m1 on m.up_menu_id = m1.menu_id left join tb_auth_menu am on m.menu_id = am.menu_id
-         where m.act_yn = 'Y'
-         	   and am.auth_id is null
- 	     order by m.up_menu_id is not null, m.up_menu_id, m.seq_no;
+        select a.* 
+		from (select distinct m.menu_id
+				     		 , m.menu_nm
+				     		 , COALESCE(m1.menu_nm, '-') as up_menu_id
+				     		 , m.menu_url
+				     		 , m.seq_no
+		 	  from tb_menu m left join tb_menu m1 on m.up_menu_id = m1.menu_id
+		 	  where m.act_yn = 'Y') a left join (select distinct m.menu_id
+												 from tb_menu m left join tb_auth_menu am on m.menu_id = am.menu_id
+												 where m.act_yn = 'Y'
+												       and am.auth_id = #{auth_id}) b on b.menu_id = a.menu_id
+		where b.menu_id is null
+		order by a.up_menu_id is not null, a.up_menu_id, a.seq_no;
 	</select>
 	
     <!-- 메뉴권한 추가  -->
