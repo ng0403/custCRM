@@ -106,7 +106,7 @@
 	 	 			<td style="text-align: left;" >${list.cust_no}</td>
 	 	 			<td style="text-align: left;" >${list.cust_name}</td>
 	 	 			<td style="text-align: left;" >${list.phone}</td>
-	 	 			<td style="text-align: left;" >${list.emp_name}</td>
+	 	 			<td style="text-align: left;" >${list.user_nm}</td>
 	 	 			<td style="text-align: left;" >${list.contact_day}</td>
 	 	 			<td style="text-align: left;" >${list.rank_cd}</td>
 	 	 			<td style="text-align: left;" >${list.create_date}</td>

@@ -83,7 +83,7 @@ $(document).ready(function(){
  			</td>
 			<th style="text-align:right;">담당자</th>
 			<td> 
-	       <input type="text" id="emp_name" name="emp_name" readonly="readonly"  value="${detail.emp_name}">
+	       <input type="text" id="emp_name" name="user_nm" readonly="readonly"  value="${detail.user_nm}">
 	       <input type="hidden" id="emp_no" name="emp_no" readonly="readonly" value="${detail.emp_no}">
  		 <input type="button" id="cust_list_pop" value="담당자" onclick="empSchPopupOpen();">
  			</td>

@@ -204,7 +204,7 @@ public class LeadDaoImpl implements LeadDao {
 			String cust_no = null;
 			String cust_name= null;
 			String emp_no  = null;
-			String emp_name = null;
+			String user_nm = null;
 			String contact_day = null;
 			String lead_status_cd  = null;
 			String reason_cd = null;
@@ -284,12 +284,12 @@ public class LeadDaoImpl implements LeadDao {
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					int tmp = (int) cell.getNumericCellValue();
-					emp_name = String.valueOf(tmp);
-					if(emp_name == null)
+					user_nm = String.valueOf(tmp);
+					if(user_nm == null)
 					{
-						emp_name = " ";
+						user_nm = " ";
 					}
-					System.out.println(i + "번째 emp_name? " + emp_name);
+					System.out.println(i + "번째 user_name? " + user_nm);
 				}
 				
 				cell = row.getCell(5);
@@ -340,7 +340,7 @@ public class LeadDaoImpl implements LeadDao {
 				leadVo.setCust_no(cust_no);
 				leadVo.setCust_name(cust_name);
 				leadVo.setEmp_no(emp_no);
-				leadVo.setEmp_name(emp_name);
+				leadVo.setUser_nm(user_nm); 
 				leadVo.setContact_day(contact_day);
 				leadVo.setLead_status_cd(lead_status_cd);
 				leadVo.setReason_cd(reason_cd);

@@ -118,11 +118,11 @@ public class LeadController {
 		if (session.getAttribute("user") == null) {
 			return new ModelAndView("redirect:/");
 		}
-		String user_id = session.getAttribute("user").toString(); 
+		String my_user_id = session.getAttribute("user").toString(); 
 		
 		Map<String, Object> leadMap = new HashMap<String, Object>();
 		leadMap.put("PageNum", PageNum);
-		leadMap.put("user_id", user_id);
+		leadMap.put("my_user_id", my_user_id);
 		// paging
 		PagerVO page = leadService.getLeadListRow(leadMap);
 		leadMap.put("page", page); 
@@ -137,7 +137,7 @@ public class LeadController {
 		mov.addObject("lead_list", vo);
 		mov.addObject("main_menu_url", "lead");
 		mov.addObject("sub_menu_url", "my_lead");
-		mov.addObject("session", user_id);
+		mov.addObject("session", my_user_id);
 		menuImport(mov, "lead");
 		
 		System.out.println("mov ?  " + mov.toString());
@@ -381,7 +381,7 @@ public class LeadController {
 		kwMap.put("emp_name", emp_name);
 		kwMap.put("contact_day", contact_day);
 		kwMap.put("rank_cd", rank_cd);
-		kwMap.put("user_id", session); 
+		kwMap.put("my_user_id", session); 
 		// paging
 	  PagerVO page = leadService.getLeadListRow(kwMap);
 	 
@@ -491,7 +491,7 @@ public class LeadController {
 	//엑셀 출력 
 	@RequestMapping(value = "/toLeadExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch,
-			String lead_name_srch, String cust_no, String emp_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no, String user_id) {
+			String lead_name_srch, String cust_no, String user_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no, String user_id) {
 		
 		System.out.println("code ? " + code_flg);
   		
@@ -506,7 +506,7 @@ public class LeadController {
 		leadMap.put("lead_no_srch", lead_no_srch);
 		leadMap.put("lead_name_srch", lead_name_srch);
 		leadMap.put("cust_no", cust_no);
-		leadMap.put("emp_no", emp_no);
+		leadMap.put("user_no", user_no);
 		leadMap.put("contact_day", contact_day);
 		leadMap.put("rank_cd", rank_cd);
 		leadMap.put("code", code_flg);

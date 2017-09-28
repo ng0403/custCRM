@@ -75,7 +75,7 @@
 					<td class="body" id="no"><c:out value="${leadExcelExport.cust_no}"></c:out></td>
 					<td class="body"><c:out value="${leadExcelExport.cust_name}"></c:out></td>
 					<td class="body"><c:out value="${leadExcelExport.phone_no}"></c:out></td>
-					<td class="body"><c:out value="${leadExcelExport.emp_name}"></c:out></td>
+					<td class="body"><c:out value="${leadExcelExport.user_nm}"></c:out></td>
 					<td class="body"><c:out value="${leadExcelExport.contact_day}"></c:out></td>
 					<td class="body"><c:out value="${leadExcelExport.lead_status_cd}"></c:out></td>
 					<td class="body"><c:out value="${leadExcelExport.possibility_cd}"></c:out></td>

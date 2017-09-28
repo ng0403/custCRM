@@ -14,10 +14,10 @@ public class LeadVO {
 	private String remark_cn;
 	private String create_date;
 	private String update_date;
-	
+	private String emp_name; 
 	private String cust_name;
 	private String phone_no;
-	private String emp_name;
+	private String user_nm;
 	
 	private String phone;
 	
@@ -30,6 +30,12 @@ public class LeadVO {
 	private String lead_status_cd; 
  	private String lead_status_cd_name;
  	
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
  	 
 	public String getLead_status_cd() {
 		return lead_status_cd;
@@ -82,12 +88,7 @@ public class LeadVO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getEmp_name() {
-		return emp_name;
-	}
-	public void setEmp_name(String emp_name) {
-		this.emp_name = emp_name;
-	}
+	 
 	public String getCust_name() {
 		return cust_name;
 	}
@@ -166,12 +167,19 @@ public class LeadVO {
 	public String toString() {
 		return "LeadVO [lead_no=" + lead_no + ", lead_name=" + lead_name + ", cust_no=" + cust_no + ", emp_no=" + emp_no
 				+ ", contact_day=" + contact_day + ", rank_cd=" + rank_cd + ", reason_cd=" + reason_cd + ", remark_cn="
-				+ remark_cn + ", create_date=" + create_date + ", update_date=" + update_date + ", cust_name="
-				+ cust_name + ", phone_no=" + phone_no + ", emp_name=" + emp_name + ", phone=" + phone + ", code_no="
-				+ code_no + ", code=" + code + ", code_name=" + code_name + ", possibility_cd=" + possibility_cd
-				+ ", possibility_cd_name=" + possibility_cd_name + ", lead_status_cd=" + lead_status_cd
+				+ remark_cn + ", create_date=" + create_date + ", update_date=" + update_date + ", emp_name=" + emp_name
+				+ ", cust_name=" + cust_name + ", phone_no=" + phone_no + ", user_nm=" + user_nm + ", phone=" + phone
+				+ ", code_no=" + code_no + ", code=" + code + ", code_name=" + code_name + ", possibility_cd="
+				+ possibility_cd + ", possibility_cd_name=" + possibility_cd_name + ", lead_status_cd=" + lead_status_cd
 				+ ", lead_status_cd_name=" + lead_status_cd_name + "]";
 	}
+	public String getUser_nm() {
+		return user_nm;
+	}
+	public void setUser_nm(String user_nm) {
+		this.user_nm = user_nm;
+	}
+	 
 	
 	
 	

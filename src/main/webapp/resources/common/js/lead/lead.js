@@ -533,7 +533,7 @@ function searchKeyword(a){
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].cust_no +"</td>" +
 	 	 			"<td style='text-align: left;'>" +data.leadList[i].cust_name +"</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone + "</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].emp_name + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].user_nm + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].contact_day + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].rank_cd + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].create_date + "</td>" +
