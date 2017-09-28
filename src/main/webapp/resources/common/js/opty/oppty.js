@@ -7,6 +7,7 @@
  */
 
 var ctx = $("#ctx").val();
+var count = 0;
 
 function ocustList(custPageNum)
 {
@@ -328,8 +329,8 @@ function opptyCheckFileType(filePath)
 }
 
 //엑셀 출력 적용 함수
-function download_list_Excel(formID, flg) {
-	
+function download_list_Excel(formID, flg) 
+{
 	var t = flg;
 	var ctx = $("#ctx").val();
 	var hoppty_status_cd = $("#hoppty_status_cd").val();
@@ -339,7 +340,19 @@ function download_list_Excel(formID, flg) {
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $("<input type='hidden' value='"+ flg +"' name='flg'>");
-	var page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
+	var page_type = page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
+	
+	console.log(hoppty_status_cd);
+	
+//	if(count == 0)
+//	{
+//		page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
+//	}
+//	else
+//	{
+//		page_type = null;
+//		page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
+//	}
 	
 	if(hoppty_status_cd != null && hoppty_status_cd != '')
 	{

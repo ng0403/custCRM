@@ -330,12 +330,8 @@ public class OpptyController {
 		
 		
 		char temp = flg.charAt(flg.length()-1);
-		char temp1 = flg.charAt(page_type.length()-1);
+		char temp1 = page_type.charAt(page_type.length()-1);
 		
-		System.out.println(temp);
-		System.out.println(cust_opty_no);
-		System.out.println(page_type);
-		System.out.println(temp1);
 		ModelAndView result = new ModelAndView();
 		Map<String, Object> opptykMap = new HashMap<String, Object> ();
 		
@@ -360,11 +356,19 @@ public class OpptyController {
 			
 			if(hoppty_status_cd != null)
 			{
-				opptykMap.put("oppty_status_cd", hoppty_status_cd);
+				char temp2 = hoppty_status_cd.charAt(hoppty_status_cd.length()-1);
+//				String opptyStatusCd = "00" + temp2;	//	hoppty_status_cd 코드값을 위한 변수
+				String[] tmp = hoppty_status_cd.split(",");
+				String opptyStatusCd = tmp[0];
+				System.out.println(opptyStatusCd);
+				opptykMap.put("oppty_status_cd", opptyStatusCd);
 			}
 			if(cust_opty_no != null)
 			{
-				opptykMap.put("cust_opty_no", cust_opty_no);
+				String[] tmp = cust_opty_no.split(",");
+				String custOptyNo = tmp[0];
+				
+				opptykMap.put("cust_opty_no", custOptyNo);
 			}
 			//taskMap.put("some",req.getParameter("some"));    				// where에 들어갈 조건??
 			
