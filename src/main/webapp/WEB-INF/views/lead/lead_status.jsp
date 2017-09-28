@@ -15,6 +15,7 @@
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
+<input type="hidden" id="code" value="${lead_status_cd}">
 <!-- 쿠폰관리 : 쿠폰목록조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
@@ -53,15 +54,15 @@
 					<tr style="background-color: white; cursor:default; border:0;">
 						 <th style="width:5%;">리드번호</th>
 						 <td style="width:15%;">
-						    <input type="text" id="lead_no_srch" name="lead_no_srch" value="" style="width:80%" onkeypress="leadEnterSearch(event);">
+						    <input type="text" id="lead_no_srch" name="lead_no_srch" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
 						 </td>
 						  <th style="width:5%;">리드명</th>
 						 <td style="width:15%;">
-						    <input type="text" id="lead_name_srch" name="lead_name_srch" value="" style="width:80%" onkeypress="leadEnterSearch(event);">
+						    <input type="text" id="lead_name_srch" name="lead_name_srch" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
 						 </td>
 						 <th style="width:5%;">고객명</th>
 						 <td style="width:15%;">
-						    <input type="text" id="cust_name" name="cust_name" value="" style="width:80%" onkeypress="leadEnterSearch(event);">
+						    <input type="text" id="cust_name" name="cust_name" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
 						 </td> 
 					  
  		                 <td style="width: 12%;">
@@ -75,7 +76,7 @@
 					 			 
 						 <th style="width:5%;">담당자명</th>
 						 <td style="width:15%;">
-						    <input type="text" id="emp_name" name="emp_name" value="" style="width:80%" onkeypress="leadEnterSearch(event);">
+						    <input type="text" id="emp_name" name="emp_name" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
 						 </td>
 					
 						 <th style="width:5%;">접촉할 일자</th>
@@ -86,7 +87,7 @@
 						 
 						  <th style="width:5%;">순위</th>
 						 <td style="width:15%;">
-						    <input type="text" id="rank_cd" name="rank_cd" value="" style="width:80%" onkeypress="leadEnterSearch(event);">
+						    <input type="text" id="rank_cd" name="rank_cd" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
 						 </td>
 					
 					</tr>
@@ -119,7 +120,7 @@
 	 	 			<td style="text-align: left;" >${list.cust_no}</td>
 	 	 			<td style="text-align: left;" >${list.cust_name}</td>
 	 	 			<td style="text-align: left;" >${list.phone}</td>
-	 	 			<td style="text-align: left;" >${list.emp_name}</td>
+	 	 			<td style="text-align: left;" >${list.user_nm}</td>
 	 	 			<td style="text-align: left;" >${list.contact_day}</td>
 	 	 			<td style="text-align: left;" >${list.rank_cd}</td>
 	 	 			<td style="text-align: left;" >${list.create_date}</td>
@@ -146,19 +147,19 @@
 					<a style="color: black; text-decoration: none;"> ▶ </a>
 				</c:when> 
 				<c:when test="${pageNum == page.startPageNum}">
-					 ◀ <input type="text" id="pageInput" value="${page.startPageNum}"  onkeypress="leadPageNumInputEnter(event);"/>  
+					 ◀ <input type="text" id="pageInput" value="${page.startPageNum}"  onkeypress="leadStatusPageNumInputEnter(event);"/>  
 					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
 					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${pageNum+1}');" id="pNum"> ▶ </a>
 				</c:when>
 				<c:when test="${pageNum == page.endPageNum}">
 					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${pageNum-1}');" id="pNum"> ◀ </a>
-					<input type="text" id="pageInput"  value="${page.endPageNum}" onkeypress="leadPageNumInputEnter(event);"/> 
+					<input type="text" id="pageInput"  value="${page.endPageNum}" onkeypress="leadStatusPageNumInputEnter(event);"/> 
 					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
 					<a style="color: black; text-decoration: none;"> ▶ </a>
 				</c:when>
 				<c:otherwise>
 					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${pageNum-1}');" id="pNum" > ◀ </a>
-					<input type="text" id="pageInput"  value="${pageNum}" onkeypress="leadPageNumInputEnter(event);"/>  
+					<input type="text" id="pageInput"  value="${pageNum}" onkeypress="leadStatusPageNumInputEnter(event);"/>  
 					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
 					<a style="cursor: pointer;" onclick="StatusSearchKeyword('${lead_status_cd}','${pageNum+1}');" id="pNum"> ▶ </a>
 				</c:otherwise>

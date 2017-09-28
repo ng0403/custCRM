@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
@@ -48,6 +49,7 @@ public class LeadController {
 	
 	@Resource
 	TaskService taskService; 
+	
 	// git test
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
@@ -112,13 +114,17 @@ public class LeadController {
 	
 	//내 담당 리드 list 출력
 	@RequestMapping(value="my_lead")
-	public ModelAndView my_lead_list(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int PageNum) {
+	public ModelAndView my_lead_list(HttpSession session, @RequestParam(value = "pageNum", defaultValue = "1") int PageNum, HttpServletRequest request) {
 		
 		//session 값 체크 후 null값이면 로그인 페이지 이동
 		if (session.getAttribute("user") == null) {
 			return new ModelAndView("redirect:/");
 		}
 		String my_user_id = session.getAttribute("user").toString(); 
+		
+		//url 가져오기
+		  String Url = (String) request.getAttribute(
+			        HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
 		
 		Map<String, Object> leadMap = new HashMap<String, Object>();
 		leadMap.put("PageNum", PageNum);
@@ -138,6 +144,7 @@ public class LeadController {
 		mov.addObject("main_menu_url", "lead");
 		mov.addObject("sub_menu_url", "my_lead");
 		mov.addObject("session", my_user_id);
+		mov.addObject("url", Url);
 		menuImport(mov, "lead");
 		
 		System.out.println("mov ?  " + mov.toString());
@@ -491,17 +498,15 @@ public class LeadController {
 	//엑셀 출력 
 	@RequestMapping(value = "/toLeadExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch,
-			String lead_name_srch, String cust_no, String user_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no, String user_id) {
-		
-		System.out.println("code ? " + code_flg);
-  		
-		
-		String contact_day;
+			String lead_name_srch, String cust_no, String user_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no, String user_id, String path) {
+		System.out.println("url ? " + path);
+  		String contact_day;
 		
 		contact_day = contact_day_srch.replace("-", "");
 		 
 		char temp = flg.charAt(flg.length()-1);
- 		ModelAndView result = new ModelAndView();
+ 		
+		ModelAndView result = new ModelAndView();
 		Map<String, Object> leadMap = new HashMap<String, Object> ();
 		leadMap.put("lead_no_srch", lead_no_srch);
 		leadMap.put("lead_name_srch", lead_name_srch);
@@ -509,8 +514,40 @@ public class LeadController {
 		leadMap.put("user_no", user_no);
 		leadMap.put("contact_day", contact_day);
 		leadMap.put("rank_cd", rank_cd);
-		leadMap.put("code", code_flg);
-		leadMap.put("user_id", user_id);
+		
+		
+		// my_lead url 값을 비교
+		if(!path.isEmpty())
+		{
+			//고정된 값이므로 substring으로 자른다.
+			path = path.substring(0,8);
+			if(path.equals("/my_lead"))
+			{
+			//user_id 또한 form문에 중첩이 생기므로 , 없애주는 작업을 한다.
+ 			if(user_id.contains(","))
+			{
+			 String[] id_user = user_id.split(",", 0);
+ 			 user_id = id_user[0].toString();
+			}
+ 			leadMap.put("user_id", user_id);
+			}
+		}
+		
+		//code_flg가 Null이지만, 두번째 엑셀 출력 후 code_flg에 ,가 추가 되어 null처리
+		if(!code_flg.isEmpty() && code_flg.charAt(0) == ',')
+		{
+			code_flg = "";
+ 		}
+	
+		//code flg가 not null일 때 form문의 
+		if(!code_flg.isEmpty() && !code_flg.equals(""))
+		{
+			System.out.println("enter2");
+			String code = code_flg.substring(0,3);
+	  		System.out.println("code ? " + code); 
+	  		leadMap.put("code", code);
+		}
+		
  		//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 		
 		if(cust_lead_no != null)
@@ -519,8 +556,9 @@ public class LeadController {
 		}
 		
 		if(temp == '0'){
- 			List<LeadVO> list = leadService.leadExcelExport(leadMap);	// 쿼리
-	  
+		 System.out.println("leadMap?? " + leadMap.toString());
+ 		 List<LeadVO> list = leadService.leadExcelExport(leadMap);	// 쿼리
+ 		
 		
 		System.out.println("excel list  ? " + list.toString());
 		System.out.println("size? " + list.size());

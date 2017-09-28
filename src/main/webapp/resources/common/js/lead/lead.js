@@ -71,6 +71,31 @@ function leadPageNumInputEnter(event) {
 	event.stopPropagation();
 }
 
+//리드 상태 페이징 엔터키
+function leadStatusPageNumInputEnter(event) {
+	var lead_status_cd = $("#code").val();
+ 	var keycode = (event.keyCode ? event.keyCode : event.which);
+	if (keycode == '13') {
+		var pageNum = parseInt($("#pageInput").val());
+		if ($("#pageInput").val() == '') {
+			alert("페이지 번호를 입력하세요.")
+			$("#pageInput").val($("#pageNum").val());
+			$("#pageInput").focus();
+		} else if(pageNum > parseInt($("#endPageNum").val())) {
+			alert("페이지 번호가 너무 큽니다.");
+			$("#pageInput").val($("#pageNum").val());
+			$("#pageInput").focus();
+		} else if (1 > pageNum) {
+			alert("페이지 번호가 너무 작습니다.");
+			$("#pageInput").val($("#pageNum").val());
+			$("#pageInput").focus();
+		} else {
+			StatusSearchKeyword(lead_status_cd,pageNum);
+		}
+	}
+	event.stopPropagation();
+}
+
  
 // 리드 상세정보
  function leadDetail(a,b) {
@@ -584,8 +609,7 @@ function searchKeyword(a){
 
 //검색 조건
 function StatusSearchKeyword(lead_status_cd, b){  
-	alert(lead_status_cd);
-	alert(b);
+	 
   	var lead_no_srch = $("#lead_no_srch").val();
 	var lead_name_srch = $("#lead_name_srch").val();
 	var cust_name = $("#cust_name").val();
@@ -624,7 +648,7 @@ function StatusSearchKeyword(lead_status_cd, b){
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].cust_no +"</td>" +
 	 	 			"<td style='text-align: left;'>" +data.leadList[i].cust_name +"</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone + "</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].emp_name + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].user_nm + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].contact_day + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].rank_cd + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].create_date + "</td>" +
@@ -644,20 +668,20 @@ function StatusSearchKeyword(lead_status_cd, b){
  					} else if(data.PageNum == data.page.startPageNum){
  				 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+ 						+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"leadStatusPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
  						+"<a onclick=\"StatusSearchKeyword( '"+lead_status_cd+"', "+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
  						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					} else if(data.PageNum == data.page.endPageNum){
  					 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
- 						+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+ 						+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"leadStatusPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
  						+"<a> / "+data.page.endPageNum+"</a> ▶";
  					} else {
  	 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"<a onclick=\"StatusSearchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
- 						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+ 						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadStatusPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
  						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+data.page.PageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
  						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					}
@@ -682,16 +706,21 @@ function lead_counsel_read(cust_no, PageNum){
 
 //엑셀 출력 
 function download_list_Excel(formID, flgNum) {
+	var url = $("#url").val();
+ 	
 	var code = $("#flg").val();
-	var cust_lead_no = $("#cust_lead_no").val();
+ 	var cust_lead_no = $("#cust_lead_no").val();
 	var ctx = $("#ctx").val();
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $('<input type="hidden" value="'+flgNum+'" name="flg">');
-	var code_flg = $('<input type="hidden" value="'+code+'" name="code_flg">')
+	var code_flg = $('<input type="hidden" value="'+code+'" name="code_flg">');
 	var session = $("#session").val();
-	var user_id = $('<input type="hidden" value="'+session+'" name="user_id">')
- 	if(cust_lead_no != null && cust_lead_no != '')
+	var user_id = $('<input type="hidden" value="'+session+'" name="user_id">');
+	var path = $('<input type="hidden" value="'+url+'" name="path">')
+ 	 
+	
+	if(cust_lead_no != null && cust_lead_no != '')
 	{
 		var cust_no = $('<input type="hidden" value="'+cust_lead_no+'" name="cust_lead_no">');
 		form.append(cust_no);
@@ -708,6 +737,7 @@ function download_list_Excel(formID, flgNum) {
 		form.append(flg);
 	    form.append(code_flg);
 		form.append(user_id);
+		form.append(path);
 		form.attr("action", "/toLeadExcel?flg=" + flgNum);
 		form.submit();
 		
@@ -726,8 +756,8 @@ function download_list_Excel(formID, flgNum) {
 	else{
 		return false;
 	} 
-	form[0].reset();
-}
+	$("input[name=excel]").val("");
+ }
 	
 	if(flgNum == '1'){
 		 
