@@ -38,7 +38,7 @@
        
         <div id="loginalign">
        		로그인 중입니다.<br><br>
-       	<a href="${ctx}/home" class="loging" style="background-color: #f9fafb;">메인</a>
+       	<a href="${ctx}/cust" class="loging" style="background-color: #f9fafb;">메인</a>
        	</div>
        </c:if>  
        <c:if test="${empty sessionScope.user}">

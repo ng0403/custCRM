@@ -50,11 +50,26 @@ function LoginValidate(ctx){
 	});
 	
 	$('input').keydown(function(event){
-		if(event.keyCode==13){
+		if(event.keyCode==13){ 
+			
 			var id = $.trim($('#user').val());
-			var pass = $.trim($('#pass').val());
+  			var pass = $.trim($('#pass').val());
+ 			if(id == ''){
+				alert('아이디를 입력해 주세요.');
+			}else if(pass == ''){
+				alert('비밀번호를 입력해 주세요.');
+			}else{
+				
+				 var formObj = $("form[role='form']");
+			       
+				 formObj.attr("action", "/login");
+				 formObj.attr("method", "post");
+				 formObj.submit();  
+			
+			
+			
 //			alert("input data : " + id, pass);
-			if(id == ''){
+			/*if(id == ''){
 				alert('아이디를 입력해 주세요.');
 				$('#USER_ID').focus();
 			}else if(pass == ''){
@@ -86,7 +101,7 @@ function LoginValidate(ctx){
 			        error: function(){
 			            alert("올바르게 로그인처리 되지 않았습니다.");
 			        }
-				});
+				});*/
 			}
 		}
 	});

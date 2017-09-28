@@ -28,6 +28,8 @@ public class LoginServiceImpl implements LoginService{
 	//로그인처리
 	@Override
 	public String doLogin(String user_id, String pswd) {
+		System.out.println("service " + user_id);
+		System.out.println("pswd service ? " + pswd);
 		String result = null;
  		// 로그인한 사용자 정보를 가져온다
 		LoginVO userInfo = null;
