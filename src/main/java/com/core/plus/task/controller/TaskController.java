@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,7 @@ import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.lead.vo.LeadVO;
+import com.core.plus.login.dao.LoginDAO;
 import com.core.plus.oppty.vo.OpptyVO;
 import com.core.plus.task.service.TaskService;
 import com.core.plus.task.vo.TaskVO;
@@ -42,19 +44,25 @@ public class TaskController {
 	@Resource
 	MenuService menuService;
 	
+	@Resource
+	LoginDAO loginDao;
+	
+	@Autowired
+	private HttpSession session;
+	
 	//메뉴
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
-//		String user_id = session.getAttribute("user").toString();
+		String user_id = session.getAttribute("user").toString();
 	
 		Map<String, String> menuAuthMap = new HashMap<String, String>();
 		menuAuthMap.put("menu_url", url);
-//		menuAuthMap.put("user_id", user_id);
+		menuAuthMap.put("user_id", user_id);
 		menuAuthMap.put("menu_id", menu_id);
-//		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-//		mav.addObject("menuAuth", menuAuth);
+		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+		mav.addObject("menuAuth", menuAuth);
 			
-		List<MenuVo> mainMenuList = menuService.getMainMenuList(/*user_id*/);
+		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
 		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
 		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
 		mav.addObject("subMenuList", subMenuList);    //subMenuList
@@ -79,9 +87,6 @@ public class TaskController {
 		List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
 		List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
 		List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
-		
-//		System.out.println("cust_task_no : " + cust_task_no);
-//		System.out.println("taskList : " + taskList);
 		
 		ModelAndView mov = new ModelAndView("task_list");
 		
@@ -220,12 +225,8 @@ public class TaskController {
 		System.out.println("cst_num ? " + cst_num);
 		String custtmp;
 
-//		System.out.println(flg);
-//		System.out.println(cust_task_no);
-//		System.out.println(cst_num);
  		char temp = flg.charAt(flg.length()-1);
 		
- 		
  		ModelAndView result = new ModelAndView();
 		Map<String, Object> taskMap = new HashMap<String, Object> ();
 		
@@ -302,9 +303,7 @@ public class TaskController {
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 			System.out.println("task map ? " + taskMap.toString()); 
 			List<TaskVO> list = taskService.taskExcelExport(taskMap);	// 쿼리
-			System.out.println("excel list ? " + list.toString());
-//			System.out.println("list ?? " + list.toString());
-//			System.out.println("taskMap"+ taskMap.toString());
+//			System.out.println("excel list ? " + list.toString());
 			result.addObject("taskExcelExport", list); 					// 쿼리 결과를 model에 담아줌
 			result.setViewName("/task/taskList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
 			
@@ -323,7 +322,7 @@ public class TaskController {
 	@RequestMapping(value="task_detail")
 	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
 									String task_no, String flg, String lead_no, String cust_no, String PageNum) {
-//		System.out.println("PageNum ? "  + PageNum);
+
 		if(task_no == null || task_no == "")	// 단건등록 시
 		{
 			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
@@ -350,7 +349,6 @@ public class TaskController {
 		}
 		else	// 상세보기	
 		{
-//			System.out.println("lead_no ? " + lead_no);
 
 			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
 			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
@@ -362,14 +360,12 @@ public class TaskController {
 			//
 			if(lead_no.equals("undefined"))
 			{
-//				System.out.println("null");
 				mov.addObject("main_menu_url", "task"); 
 				mov.addObject("sub_menu_url", "task");
 				menuImport(mov, "task");
 			}
 			else 
 			{
-//				System.out.println("not null");
 				mov.addObject("main_menu_url", "lead");
 				mov.addObject("sub_menu_url", "lead");
 				mov.addObject("lead_no", lead_no);
@@ -385,8 +381,6 @@ public class TaskController {
 			mov.addObject("divisCd", divisCd);
 			mov.addObject("flg", "2");
 			mov.addObject("taskPageNum", taskPageNum);
-			
-//			System.out.println(taskService.taskDetail(task_no));
 			
 			return mov;
 		}
