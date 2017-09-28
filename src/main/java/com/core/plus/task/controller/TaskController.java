@@ -143,7 +143,6 @@ public class TaskController {
 		Map<String, Object> taskMap = new HashMap<String, Object>();
 		taskMap.put("taskPageNum", taskPageNum);
 		taskMap.put("my_user_id", my_user_id);
-		System.out.println("my_user_id: " + my_user_id);
 		
 		// paging
 		PagerVO page = taskService.getTaskListRow(taskMap);
@@ -169,7 +168,6 @@ public class TaskController {
 		mov.addObject("session", my_user_id);
 		mov.addObject("url", Url);
 		menuImport(mov, "task");
-		System.out.println("mov ?  " + mov.toString());
 		
 		return mov;
 	}
@@ -220,11 +218,10 @@ public class TaskController {
 									String cst_num, String cust_task_no ) {
 		
 		String custtmp;
-	
-		
-		System.out.println(flg);
-		System.out.println(cust_task_no);
-		System.out.println(cst_num);
+
+//		System.out.println(flg);
+//		System.out.println(cust_task_no);
+//		System.out.println(cst_num);
  		char temp = flg.charAt(flg.length()-1);
 		  
  		
@@ -248,7 +245,7 @@ public class TaskController {
 			//form 지속적인 append로 cust_no 스트링 자르기.
 			
 			if(cst_num != null && !cst_num.equals("undefined")){
-				System.out.println("ASD");
+//				System.out.println("ASD");
 				custtmp = cst_num.substring(0, 15);
 				taskMap.put("cust_no", custtmp);
 			}
@@ -256,8 +253,8 @@ public class TaskController {
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 			 
 			List<TaskVO> list = taskService.taskExcelExport(taskMap);	// 쿼리
-			System.out.println("list ?? " + list.toString());
-			System.out.println("taskMap"+ taskMap.toString());
+//			System.out.println("list ?? " + list.toString());
+//			System.out.println("taskMap"+ taskMap.toString());
 			result.addObject("taskExcelExport", list); 					// 쿼리 결과를 model에 담아줌
 			result.setViewName("/task/taskList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
 			
@@ -275,8 +272,8 @@ public class TaskController {
 	// 상세보기 및 단건등록화면
 	@RequestMapping(value="task_detail")
 	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-			String task_no, String flg, String lead_no, String cust_no, String PageNum) {
-		System.out.println("PageNum ? "  + PageNum);
+									String task_no, String flg, String lead_no, String cust_no, String PageNum) {
+//		System.out.println("PageNum ? "  + PageNum);
 		if(task_no == null || task_no == "")	// 단건등록 시
 		{
 			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
@@ -303,7 +300,7 @@ public class TaskController {
 		}
 		else	// 상세보기	
 		{
-			System.out.println("lead_no ? " + lead_no);
+//			System.out.println("lead_no ? " + lead_no);
 
 			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
 			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
@@ -315,14 +312,14 @@ public class TaskController {
 			//
 			if(lead_no.equals("undefined"))
 			{
-				System.out.println("null");
+//				System.out.println("null");
 				mov.addObject("main_menu_url", "task"); 
 				mov.addObject("sub_menu_url", "task");
 				menuImport(mov, "task");
 			}
 			else 
 			{
-				System.out.println("not null");
+//				System.out.println("not null");
 				mov.addObject("main_menu_url", "lead");
 				mov.addObject("sub_menu_url", "lead");
 				mov.addObject("lead_no", lead_no);
@@ -339,9 +336,7 @@ public class TaskController {
 			mov.addObject("flg", "2");
 			mov.addObject("taskPageNum", taskPageNum);
 			
-			
-			
-			System.out.println(taskService.taskDetail(task_no));
+//			System.out.println(taskService.taskDetail(task_no));
 			
 			return mov;
 		}
@@ -520,7 +515,7 @@ public class TaskController {
 	@RequestMapping(value="/taskExcelImportTab", method=RequestMethod.GET)
 	public ModelAndView excelImportTab(HttpSession session, Locale locale,@RequestParam(value = "pageNum", defaultValue = "1") int pageNum)
 	{
-		System.out.println("ExcelTab Controller");
+//		System.out.println("ExcelTab Controller");
 		ModelAndView mov = new ModelAndView("/lead/excel_import_tab");
 		
 		return mov;
@@ -531,16 +526,16 @@ public class TaskController {
     public ModelAndView excelUploadAjax(MultipartHttpServletRequest request)  throws Exception
     {
         MultipartFile excelFile = request.getFile("excelFile");
-        System.out.println("excelFile : " + excelFile);
+//        System.out.println("excelFile : " + excelFile);
 		
-        System.out.println("엑셀 파일 업로드 컨트롤러");
+//        System.out.println("엑셀 파일 업로드 컨트롤러");
        
         if(excelFile==null || excelFile.isEmpty()){
             throw new RuntimeException("엑셀파일을 선택 해 주세요.");
         }
         
         int result = taskService.excelUpload(excelFile);
-        System.out.println(result);
+//        System.out.println(result);
         
         return new ModelAndView("/task/excel_import_tab", "result", result);
     }	
@@ -549,13 +544,10 @@ public class TaskController {
     @RequestMapping(value="/taskExcelUpload", method = {RequestMethod.POST, RequestMethod.GET})
 	public @ResponseBody int taskExcelForm(@RequestParam("excelFile") MultipartFile file) throws Exception 
     {
-    	System.out.println("Excel Ajax : " + file);
+//    	System.out.println("Excel Ajax : " + file);
 		int result = taskService.excelUpload(file);
 		
 		return result;
 	}
-    
-    
-    
     
 }	
