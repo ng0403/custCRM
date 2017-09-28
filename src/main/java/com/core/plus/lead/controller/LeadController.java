@@ -71,9 +71,13 @@ public class LeadController {
 	
 	//초기 list 출력
 	@RequestMapping(value="lead")
-	public ModelAndView lead_list(@RequestParam(value = "pageNum", defaultValue = "1") int PageNum, String cust_lead_no) {
+	public ModelAndView lead_list(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int PageNum, String cust_lead_no) {
 		System.out.println("entering" + PageNum);
 		
+		//url 가져오기
+		  String Url = (String) request.getAttribute(
+			        HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
+		  
 		Map<String, Object> leadMap = new HashMap<String, Object>();
 		leadMap.put("PageNum", PageNum);
 		leadMap.put("cust_lead_no", cust_lead_no);
@@ -92,7 +96,7 @@ public class LeadController {
 		mov.addObject("pageNum", PageNum);
 		mov.addObject("cust_lead_no", cust_lead_no);
 		mov.addObject("lead_list", vo);
-		
+		mov.addObject("url", Url);
 		// 재욱
 		if(cust_lead_no == null)
 		{
@@ -519,8 +523,9 @@ public class LeadController {
 		// my_lead url 값을 비교
 		if(!path.isEmpty())
 		{
-			//고정된 값이므로 substring으로 자른다.
-			path = path.substring(0,8);
+			String[] path_my = path.split(",");
+			System.out.println("path ??? " + path_my[0].toString());
+			path = path_my[0].toString();
 			if(path.equals("/my_lead"))
 			{
 			//user_id 또한 form문에 중첩이 생기므로 , 없애주는 작업을 한다.
