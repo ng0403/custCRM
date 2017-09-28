@@ -14,10 +14,10 @@
             AND (t.subject like concat('%', #{subject_srch}, '%'))
          </if>
          <if test="cust_name_srch != null and cust_name_srch != ''">
-            AND (t.cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
+            AND (c.cust_name  like concat('%', #{cust_name_srch}, '%'))
          </if>
          <if test="emp_name_srch != null and emp_name_srch != ''">
-            AND (t.emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch_srch}, '%')))
+            AND (e.user_nm  like concat('%', #{emp_name_srch}, '%'))
          </if>
          <if test="next_day_srch != null and next_day_srch != ''">
             AND (t.next_day like concat('%', #{next_day_srch}, '%'))
@@ -100,10 +100,10 @@
                AND (t.subject like concat('%', #{subject_srch}, '%'))
             </if>
             <if test="cust_name_srch != null and cust_name_srch != ''">
-               AND (t.cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
+               AND (c.cust_name  like concat('%', #{cust_name_srch}, '%'))
             </if>
             <if test="emp_name_srch != null and emp_name_srch != ''">
-               AND (t.emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
+               AND (e.user_nm  like  concat('%', #{emp_name_srch}, '%'))
             </if>
             <if test="next_day_srch != null and next_day_srch != ''">
                AND (t.next_day like concat('%', DATE_FORMAT(#{next_day_srch}, '%Y%m%d'), '%'))
