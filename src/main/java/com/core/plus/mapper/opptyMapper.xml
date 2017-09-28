@@ -104,9 +104,9 @@
 			oppty_no,
 			oppty_name,
 			cust_no,
-			(select cust_name from tb_cust cust where cust.cust_no = opty.cust_no) cust_name,
-			case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no) is null then '' 
-			else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no) end as cust_phone,
+			(select distinct cust_name from tb_cust cust where cust.cust_no = opty.cust_no) cust_name,
+			case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no and p.primary_yn = 'Y') is null then '' 
+			else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no and p.primary_yn = 'Y') end as cust_phone,
 			(select user_nm  from tb_user  emp  where emp.user_no = opty.emp_no) emp_name,
 			(select code_name from tb_code where code_no = '1010' and code = oppty_status_cd) oppty_status_cd,
 			(select code_name from tb_code where code_no = '1011' and code = oppty_stage_cd)  oppty_stage_cd,
@@ -191,10 +191,10 @@
 				oppty_no,
 				oppty_name,
 				cust_no,
-				(select cust_name from tb_cust cust where cust.cust_no = opty.cust_no) cust_name,
-				case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no) is null then '' 
-				else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no) end as cust_phone,
-				(select user_nm  from tb_user  emp  where emp.user_no = opty.emp_no) emp_name,
+				(select distinct cust_name from tb_cust cust where cust.cust_no = opty.cust_no) cust_name,
+				case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no and p.primary_yn = 'Y') is null then '' 
+				else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = opty.cust_no and p.primary_yn = 'Y') end as cust_phone,
+				(select distinct user_nm  from tb_user  emp  where emp.user_no = opty.emp_no) emp_name,
 				(select code_name from tb_code where code_no = '1010' and code = oppty_status_cd) oppty_status_cd,
 				(select code_name from tb_code where code_no = '1011' and code = oppty_stage_cd)  oppty_stage_cd,
 				exp_close_day,

@@ -330,14 +330,16 @@ public class OpptyController {
 		
 		
 		char temp = flg.charAt(flg.length()-1);
+		char temp1 = flg.charAt(page_type.length()-1);
 		
 		System.out.println(temp);
 		System.out.println(cust_opty_no);
 		System.out.println(page_type);
+		System.out.println(temp1);
 		ModelAndView result = new ModelAndView();
 		Map<String, Object> opptykMap = new HashMap<String, Object> ();
 		
-		if(page_type.equals("1"))
+		if(temp1== '1')
 		{
 			String user_id = session.getAttribute("user").toString();
 			System.out.println("user_id : " + user_id);
