@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
@@ -41,6 +42,7 @@ public class TaskController {
 	@Resource
 	MenuService menuService;
 	
+	//메뉴
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
 //		String user_id = session.getAttribute("user").toString();
@@ -78,8 +80,8 @@ public class TaskController {
 		List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
 		List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
 		
-		System.out.println("cust_task_no : " + cust_task_no);
-		System.out.println("taskList : " + taskList);
+//		System.out.println("cust_task_no : " + cust_task_no);
+//		System.out.println("taskList : " + taskList);
 		
 		ModelAndView mov = new ModelAndView("task_list");
 		
@@ -127,10 +129,21 @@ public class TaskController {
 	@RequestMapping(value="/mytask")
 	public ModelAndView MyTaskList(HttpSession session,
 									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-									String excel ) {
+									 				HttpServletRequest request, String excel ) {
+		
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		String my_user_id = session.getAttribute("user").toString(); 
+		
+		//url 가져오기
+		String Url = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
 		
 		Map<String, Object> taskMap = new HashMap<String, Object>();
 		taskMap.put("taskPageNum", taskPageNum);
+		taskMap.put("my_user_id", my_user_id);
+		System.out.println("my_user_id: " + my_user_id);
 		
 		// paging
 		PagerVO page = taskService.getTaskListRow(taskMap);
@@ -152,8 +165,11 @@ public class TaskController {
 		mov.addObject("ttypeCd", ttypeCd);
 		mov.addObject("divisCd", divisCd);
 		mov.addObject("main_menu_url", "task");
-		mov.addObject("sub_menu_url", "task");
+		mov.addObject("sub_menu_url", "mytask");
+		mov.addObject("session", my_user_id);
+		mov.addObject("url", Url);
 		menuImport(mov, "task");
+		System.out.println("mov ?  " + mov.toString());
 		
 		return mov;
 	}
@@ -161,12 +177,13 @@ public class TaskController {
 	// 조회
 	@RequestMapping(value="/task_sch", method=RequestMethod.POST)
 	@ResponseBody
-	public  ModelAndView taskSchList(HttpSession session,
+	public  ModelAndView taskSchList(
+//										HttpSession session,
 										  @RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
 										  String task_no_srch, String subject_srch, 
 										  String cust_name_srch, String emp_name_srch,
-										  String next_day_srch, String dtype_cd_srch,
-										  String excel) {
+										  String next_day_srch, String dtype_cd_srch, String excel 
+										, String session) {
 		
 		ModelAndView mov = new ModelAndView(new MappingJacksonJsonView());
 		JSONArray json = new JSONArray();
@@ -179,7 +196,7 @@ public class TaskController {
 		taskMap.put("cust_name_srch", cust_name_srch);
 		taskMap.put("emp_name_srch", emp_name_srch);
 		taskMap.put("next_day_srch", next_day_srch);
-		taskMap.put("dtype_cd_srch", dtype_cd_srch);
+		taskMap.put("my_user_id", session); 
 		
 		// paging
 		PagerVO page = taskService.getTaskListRow(taskMap);

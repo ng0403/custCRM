@@ -14,8 +14,16 @@
 * taskCheckFileType(filePath) 			: 엑셀 파일 추가
 */
 
-var ctx = $("#ctx").val();
-var flg = $("#flg").val();
+
+
+$(document).ready(function(){
+	
+	var ctx 	= $("#ctx").val();
+	var flg 	= $("#flg").val();
+	var session = $("#session").val();
+
+	
+});
 
 //상담조회
 function taskSchList(pageNum) {
@@ -26,8 +34,8 @@ function taskSchList(pageNum) {
    var emp_name_srch   = $("#emp_name_srch").val();
    var next_day_srch   = $("#next_day_srch").val();
    var dtype_cd_srch   = $("#dtype_cd_srch").val();
+   var session 		   = $("#session").val();
    
-
    var tbody = $('#task_list_tbody');
    var tbodyContent = "";
    
@@ -41,7 +49,8 @@ function taskSchList(pageNum) {
          cust_name_srch    : cust_name_srch,
          emp_name_srch     : emp_name_srch,
          next_day_srch     : next_day_srch,
-         dtype_cd_srch     : dtype_cd_srch
+         dtype_cd_srch     : dtype_cd_srch,
+         session 		   : session
       },
       dataType:'json',
       success: function(data){

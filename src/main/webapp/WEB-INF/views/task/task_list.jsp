@@ -19,6 +19,7 @@
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="cust_task_no" value="${cust_task_no}">
+<input type="hidden" id="session" value="${session}">
   
 <!-- task : task조회 -->
 <div id="cupnManager">

@@ -5,32 +5,35 @@
    <!-- Paging -->
    <select id="taskListTotalRow" resultType="int">
       SELECT count(*)
-      FROM tb_task
+      FROM tb_task t left join tb_user e on t.emp_no = e.user_no
       WHERE del_yn = 'N'
       <if test="task_no_srch != null and task_no_srch != ''">
-            AND (task_no like concat('%', #{task_no_srch}, '%'))
+            AND (t.task_no like concat('%', #{task_no_srch}, '%'))
          </if>
          <if test="subject_srch != null and subject_srch != ''">
-            AND (subject like concat('%', #{subject_srch}, '%'))
+            AND (t.subject like concat('%', #{subject_srch}, '%'))
          </if>
          <if test="cust_name_srch != null and cust_name_srch != ''">
-            AND (cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
+            AND (t.cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
          </if>
          <if test="emp_name_srch != null and emp_name_srch != ''">
-            AND (emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch_srch}, '%')))
+            AND (t.emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch_srch}, '%')))
          </if>
          <if test="next_day_srch != null and next_day_srch != ''">
-            AND (next_day like concat('%', #{next_day_srch}, '%'))
+            AND (t.next_day like concat('%', #{next_day_srch}, '%'))
          </if>
          <if test="dtype_cd_srch != null and dtype_cd_srch != ''">
-            AND (dtype_cd like concat('%', #{dtype_cd_srch}, '%'))
+            AND (t.dtype_cd like concat('%', #{dtype_cd_srch}, '%'))
          </if>
          <if test="cust_no != null and cust_no != ''">
-            AND (cust_no like concat('%', #{cust_no}, '%'))
+            AND (t.cust_no like concat('%', #{cust_no}, '%'))
          </if>
          <if test="cust_task_no != null and cust_task_no != ''">
-            AND (cust_no like concat('%', #{cust_task_no}, '%'))
+            AND (t.cust_no like concat('%', #{cust_task_no}, '%'))
          </if>
+         <if test="my_user_id !=null and my_user_id !=''">
+			AND (e.user_id like concat('%', #{my_user_id}, '%'))
+		</if>
    </select>
    
    <!-- Paging -->
@@ -87,8 +90,8 @@
               , (select code_name from tb_code code where code_no = '1008' and code.code = t.dtype_cd) as dtype_cd
               , date_format(t.create_date, '%Y-%m-%d %H:%i') as create_date
          from tb_task t left join tb_cust c on t.cust_no = c.cust_no 
-                  left join tb_cust_phone p on t.cust_no = p.cust_no
-                  left join tb_user e on t.emp_no = e.user_no
+                  		left join tb_cust_phone p on t.cust_no = p.cust_no
+                  		left join tb_user e on t.emp_no = e.user_no
          WHERE t.del_yn = 'N'
             <if test="task_no_srch != null and task_no_srch != ''">
                AND (t.task_no like concat('%', #{task_no_srch}, '%'))
@@ -113,6 +116,9 @@
             </if>
             <if test="cust_task_no !=null and cust_task_no !=''">
               AND (t.cust_no like concat('%', #{cust_task_no}, '%'))
+            </if>
+            <if test="my_user_id !=null and my_user_id !=''">
+              AND (e.user_id like concat('%', #{my_user_id}, '%'))
             </if>
          order by t.update_date desc
        )p
@@ -164,6 +170,9 @@
             </if>
             <if test="cust_task_no != null and cust_task_no != ''">
                AND (t.cust_no like concat('%', #{cust_task_no}, '%'))
+            </if>
+            <if test="user_id !=null and user_id !=''">
+              AND (e.user_id like concat('%', #{user_id}, '%'))
             </if>
          order by t.update_date desc 
         ) X
