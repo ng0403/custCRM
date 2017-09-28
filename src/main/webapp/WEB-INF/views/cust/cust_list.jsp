@@ -153,6 +153,7 @@ var vititDtlCdList = new Array();
 	 	 		<c:if test="${ empty custList }">
 	 	 			<tr>
 		 		 		<td style="text-align: center;" colspan="9">리스트가 존재하지 않습니다.</td>
+		 		 		
 		 	 		</tr>
 	 	 		</c:if>
 	 	 	
