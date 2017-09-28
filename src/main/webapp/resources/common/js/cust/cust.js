@@ -983,9 +983,12 @@ function download_list_Excel(formID, flg)
 {
 	var t = flg;
 	var ctx = $("#ctx").val();
+	var page = $("#page_type").val();
+	
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $("<input type='hidden' value='"+ flg +"' name='flg'>");
+	var page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
 	
 	console.log(t);
 	
@@ -995,6 +998,7 @@ function download_list_Excel(formID, flg)
 		{
 			form.append(excel);
 			form.append(flg);
+			form.append(page_type);
 			form.attr("action", "/toCustExcel");
 			form.submit();
 

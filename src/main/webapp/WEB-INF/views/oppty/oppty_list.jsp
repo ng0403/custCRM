@@ -207,7 +207,7 @@
 	 	 </table>
    	
 <%--    		<c:if test="${ opptyNoIndex.oppty_no != null }"> --%>
-   		<c:if test="${ hoppty_status_cd eq null }">
+<%--    		<c:if test="${ hoppty_status_cd eq null }"> --%>
    			<c:if test="${ cust_opty_no == null }">
 				<div class="listFootDiv">
 				 	 <input type="button" class="func_btn" id="oppty_single_add" value="단건등록" onclick="opptySingleAddForm();">
@@ -227,7 +227,7 @@
 				</div>
    			
    			</c:if>
-   		</c:if>
+<%--    		</c:if> --%>
    		<div class="listFootDiv">
    		</div>
 		

@@ -326,15 +326,23 @@ public class OpptyController {
 			  String cust_name_srch, String emp_name_srcj,
 			  String oppty_status_cd_srch, String oppty_stage_cd_srch,
 			  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String flg,
-			  String hoppty_status_cd, String cust_opty_no) {
+			  String hoppty_status_cd, String cust_opty_no, String page_type) {
 		
 		
 		char temp = flg.charAt(flg.length()-1);
 		
 		System.out.println(temp);
 		System.out.println(cust_opty_no);
+		System.out.println(page_type);
 		ModelAndView result = new ModelAndView();
 		Map<String, Object> opptykMap = new HashMap<String, Object> ();
+		
+		if(page_type.equals("1"))
+		{
+			String user_id = session.getAttribute("user").toString();
+			System.out.println("user_id : " + user_id);
+			opptykMap.put("user_id", user_id);
+		}
 		
 		if(temp == '0')
 		{

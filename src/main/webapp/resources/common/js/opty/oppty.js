@@ -334,10 +334,12 @@ function download_list_Excel(formID, flg) {
 	var ctx = $("#ctx").val();
 	var hoppty_status_cd = $("#hoppty_status_cd").val();
 	var cust_opty_no = $("#cust_opty_no").val();
+	var page = $("#page_type").val();
 	
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
 	var flg = $("<input type='hidden' value='"+ flg +"' name='flg'>");
+	var page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
 	
 	if(hoppty_status_cd != null && hoppty_status_cd != '')
 	{
@@ -362,6 +364,7 @@ function download_list_Excel(formID, flg) {
 		{
 			form.append(excel);
 			form.append(flg);
+			form.append(page_type);
 			form.attr("action", "/toOpptyExcel");
 			form.submit();
 		} 

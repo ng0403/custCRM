@@ -139,7 +139,10 @@
 				</if> 
 		   		<if test="phone_no !=null and phone_no !=''">
 					and(c.phone_no like concat('%', #{phone_no}, '%') )
-				</if> 
+				</if>
+				<if test="user_id != null and user_id != ''">
+					AND (emp_no like (select user_no from tb_user where user_id = #{user_id}))
+				</if>
 			order by a.update_date desc
 		)X
 	</select>

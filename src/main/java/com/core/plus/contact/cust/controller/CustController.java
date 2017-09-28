@@ -190,12 +190,21 @@ public class CustController {
 	//엑셀 출력 
 	@RequestMapping(value = "/toCustExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session
-			,String cust_no, String cust_name, String chart_no, String visit_cd, String rec_per, String phone_no, String flg) {
+			,String cust_no, String cust_name, String chart_no, String visit_cd 
+			,String rec_per, String phone_no, String flg, String page_type) {
 		
 		char temp = flg.charAt(flg.length()-1);
 		
 		ModelAndView result = new ModelAndView();
 		Map<String, Object> custkMap = new HashMap<String, Object> ();
+		
+		if(page_type.equals("1"))
+		{
+			String user_id = session.getAttribute("user").toString();
+			System.out.println("user_id : " + user_id);
+			custkMap.put("user_id", user_id);
+		}
+		
 		if(temp == '0')
 		{
 			custkMap.put("cust_no", cust_no);
