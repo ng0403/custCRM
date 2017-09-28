@@ -21,6 +21,7 @@ import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.info.org.service.OrgService;
 import com.core.plus.info.org.vo.OrgVO;
+import com.core.plus.login.dao.LoginDAO;
 
 @Controller
 public class OrgController{
@@ -30,8 +31,8 @@ public class OrgController{
 	@Autowired
 	MenuService menuService;
 	
-//	@Resource
-//	LoginDao loginDao;
+	@Resource
+	LoginDAO loginDao;
 	
 	@Autowired
 	private HttpSession session;
@@ -156,18 +157,18 @@ public class OrgController{
 	// 메뉴 가져오기
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
-//		String user_id = session.getAttribute("user").toString();
+		String user_id = session.getAttribute("user").toString();
 			
 		// 메뉴에 따른 권한 주기
 		Map<String, String> menuAuthMap = new HashMap<String, String>();
 		menuAuthMap.put("menu_url", url);
-//		menuAuthMap.put("user_id", user_id);
+		menuAuthMap.put("user_id", user_id);
 		menuAuthMap.put("menu_id", menu_id);
-//		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-//		mav.addObject("menuAuth", menuAuth);
+		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+		mav.addObject("menuAuth", menuAuth);
 			
 		//메뉴 그리기
-		List<MenuVo> mainMenuList = menuService.getMainMenuList(/*user_id*/);
+		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
 		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
 		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
 		mav.addObject("subMenuList", subMenuList);    //subMenuList

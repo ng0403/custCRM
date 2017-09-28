@@ -156,8 +156,8 @@
 		and a.user_id = #{user_id}
 	</select>
 	<insert id="userAuthInsert" parameterType="Map">
-		INSERT INTO tb_user_auth(user_id,auth_id)
-		VALUES(#{user_id},#{auth_id})
+		INSERT INTO tb_user_auth(user_id,auth_id,fin_mdfy_id)
+		VALUES(#{user_id},#{auth_id},#{fin_mdfy_id})
 	</insert>
 	<update id="userAuthDelete" parameterType="String">		
 		DELETE

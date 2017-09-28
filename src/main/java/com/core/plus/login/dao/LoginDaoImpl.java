@@ -1,9 +1,12 @@
 package com.core.plus.login.dao;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.login.vo.LoginVO;
 
 @Repository
@@ -38,6 +41,12 @@ public class LoginDaoImpl implements LoginDAO {
 	@Override
 	public void updatePwdErnmYn(LoginVO loginParam) {
 		sqlSession.update("login.updatePwdErnmYn", loginParam);
+	}
+
+	@Override
+	public MenuVo getMenuAuthInfo(Map<String, String> menuAuthMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("login.menuAuth", menuAuthMap);
 	}
 	
 }

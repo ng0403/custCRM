@@ -106,11 +106,12 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public int userAuthInsert(String auth_id, String user_id) {
+	public int userAuthInsert(String auth_id, String user_id,String fin_mdfy_id) {
 		int result = 0;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("auth_id", auth_id);
 		map.put("user_id", user_id);
+		map.put("fin_mdfy_id", fin_mdfy_id);
 		try {
 			result = sqlSession.delete("user.userAuthInsert", map);
 		} catch (Exception e) {

@@ -11,7 +11,7 @@ public interface UserDao {
 	List<UserVO> userType();
 	List<UserVO> userOrgList(Map<String, Object> userMap);
 	int userAuthDelete(String user_id);
-	int userAuthInsert(String auth_id,String user_id);
+	int userAuthInsert(String auth_id,String user_id,String fin_mdfy_id);
 	int userDelete(String[] user_id);
 	int userInsert(UserVO userVO);
 	int userUpdate(UserVO userVO);

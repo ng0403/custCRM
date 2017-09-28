@@ -1,5 +1,8 @@
 package com.core.plus.login.dao;
 
+import java.util.Map;
+
+import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.login.vo.LoginVO;
 
 public interface LoginDAO {
@@ -10,6 +13,8 @@ public interface LoginDAO {
 	void updatePwdErnmYn(LoginVO loginParam);
 
 	//사용자 정보조회
-		LoginVO selectUser(LoginVO loginParam);
+	LoginVO selectUser(LoginVO loginParam);
+	
+	MenuVo getMenuAuthInfo(Map<String, String> menuAuthMap);
 
 }

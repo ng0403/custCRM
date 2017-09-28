@@ -35,7 +35,8 @@ public class UserVO {
 	private String auth_nm_3;
 	private String auth_nm_4;
 	private String pwd_err_cnt;
-
+	private String fin_mdfy_id;
+	
 	public String getUser_no() {
 		return user_no;
 	}
@@ -259,6 +260,12 @@ public class UserVO {
 				+ auth_nm_2 + ", auth_nm_3=" + auth_nm_3 + ", auth_nm_4="
 				+ auth_nm_4 + ", pwd_err_cnt="
 						+ pwd_err_cnt + "]";
+	}
+	public String getFin_mdfy_id() {
+		return fin_mdfy_id;
+	}
+	public void setFin_mdfy_id(String fin_mdfy_id) {
+		this.fin_mdfy_id = fin_mdfy_id;
 	}
 	
 	

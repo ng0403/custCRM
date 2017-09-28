@@ -23,6 +23,7 @@ import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.info.user.service.UserService;
 import com.core.plus.info.user.vo.UserVO;
+import com.core.plus.login.dao.LoginDAO;
 
 @Controller
 public class UserController {
@@ -31,8 +32,8 @@ public class UserController {
 	@Autowired
 	MenuService menuService;
 
-//	@Resource
-//	LoginDao loginDao;
+	@Resource
+	LoginDAO loginDao;
 	
 	@Autowired
 	private HttpSession session;
@@ -236,7 +237,7 @@ public class UserController {
 				e.printStackTrace();
 			}
 		}
-//		userVO.setCrt_id((String)session.getAttribute("user"));
+		userVO.setFin_mdfy_id((String)session.getAttribute("user"));
 		
 		if(service.userInsert(userVO) != 0){
 			userInResult = 1;
@@ -244,7 +245,7 @@ public class UserController {
 		service.userAuthDelete(userVO.getUser_id());
 		if(auth_ids.length != 0){
 			for(int i=0;i<auth_ids.length;i++){
-				service.userAuthInsert(auth_ids[i],userVO.getUser_id());			
+				service.userAuthInsert(auth_ids[i],userVO.getUser_id(),userVO.getFin_mdfy_id());			
 			}
 		}
 //		userVO.setCrt_id((String)session.getAttribute("user"));
@@ -322,14 +323,14 @@ public class UserController {
 			}		
 		}		
 		// 생성자 아이디 입력
-//		userVO.setCrt_id((String)session.getAttribute("user"));		
+		userVO.setFin_mdfy_id((String)session.getAttribute("user"));		
 			service.userUpdate(userVO);
 			// 아이디값의 권한 다 삭제 
 			service.userAuthDelete(userVO.getUser_id());			
 		if(auth_ids.length != 0){	
 			for(int i=0;i<auth_ids.length;i++){
 				// 아이디값의 권한 다시 넣어주기
-				service.userAuthInsert(auth_ids[i],userVO.getUser_id());			
+				service.userAuthInsert(auth_ids[i],userVO.getUser_id(),userVO.getFin_mdfy_id());			
 			}
 		}
 		Map<String, Object> map = new HashMap<String, Object>();	// 검색 값을 넣을 Map생성
@@ -416,18 +417,18 @@ public class UserController {
 	// 메뉴 가져오기
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
-//		String user_id = session.getAttribute("user").toString();
+		String user_id = session.getAttribute("user").toString();
 			
 		// 메뉴에 따른 권한 주기
 		Map<String, String> menuAuthMap = new HashMap<String, String>();
 		menuAuthMap.put("menu_url", url);
-//		menuAuthMap.put("user_id", user_id);
+		menuAuthMap.put("user_id", user_id);
 		menuAuthMap.put("menu_id", menu_id);
-//		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-//		mav.addObject("menuAuth", menuAuth);
+		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+		mav.addObject("menuAuth", menuAuth);
 			
 		//메뉴 그리기
-		List<MenuVo> mainMenuList = menuService.getMainMenuList(/*user_id*/);
+		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
 		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
 		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
 		mav.addObject("subMenuList", subMenuList);    //subMenuList

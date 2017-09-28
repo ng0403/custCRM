@@ -29,4 +29,16 @@
 		    user_id = #{user_id}
 	</update>
 	
+	<select id="menuAuth" parameterType="java.util.Map" resultType="ibs.mid.bon.manager.info.menu.vo.MenuVo">
+	   SELECT b.crt_yn, b.mdfy_yn, b.del_yn, b.rtrv_yn
+		FROM mid.tm_com_user_auth a, mid.tm_com_auth_menu b, mid.tm_com_user c, mid.tm_com_menu d
+		WHERE a.auth_id = b.auth_id
+		  AND a.user_id = c.user_id
+		  AND d.menu_id = b.menu_id
+		  AND a.user_id = #{user_id}
+		  AND d.menu_url = #{menu_url}
+		  order by b.menu_id desc
+		  FETCH FIRST 1 ROWS ONLY
+	</select>
+	
 </mapper>

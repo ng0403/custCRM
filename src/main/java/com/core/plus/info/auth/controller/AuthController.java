@@ -28,6 +28,7 @@ import com.core.plus.info.auth.service.AuthService;
 import com.core.plus.info.auth.vo.AuthVO;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
+import com.core.plus.login.dao.LoginDAO;
 
 @Controller
 public class AuthController {
@@ -38,8 +39,8 @@ public class AuthController {
 	@Autowired
 	MenuService menuService;
 	
-//	@Resource
-//	LoginDao loginDao;
+	@Resource
+	LoginDAO loginDao;
 	
 	@Autowired
 	private HttpSession session;
@@ -92,10 +93,10 @@ public class AuthController {
 		mov.addObject("sub_menu_url", "auth");
 		
 		//등록, 수정자 ID 세팅
-//		String user_id = session.getAttribute("user").toString();
+		String user_id = session.getAttribute("user").toString();
 //		authVo.setCrt_id(user_id);
 //		authVo.setMdfy_id(user_id);
-		authVo.setFin_mdfy_id("admin");
+		authVo.setFin_mdfy_id(user_id);
 		//메뉴 그리기
 		menuImport(mov, "auth");
 		
@@ -116,8 +117,8 @@ public class AuthController {
 		mov.addObject("sub_menu_url", "auth");
 		
 		//수정자 ID 가져오기
-//		String user_id = session.getAttribute("user").toString();
-		authVo.setFin_mdfy_id("admin");
+		String user_id = session.getAttribute("user").toString();
+		authVo.setFin_mdfy_id(user_id);
 		//메뉴 그리기
 		menuImport(mov, "auth");
 		
@@ -207,10 +208,9 @@ public class AuthController {
 		mov.addObject("sub_menu_url", "auth");
 		
 		//등록, 수정자 ID 세팅
-//		String user_id = session.getAttribute("user").toString();
-//		menuVo.setFin_mdfy_id(user_id);
+		String user_id = session.getAttribute("user").toString();
+		menuVo.setFin_mdfy_id(user_id);
 //		menuVo.setMdfy_id(user_id);
-		menuVo.setFin_mdfy_id("admin");
 		
 		//메뉴 그리기
 		menuImport(mov, "auth");
@@ -328,18 +328,18 @@ public class AuthController {
 	// 메뉴 가져오기
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
-//		String user_id = session.getAttribute("user").toString();
+		String user_id = session.getAttribute("user").toString();
 			
 		// 메뉴에 따른 권한 주기
 		Map<String, String> menuAuthMap = new HashMap<String, String>();
 		menuAuthMap.put("menu_url", url);
-//		menuAuthMap.put("user_id", user_id);
+		menuAuthMap.put("user_id", user_id);
 		menuAuthMap.put("menu_id", menu_id);
-//		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-//		mav.addObject("menuAuth", menuAuth);
+		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+		mav.addObject("menuAuth", menuAuth);
 			
 		//메뉴 그리기
-		List<MenuVo> mainMenuList = menuService.getMainMenuList(/*user_id*/);
+		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
 		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
 		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
 		mav.addObject("subMenuList", subMenuList);    //subMenuList

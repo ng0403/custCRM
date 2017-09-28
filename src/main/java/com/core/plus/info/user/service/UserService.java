@@ -11,7 +11,7 @@ public interface UserService {
 	UserVO userDetail(String user_id);
 	List<UserVO> userType();
 	List<UserVO> userOrgList(Map<String, Object> userMap);
-	int userAuthInsert(String auth_id,String user_id);
+	int userAuthInsert(String auth_id,String user_id,String fin_mdfy_id);
 	int userInsert(UserVO userVO);
 	int userUpdate(UserVO userVO);
 	public List<UserVO> authList();

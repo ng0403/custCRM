@@ -65,8 +65,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int userAuthInsert(String auth_id, String user_id) {
-		int result = userDao.userAuthInsert(auth_id,user_id);
+	public int userAuthInsert(String auth_id, String user_id,String fin_mdfy_id) {
+		int result = userDao.userAuthInsert(auth_id,user_id,fin_mdfy_id);
 		return result;
 	}
 
