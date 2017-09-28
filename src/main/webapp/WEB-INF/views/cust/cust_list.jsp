@@ -124,30 +124,37 @@ var vititDtlCdList = new Array();
 	 	 			<th style="width: 10%;">등록일시</th> 
  	 	 		</tr>
 	 	 	</thead>
-	 	 	<tbody id="cust_list_tbody"> 
-	 	 		<c:forEach items="${custList}" var="list">
-	 	 		<tr>
-	 	 			<td style="text-align: left;" >${list.cust_no}</td>
-	 	 			<td style="text-align: left;" >
-	 	 				<a href="#" onclick="custDetail('${list.cust_no}','${pageNum}');" id="${list.cust_no}">${list.cust_name}</a>
-	 	 			</td>
-	 	 			<td style="text-align: left;" >${list.chart_no}</td>
-	 	 			<td style="text-align: left;" >
-	 	 				<c:forEach var="vititCdList" items="${ vititCdList }">
-							<c:if test= "${ vititCdList.code eq list.visit_cd }">${ vititCdList.code_name }</c:if>
-						</c:forEach>
-	 	 			</td>
-	 	 			<td style="text-align: left;" >
-						<c:forEach var="vititDtlCdList" items="${ vititDtlCdList }">
-							<c:if test= "${ vititDtlCdList.code eq list.visit_dtl_cd }">${ vititDtlCdList.code_name }</c:if>
-						</c:forEach>
-	 	 			</td>
-	 	 			<td style="text-align: left;" >${list.rec_per}</td>
-	 	 			<td style="text-align: left;" >${list.phone_area_no}${list.phone_no}</td>
-	 	 			<td style="text-align: left;" >${list.main_address}</td>
-	 	 			<td style="text-align: left;" >${list.create_date}</td>
-	 	 			</tr>
-	 	 		</c:forEach>
+	 	 	<tbody id="cust_list_tbody">
+	 	 		<c:if test="${ custList != null}">
+		 	 		<c:forEach items="${custList}" var="list">
+		 	 		<tr>
+		 	 			<td style="text-align: left;" >${list.cust_no}</td>
+		 	 			<td style="text-align: left;" >
+		 	 				<a href="#" onclick="custDetail('${list.cust_no}','${pageNum}');" id="${list.cust_no}">${list.cust_name}</a>
+		 	 			</td>
+		 	 			<td style="text-align: left;" >${list.chart_no}</td>
+		 	 			<td style="text-align: left;" >
+		 	 				<c:forEach var="vititCdList" items="${ vititCdList }">
+								<c:if test= "${ vititCdList.code eq list.visit_cd }">${ vititCdList.code_name }</c:if>
+							</c:forEach>
+		 	 			</td>
+		 	 			<td style="text-align: left;" >
+							<c:forEach var="vititDtlCdList" items="${ vititDtlCdList }">
+								<c:if test= "${ vititDtlCdList.code eq list.visit_dtl_cd }">${ vititDtlCdList.code_name }</c:if>
+							</c:forEach>
+		 	 			</td>
+		 	 			<td style="text-align: left;" >${list.rec_per}</td>
+		 	 			<td style="text-align: left;" >${list.phone_area_no}${list.phone_no}</td>
+		 	 			<td style="text-align: left;" >${list.main_address}</td>
+		 	 			<td style="text-align: left;" >${list.create_date}</td>
+		 	 			</tr>
+		 	 		</c:forEach>
+	 	 		</c:if>
+	 	 		<c:if test="${ empty custList }">
+	 	 			<tr>
+		 		 		<td style="text-align: center;" colspan="9">리스트가 존재하지 않습니다.</td>
+		 	 		</tr>
+	 	 		</c:if>
 	 	 	
 	 	 	</tbody>
 	 	 </table>
