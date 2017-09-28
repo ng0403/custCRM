@@ -23,7 +23,7 @@ public interface MenuService {
 	public String getMenuId();
 	
 	//메뉴 추가의 상위메뉴 버튼 검색 리스트
-	List<MenuVo> getUpMenuList();
+	List<MenuVo> getUpMenuList(String menu_id);
 
 	//메뉴 삭제
 	int getMenuDelete(MenuVo menuVo);

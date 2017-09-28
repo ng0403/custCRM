@@ -59,42 +59,42 @@
 		 	 			<td style="width: 19.35%;">${authmenu.menu_id}</td>
 		 	 			<td style="width: 35.05%;">${authmenu.menu_nm}</td>
 		 	 			<td style="width: 18.4%;">${authmenu.up_menu_id}</td>
-		 	 			<c:if test="${authmenu.crt_yn == 'Y'}">
+		 	 			<c:if test="${authmenu.create_auth_yn == 'Y'}">
 			 	 			<td style="width: 6.3%;">
 			 	 				<input type="checkbox" name="crt_yn" id="crt_yn" value="Y" checked="checked" disabled="disabled">
 			 	 			</td>
 		 	 			</c:if>
-		 	 			<c:if test="${authmenu.crt_yn == 'N'}">
+		 	 			<c:if test="${authmenu.create_auth_yn == 'N'}">
 			 	 			<td style="width: 6.3%;">
 			 	 				<input type="checkbox" name="crt_yn" id="crt_yn" value="N" disabled="disabled">
 			 	 			</td>
 		 	 			</c:if>
-		 	 			<c:if test="${authmenu.mdfy_yn == 'Y'}">
+		 	 			<c:if test="${authmenu.mdfy_auth_yn == 'Y'}">
 			 	 			<td style="width: 6.28%;">
 			 	 				<input type="checkbox" name="mdfy_yn" id="mdfy_yn" value="Y" checked="checked" disabled="disabled">
 			 	 			</td>
 		 	 			</c:if>
-		 	 			<c:if test="${authmenu.mdfy_yn == 'N'}">
+		 	 			<c:if test="${authmenu.mdfy_auth_yn == 'N'}">
 			 	 			<td style="width: 6.28%;">
 			 	 				<input type="checkbox" name="mdfy_yn" id="mdfy_yn" value="N" disabled="disabled">
 			 	 			</td>
 		 	 			</c:if>
-		 	 			<c:if test="${authmenu.del_yn == 'Y'}">
+		 	 			<c:if test="${authmenu.del_auth_yn == 'Y'}">
 			 	 			<td style="width: 6.35%;">
 			 	 				<input type="checkbox" name="del_yn" id="del_yn" value="Y" checked="checked" disabled="disabled">
 			 	 			</td>
 		 	 			</c:if>
-		 	 			<c:if test="${authmenu.del_yn == 'N'}">
+		 	 			<c:if test="${authmenu.del_auth_yn == 'N'}">
 			 	 			<td style="width: 6.35%;">
 			 	 				<input type="checkbox" name="del_yn" id="del_yn" value="N" disabled="disabled">
 			 	 			</td>
 		 	 			</c:if>
-		 	 			<c:if test="${authmenu.rtrv_yn == 'Y'}">
+		 	 			<c:if test="${authmenu.retrv_auth_yn == 'Y'}">
 			 	 			<td style="width: 6.1%;">
 			 	 				<input type="checkbox" name="rtrv_yn" id="rtrv_yn" value="Y" checked="checked" disabled="disabled">
 			 	 			</td>
 		 	 			</c:if>
-		 	 			<c:if test="${authmenu.rtrv_yn == 'N'}">
+		 	 			<c:if test="${authmenu.retrv_auth_yn == 'N'}">
 			 	 			<td style="width: 6.1%;">
 			 	 				<input type="checkbox" name="rtrv_yn" id="rtrv_yn" value="N" disabled="disabled">
 			 	 			</td>

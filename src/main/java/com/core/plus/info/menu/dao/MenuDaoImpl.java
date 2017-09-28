@@ -91,10 +91,10 @@ public class MenuDaoImpl implements MenuDao {
 
 	//메뉴 추가의 상위메뉴 버튼 검색 리스트
 	@Override
-	public List<MenuVo> getUpMenuList() {
+	public List<MenuVo> getUpMenuList(String menu_id) {
 		List<MenuVo> upMenuList = null;
 		try{
-			upMenuList = sqlSession.selectList("upMenuList"); //"" 안은 mapper id 이름
+			upMenuList = sqlSession.selectList("upMenuList",menu_id); //"" 안은 mapper id 이름
 		} catch(Exception e){
 			e.printStackTrace();
 		}

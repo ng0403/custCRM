@@ -88,7 +88,10 @@
 <!-- 		                     , to_char(now(), 'YYYYMMDDHH24MISS'::text) -->
 <!-- 		                     , #{mdfy_id} -->
 <!-- 		                     , to_char(now(), 'YYYYMMDDHH24MISS'::text) -->
-		                     , #{seq_no})	
+		                     , (select b.* from (select distinct(if((select a.* from (select max(seq_no)+1 from tb_menu where up_menu_id=#{up_menu_id})a) is null
+			     				,(select a.* from (select max(seq_no)+1 from tb_menu where up_menu_id is null)a)
+			     				,(select a.* from (select max(seq_no)+1 from tb_menu where up_menu_id=#{up_menu_id})a)))seq_no
+								from tb_menu)b))
 	</insert>
 	
 	<!-- 메뉴권한 추가를 위한 menu_id 가져오기  -->
@@ -106,11 +109,12 @@
 	</select>
 	
 	<!-- 기준정보 메뉴추가에서 상위메뉴 검색 버튼 -->
-	<select id="upMenuList" parameterType="java.util.Map" resultType="com.core.plus.info.menu.vo.MenuVo">
+	<select id="upMenuList" parameterType="String" resultType="com.core.plus.info.menu.vo.MenuVo">
 		select menu_id, menu_nm, menu_url
 		  from tb_menu
          where menu_lev = '001'
- 		      order by menu_id desc
+         	   and menu_id <![CDATA[<>]]> #{menu_id}
+ 		 order by menu_id desc
 	</select>
 	
 	<!-- 메뉴 삭제 -->
@@ -154,7 +158,8 @@
 	<update id="menuSeqUpdate" parameterType="java.util.Map">
 		update tb_menu
 		   set seq_no = seq_no-1
-		 where up_menu_id = #{menu_id} and seq_no > #{seq_no}::INTEGER
+		 where up_menu_id = #{menu_id} and seq_no > #{seq_no}
+<!-- 		 ::INTEGER -->
 	</update>
 	<!-- 메뉴상세정보 수정 -->
 	<update id="menuUpdate" parameterType="com.core.plus.info.menu.vo.MenuVo">
@@ -169,7 +174,10 @@
 <!-- 		     , crt_dt = to_char(now(), 'YYYYMMDDHH24MISS'::text)  -->
 <!-- 		     , mdfy_id = #{mdfy_id} -->
 <!-- 		     , mdfy_dt = to_char(now(), 'YYYYMMDDHH24MISS'::text) -->
-		     , seq_no = (select max(seq_no)+1 from mid.tm_com_menu where up_menu_id=#{up_menu_id})
+		     , seq_no = (select b.* from (select distinct(if((select a.* from (select max(seq_no)+1 from tb_menu where up_menu_id=#{up_menu_id})a) is null
+			     				,(select a.* from (select max(seq_no)+1 from tb_menu where up_menu_id is null)a)
+			     				,(select a.* from (select max(seq_no)+1 from tb_menu where up_menu_id=#{up_menu_id})a)))seq_no
+								from tb_menu)b)
 		 where menu_id = #{menu_id}
 	</update>
 	<update id="menuUpdate1" parameterType="com.core.plus.info.menu.vo.MenuVo">
@@ -210,9 +218,10 @@
      		 , COALESCE(m1.menu_nm, '-') as up_menu_id
      		 , m.menu_url
      		 , m.seq_no
- 		  from tb_menu m left join tb_menu m1 on m.up_menu_id = m1.menu_id
+ 		  from tb_menu m left join tb_menu m1 on m.up_menu_id = m1.menu_id left join tb_auth_menu am on m.menu_id = am.menu_id
          where m.act_yn = 'Y'
- 	     order by m.seq_no
+         	   and am.auth_id is null
+ 	     order by m.up_menu_id is not null, m.up_menu_id, m.seq_no;
 	</select>
 	
     <!-- 메뉴권한 추가  -->
@@ -227,7 +236,7 @@
 <!-- 								   ,  crt_dt -->
 <!-- 								   ,  mdfy_id -->
 <!-- 								   ,  mdfy_dt) -->
-								   , default_yn
+<!-- 								   , default_yn -->
 								   , fin_mdfy_id)
 		                      values (#{menu_id}
 		                           ,  #{auth_id}
@@ -235,7 +244,7 @@
 		                           ,  #{mdfy_auth_yn}
 		                           ,  #{del_auth_yn}
 		                           ,  #{retrv_auth_yn}
-		                           ,  #{default_yn}
+<!-- 		                           ,  #{default_yn} -->
 		                           ,  #{fin_mdfy_id})
 <!-- 								   ,  to_char(now(), 'YYYYMMDDHH24MISS'::text) -->
 <!-- 								   ,  #{mdfy_id} -->

@@ -61,7 +61,7 @@ public class MenuController {
 		
 		MenuVo menuVo = menuService.getMenuDetail(menu_id);
 		
-		List<MenuVo> upmenuList = menuService.getUpMenuList();   //메뉴상세정보의 상위메뉴 검색버튼 > 리스트
+		List<MenuVo> upmenuList = menuService.getUpMenuList(menu_id);   //메뉴상세정보의 상위메뉴 검색버튼 > 리스트
 		List<MenuVo> menuLevCode = menuService.getMenuLevCode(); //메뉴레벨코드 리스트
 		
 		map = new HashMap<String, Object>();
@@ -124,7 +124,7 @@ public class MenuController {
 		mov.addObject("sub_menu_url", "menu");
 		
 		//등록, 수정자 ID 세팅
-		String user_id = session.getAttribute("user").toString();
+//		String user_id = session.getAttribute("user").toString();
 //		menuVo.setCrt_id(user_id);
 //		menuVo.setMdfy_id(user_id);
 		
@@ -134,9 +134,9 @@ public class MenuController {
 		int authMenuResult = 0;
 		String menu_id = "";
 		int result = menuService.getMenuInsert(menuVo);
-		if("admin".equals(user_id)){
+		if("admin".equals("admin"/*user_id*/)){
 			menu_id = menuService.getMenuId();
-			authMenuResult = menuService.getAuthMenuInsert1(menu_id, "AU00001"
+			authMenuResult = menuService.getAuthMenuInsert1(menu_id, "ATH0000001"
 								, "Y", "Y", "Y", "Y", menuVo);
 			
 		}
@@ -195,7 +195,7 @@ public class MenuController {
 		mov.addObject("sub_menu_url", "menu");
 		
 		//수정자 ID 가져오기
-		String user_id = session.getAttribute("user").toString();
+//		String user_id = session.getAttribute("user").toString();
 		
 		//메뉴 그리기
 		menuImport(mov, "menu");

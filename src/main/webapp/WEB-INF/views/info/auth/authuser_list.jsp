@@ -40,7 +40,7 @@
 	 	 			<th style="width: 11%;">부서명</th>
 	 	 			<th style="width: 19%;">이메일</th>
 	 	 			<th style="width: 16%;">연락처</th>
-	 	 			<th style="width: 7%;">등록자</th>
+	 	 			<th style="width: 7%;">최종수정자</th>
 	 	 			<th>등록일자</th>
 	 	 		</tr>
 	 	 	</thead>
@@ -55,12 +55,12 @@
 		 	 			</td>
 		 	 			<td style="width: 7%;">${authuser.user_id}</td>
 		 	 			<td style="width: 9%;">${authuser.user_nm}</td>
-		 	 			<td style="width: 10%;">${authuser.auth_id}</td>
+		 	 			<td style="width: 10%;">${authuser.auth_nm}</td>
 		 	 			<td style="width: 10%;">${authuser.org_id}</td>
 		 	 			<td style="width: 21%;">${authuser.email}</td>
 		 	 			<td style="width: 14%;">${authuser.cell_ph}</td>
-		 	 			<td style="width: 8%;">${authuser.crt_id}</td>
-		 	 			<td>${authuser.crt_dt}</td>
+		 	 			<td style="width: 8%;">${authuser.fin_mdfy_id}</td>
+		 	 			<td>${authuser.create_date}</td>
 		 	 		</tr>
 		 	 	</c:forEach>
 	 	 	</tbody>

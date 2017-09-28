@@ -246,7 +246,7 @@ $(document).ready(function() {
 		   	 		</td>
 		   	 	</tr>
 		   	 	<tr>
-		   	 		<th>상위메뉴명&nbsp;</th>
+		   	 		<th>상위메뉴ID&nbsp;</th>
 		   	 		<td style="padding: 2%;">
 		   	 			<input type="text" id="up_menu_id" name="up_menu_id" value="${menuVo.up_menu_id}" readonly="readonly">
 		   	 			<input type="button" id="up_menu_srh" class="func_btn" value="검색" disabled="disabled">

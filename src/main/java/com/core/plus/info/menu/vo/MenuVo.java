@@ -19,6 +19,11 @@ public class MenuVo {
 	private String mdfy_auth_yn;		//수정권한여부
 	private String del_auth_yn;		//삭제권한여부
 	
+	private String rtrv_yn;     //조회권한여부(view)
+	private String crt_yn;		//생성권한여부(view)
+	private String mdfy_yn;		//수정권한여부(view)
+	private String del_yn;		//삭제권한여부(view)
+	
 	private String auth_id;     //권한id
 	private String up_id;       //상위메뉴id로 출력
 	
@@ -111,8 +116,8 @@ public class MenuVo {
 		return create_auth_yn;
 	}
 
-	public void setCrt_auth_yn(String crt_auth_yn) {
-		this.create_auth_yn = crt_auth_yn;
+	public void setCreate_auth_yn(String create_auth_yn) {
+		this.create_auth_yn = create_auth_yn;
 	}
 
 	public String getMdfy_auth_yn() {
@@ -129,6 +134,38 @@ public class MenuVo {
 
 	public void setDel_auth_yn(String del_auth_yn) {
 		this.del_auth_yn = del_auth_yn;
+	}
+
+	public String getRtrv_yn() {
+		return rtrv_yn;
+	}
+
+	public void setRtrv_yn(String rtrv_yn) {
+		this.rtrv_yn = rtrv_yn;
+	}
+
+	public String getCrt_yn() {
+		return crt_yn;
+	}
+
+	public void setCrt_yn(String crt_yn) {
+		this.crt_yn = crt_yn;
+	}
+
+	public String getMdfy_yn() {
+		return mdfy_yn;
+	}
+
+	public void setMdfy_yn(String mdfy_yn) {
+		this.mdfy_yn = mdfy_yn;
+	}
+
+	public String getDel_yn() {
+		return del_yn;
+	}
+
+	public void setDel_yn(String del_yn) {
+		this.del_yn = del_yn;
 	}
 
 	public String getAuth_id() {
@@ -170,6 +207,8 @@ public class MenuVo {
 	public void setMi(String mi) {
 		this.mi = mi;
 	}
+
+
 	
 
 }

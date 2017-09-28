@@ -205,16 +205,20 @@ $(document).ready(function(){
 		$("#up_menu_srh").prop("disabled", false);
 		$("#menuDetailTable input[type=radio]").prop("disabled", false);
 		$("#menu_nm").focus();
-		
+		if($("#menu_lev > option:selected").val() == '001'){
+			$("#up_menu_srh").prop("disabled", true);	
+			$("#up_menu_id").val('').attr("readonly", true);
+			$("#up_menu_id").css("background-color", "#EAEAEA");
+		} 
 		$('#menu_lev').change(function(){
 			/* 상위메뉴 select 값으로 조건주기 */
-			if($("#menu_lev > option:selected").val() == '0001' ){   //선택값이 상위메뉴 일 때
+			if($("#menu_lev > option:selected").val() == '001' ){   //선택값이 상위메뉴 일 때
 				$("#up_menu_srh").prop("disabled", true);	
 				$("#up_menu_id").val('').attr("readonly", true);
 				$("#up_menu_id").css("background-color", "#EAEAEA");
 				
 			}
-			if($("#menu_lev > option:selected").val() == '0002' ){   //선택값이 하위메뉴 일 때
+			if($("#menu_lev > option:selected").val() == '002' ){   //선택값이 하위메뉴 일 때
 				$("#up_menu_srh").prop("disabled", false);	
 				$("#up_menu_id").val('').attr("readonly", true);
 				$("#up_menu_id").css("background-color", "white");

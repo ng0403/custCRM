@@ -108,44 +108,44 @@ public class UserController {
 //	}
 	
 	// 유저 삭제
-		@RequestMapping(value = "/userdelete",method={RequestMethod.GET, RequestMethod.POST})
-		public ModelAndView userDelete(
-				HttpSession session,
-				String user_id,
-				String modes,
-				@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
-				){
-			RedirectView rv = new RedirectView("user");
-			rv.setExposeModelAttributes(false);
-			
-			ModelAndView mov = new ModelAndView(rv);
-			mov.addObject("main_menu_url", "org");
-			mov.addObject("sub_menu_url", "user");
-			
-			Map<String, Object> map = new HashMap<String, Object>();	// 검색 값을 넣을 Map생성
-
-			map.put("pageNum",pageNum);
-			PagerVO page = service.getUserListCount(map);
-			if(page.getEndRow()==1){
-				page.setEndRow(0);
-			}
-			map.put("page", page);
-			
-			/*service.userAuthDelete(Duser_id);
-			service.userDelete(Duser_id);*/			
-
-
-			if(modes.equals("update")){
-				mov.addObject("message", "성공적으로 수정 되었습니다.");
-			}
-			
-			List<UserVO> list = service.userList(map);
-			mov.addObject("userList", list);	
-			mov.addObject("page", page);
-			mov.addObject("pageNum", pageNum);
-			menuImport(mov, "user");
-			return mov;
-		}
+//		@RequestMapping(value = "/userdelete",method={RequestMethod.GET, RequestMethod.POST})
+//		public ModelAndView userDelete(
+//				HttpSession session,
+//				String user_id,
+//				String modes,
+//				@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
+//				){
+//			RedirectView rv = new RedirectView("user");
+//			rv.setExposeModelAttributes(false);
+//			
+//			ModelAndView mov = new ModelAndView(rv);
+//			mov.addObject("main_menu_url", "org");
+//			mov.addObject("sub_menu_url", "user");
+//			
+//			Map<String, Object> map = new HashMap<String, Object>();	// 검색 값을 넣을 Map생성
+//
+//			map.put("pageNum",pageNum);
+//			PagerVO page = service.getUserListCount(map);
+//			if(page.getEndRow()==1){
+//				page.setEndRow(0);
+//			}
+//			map.put("page", page);
+//			
+//			/*service.userAuthDelete(Duser_id);
+//			service.userDelete(Duser_id);*/			
+//
+//
+//			if(modes.equals("update")){
+//				mov.addObject("message", "성공적으로 수정 되었습니다.");
+//			}
+//			
+//			List<UserVO> list = service.userList(map);
+//			mov.addObject("userList", list);	
+//			mov.addObject("page", page);
+//			mov.addObject("pageNum", pageNum);
+//			menuImport(mov, "user");
+//			return mov;
+//		}
 	
 		// 유저 상세
 		@RequestMapping(value="/userdetail" , method={RequestMethod.GET, RequestMethod.POST})
@@ -242,8 +242,10 @@ public class UserController {
 			userInResult = 1;
 		}
 		service.userAuthDelete(userVO.getUser_id());
-		for(int i=0;i<auth_ids.length;i++){
-			service.userAuthInsert(auth_ids[i],userVO.getUser_id());			
+		if(auth_ids.length != 0){
+			for(int i=0;i<auth_ids.length;i++){
+				service.userAuthInsert(auth_ids[i],userVO.getUser_id());			
+			}
 		}
 //		userVO.setCrt_id((String)session.getAttribute("user"));
 		
@@ -324,12 +326,12 @@ public class UserController {
 			service.userUpdate(userVO);
 			// 아이디값의 권한 다 삭제 
 			service.userAuthDelete(userVO.getUser_id());			
-			
-		for(int i=0;i<auth_ids.length;i++){
-			// 아이디값의 권한 다시 넣어주기
-			service.userAuthInsert(auth_ids[i],userVO.getUser_id());			
+		if(auth_ids.length != 0){	
+			for(int i=0;i<auth_ids.length;i++){
+				// 아이디값의 권한 다시 넣어주기
+				service.userAuthInsert(auth_ids[i],userVO.getUser_id());			
+			}
 		}
-		
 		Map<String, Object> map = new HashMap<String, Object>();	// 검색 값을 넣을 Map생성
 
 		map.put("pageNum",pageNum);

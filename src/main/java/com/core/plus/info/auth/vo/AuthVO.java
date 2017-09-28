@@ -7,7 +7,7 @@ public class AuthVO{
 	private String act_yn;		//활성화여부
 	private String fin_mdfy_id; //최종수정자id
 //	private String crt_id;		//생성자id
-//	private String crt_dt;		//생성일시
+	private String create_date;		//생성일시
 //	private String mdfy_id;		//수정자id
 //	private String mdfy_dt;		//수정일시
 	
@@ -15,6 +15,11 @@ public class AuthVO{
 	private String create_auth_yn;		//생성권한여부
 	private String mdfy_auth_yn;		//수정권한여부
 	private String del_auth_yn;		//삭제권한여부
+	
+	private String rtrv_yn;     //조회권한여부(view)
+	private String crt_yn;		//생성권한여부(view)
+	private String mdfy_yn;		//수정권한여부(view)
+	private String del_yn;		//삭제권한여부(view)
 	
 	private String user_id;     //사용자id
 	private String user_nm;		//사용자이름
@@ -35,6 +40,36 @@ public class AuthVO{
 	private String email;	    //메일id + 메일주소
 	private String org_id;		//부서id
 	
+	public String getRtrv_yn() {
+		return rtrv_yn;
+	}
+	public void setRtrv_yn(String rtrv_yn) {
+		this.rtrv_yn = rtrv_yn;
+	}
+	public String getCrt_yn() {
+		return crt_yn;
+	}
+	public void setCrt_yn(String crte_yn) {
+		this.crt_yn = crte_yn;
+	}
+	public String getMdfy_yn() {
+		return mdfy_yn;
+	}
+	public void setMdfy_yn(String mdfy_yn) {
+		this.mdfy_yn = mdfy_yn;
+	}
+	public String getDel_yn() {
+		return del_yn;
+	}
+	public void setDel_yn(String del_yn) {
+		this.del_yn = del_yn;
+	}
+	public String getCreate_date() {
+		return create_date;
+	}
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
+	}
 	public String getFin_mdfy_id() {
 		return fin_mdfy_id;
 	}

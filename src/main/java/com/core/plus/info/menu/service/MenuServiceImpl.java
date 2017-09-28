@@ -52,8 +52,8 @@ public class MenuServiceImpl implements MenuService {
 	
 	//메뉴 추가의 상위메뉴 버튼 검색 리스트
 	@Override
-	public List<MenuVo> getUpMenuList() {
-		List<MenuVo> upMenuList = dao.getUpMenuList();
+	public List<MenuVo> getUpMenuList(String menu_id) {
+		List<MenuVo> upMenuList = dao.getUpMenuList(menu_id);
 		return upMenuList;
 	}
 
