@@ -6,7 +6,8 @@
    <select id="taskListTotalRow" resultType="int">
       SELECT count(*)
       FROM tb_task t left join tb_user e on t.emp_no = e.user_no
-      WHERE del_yn = 'N'
+      				 left join tb_cust c on t.cust_no = c.cust_no 
+      WHERE t.del_yn = 'N'
       <if test="task_no_srch != null and task_no_srch != ''">
             AND (t.task_no like concat('%', #{task_no_srch}, '%'))
          </if>
@@ -14,10 +15,10 @@
             AND (t.subject like concat('%', #{subject_srch}, '%'))
          </if>
          <if test="cust_name_srch != null and cust_name_srch != ''">
-            AND (t.cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
+            AND (c.cust_name  like concat('%', #{cust_name_srch}, '%'))
          </if>
          <if test="emp_name_srch != null and emp_name_srch != ''">
-            AND (t.emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch_srch}, '%')))
+            AND (e.user_nm  like concat('%', #{emp_name_srch}, '%'))
          </if>
          <if test="next_day_srch != null and next_day_srch != ''">
             AND (t.next_day like concat('%', #{next_day_srch}, '%'))
@@ -100,10 +101,10 @@
                AND (t.subject like concat('%', #{subject_srch}, '%'))
             </if>
             <if test="cust_name_srch != null and cust_name_srch != ''">
-               AND (t.cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
+               AND (c.cust_name like concat('%', #{cust_name_srch}, '%'))
             </if>
             <if test="emp_name_srch != null and emp_name_srch != ''">
-               AND (t.emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
+               AND (e.user_nm  like  concat('%', #{emp_name_srch}, '%'))
             </if>
             <if test="next_day_srch != null and next_day_srch != ''">
                AND (t.next_day like concat('%', DATE_FORMAT(#{next_day_srch}, '%Y%m%d'), '%'))
@@ -113,7 +114,7 @@
             </if>
             <if test="cust_no !=null and cust_no !=''">
               AND (t.cust_no like concat('%', #{cust_no}, '%'))
-            </if>
+            </if> 
             <if test="cust_task_no !=null and cust_task_no !=''">
               AND (t.cust_no like concat('%', #{cust_task_no}, '%'))
             </if>

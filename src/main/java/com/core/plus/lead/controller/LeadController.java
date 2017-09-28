@@ -502,9 +502,10 @@ public class LeadController {
 	//엑셀 출력 
 	@RequestMapping(value = "/toLeadExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch,
-			String lead_name_srch, String cust_no, String user_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no, String user_id, String path) {
+			String lead_name_srch, String cust_name, String cust_no, String user_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no, String user_id, String path) {
 		System.out.println("url ? " + path);
-  		String contact_day;
+		System.out.println("cust_name ? " + cust_name);
+   		String contact_day;
 		
 		contact_day = contact_day_srch.replace("-", "");
 		 
@@ -518,7 +519,7 @@ public class LeadController {
 		leadMap.put("user_no", user_no);
 		leadMap.put("contact_day", contact_day);
 		leadMap.put("rank_cd", rank_cd);
-		
+		leadMap.put("cust_name", cust_name);
 		
 		// my_lead url 값을 비교
 		if(!path.isEmpty())

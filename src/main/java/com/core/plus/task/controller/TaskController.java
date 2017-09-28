@@ -243,11 +243,18 @@ public class TaskController {
 			taskMap.put("emp_name_srch", emp_name_srch);
 			taskMap.put("next_day_srch", next_day_srch);
 			taskMap.put("dtype_cd_srch", dtype_cd_srch);
-
+			taskMap.put("cust_no", cst_num);
+			
+			if(my_user_id.contains("undefined") || my_user_id.contains("") || my_user_id.contains(null))
+			{
+				my_user_id = "";
+			}
+			
 			if(my_user_id.contains(","))
 			{
+			   
 				String[] id_user = my_user_id.split(",");
-				my_user_id = id_user[0].toString();
+				 my_user_id = id_user[0].toString();
  				 taskMap.put("my_user_id", my_user_id);
 			}
 			else{
@@ -255,10 +262,28 @@ public class TaskController {
 			}
 			
 			//form 지속적인 append로 cust_no 스트링 자르기.
-			
-			if(cst_num != null){
+			if(cst_num.equals("undefined"))
+			{  
+				cst_num = ""; 
+				taskMap.put("cust_no", cst_num);
+			}else{
+				if(cst_num.contains(",")){
+					String[] num_cst = cst_num.split(",");
+					 cst_num = num_cst[0].toString();
+					 System.out.println("cust_num undefined ??? " + cst_num);
+					 if(cst_num.equals("undefined"))
+					 {
+						 cst_num ="";
+						 taskMap.put("cust_no", cst_num); 
+					 }else{
+						 System.out.println("ust_num else ?" + cst_num);
+						 taskMap.put("cust_no", cst_num); 
+					 } 
+				}
+			}
+			/*if(cst_num != null){
 				System.out.println("enter2");
-				if(cst_num.contains(",")&& cst_num.equals("undefined")){
+				if(cst_num.contains(",") && cst_num.equals("undefined")){
 					cst_num = "";
 					taskMap.put("cust_no", cst_num);
 				} else{
@@ -266,17 +291,18 @@ public class TaskController {
 				  cst_num = num_cst[0].toString();
 				  taskMap.put("cust_no", cst_num);
 				}
-				/*custtmp = cst_num.substring(0, 15);
+				custtmp = cst_num.substring(0, 15);
 				System.out.println(custtmp);
-				taskMap.put("cust_no", custtmp);*/
+				taskMap.put("cust_no", custtmp);
 			}else{
 				System.out.println("enter1");
 				custtmp = "";
-			}
+			}*/
 			
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 			System.out.println("task map ? " + taskMap.toString()); 
 			List<TaskVO> list = taskService.taskExcelExport(taskMap);	// 쿼리
+			System.out.println("excel list ? " + list.toString());
 //			System.out.println("list ?? " + list.toString());
 //			System.out.println("taskMap"+ taskMap.toString());
 			result.addObject("taskExcelExport", list); 					// 쿼리 결과를 model에 담아줌

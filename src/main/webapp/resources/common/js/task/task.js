@@ -232,7 +232,7 @@ function taskPaging(pageNum) {
 //엑셀 출력 적용 함수
 function download_list_Excel(formID, flg) 
 {	
-	var session = $("#session").val();
+	var session = $("#session").val(); 
    	var cust_no = $("#cust_no").val();
  	var t = flg;
 	var ctx = $("#ctx").val();
@@ -260,9 +260,13 @@ function download_list_Excel(formID, flg)
 			form.append(flg);
 			if(cst_num != null && cst_num !='' && cst_num !='undefined'){
 				form.append(cst_num);	
-			}
-			
-			form.append(my_user_id);
+			}  
+			alert(my_user_id);
+			if(typeof my_user_id != 'undefined')
+				{
+				alert("enter");
+				form.append(my_user_id)
+				}
 			form.attr("action", "/toExcel");
 			form.submit();
 			
