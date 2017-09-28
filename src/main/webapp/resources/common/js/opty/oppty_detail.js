@@ -65,7 +65,16 @@ function opptyList(opptyPageNum)
 
 function opptyListPage(opptyPageNum)
 {
-	location.href = ctx + "/oppty?opptyPageNum="+opptyPageNum;
+	var page_type = $("#page_type").val();
+	
+	if(page_type == 0)
+	{
+		location.href = ctx + "/oppty?opptyPageNum="+opptyPageNum;
+	}
+	else if(page_type == 1)
+	{
+		location.href = ctx + "/my_oppty?opptyPageNum="+opptyPageNum;
+	}
 }
 
 //매출기회 상세 초기화 버튼

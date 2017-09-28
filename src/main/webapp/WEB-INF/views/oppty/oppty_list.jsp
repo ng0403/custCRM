@@ -21,6 +21,8 @@
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="hoppty_status_cd" value="${ hoppty_status_cd }" >
 <input type="hidden" id="cust_opty_no" value="${ cust_opty_no }" >
+<input type="hidden" id="page_type" value="${pageType}">
+<input type="hidden" id="session" value="${session}">
 
 <!-- 매출관리 : 매출기회조회 -->
 
@@ -29,6 +31,9 @@
 	
 	<div class="titleDIV">
 		<c:if test="${cust_opty_no == null} && ${hoppty_status_cd == null}">
+			<span class="titleText"> ■ 영업기회 > 영업기회관리 </span>
+		</c:if>
+		<c:if test="${cust_opty_no == null} && ${ pageType == '0' }">
 			<span class="titleText"> ■ 영업기회 > 영업기회관리 </span>
 		</c:if>
 		<c:if test="${cust_opty_no != null}">
@@ -45,6 +50,9 @@
 		</c:if>
 		<c:if test="${ hoppty_status_cd == 004 }">
 			<span class="titleText"> ■ 영업기회 > 실패한 영업기회 </span>
+		</c:if>
+		<c:if test="${ pageType == '1' }">
+			<span class="titleText"> ■ 영업기회 > 내 담당 영업기회 </span>
 		</c:if>
 	</div>
 	

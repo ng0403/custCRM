@@ -27,7 +27,9 @@
 			<if test="phone_no !=null and phone_no !=''">
 				and( (concat(p.phone_area_no, p.phone_no) like concat('%', #{phone_no}, '%') ))
 			</if>
-	   		
+	   		<if test="user_id != null and user_id != ''">
+				AND (emp_no like (select user_no from tb_user where user_id = #{user_id}))
+			</if>
 	</select>
 	
 	<select id="custPhoneTotalRow" resultType="int">
@@ -46,6 +48,8 @@
 		         ,a.cust_name
 		         ,case when(a.chart_no) is null then '' else (a.chart_no) end as chart_no
 		         ,a.cust_id
+		         ,a.emp_no
+		         ,(select user_nm from tb_user where user_no = a.emp_no) as emp_name
 		         ,a.cust_type
 		         ,a.cust_rank
 		         ,a.visit_cd
@@ -81,7 +85,10 @@
 			</if> 
 	   		<if test="phone_no !=null and phone_no !=''">
 				and (concat(p.phone_area_no, p.phone_no) like concat('%', #{phone_no}, '%') )
-			</if> 
+			</if>
+			<if test="user_id != null and user_id != ''">
+				AND (emp_no like (select user_no from tb_user where user_id = #{user_id}))
+			</if>
 		order by a.update_date desc
 		) P
 		LIMIT #{page.limitStartNum}, #{page.pageSize}
@@ -97,6 +104,8 @@
 		         ,a.cust_name
 		         ,case when(a.chart_no) is null then '' else (a.chart_no) end as chart_no
 		         ,a.cust_id
+		         ,a.emp_no
+		         ,(select user_nm from tb_user where user_no = a.emp_no) as emp_name
 		         ,(select code_name from tb_code code where code_no = '1001' and code.code = a.visit_cd ) as visit_cd
 		         ,(select code_name from tb_code code where code_no = '1002' and code.code = a.visit_cd ) as visit_dtl_cd
 		         ,a.visit_cn
@@ -143,6 +152,8 @@
 			,a.resident_no
 			,a.chart_no
 			,a.cust_id
+			,a.emp_no
+			,(select user_nm from tb_user where user_no = a.emp_no) as emp_name
 			,a.cust_rank
 			,a.cust_type
 			,a.visit_cd
@@ -178,13 +189,12 @@
 							,resident_no
 							,chart_no
 							,cust_id
+							,emp_no
 							,cust_type
 							,cust_rank
 							,visit_cd
 							,visit_dtl_cd
 							,visit_cn
-							,cust_rank
-							,cust_type
 							,rec_per
 							,remark_cn
 		)
@@ -194,13 +204,12 @@
            	,#{resident_no}
            	,#{chart_no}
            	,#{cust_id}
+           	,#{emp_no}
            	,#{cust_type}
            	,#{cust_rank}
            	,#{visit_cd}
            	,#{visit_dtl_cd}
            	,#{visit_cn}
-           	,#{cust_rank}
-           	,#{cust_type}
            	,#{rec_per}
            	,#{remark_cn}
 		)
@@ -217,6 +226,7 @@
 			cust_name = #{cust_name}
 			,chart_no = #{chart_no}
 			,cust_id = #{cust_id}
+			,emp_no  = #{emp_no}
 			,cust_type = #{cust_type}
 			,cust_rank = #{cust_rank}
 			,visit_cd = #{visit_cd}
@@ -244,9 +254,9 @@
                   FROM tb_cust USE INDEX(PRIMARY)
 		</selectKey>
 		insert into tb_cust 
-			(cust_no, cust_name, resident_no, chart_no, cust_id, visit_cd, visit_dtl_cd, visit_cn, cust_rank, cust_type, rec_per, remark_cn)
+			(cust_no, cust_name, resident_no, chart_no, cust_id, emp_no, visit_cd, visit_dtl_cd, visit_cn, cust_rank, cust_type, rec_per, remark_cn)
 		values 
-			(#{cust_no}, #{cust_name}, #{resident_no}, #{chart_no}, #{cust_id}, #{visit_cd}, 
+			(#{cust_no}, #{cust_name}, #{resident_no}, #{chart_no}, #{cust_id}, #{emp_no}, #{visit_cd}, 
 			 #{visit_dtl_cd}, #{visit_cn}, #{cust_rank}, #{cust_type}, #{rec_per}, #{remark_cn})
 	</insert>
 	
@@ -255,6 +265,7 @@
 		SET
 			chart_no = #{chart_no}
 			,cust_id = #{cust_id}
+			,emp_no	= #{emp_no}
 			,visit_cd = #{visit_cd}
 			,visit_dtl_cd = #{visit_dtl_cd}
 			,visit_cn = #{visit_cn}

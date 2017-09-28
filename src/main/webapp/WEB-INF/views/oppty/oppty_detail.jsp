@@ -28,6 +28,7 @@ $(document).ready(function(){
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="hoppty_status_cd" value="${hoppty_status_cd}">
+<input type="hidden" id="page_type" value="${page_type}">
 <input type="hidden" id="tmp" value="">
 
 <div id="oppty_detail">
@@ -37,6 +38,16 @@ $(document).ready(function(){
 		<c:if test="${ cust_opty_no == null } && ${ hoppty_status_cd == null}">
 			<span class="titleText">
 			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 영업기회관리</a> > <span id="coupon_form_title">영업기회 상세정보</span>
+			</span>
+		</c:if>
+		<c:if test="${cust_opty_no == null} && ${ page_type == '0'}">
+			<span class="titleText">
+			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 영업기회관리</a> > <span id="coupon_form_title">영업기회 상세정보</span>
+			</span>
+		</c:if>
+		<c:if test="${ page_type == '1' }">
+			<span class="titleText">
+			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 내 담당 영업기회</a> > <span id="coupon_form_title">영업기회 상세정보</span>
 			</span>
 		</c:if>
 		<c:if test="${ cust_opty_no != null }">

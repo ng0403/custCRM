@@ -99,6 +99,28 @@ function wordch(thisword)
 	return flag;
 }
 
+function custEmpSchPopupOpen()
+{
+	// 팝업창 표시
+	$.blockUI({ message: $('#empListModalDiv'),
+    	css: { 
+    	'left': '65%',
+    	'top': '50%',
+    	'margin-left': '-400px',
+    	'margin-top': '-250px',
+    	'width': '400px',
+    	'height': '500px',
+    	'cursor': 'default'
+    	}
+		,onOverlayClick : $.unblockUI
+	});
+	
+	$("#pageNum").val("1");
+	
+	// list 불러오는 함수.
+	viewEmpList(1);
+}
+
 //Popup 닫기
 function popupClose()
 {
@@ -159,7 +181,15 @@ function custEnterSearch(event) {
 
 function custList(custPageNum)
 {
-	location.href = ctx + '/cust?custPageNum=' + custPageNum;
+	var page_type = $("#page_type").val();
+	if(page_type == 0)
+	{
+		location.href = ctx + '/cust?custPageNum=' + custPageNum;
+	}
+	else if(page_type == 1)
+	{
+		location.href = ctx + '/my_cust?custPageNum=' + custPageNum;
+	}
 }
 
 // 고객 삭제
@@ -216,12 +246,14 @@ function searchKeyword(pageNum)
 					 "chart_no": chart_no, 
 					 "visit_cd":visit_cd, 
 					 "rec_per":rec_per,
-					 "phone_no" : phone_no      };
+					 "phone_no" : phone_no      
+					};
  
-			var tbody = $('#cust_list_tbody');
-			var tbodyContent = "";
-			
-			$.ajax({
+	
+	var tbody = $('#cust_list_tbody');
+	var tbodyContent = "";
+		
+	$.ajax({
 				url: ctx + '/custAjax',
 				type: 'POST',
 				data: custData,
@@ -348,9 +380,16 @@ function cust_add(){
  
 // 고객 상세정보
  function custDetail(a, custPageNum) {
-   var no = a; 
-   location.href=ctx + "/custForm?cust_no=" + no + "&custPageNum=" + custPageNum;
+   var no = a;
+   var page_type = $("#page_type").val();
    
+   console.log(page_type);
+   
+   if(page_type == 0)
+	   location.href=ctx + "/custForm?cust_no=" + no + "&custPageNum=" + custPageNum + "&page_type=" + page_type;
+   else if(page_type == 1)
+	   location.href=ctx + "/custForm?cust_no=" + no + "&custPageNum=" + custPageNum + "&page_type=" + page_type;
+	   
    $("#cust_phone").css("display", "block");
  }
  
@@ -373,8 +412,7 @@ function cust_add_save()
 		return false;
 	}
 	
-	console.log($("#cust_rank").val());
-	console.log($("#cust_type").val());
+	console.log($("#emp_no").val());
 	 
 	$(document).ready(function() {
 		var cust_no = $("#cust_no").val();
@@ -388,6 +426,7 @@ function cust_add_save()
 					cust_name 		: $("#cust_name").val(),
 					resident_no		: $("#resident_no").val(),
 					chart_no		: $("#chart_no").val(),
+					emp_no			: $("#emp_no").val(),
 					cust_id			: $("#cust_id").val(),
 					visit_cd		: $("#visit_cd").val(),
 					visit_dtl_cd 	: $("#visit_dtl_cd ").val(),
@@ -430,6 +469,7 @@ function cust_add_save()
 		$("#visit_cn").prop("readonly", false);
 		$("#rec_per").prop("readonly", false);
 
+		$("#empSchBtn").prop("disabled", false);
 		$("#cust_type").prop("disabled", false);
 		$("#cust_rank").prop("disabled", false);
 		$("#visit_cd").prop("disabled", false);
@@ -484,6 +524,7 @@ function cust_modify_save()
 					visit_cd		: $("#visit_cd").val(),
 					visit_dtl_cd 	: $("#visit_dtl_cd ").val(),
 					rec_per			: $("#rec_per").val(),
+					emp_no			: $("#emp_no").val(),	// 여기
 					visit_cn		: $("#visit_cn").val(),
 					remark_cn		: $("#remark_cn").val()
 				},
@@ -995,7 +1036,94 @@ function cust_task_btn(cust_no)
 	location.href = "/task?cust_task_no=" + cust_no;
 }
 
+//담당자 Popup
+function viewEmpList(empPopupPageNum) {
+	var ctx = $("#ctx").val();
+	
+	var s_emp_name = $("#s_emp_name").val();
+	
+	console.log(s_emp_name);
+	
+	$.ajax({
+		url: ctx + "/custEmpListAjax", 
+		type: "POST",  
+		data: { 
+			empPopupPageNum : empPopupPageNum,
+			s_emp_name : s_emp_name 
+		},
+		dataType: "json",
+		success: function(data) { 
+			
+			$("#empListTbody").empty();
+			$("#s_emp_name").bind("keypress", function(event) {
+				enterSearch(event);
+			});
+			
+			if (data.empPopupList.length == 0) {
+				var trElement = $("#empListTableHeader").clone().removeClass().empty();
+				$("#empListTbody").append(trElement);
+				$("#empListTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+			} else {
+				$.each(data.empPopupList, function(i) {
+					console.log(this.user_no);
+					var trElement = $("#empListTableHeader").clone().removeClass().empty();
+					var emp_no = this.user_no;
+					var emp_name = this.user_nm;
 
+					trElement.bind("click", function(e) {
+						setTimeout($.unblockUI, 0);
+						$("#emp_no").val(emp_no);
+						$("#emp_name").val(emp_name);
+					});
+					
+					addMouseEvent(trElement);
+					trElement.css("cursor", "pointer");
+					
+					$("#empListTbody").append(trElement);
+					$("#empListTbody tr:last").append("<td width='60%'>" + emp_no + "</td>"
+							+ "<td width='30%'>" + emp_name + "</td>");
+				});
+			}
+			console.log(data);
+			
+			// 페이징 그리기
+			$("#empPopupPagingDiv").empty();
+			var pageContent = "";
+			
+			if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+				pageContent = "◀ <input type='text' id='empPopupInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+			} else if(data.pageNum == data.page.startPageNum){
+				pageContent = "<input type='hidden' id='empPageNum' value='"+data.pageNum+"'/><input type='hidden' id='empEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"◀ <input type='text' id='empPopupInput' value='"+data.page.startPageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+				+"<a onclick=\"viewEmpList("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewEmpList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+			} else if(data.pageNum == data.page.endPageNum){
+				pageContent = "<input type='hidden' id='empPageNum' value='"+data.pageNum+"'/><input type='hidden' id='empEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewEmpList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='empPopupInput' value='"+data.page.endPageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a> / "+data.page.endPageNum+"</a> ▶";
+			} else {
+				pageContent = "<input type='hidden' id='empPageNum' value='"+data.pageNum+"'/><input type='hidden' id='empEndPageNum' value='"+data.page.endPageNum+"'/>"
+				+"<a onclick=\"viewCustList("+(data.pageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+				+"<input type='text' id='empPopupInput' value='"+data.pageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+				+"<a onclick=\"viewEmpList("+data.page.pageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"viewEmpList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+			}
+			$("#empPopupPagingDiv").append(pageContent);
+			
+		},
+		beforeSend: function(){
+        	viewLoadingShow();			
+        },
+        complete:function(){
+        	viewLoadingHide();	
+        },
+		error: function(data) { 
+			alert("담당자목록을 취득하지 못했습니다.");
+			return false;
+		}
+	});
+}
 
 
 

@@ -28,13 +28,19 @@ var vititDtlCdList = new Array();
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
+<input type="hidden" id="page_type" value="${pageType}">
+<input type="hidden" id="session" value="${session}">
+
 <!-- 고객 : 고객목록조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
 	<div class="titleDIV">
-		<span class="titleText">
-			 ■ 고객 > 고객 관리 
-		</span>
+		<c:if test="${ pageType == '0' }">
+			<span class="titleText"> ■ 고객 > 고객 관리  </span>
+		</c:if>
+		<c:if test="${ pageType == '1' }">
+			<span class="titleText"> ■ 고객 > 내 담당고객  </span>
+		</c:if>
 	</div>
 	<div style="height:10px;"></div>
 	<div class="commonList">

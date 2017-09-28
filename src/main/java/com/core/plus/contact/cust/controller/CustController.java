@@ -28,8 +28,10 @@ import com.core.plus.contact.cust.service.CustPhoneService;
 import com.core.plus.contact.cust.service.CustService;
 import com.core.plus.contact.cust.vo.CommonCodeVO;
 import com.core.plus.contact.cust.vo.CustVO;
+import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
+import com.core.plus.oppty.service.OpptyService;
 import com.core.plus.oppty.vo.OpptyVO;
 import com.core.plus.task.vo.TaskVO;
 
@@ -51,8 +53,18 @@ public class CustController {
 	@Resource
 	MenuService menuService;
 	
+	@Resource
+	OpptyService opptyService;
+	
 	@RequestMapping(value="/cust")
-	public ModelAndView custList(@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum){
+	public ModelAndView custList(HttpSession session, 
+							@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum)
+	{
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+				
 		Map<String, Object> custMap = new HashMap<String, Object>();
 		custMap.put("custPageNum", custPageNum);
 		
@@ -74,13 +86,60 @@ public class CustController {
 		mav.addObject("custList", custList);
 		mav.addObject("vititCdList", vititCdList);
 		mav.addObject("vititDtlCdList", vititDtlCdList);
+		mav.addObject("vititDtlCdList", vititDtlCdList);
+		mav.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
+		
+		// 메뉴
 		mav.addObject("main_menu_url", "cust");
 		mav.addObject("sub_menu_url", "cust");
-//		System.out.println("custList" + custList);
-//		System.out.println("vititCdList" + vititCdList);
-		
 		
 		menuImport(mav, "cust");
+		
+		return mav; 
+	}
+	
+	@RequestMapping(value="/my_cust")
+	public ModelAndView myCustList(HttpSession session,
+			@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum)
+	{
+		Map<String, Object> custMap = new HashMap<String, Object>();
+		String user_id = null;
+		
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		else {
+			user_id = session.getAttribute("user").toString();
+			System.out.println("user_id : " + user_id);
+			custMap.put("user_id", user_id);
+		}
+		
+		custMap.put("custPageNum", custPageNum);
+		
+		// paging
+		PagerVO page = custService.getCustListRow(custMap);
+		custMap.put("page", page);
+		
+		List<CustVO> custList = custService.custList(custMap);
+
+		List<CommonCodeVO> vititCdList = commonCode.vititCdList();
+		List<CommonCodeVO> vititDtlCdList = commonCode.vititDtlCdList();
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("cust_list");
+		mav.addObject("page", page);
+		mav.addObject("pageNum", custPageNum);
+		mav.addObject("custList", custList);
+		mav.addObject("vititCdList", vititCdList);
+		mav.addObject("vititDtlCdList", vititDtlCdList);
+		mav.addObject("pageType", "1");
+		mav.addObject("session", user_id);
+		mav.addObject("main_menu_url", "cust");
+		mav.addObject("sub_menu_url", "my_cust");
+		
+		menuImport(mav, "my_cust");
 		
 		return mav; 
 	}
@@ -89,7 +148,8 @@ public class CustController {
 	@RequestMapping(value="/custAjax", method={RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public Map<String, Object> custListAjax(@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum,
-											String cust_no, String cust_name, String chart_no, String visit_cd, String rec_per, String phone_no)
+											String cust_no, String cust_name, String chart_no, String visit_cd, 
+											String rec_per, String phone_no, String session)
 	{
 		Map<String, Object> result = new HashMap<String, Object>(0);
 		Map<String, Object> custMap = new HashMap<String, Object>();
@@ -101,6 +161,7 @@ public class CustController {
 		custMap.put("visit_cd", visit_cd);
 		custMap.put("rec_per", rec_per);
 		custMap.put("phone_no", phone_no);
+		custMap.put("user_id", session);
 
 		// paging
 		PagerVO page = custService.getCustListRow(custMap);
@@ -161,7 +222,8 @@ public class CustController {
 	}
 
 	@RequestMapping(value="/custForm")
-	public ModelAndView custForm(@RequestParam("cust_no") String cust_no, @RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum){
+	public ModelAndView custForm(@RequestParam("cust_no") String cust_no, 
+			@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum, String page_type){
 		
 		List<CommonCodeVO> vititCdList = commonCode.vititCdList();
 		List<CommonCodeVO> vititDtlCdList = commonCode.vititDtlCdList();
@@ -176,6 +238,7 @@ public class CustController {
 		
 		mav.setViewName("cust_detail");
 		
+		System.out.println("page_type : " + page_type);
 		System.out.println("cust_type : " + custTypeCdList.toString());
 		System.out.println("cust_rank : " + custRankCdList.toString());
 		
@@ -207,6 +270,7 @@ public class CustController {
 		mav.addObject("phoneCountryCdList", phoneCountryCdList);
 		mav.addObject("addrTypeCdList", addrTypeCdList);
 		mav.addObject("custPageNum", custPageNum);
+		mav.addObject("page_type", page_type);
 		mav.addObject("main_menu_url", "cust");
 		mav.addObject("sub_menu_url", "cust");
 		
@@ -363,6 +427,37 @@ public class CustController {
 		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
 		mav.addObject("subMenuList", subMenuList);    //subMenuList
 	}
+	
+	// 담당자 팝업
+	@RequestMapping(value="custEmpListAjax", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> empListPopup(@RequestParam(value = "empPopupPageNum", defaultValue = "1") int empPopupPageNum, String s_emp_name)
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("empPopupPageNum", empPopupPageNum);
+		
+		// paging
+		PagerVO page = opptyService.getEmpPopupRow(map);
+		map.put("page", page);
+		map.put("pageNum", empPopupPageNum);
+		
+		// 담당자리스트 불러오는 서비스/다오/맵퍼 작성
+		if(s_emp_name == null || s_emp_name == "")
+		{
+			List<EmpVO> empPopupList = opptyService.empPopupList(map);
+			map.put("empPopupList", empPopupList);
+			
+			
+			return map;
+		}
+		else
+		{
+			map.put("s_emp_name", s_emp_name);
+			List<EmpVO> schEmpPopupList = opptyService.empPopupList(map);
+			map.put("empPopupList", schEmpPopupList);
+			
+			return map;
+		}
+	}	
 
 }
 

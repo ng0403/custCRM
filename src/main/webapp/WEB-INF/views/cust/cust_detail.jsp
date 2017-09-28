@@ -37,6 +37,8 @@ $(document).ready(function(){
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="cust_no" value="${custDlist.cust_no}">
+<input type="hidden" id="page_type" value="${page_type}">
+
 <!-- 고객 -->
 <div id="cust_detail">
 	<div style="height:10px;"></div>
@@ -58,11 +60,25 @@ $(document).ready(function(){
 	</c:if>
 	
 	<c:if test="${flg == 2}">
- 		<div class="titleDIV">
-		<span class="titleText">
-		    ■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 고객관리</a> > <span id="cust_form_title">고객 수정</span>
-		</span>
-	</div>   
+		<c:if test="${page_type == '0' }">
+	 		<div class="titleDIV">
+				<span class="titleText">
+			    	■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 고객관리</a> > <span id="cust_form_title">고객 상세정보</span>
+				</span>
+			</div>   
+		</c:if>
+		<c:if test="${page_type == '1' }">
+	 		<div class="titleDIV">
+				<span class="titleText">
+			    	■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 내 담당 고객</a> > <span id="cust_form_title">고객 상세정보</span>
+				</span>
+			</div>   
+		</c:if>
+<!--  		<div class="titleDIV"> -->
+<!-- 			<span class="titleText"> -->
+<!-- 			    ■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 고객관리</a> > <span id="cust_form_title">고객 수정</span> -->
+<!-- 			</span> -->
+<!-- 		</div>    -->
 	</c:if>
 	
 	<div style="height:10px;"></div>
@@ -177,6 +193,19 @@ $(document).ready(function(){
 			</td>
 		</tr>
 		<tr>
+			<th id="impTh" style="text-align: right;">*담당자</th>
+			<td>
+				<c:if test="${ flg == 1 }">	<!-- 신규 -->
+					<input type="hidden" name="emp_no" id="emp_no" value="${custDlist.emp_no}"> 
+					<input name="emp_name" id="emp_name" type="text" maxlength="50" value="${custDlist.emp_name}" style="width: 70%;" readonly="readonly">
+					<input type="button" class="back_btn" id="empSchBtn" value="담담자" onclick="custEmpSchPopupOpen();">
+				</c:if>
+				<c:if test="${ flg == 2 }">	<!-- 상세 -->
+					<input type="hidden" name="emp_no" id="emp_no" value="${custDlist.emp_no}"> 
+					<input name="emp_name" id="emp_name" type="text" maxlength="50" value="${custDlist.emp_name}" style="width: 70%;" readonly="readonly">
+					<input type="button" class="back_btn" id="empSchBtn" value="담담자" onclick="custEmpSchPopupOpen();" disabled="disabled">
+				</c:if>
+			</td>
 			<th class="discount_cost" style="text-align:right;">소개자</th>
 			<td>
 				<c:if test="${ flg == 2 }">
@@ -466,4 +495,47 @@ $(document).ready(function(){
     </c:if>
 	</div>
   </form>
-</div>	
+</div>
+
+
+<!-- 담당자 모달창 시작 -->
+<div id="empListModalDiv" style="display: none;">
+    <div style="width: 100%; height:7%; background-color: #ececec;" align="right">
+ 		<input type="button" value="X" id="popupBoxClose" onclick="popupClose();" >
+ 	</div>
+	<form method='post' name='custListPopup' id='custListPopup'>
+	<div id="empListModalContent" style="margin: 0 1.5% 0 1.5%;">
+		<div class="titleDIV" style="text-align: left; width: 100%;">
+			<span class="titleText">■ 담당자 리스트</span>
+		</div>
+		<div id="empModalList" class="commonList">
+			 	<table id="empListModalTables" style="width: 100%;">
+			 	 	<thead>
+			 	 		<tr id="empListTableHeader">
+			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">고객명 : </th>
+			 	 			<td style="width: 40%;">
+			 	 			    <input type="text" id="s_emp_name" name="s_emp_name" style="width: 70%;" maxlength="100"/>&nbsp;&nbsp;
+							</td>
+							<td style="width: 40%; text-align: right;">
+								<input type="button" value="검색" class="back_btn" style="float: right;" onclick="viewEmpList();"/> <!-- onclick="viewProdMenuList(1); -->
+							</td>			
+			 	 		</tr>
+			 	 	</thead>
+			 	</table>
+			 	<br>
+			 	<table class="commonTable">
+			 		<thead>
+			 			<tr id="empListTableHeader">
+						  <th width="45%">직원번호</th>
+						  <th width="45%">직원명</th>
+						</tr>	
+			 		</thead>
+			 	 	<tbody id="empListTbody"></tbody>
+				</table>
+			<!-- 페이징 DIV -->
+			<div class="pagingDiv" id="empPopupPagingDiv" style="width: 100%; text-align: center;"></div>
+		</div>	
+	</div>
+	</form>
+	<input type="hidden" id="h_nm_menu">
+</div>

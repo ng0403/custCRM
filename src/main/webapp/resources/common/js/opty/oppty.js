@@ -51,14 +51,26 @@ function opptyDetail(oppty_no, opptyPageNum)
 {
 	var hoppty_status_cd = $("#hoppty_status_cd").val();
 	var cust_opty_no = $("#cust_opty_no").val();
+	var page_type = $("#page_type").val();
 	
+	console.log(page_type);
 	console.log(cust_opty_no);
 	
-	if(cust_opty_no == null || cust_opty_no == '')
-		location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd;
-//		console.log("A");
-	if(cust_opty_no != null && cust_opty_no != '')
-			location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&cust_opty_no=" + cust_opty_no;
+	if(cust_opty_no == null || cust_opty_no == '')		// 영업기회
+	{
+		if(page_type == 0)
+		{
+//			console.log("A");
+			location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd + "&page_type=" + page_type;
+		}
+		else
+		{
+//			console.log("AB");
+			location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd + "&page_type=" + page_type;
+		}
+	}
+	if(cust_opty_no != null && cust_opty_no != '')		// 고객에서 타고 들어오는 영업기회
+		location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&cust_opty_no=" + cust_opty_no;
 //		console.log("B");
 	
 }
@@ -87,30 +99,50 @@ function opptySchList(opptyPageNum)
 	var dtype_cd_srch		 = $("#dtype_cd_srch").val();
 	var purchase_type_srch   = $("#purchase_type_srch").val();
 	var hoppty_status_cd 	 = $("#hoppty_status_cd").val();
+	var session 			 = $("#session").val();
+	var page_type 			 = $("#page_type").val();
+	var opptyData			 = null;
+
+	if(page_type == 0)		// 전체페이지
+	{
+		opptyData = {opptyPageNum		 : opptyPageNum,
+					 	 oppty_no_srch 		 : oppty_no_srch,
+					 	 oppty_name_srch  	 : oppty_name_srch,
+					 	 cust_name_srch		 : cust_name_srch,
+					 	 emp_name_srch		 : emp_name_srch,
+					 	 oppty_status_cd_srch : oppty_status_cd_srch,
+					 	 oppty_stage_cd_srch  : oppty_stage_cd_srch,
+					 	 exp_close_dt_srch 	 : exp_close_dt_srch,
+					 	 dtype_cd_srch		 : dtype_cd_srch,
+					 	 purchase_type_srch	 : purchase_type_srch,
+					 	 hoppty_status_cd	 : hoppty_status_cd
+						};
+		
+	}
+	else if(page_type == 1)		// my page
+	{
+		opptyData = {opptyPageNum		 : opptyPageNum,
+			 	 oppty_no_srch 		 : oppty_no_srch,
+			 	 oppty_name_srch  	 : oppty_name_srch,
+			 	 cust_name_srch		 : cust_name_srch,
+			 	 emp_name_srch		 : emp_name_srch,
+			 	 oppty_status_cd_srch : oppty_status_cd_srch,
+			 	 oppty_stage_cd_srch  : oppty_stage_cd_srch,
+			 	 exp_close_dt_srch 	 : exp_close_dt_srch,
+			 	 dtype_cd_srch		 : dtype_cd_srch,
+			 	 purchase_type_srch	 : purchase_type_srch,
+			 	 hoppty_status_cd	 : hoppty_status_cd,
+			 	 session			 : session
+				};
+	}
 	
 	var tbody = $('#oppty_list_tbody');
 	var tbodyContent = "";
 	
-	console.log(opptyPageNum);
-	console.log(exp_close_dt_srch);
-	console.log(hoppty_status_cd);
-	
 	$.ajax({
 		url:ctx + '/oppty_sch',
 		type: 'POST',
-		data: {
-			opptyPageNum		 : opptyPageNum,
-			oppty_no_srch 		 : oppty_no_srch,
-			oppty_name_srch  	 : oppty_name_srch,
-			cust_name_srch		 : cust_name_srch,
-			emp_name_srch		 : emp_name_srch,
-			oppty_status_cd_srch : oppty_status_cd_srch,
-			oppty_stage_cd_srch  : oppty_stage_cd_srch,
-			exp_close_dt_srch 	 : exp_close_dt_srch,
-			dtype_cd_srch		 : dtype_cd_srch,
-			purchase_type_srch	 : purchase_type_srch,
-			hoppty_status_cd	 : hoppty_status_cd
-		},
+		data: opptyData,
 		dataType:'json',
 		success: function(data){
 			tbody.children().remove();

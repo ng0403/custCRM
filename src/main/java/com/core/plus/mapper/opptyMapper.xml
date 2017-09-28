@@ -40,6 +40,9 @@
 		<if test="cust_opty_no != null and cust_opty_no != ''">
 			AND (cust_no like concat('%', #{cust_opty_no}, '%'))
 		</if>
+		<if test="user_id != null and user_id != ''">
+			AND (emp_no like (select user_no from tb_user where user_id = #{user_id}))
+		</if>
 	</select>
 	
 	<!-- Paging -->
@@ -149,6 +152,9 @@
 			<if test="cust_opty_no != null and cust_opty_no != ''">
 				AND (cust_no like concat('%', #{cust_opty_no}, '%'))
 			</if>
+			<if test="user_id != null and user_id != ''">
+				AND (emp_no like (select user_no from tb_user where user_id = #{user_id}))
+			</if>
 		ORDER BY update_date DESC
 		) P
 <!-- 		<![CDATA[WHERE SAL.RNUM>=#{page.startRow} and SAL.RNUM<=#{page.endRow}]]> -->
@@ -232,6 +238,9 @@
 				</if>
 				<if test="cust_opty_no != null and cust_opty_no != ''">
 					AND (cust_no like concat('%', #{cust_opty_no}, '%'))
+				</if>
+				<if test="user_id != null and user_id != ''">
+					AND (emp_no like (select user_no from tb_user where user_id = #{user_id}))
 				</if>
 			ORDER BY update_date DESC
 		)X
