@@ -113,7 +113,7 @@
             </if>
             <if test="cust_no !=null and cust_no !=''">
               AND (t.cust_no like concat('%', #{cust_no}, '%'))
-            </if>
+            </if> 
             <if test="cust_task_no !=null and cust_task_no !=''">
               AND (t.cust_no like concat('%', #{cust_task_no}, '%'))
             </if>

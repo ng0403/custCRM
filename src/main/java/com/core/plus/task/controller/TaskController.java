@@ -263,7 +263,7 @@ public class TaskController {
 			
 			//form 지속적인 append로 cust_no 스트링 자르기.
 			if(cst_num.equals("undefined"))
-			{
+			{  
 				cst_num = ""; 
 				taskMap.put("cust_no", cst_num);
 			}else{
