@@ -267,13 +267,16 @@
 
 	<!-- 메인메뉴 그리기 -->
 	<select id="selectMainMenuList" parameterType="String" resultType="com.core.plus.info.menu.vo.MenuVo">
-		 select menu_id
-		     , menu_nm
-		     , menu_url
-		     , seq_no
-		  from tb_menu
+		 select m.menu_id
+		     , m.menu_nm
+		     , m.menu_url
+		     , m.seq_no
+		  from tb_menu m, tb_auth_menu am, tb_user_auth ua
 		 where menu_lev = '001'
-		   and act_yn = 'Y'
+		   and m.act_yn = 'Y'
+   		   and m.menu_id = am.menu_id
+		   and am.auth_id = ua.auth_id
+		   and ua.user_id in (select user_id from tb_user WHERE user_id = #{user_id})
 		 order by seq_no
 	</select>
 <!-- 	<select id="selectMainMenuList" parameterType="String" resultType="ibs.mid.bon.manager.info.menu.vo.MenuVo"> -->
@@ -292,15 +295,18 @@
 	
 	<!-- 서브메뉴 그리기 -->
 	<select id="selectSubMenuList" parameterType="java.util.Map" resultType="com.core.plus.info.menu.vo.MenuVo">
-		 select menu_id
-		     , menu_nm
-		     , menu_url
-		     , up_menu_id
-		     , seq_no
-		  from tb_menu
+		 select m.menu_id
+		     , m.menu_nm
+		     , m.menu_url
+		     , m.up_menu_id
+		     , m.seq_no
+		 from tb_menu m, tb_auth_menu am, tb_user_auth ua
 		 where menu_lev = '002'
-		   and act_yn = 'Y'
-		   and up_menu_id = #{menu_id}
+		   and m.act_yn = 'Y'
+   		   and m.menu_id = am.menu_id
+		   and am.auth_id = ua.auth_id
+		   and m.up_menu_id = #{menu_id}
+		   and ua.user_id in (select user_id from tb_user WHERE user_id = #{user_id})
 		 order by seq_no
 	</select>
 <!-- 	<select id="selectSubMenuList" parameterType="java.util.Map" resultType="ibs.mid.bon.manager.info.menu.vo.MenuVo"> -->
