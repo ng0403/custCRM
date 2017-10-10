@@ -36,6 +36,9 @@
 		<c:if test="${cust_opty_no == null} && ${ pageType == '0' }">
 			<span class="titleText"> ■ 영업기회 > 영업기회관리 </span>
 		</c:if>
+		<c:if test="${ pageType == '0' }">
+			<span class="titleText"> ■ 영업기회 > 영업기회관리 </span>
+		</c:if>
 		<c:if test="${cust_opty_no != null}">
 			<span class="titleText"> ■ 고객 > <a style="cursor: pointer;" onclick="ocustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="ocustDetail('${cust_opty_no}');"> 고객 상세정보 </a> > 영업기회이력 </span>
 		</c:if>
@@ -124,7 +127,7 @@
 						</td>
 					</tr>
 					<tr style="background-color: white; cursor:default; border:0;">
-						<th style="width: 10%;">예상종료일자</th>
+						<th style="width: 5%;">예상종료일자</th>
 						<td style="width:25%;">
 							<input type="text" name="exp_close_dt_srch" id="exp_close_dt_srch" value="" class="expt_fin_d" placeholder="예상종료일자"
 							 	   readonly="readonly" style="width : 35%; text-align: center; cursor: pointer;">
