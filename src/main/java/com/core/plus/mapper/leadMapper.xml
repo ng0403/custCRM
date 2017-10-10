@@ -150,7 +150,8 @@
            case when (phone_no) is null then ' '
                   else (phone_no) end as phone_no ,  
          l.contact_day,
-         l.rank_cd,
+        case when (rank_cd) is null then ' '
+                  else (rank_cd) end as rank_cd,
          date_format(l.create_date, '%Y-%m-%d %H:%i') as create_date
       from 
          tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
@@ -219,7 +220,8 @@
            case when (phone_no) is null then ' '
                   else (phone_no) end as phone_no ,  
          l.contact_day,
-         l.rank_cd,
+         case when (rank_cd) is null then ' '
+                  else (rank_cd) end as rank_cd,
          date_format(l.create_date, '%Y-%m-%d %H:%i') as create_date
       from 
          tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'

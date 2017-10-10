@@ -27,11 +27,11 @@
 			<span class="titleText"> ■ 고객 > <a style="cursor: pointer;" onclick="lcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="lcustDetail('${cust_lead_no}');"> 고객 상세정보 </a> > 고객리드이력 </span>
 		</c:if>
 		<c:if test="${cust_lead_no == null}">
-			<c:if test ="${url == null }">
+			 
 			<span class="titleText">
 				 ■ 고객리드 > 고객리드 관리 
 			</span>
-			</c:if>
+		 
 		</c:if>
 			<c:if test="${url == '/my_lead'}">
 			<span class="titleText">

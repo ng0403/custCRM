@@ -89,6 +89,9 @@ function leadStatusPageNumInputEnter(event) {
 			alert("페이지 번호가 너무 작습니다.");
 			$("#pageInput").val($("#pageNum").val());
 			$("#pageInput").focus();
+		} else if ($("#lead_no_srch").val() == '' && $("#lead_name_srch").val() == '' && $("#cust_name").val() == '' && $("#emp_name").val() == ''  && $("#rank_cd").val() == '' ) {
+			alert("검색어를 입력하세요.")
+			$("#lead_no_srch").focus();
 		} else {
 			StatusSearchKeyword(lead_status_cd,pageNum);
 		}
@@ -550,6 +553,11 @@ function searchKeyword(a){
 					
 					tbody.children().remove(); 
 			  
+					if(data.leadList.length == 0) {
+						tbodyContent = "<tr style='height: 75px;'><td colspan=9' style='width: 1320px; text-align: center;  vertical-align: middle;'>검색 결과가 없습니다.</td></tr>";
+			    		tbody.append(tbodyContent);
+					}
+					else{
  					for(var i=0; i<data.leadList.length; i++){ 
  					tbodyContent = "<tr>" +
 	 	 			"<td style='text-align: left;' >" +data.leadList[i].lead_no +"</td>" +
@@ -565,7 +573,7 @@ function searchKeyword(a){
 	 	 			"</tr>";
  					tbody.append(tbodyContent);
 					}
-					 
+				 }
 
  					// 페이징
  					$(".pagingDiv").empty();
@@ -640,6 +648,11 @@ function StatusSearchKeyword(lead_status_cd, b){
 					
 					tbody.children().remove(); 
 			  
+					if(data.leadList.length == 0) {
+						tbodyContent = "<tr style='height: 75px;'><td colspan=9' style='width: 1320px; text-align: center;  vertical-align: middle;'>검색 결과가 없습니다.</td></tr>";
+			    		tbody.append(tbodyContent);
+					}
+					else{
  					for(var i=0; i<data.leadList.length; i++){ 
  					tbodyContent = "<tr>" +
 	 	 			"<td style='text-align: left;' >" +data.leadList[i].lead_no +"</td>" +
@@ -655,7 +668,7 @@ function StatusSearchKeyword(lead_status_cd, b){
 	 	 			"</tr>";
  					tbody.append(tbodyContent);
 					}
-					 
+					}
 
  					// 페이징
  					$(".pagingDiv").empty();
