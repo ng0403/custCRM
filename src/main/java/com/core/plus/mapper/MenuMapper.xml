@@ -271,7 +271,7 @@
 
 	<!-- 메인메뉴 그리기 -->
 	<select id="selectMainMenuList" parameterType="String" resultType="com.core.plus.info.menu.vo.MenuVo">
-		 select m.menu_id
+		 select distinct m.menu_id
 		     , m.menu_nm
 		     , m.menu_url
 		     , m.seq_no
@@ -299,7 +299,7 @@
 	
 	<!-- 서브메뉴 그리기 -->
 	<select id="selectSubMenuList" parameterType="java.util.Map" resultType="com.core.plus.info.menu.vo.MenuVo">
-		 select m.menu_id
+		 select distinct m.menu_id
 		     , m.menu_nm
 		     , m.menu_url
 		     , m.up_menu_id
