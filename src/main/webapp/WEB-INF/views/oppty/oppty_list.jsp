@@ -93,7 +93,7 @@
 							 </div>
 						</td>
 					</tr>
-					<tr>
+					<tr style="background-color: white; cursor:default; border:0;">
 						<th style="width:5%;">담당자명</th>
 						<td style="width:15%;">
 						    <input type="text" id="emp_name_srch" name="emp_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
@@ -123,7 +123,7 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
+					<tr style="background-color: white; cursor:default; border:0;">
 						<th style="width: 10%;">예상종료일자</th>
 						<td style="width:25%;">
 							<input type="text" name="exp_close_dt_srch" id="exp_close_dt_srch" value="" class="expt_fin_d" placeholder="예상종료일자"

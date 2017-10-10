@@ -76,7 +76,7 @@ var vititDtlCdList = new Array();
 		                 </td>
 					</tr>
 					
-					<tr>
+					<tr style="background-color: white; cursor:default; border:0;">
 						 <th style="width:5%;">내원경로</th>
 						 <td style="width:15%;">
 <!-- 						    <input type="text" id="visit_cd" name="visit_cd" value="" style="width:80%" onkeypress="cupnEnterSearch(event);"> -->
