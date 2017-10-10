@@ -293,7 +293,7 @@ public class OpptyController {
 	public @ResponseBody Map<String, Object> opptSchList(
 												  @RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum,
 												  String oppty_no_srch, String oppty_name_srch, 
-												  String cust_name_srch, String emp_name_srcj,
+												  String cust_name_srch, String emp_name_srch,
 												  String oppty_status_cd_srch, String oppty_stage_cd_srch, String hoppty_status_cd,
 												  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String session)
 	{
@@ -305,7 +305,7 @@ public class OpptyController {
 		kMap.put("oppty_no_srch", oppty_no_srch);
 		kMap.put("oppty_name_srch", oppty_name_srch);
 		kMap.put("cust_name_srch", cust_name_srch);
-		kMap.put("emp_name_srcj", emp_name_srcj);
+		kMap.put("emp_name_srch", emp_name_srch);
 		kMap.put("oppty_status_cd_srch", oppty_status_cd_srch);
 		kMap.put("oppty_stage_cd_srch", oppty_stage_cd_srch);
 		kMap.put("exp_close_dt_srch", exp_close_dt_srch);

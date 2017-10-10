@@ -17,7 +17,7 @@
 			AND (cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
 		</if>
 		<if test="emp_name_srch != null and emp_name_srch != ''">
-			AND (emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
+			AND (emp_no in ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
 		</if>
 		<if test="oppty_status_cd_srch != null and oppty_status_cd_srch != ''">
 			AND (oppty_status_cd like concat('%', #{oppty_status_cd_srch}, '%'))
@@ -129,7 +129,7 @@
 				AND (cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
 			</if>
 			<if test="emp_name_srch != null and emp_name_srch != ''">
-				AND (emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
+				AND (emp_no in ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
 			</if>
 			<if test="oppty_status_cd_srch != null and oppty_status_cd_srch != ''">
 				AND (oppty_status_cd like concat('%', #{oppty_status_cd_srch}, '%'))
