@@ -199,6 +199,7 @@ public class TaskController {
 		taskMap.put("cust_name_srch", cust_name_srch);
 		taskMap.put("emp_name_srch", emp_name_srch);
 		taskMap.put("next_day_srch", next_day_srch);
+		taskMap.put("dtype_cd_srch", dtype_cd_srch);
 		taskMap.put("my_user_id", session); 
 		
 		// paging
