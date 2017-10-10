@@ -247,9 +247,6 @@ function download_list_Excel(formID, flg)
 	{
 		var cust_no = $('<input type="hidden" value="'+cust_task_no+'" name="cust_task_no">');
 		form.append(cust_no);
-		
-		console.log(cust_no);
-		console.log(cust_task_no);
 	}
     
     if(t == 0)
@@ -261,15 +258,12 @@ function download_list_Excel(formID, flg)
 			if(cst_num != null && cst_num !='' && cst_num !='undefined'){
 				form.append(cst_num);	
 			}  
-			alert(my_user_id);
 			if(typeof my_user_id != 'undefined')
 				{
-				alert("enter");
 				form.append(my_user_id)
 				}
 			form.attr("action", "/toExcel");
 			form.submit();
-			
 		} 
 		 
 		$("input[name=excel]").val("");
@@ -404,7 +398,6 @@ function custtaskSchList(cust_no,pageNum) {
 	   var emp_name_srch   = $("#emp_name_srch").val();
 	   var next_day_srch   = $("#next_day_srch").val();
 	   var dtype_cd_srch   = $("#dtype_cd_srch").val();
-	   
 
 	   var tbody = $('#task_list_tbody');
 	   var tbodyContent = "";

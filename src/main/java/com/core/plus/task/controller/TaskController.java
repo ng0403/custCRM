@@ -222,7 +222,6 @@ public class TaskController {
 									String emp_name_srch, String next_day_srch, String dtype_cd_srch, String flg, 
 									String cst_num, String cust_task_no, String my_user_id ) {
 		
-		System.out.println("cst_num ? " + cst_num);
 		String custtmp;
 
  		char temp = flg.charAt(flg.length()-1);
@@ -271,19 +270,16 @@ public class TaskController {
 				if(cst_num.contains(",")){
 					String[] num_cst = cst_num.split(",");
 					 cst_num = num_cst[0].toString();
-					 System.out.println("cust_num undefined ??? " + cst_num);
 					 if(cst_num.equals("undefined"))
 					 {
 						 cst_num ="";
 						 taskMap.put("cust_no", cst_num); 
 					 }else{
-						 System.out.println("ust_num else ?" + cst_num);
 						 taskMap.put("cust_no", cst_num); 
 					 } 
 				}
 			}
 			/*if(cst_num != null){
-				System.out.println("enter2");
 				if(cst_num.contains(",") && cst_num.equals("undefined")){
 					cst_num = "";
 					taskMap.put("cust_no", cst_num);
@@ -293,17 +289,13 @@ public class TaskController {
 				  taskMap.put("cust_no", cst_num);
 				}
 				custtmp = cst_num.substring(0, 15);
-				System.out.println(custtmp);
 				taskMap.put("cust_no", custtmp);
 			}else{
-				System.out.println("enter1");
 				custtmp = "";
 			}*/
 			
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
-			System.out.println("task map ? " + taskMap.toString()); 
 			List<TaskVO> list = taskService.taskExcelExport(taskMap);	// 쿼리
-//			System.out.println("excel list ? " + list.toString());
 			result.addObject("taskExcelExport", list); 					// 쿼리 결과를 model에 담아줌
 			result.setViewName("/task/taskList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
 			
@@ -375,9 +367,6 @@ public class TaskController {
 			}
 			
 			mov.addObject("taskDetail",  taskService.taskDetail(task_no));
-			
-			System.out.println("taskDetail : " + taskService.taskDetail(task_no));
-			
 			mov.addObject("dtypeCd", dtypeCd);
 			mov.addObject("scoreCd", scoreCd);
 			mov.addObject("ttypeCd", ttypeCd);
@@ -562,7 +551,6 @@ public class TaskController {
 	@RequestMapping(value="/taskExcelImportTab", method=RequestMethod.GET)
 	public ModelAndView excelImportTab(HttpSession session, Locale locale,@RequestParam(value = "pageNum", defaultValue = "1") int pageNum)
 	{
-//		System.out.println("ExcelTab Controller");
 		ModelAndView mov = new ModelAndView("/lead/excel_import_tab");
 		
 		return mov;
@@ -573,16 +561,12 @@ public class TaskController {
     public ModelAndView excelUploadAjax(MultipartHttpServletRequest request)  throws Exception
     {
         MultipartFile excelFile = request.getFile("excelFile");
-//        System.out.println("excelFile : " + excelFile);
 		
-//        System.out.println("엑셀 파일 업로드 컨트롤러");
-       
         if(excelFile==null || excelFile.isEmpty()){
             throw new RuntimeException("엑셀파일을 선택 해 주세요.");
         }
         
         int result = taskService.excelUpload(excelFile);
-//        System.out.println(result);
         
         return new ModelAndView("/task/excel_import_tab", "result", result);
     }	
@@ -591,7 +575,6 @@ public class TaskController {
     @RequestMapping(value="/taskExcelUpload", method = {RequestMethod.POST, RequestMethod.GET})
 	public @ResponseBody int taskExcelForm(@RequestParam("excelFile") MultipartFile file) throws Exception 
     {
-//    	System.out.println("Excel Ajax : " + file);
 		int result = taskService.excelUpload(file);
 		
 		return result;

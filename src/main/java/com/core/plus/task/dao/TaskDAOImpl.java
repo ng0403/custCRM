@@ -39,7 +39,6 @@ public class TaskDAOImpl implements TaskDAO {
 	//List 페이지
 	@Override
 	public List<TaskVO> taskList(Map<String, Object> taskMap) {
-//		System.out.println("task taskMap? " + taskMap.toString());
 		List<TaskVO> vo = sqlSession.selectList("task.taskList", taskMap);
 		return vo;
 	}
@@ -235,7 +234,6 @@ public class TaskDAOImpl implements TaskDAO {
 	//엑셀 출력
 	@Override
 	public List<TaskVO> taskExcelExport(Map<String, Object> taskMap) {
-//		System.out.println("DAO taskMap : " + taskMap);
 		List<TaskVO> taskExcelExport = null;
 		try {
 			taskExcelExport = sqlSession.selectList("task.taskExcelExport", taskMap);
@@ -248,7 +246,6 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public int taskUploadExcel(MultipartFile excelFile) {
-//		System.out.println("Excel Upload Dao");
 		int result = 0;
 		
 		try {
@@ -270,7 +267,6 @@ public class TaskDAOImpl implements TaskDAO {
 			String remark_cn = null;
 			
 			int rows = sheet.getPhysicalNumberOfRows();
-//			System.out.println(rows);
 			
 			for(int i=1; i<rows; i++) {
 				row = sheet.getRow(i);
@@ -280,19 +276,16 @@ public class TaskDAOImpl implements TaskDAO {
 //				{
 //					cell.setCellType(Cell.CELL_TYPE_STRING);
 //					task_no = cell.getStringCellValue();
-//					System.out.println("task_no"+task_no);
 //				}
 				
 				cell = row.getCell(0);
 				subject = cell.getStringCellValue().trim();
-//				System.out.println("subject"+subject);
 				
 				cell = row.getCell(1);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 					cust_no = cell.getStringCellValue();
-//					System.out.println("cust_no"+cust_no);
 				}
 				
 				cell = row.getCell(2);
@@ -300,7 +293,6 @@ public class TaskDAOImpl implements TaskDAO {
 				{
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 					lead_no = cell.getStringCellValue();
-//					System.out.println("lead_no"+lead_no);
 				}
 				
 				
@@ -309,19 +301,16 @@ public class TaskDAOImpl implements TaskDAO {
 				{
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 					oppty_no = cell.getStringCellValue();
-//					System.out.println("oppty_no"+oppty_no);
 				}
 				
 				cell = row.getCell(4);
 				location = cell.getStringCellValue();
-//				System.out.println("location"+location);
 				
 				cell = row.getCell(5);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					int tmp = (int) cell.getNumericCellValue();
 					next_day = String.valueOf(tmp);
-//					System.out.println("next_day"+next_day);
 				}
 				
 				cell = row.getCell(6);
@@ -329,8 +318,6 @@ public class TaskDAOImpl implements TaskDAO {
 				{
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 					emp_no = cell.getStringCellValue();
-					
-//					System.out.println("emp_no");
 				}
 				
 				cell = row.getCell(7);
@@ -338,7 +325,6 @@ public class TaskDAOImpl implements TaskDAO {
 				{
 					int tmp = (int) cell.getNumericCellValue();
 					dtype_cd = String.format("%03d", tmp);
-//					System.out.println("dtype_cd"+dtype_cd);
 				}
 				
 				cell = row.getCell(8);
@@ -346,12 +332,10 @@ public class TaskDAOImpl implements TaskDAO {
 				{
 					int tmp = (int) cell.getNumericCellValue();
 					score_cd = String.format("%03d", tmp);
-//					System.out.println("score_cd"+score_cd);
 				}
 				
 				cell = row.getCell(9);
 				remark_cn = cell.getStringCellValue();
-//				System.out.println("remark_cn"+remark_cn);
 				
 				TaskVO taskVo = new TaskVO();
 //				taskVo.setTask_no(task_no);
@@ -366,7 +350,6 @@ public class TaskDAOImpl implements TaskDAO {
 				taskVo.setScore_cd(score_cd);
 				taskVo.setRemark_cn(remark_cn);
 				
-//				System.out.println("VO : " + taskVo);
 				
 //				if(task_no != null || taskVo.getTask_no() != null)
 //				{
@@ -381,10 +364,7 @@ public class TaskDAOImpl implements TaskDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		System.out.println(result);
 		
 		return result;
 	}
-
-
 }
