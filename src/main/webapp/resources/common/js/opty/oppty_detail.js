@@ -66,6 +66,10 @@ function opptyList(opptyPageNum)
 function opptyListPage(opptyPageNum)
 {
 	var page_type = $("#page_type").val();
+	var hoppty_status_cd = $("#hoppty_status_cd").val();
+	
+	console.log(hoppty_status_cd);
+	console.log(page_type);
 	
 	if(page_type == 0)
 	{
@@ -74,6 +78,11 @@ function opptyListPage(opptyPageNum)
 	else if(page_type == 1)
 	{
 		location.href = ctx + "/my_oppty?opptyPageNum="+opptyPageNum;
+	}
+	else if(hoppty_status_cd != null)
+	{
+		console.log(hoppty_status_cd);
+		location.href = ctx + "/oppty?oppty_status_cd="+hoppty_status_cd;
 	}
 }
 

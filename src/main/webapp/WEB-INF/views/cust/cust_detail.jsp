@@ -333,6 +333,7 @@ $(document).ready(function(){
 		 	<input type="button" class="func_btn" id="cust_task_list" onclick="cust_task_btn('${custDlist.cust_no}')" value="상담이력">
 		 	<input type="button" class="func_btn" id="cust_lead_list" onclick="cust_lead_btn('${custDlist.cust_no}')" value="고객리드">
 		 	<input type="button" class="func_btn" id="cust_opty_list" onclick="cust_opty_btn('${custDlist.cust_no}')" value="영업기회">
+<%-- 		 	<input type="button" class="func_btn" id="cust_opty_list" onclick="cust_mail_btn('${custDlist.cust_no}')" value="E-Mail"> --%>
 	 	 </div> 
 	 </c:if>
     </div>

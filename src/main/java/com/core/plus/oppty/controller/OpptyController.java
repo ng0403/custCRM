@@ -118,6 +118,7 @@ public class OpptyController {
 			else if(oppty_status_cd.equals("001"))
 			{
 				System.out.println("001");
+				mov.addObject("pageType", "2");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=001");
 				
@@ -125,6 +126,7 @@ public class OpptyController {
 			}
 			else if(oppty_status_cd.equals("002"))
 			{
+				mov.addObject("pageType", "2");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=002");
 				
@@ -132,6 +134,7 @@ public class OpptyController {
 			}
 			else if(oppty_status_cd.equals("003"))
 			{
+				mov.addObject("pageType", "2");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=003");
 				
@@ -139,6 +142,7 @@ public class OpptyController {
 			}
 			else if(oppty_status_cd.equals("004"))
 			{
+				mov.addObject("pageType", "2");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=004");
 				
@@ -156,6 +160,7 @@ public class OpptyController {
 			}
 			else if(cust_opty_no.equals(null))
 			{
+				mov.addObject("pageType", "1");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty");
 				
@@ -163,6 +168,8 @@ public class OpptyController {
 			}
 			else
 			{
+				System.out.println("cust oppty");
+				mov.addObject("pageType", "2");
 				mov.addObject("cust_opty_no", cust_opty_no);
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
@@ -230,6 +237,7 @@ public class OpptyController {
 			else if(oppty_status_cd.equals("001"))
 			{
 				System.out.println("001");
+				mov.addObject("pageType", "2");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=001");
 				
@@ -237,6 +245,7 @@ public class OpptyController {
 			}
 			else if(oppty_status_cd.equals("002"))
 			{
+				mov.addObject("pageType", "2");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=002");
 				
@@ -244,6 +253,7 @@ public class OpptyController {
 			}
 			else if(oppty_status_cd.equals("003"))
 			{
+				mov.addObject("pageType", "2");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=003");
 				
@@ -251,6 +261,7 @@ public class OpptyController {
 			}
 			else if(oppty_status_cd.equals("004"))
 			{
+				mov.addObject("pageType", "2");
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=004");
 				
@@ -275,6 +286,8 @@ public class OpptyController {
 			}
 			else
 			{
+				System.out.println("cust my oppty");
+				mov.addObject("pageType", "3");
 				mov.addObject("cust_opty_no", cust_opty_no);
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
