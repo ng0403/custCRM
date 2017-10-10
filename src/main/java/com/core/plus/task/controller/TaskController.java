@@ -375,6 +375,9 @@ public class TaskController {
 			}
 			
 			mov.addObject("taskDetail",  taskService.taskDetail(task_no));
+			
+			System.out.println("taskDetail : " + taskService.taskDetail(task_no));
+			
 			mov.addObject("dtypeCd", dtypeCd);
 			mov.addObject("scoreCd", scoreCd);
 			mov.addObject("ttypeCd", ttypeCd);
