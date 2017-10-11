@@ -20,6 +20,8 @@ public class CustVO {
 	private String visit_cn;
 	private String rec_per;
 	private String remark_cn;
+	private String email_id;
+	private String email_dm;
 	private String del_yn;
 	
 //	custphone
@@ -220,6 +222,18 @@ public class CustVO {
 	public void setUser_nm(String user_nm) {
 		this.user_nm = user_nm;
 	}
+	public String getEmail_id() {
+		return email_id;
+	}
+	public void setEmail_id(String email_id) {
+		this.email_id = email_id;
+	}
+	public String getEmail_dm() {
+		return email_dm;
+	}
+	public void setEmail_dm(String email_dm) {
+		this.email_dm = email_dm;
+	}
 	@Override
 	public String toString() {
 		return "CustVO [cust_no=" + cust_no + ", create_date=" + create_date + ", update_date=" + update_date
@@ -227,26 +241,12 @@ public class CustVO {
 				+ cust_id + ", emp_no=" + emp_no + ", emp_name=" + emp_name + ", user_no=" + user_no + ", user_nm="
 				+ user_nm + ", cust_type=" + cust_type + ", cust_rank=" + cust_rank + ", visit_cd=" + visit_cd
 				+ ", visit_dtl_cd=" + visit_dtl_cd + ", visit_cn=" + visit_cn + ", rec_per=" + rec_per + ", remark_cn="
-				+ remark_cn + ", del_yn=" + del_yn + ", phone_type_cd=" + phone_type_cd + ", phone_country_cd="
-				+ phone_country_cd + ", phone_area_no=" + phone_area_no + ", phone_no=" + phone_no + ", primary_yn="
-				+ primary_yn + ", addr_type_cd=" + addr_type_cd + ", road_yn=" + road_yn + ", zip_no=" + zip_no
-				+ ", main_address=" + main_address + ", detail_address=" + detail_address + ", cust_key=" + cust_key
-				+ ", getCust_no()=" + getCust_no() + ", getCreate_date()=" + getCreate_date() + ", getUpdate_date()="
-				+ getUpdate_date() + ", getCust_name()=" + getCust_name() + ", getResident_no()=" + getResident_no()
-				+ ", getChart_no()=" + getChart_no() + ", getCust_id()=" + getCust_id() + ", getVisit_cd()="
-				+ getVisit_cd() + ", getVisit_dtl_cd()=" + getVisit_dtl_cd() + ", getVisit_cn()=" + getVisit_cn()
-				+ ", getRec_per()=" + getRec_per() + ", getRemark_cn()=" + getRemark_cn() + ", getPhone_type_cd()="
-				+ getPhone_type_cd() + ", getPhone_country_cd()=" + getPhone_country_cd() + ", getPhone_area_no()="
-				+ getPhone_area_no() + ", getPhone_no()=" + getPhone_no() + ", getPrimary_yn()=" + getPrimary_yn()
-				+ ", getAddr_type_cd()=" + getAddr_type_cd() + ", getRoad_yn()=" + getRoad_yn() + ", getZip_no()="
-				+ getZip_no() + ", getMain_address()=" + getMain_address() + ", getDetail_address()="
-				+ getDetail_address() + ", getCust_key()=" + getCust_key() + ", getDel_yn()=" + getDel_yn()
-				+ ", getCust_type()=" + getCust_type() + ", getCust_rank()=" + getCust_rank() + ", getEmp_no()="
-				+ getEmp_no() + ", getEmp_name()=" + getEmp_name() + ", getUser_no()=" + getUser_no()
-				+ ", getUser_nm()=" + getUser_nm() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ remark_cn + ", email_id=" + email_id + ", email_dm=" + email_dm + ", del_yn=" + del_yn
+				+ ", phone_type_cd=" + phone_type_cd + ", phone_country_cd=" + phone_country_cd + ", phone_area_no="
+				+ phone_area_no + ", phone_no=" + phone_no + ", primary_yn=" + primary_yn + ", addr_type_cd="
+				+ addr_type_cd + ", road_yn=" + road_yn + ", zip_no=" + zip_no + ", main_address=" + main_address
+				+ ", detail_address=" + detail_address + ", cust_key=" + cust_key + "]";
 	}
-	
-	
+
 	
 }

@@ -283,6 +283,19 @@ $(document).ready(function(){
  			</td>
 		</tr>
 		<tr>
+			<th style="text-align:right;">이메일</th>
+			<td>
+				<c:if test="${ flg == 2 }">
+					<input type="text" id="email_id" name="email_id" value="${custDlist.email_id}" readonly="readonly">@
+					<input type="text" id="email_dm" name="email_dm" value="${custDlist.email_dm}" readonly="readonly">
+				</c:if>
+				<c:if test="${ flg == 1 }">
+					<input type="text" id="email_id" name="email_id" value="${custDlist.email_dm}">@
+					<input type="text" id="email_dm" name="email_dm" value="${custDlist.email_dm}">
+				</c:if>	
+			</td>
+		</tr>
+		<tr>
 			<th style="text-align:right;">내원경로세부</th>
 			<td colspan="3">
 				<c:if test="${ flg == 2 }">

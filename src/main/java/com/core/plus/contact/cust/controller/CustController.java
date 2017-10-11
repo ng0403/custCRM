@@ -1,14 +1,12 @@
 package com.core.plus.contact.cust.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.mail.javamail.*;
 
 import com.core.plus.common.PagerVO;
 import com.core.plus.contact.cust.service.CommonCodeService;
@@ -34,8 +32,6 @@ import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.login.dao.LoginDAO;
 import com.core.plus.oppty.service.OpptyService;
-import com.core.plus.oppty.vo.OpptyVO;
-import com.core.plus.task.vo.TaskVO;
 
 @Controller
 public class CustController {
@@ -206,6 +202,13 @@ public class CustController {
 		ModelAndView result = new ModelAndView();
 		Map<String, Object> custkMap = new HashMap<String, Object> ();
 		
+		System.out.println(page_type);
+		System.out.println(temp);
+		
+		if(page_type == null)
+		{
+			page_type = "";
+		}
 		if(page_type.equals("1"))
 		{
 			String user_id = session.getAttribute("user").toString();
@@ -474,7 +477,16 @@ public class CustController {
 			
 			return map;
 		}
-	}	
+	}
+	
+	@RequestMapping(value="emailSend", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> emailSend(String s_emp_name)
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		JavaMailSender mailSender;
+		
+		return map;
+	}
 
 }
 

@@ -55,6 +55,8 @@
 		         ,a.visit_cd
 		         ,a.visit_dtl_cd
 		         ,a.visit_cn
+		         ,a.email_id
+		         ,a.email_dm
 		         ,case when(rec_per) is null then '' else (rec_per) end as rec_per
 		         ,case when (select phone_area_no from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) is null then ''
 		          else (select phone_area_no from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) end as phone_area_no
@@ -109,6 +111,8 @@
 		         ,(select code_name from tb_code code where code_no = '1001' and code.code = a.visit_cd ) as visit_cd
 		         ,(select code_name from tb_code code where code_no = '1002' and code.code = a.visit_cd ) as visit_dtl_cd
 		         ,a.visit_cn
+		         ,a.email_id
+		         ,a.email_dm
 		         ,case when(rec_per) is null then '' else (rec_per) end as rec_per
 		         ,case when (select phone_area_no from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) is null then ''
 		          else (select phone_area_no from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) end as phone_area_no
@@ -159,6 +163,8 @@
 			,(select user_nm from tb_user where user_no = a.emp_no) as emp_name
 			,a.cust_rank
 			,a.cust_type
+			,a.email_id
+			,a.email_dm
 			,a.visit_cd
 			,a.visit_dtl_cd
 			,a.visit_cn
@@ -198,6 +204,8 @@
 							,visit_cd
 							,visit_dtl_cd
 							,visit_cn
+							,email_id
+							,email_dm
 							,rec_per
 							,remark_cn
 		)
@@ -213,6 +221,8 @@
            	,#{visit_cd}
            	,#{visit_dtl_cd}
            	,#{visit_cn}
+           	,#{email_id}
+           	,#{email_dm}
            	,#{rec_per}
            	,#{remark_cn}
 		)
@@ -236,6 +246,8 @@
 			,visit_dtl_cd = #{visit_dtl_cd}
 			,visit_cn = #{visit_cn}
 			,rec_per = #{rec_per}
+			,email_id = #{email_id}
+			,email_dm = #{email_dm}
 			,remark_cn = #{remark_cn}
 		where cust_no = #{cust_no}
 	</update>
@@ -257,10 +269,10 @@
                   FROM tb_cust USE INDEX(PRIMARY)
 		</selectKey>
 		insert into tb_cust 
-			(cust_no, cust_name, resident_no, chart_no, cust_id, emp_no, visit_cd, visit_dtl_cd, visit_cn, cust_rank, cust_type, rec_per, remark_cn)
+			(cust_no, cust_name, resident_no, chart_no, cust_id, emp_no, visit_cd, visit_dtl_cd, visit_cn, cust_rank, cust_type, rec_per, remark_cn, email_id, email_dm)
 		values 
 			(#{cust_no}, #{cust_name}, #{resident_no}, #{chart_no}, #{cust_id}, #{emp_no}, #{visit_cd}, 
-			 #{visit_dtl_cd}, #{visit_cn}, #{cust_rank}, #{cust_type}, #{rec_per}, #{remark_cn})
+			 #{visit_dtl_cd}, #{visit_cn}, #{cust_rank}, #{cust_type}, #{rec_per}, #{remark_cn}, #{email_id}, #{email_dm})
 	</insert>
 	
 	<update id="custExcelUpdate" parameterType="com.core.plus.contact.cust.vo.CustVO">
@@ -274,6 +286,8 @@
 			,visit_cn = #{visit_cn}
 			,rec_per = #{rec_per}
 			,remark_cn = #{remark_cn}
+			,email_id = #{email_id}
+			,email_dm = #{email_dm}
 		WHERE 
 			cust_name = #{cust_name} AND resident_no = #{resident_no}
 	</update>

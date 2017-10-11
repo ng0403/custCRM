@@ -149,7 +149,9 @@ function cust_reset()
 		$("#cust_id").val("");
 		$("#rec_per").val("");
 		$("#reason_cd").val("");
-		$("#remark_cn").val(""); 
+		$("#remark_cn").val("");
+		$("#email_id").val("");
+		$("#email_dm").val("");
 		
 		$("#discount_cost option:eq(0)").prop("selected", "selected");
 		$("#visit_cd option:eq(0)").prop("selected", "selected");
@@ -412,7 +414,7 @@ function cust_add_save()
 		return false;
 	}
 	
-	console.log($("#emp_no").val());
+	console.log($("#email_id").val());
 	 
 	$(document).ready(function() {
 		var cust_no = $("#cust_no").val();
@@ -434,7 +436,9 @@ function cust_add_save()
 					rec_per			: $("#rec_per").val(),
 					remark_cn		: $("#remark_cn").val(),
 					cust_type		: $("#cust_type").val(),
-					cust_rank		: $("#cust_rank").val()
+					cust_rank		: $("#cust_rank").val(),
+					email_id		: $("#email_id").val(),
+					email_dm		: $("#email_dm").val()
 				},
 				dataType : "json",
 				success : function(data) {
@@ -468,6 +472,8 @@ function cust_add_save()
 		$("#remark_cn").prop("readonly", false);
 		$("#visit_cn").prop("readonly", false);
 		$("#rec_per").prop("readonly", false);
+		$("#email_id").prop("readonly", false);
+		$("#email_dm").prop("readonly", false);
 
 		$("#empSchBtn").prop("disabled", false);
 		$("#cust_type").prop("disabled", false);
@@ -503,8 +509,8 @@ function cust_modify_save()
 		return false;
 	}
 	
-	console.log($("#cust_rank").val());
-	console.log($("#cust_type").val());
+	console.log($("#email_id").val());
+	console.log($("#email_dm").val());
 	
 	$(document).ready(function() {
 		var cust_no = $("#cust_no").val();
@@ -526,7 +532,9 @@ function cust_modify_save()
 					rec_per			: $("#rec_per").val(),
 					emp_no			: $("#emp_no").val(),	// 여기
 					visit_cn		: $("#visit_cn").val(),
-					remark_cn		: $("#remark_cn").val()
+					remark_cn		: $("#remark_cn").val(),
+					email_id		: $("#email_id").val(),
+					email_dm		: $("#email_dm").val()
 				},
 				dataType : "json",
 				success : function(data) {
