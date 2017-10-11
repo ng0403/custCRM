@@ -165,6 +165,7 @@ $(document).ready(function(){
 	 	 	<input type="button" class="tr_btn" id="lead_single_add" value="저장" onclick="lead_modify_save();">
 	 	 	<input type="button" class="tr_btn" id="lead_delete" value="삭제" onclick="lead_remove();">
 		    <input type="button" class="func_btn" id="lead_single_cancel" value="취소" onclick="lead_cancel('${PageNum}');">
+	 	 <input type="button" class="func_btn" id="lead_counsel" value="고객상담이력 조회" onclick="lead_counsel_read('${detail.cust_no}', '${PageNum}');">
 	 	 </div>
  
     </div>

@@ -80,7 +80,12 @@ public class LeadController {
 	//초기 list 출력
 	@RequestMapping(value="lead")
 	public ModelAndView lead_list(HttpServletRequest request, @RequestParam(value = "pageNum", defaultValue = "1") int PageNum, String cust_lead_no) {
-		System.out.println("entering" + PageNum);
+ 
+		
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+				if (session.getAttribute("user") == null) {
+					return new ModelAndView("redirect:/");
+				}
 		
 		//url 가져오기
 		  String Url = (String) request.getAttribute(
