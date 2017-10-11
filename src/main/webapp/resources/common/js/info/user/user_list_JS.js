@@ -8,6 +8,14 @@
 내 용 : 사용자 관리에 대한 javascript 공통 코드이다.
 *참고사항 : 
 */
+//user 검색초기화
+function user_reset(){
+	$("input[name=user_id]").val("");
+	$("input[name=user_nm]").val("");
+	$("input[name=org_nm]").val("");
+	user_search();
+}
+
 // user 검색
 function user_search(){	
 	var main_menu_id = $("#main_menu_id").val();	
@@ -21,7 +29,7 @@ function user_search(){
 function userSearchEnter(event) {
 	var keycode = (event.keyCode ? event.keyCode : event.which);
 	if (keycode == '13') {
-		if ($("input[name=user_id]").val() == '' && $("input[name=user_nms]").val() == '' && $("input[name=org_nm]").val() == '') {
+		if ($("input[name=user_id]").val() == '' && $("input[name=user_nm]").val() == '' && $("input[name=org_nm]").val() == '') {
 			alert("검색어를 입력하세요.");
 		} else {
 			user_search();			

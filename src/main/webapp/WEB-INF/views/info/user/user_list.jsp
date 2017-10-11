@@ -50,6 +50,7 @@ $(document).ready(function() {
 			
 			<span class="searchText"> 부서명 </span>
 			<input type="text" id="infoSearchInput" name="org_nm" value="${org_nm}" onkeydown="userSearchEnter(event);" style="margin-left: 0;">
+			<input type="button" value="검색 초기화" onclick="user_reset()" class="tr_btn" style="margin-left: 15px;float:right;">
 			<input type="button" value="조회" onclick="user_search()" class="tr_btn" style="margin-left: 15px;float:right;">
 		</div>
 	</form>
