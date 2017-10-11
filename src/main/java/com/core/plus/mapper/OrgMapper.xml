@@ -47,6 +47,7 @@
 		LEFT JOIN tb_user b
 		ON	a.rep_emp_id = b.user_id
 		WHERE 1=1
+			and a.act_yn = 'Y'
 			<if test="org_nm!=null and org_nm!='' ">
 			  	and a.org_nm LIKE concat('%',#{org_nm},'%')
 			</if> 

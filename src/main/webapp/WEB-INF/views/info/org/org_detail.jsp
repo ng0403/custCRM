@@ -8,28 +8,32 @@ $(document).ready(function(){
 	 if('${orgMap.form_flag}' == 1){
 		org_insert_set();
 	} else if('${orgMap.form_flag}' == 2){
+		console.log('${orgMap.form_flag}');
+		console.log('${orgDetail.org_ph1}');
 		if('${orgDetail.org_ph1}' != null && '${orgDetail.org_ph1}' != ''){
-			$("#org_ph1 option[value=${orgDetail.org_ph1}]").prop("selected", true);
+			$("#org_ph1 option[value='${orgDetail.org_ph1}']").prop("selected", true);
 		}
 		if('${orgDetail.fax_no1}' != null && '${orgDetail.fax_no1}' != ''){
-			$("#fax_no1 option[value=${orgDetail.fax_no1}]").prop("selected", true);
+			$("#fax_no1 option[value='${orgDetail.fax_no1}']").prop("selected", true);
 		}
 	} else if('${orgMap.form_flag}' == 3){
 		if('${orgDetail.org_ph1}' != null && '${orgDetail.org_ph1}' != ''){
-			$("#org_ph1 option[value=${orgDetail.org_ph1}]").prop("selected", true);
+			$("#org_ph1 option[value='${orgDetail.org_ph1}']").prop("selected", true);
 		}
 		if('${orgDetail.fax_no1}' != null && '${orgDetail.fax_no1}' != ''){
-			$("#fax_no1 option[value=${orgDetail.fax_no1}]").prop("selected", true);
+			$("#fax_no1 option[value='${orgDetail.fax_no1}']").prop("selected", true);
 		}
 		alert("저장 되었습니다.");
 		org_detail('${orgDetail.org_id}');
 	} else if('${orgMap.form_flag}' == 4){
+		console.log('${orgMap.form_flag}');
+		console.log('${orgDetail.org_ph1}');
 		if('${orgDetail.org_ph1}' != null && '${orgDetail.org_ph1}' != ''){
-			$("#org_ph1 option[value=${orgDetail.org_ph1}]").prop("selected", true);
+			$("#org_ph1 option[value='${orgDetail.org_ph1}']").prop("selected", true);
 		}
 			if('${orgDetail.fax_no1}' != null && '${orgDetail.fax_no1}' != ''){
 		}
-		$("#fax_no1 option[value=${orgDetail.fax_no1}]").prop("selected", true);
+		$("#fax_no1 option[value='${orgDetail.fax_no1}']").prop("selected", true);
 		alert("수정 되었습니다.");
 		org_detail('${orgDetail.org_id}');
 	}
