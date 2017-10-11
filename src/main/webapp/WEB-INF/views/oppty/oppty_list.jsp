@@ -97,10 +97,12 @@
 						</td>
 					</tr>
 					<tr style="background-color: white; cursor:default; border:0;">
-						<th style="width:5%;">담당자명</th>
-						<td style="width:15%;">
-						    <input type="text" id="emp_name_srch" name="emp_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
-						</td >
+						<c:if test="${ pageType != '1' }">
+							<th style="width:5%;">담당자명</th>
+							<td style="width:15%;">
+							    <input type="text" id="emp_name_srch" name="emp_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
+							</td >
+						</c:if>
 						
 						<c:if test="${ hoppty_status_cd == null }">
 							<th style="width:5%;">기회상태</th>

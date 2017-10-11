@@ -184,9 +184,9 @@
 	</select>
 	
 	<!-- excel export -->
-	<select id="opptyExcelExport" parameterType="string" resultType="map">
-		SELECT X.*
-		FROM ( 
+	<select id="opptyExcelExport" parameterType="java.util.Map" resultType="com.core.plus.oppty.vo.OpptyVO">
+<!-- 		SELECT X.* -->
+<!-- 		FROM (  -->
 			SELECT 
 				oppty_no,
 				oppty_name,
@@ -243,7 +243,7 @@
 					AND (emp_no like (select user_no from tb_user where user_id = #{user_id}))
 				</if>
 			ORDER BY update_date DESC
-		)X
+<!-- 		)X -->
 	</select>
 	
 	<!-- Detail -->

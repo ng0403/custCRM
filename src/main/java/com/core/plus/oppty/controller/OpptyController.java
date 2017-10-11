@@ -345,7 +345,7 @@ public class OpptyController {
 	@RequestMapping(value = "/toOpptyExcel",  method=RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, 
 			 String oppty_no_srch, String oppty_name_srch, 
-			  String cust_name_srch, String emp_name_srcj,
+			  String cust_name_srch, String emp_name_srch,
 			  String oppty_status_cd_srch, String oppty_stage_cd_srch,
 			  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String flg,
 			  String hoppty_status_cd, String cust_opty_no, String page_type) 
@@ -353,15 +353,16 @@ public class OpptyController {
 		ModelAndView result = new ModelAndView();
 		Map<String, Object> opptykMap = new HashMap<String, Object> ();
 		
-		System.out.println(page_type);
 		char temp = flg.charAt(flg.length()-1);
 		char temp1;
 		
+		System.out.println(page_type);
+		System.out.println(temp);
 		if(page_type == null)
 		{
 			page_type = "";
 		}
-		else
+		if(page_type.equals("1"))
 		{
 			temp1 = page_type.charAt(page_type.length()-1);
 			String user_id = session.getAttribute("user").toString();
@@ -374,7 +375,7 @@ public class OpptyController {
 			opptykMap.put("oppty_no_srch", oppty_no_srch);
 			opptykMap.put("oppty_name_srch", oppty_name_srch);
 			opptykMap.put("cust_name_srch", cust_name_srch);
-			opptykMap.put("emp_name_srcj", emp_name_srcj);
+			opptykMap.put("emp_name_srch", emp_name_srch);
 			opptykMap.put("oppty_status_cd_srch", oppty_status_cd_srch);
 			opptykMap.put("oppty_stage_cd_srch", oppty_stage_cd_srch);
 			opptykMap.put("exp_close_dt_srch", exp_close_dt_srch);
@@ -387,7 +388,7 @@ public class OpptyController {
 //				String opptyStatusCd = "00" + temp2;	//	hoppty_status_cd 코드값을 위한 변수
 				String[] tmp = hoppty_status_cd.split(",");
 				String opptyStatusCd = tmp[0];
-				System.out.println(opptyStatusCd);
+				System.out.println("hoppty_status_cd : " + opptyStatusCd);
 				opptykMap.put("oppty_status_cd", opptyStatusCd);
 			}
 			if(cust_opty_no != null)
@@ -398,8 +399,10 @@ public class OpptyController {
 				opptykMap.put("cust_opty_no", custOptyNo);
 			}
 			//taskMap.put("some",req.getParameter("some"));    				// where에 들어갈 조건??
-			
+			System.out.println("opptykMap : " + opptykMap);
 			List<OpptyVO> list = opptyService.opptyExcelExport(opptykMap);	// 쿼리
+			System.out.println("list : " + list);
+			
 			result.addObject("opptyExcelExport", list); 					// 쿼리 결과를 model에 담아줌
 			result.setViewName("/oppty/opptyList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
 			

@@ -360,7 +360,7 @@ function download_list_Excel(formID, flg)
 	var flg = $("<input type='hidden' value='"+ flg +"' name='flg'>");
 	var page_type = page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
 	
-	console.log(hoppty_status_cd);
+	console.log(page);
 	
 //	if(count == 0)
 //	{
