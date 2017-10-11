@@ -232,14 +232,15 @@ function custDelete()
 // 고객 조회
 function searchKeyword(pageNum)
 {
-	var cust_no = $("#cust_no").val();
+	var cust_no  = $("#cust_no").val();
 	var cust_name = $("#cust_name").val();
  	var chart_no = $("#chart_no").val();
 	var visit_cd = $("#visit_cd").val();
-	var rec_per = $("#rec_per").val();
+	var rec_per  = $("#rec_per").val();
 	var phone_no = $("#phone_no").val();
+	var user_id  = $("#session").val();
 	
-	console.log(chart_no);
+	console.log(user_id);
 	
 	var custData = { 
 			 		 "custPageNum" : pageNum,
@@ -248,7 +249,8 @@ function searchKeyword(pageNum)
 					 "chart_no": chart_no, 
 					 "visit_cd":visit_cd, 
 					 "rec_per":rec_per,
-					 "phone_no" : phone_no      
+					 "phone_no" : phone_no,
+					 "session"	: user_id
 					};
  
 	
@@ -317,7 +319,6 @@ function searchKeyword(pageNum)
 						
 					}
 					
- 					
  					// 페이징
  					$(".pagingDiv").empty();
  					var pageContent = "";

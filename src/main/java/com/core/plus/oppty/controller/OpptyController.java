@@ -313,6 +313,7 @@ public class OpptyController {
 		Map<String, Object> kMap = new HashMap<String, Object>();
 		System.out.println("page num : " + opptyPageNum);
 		System.out.println("session : " + session);
+		System.out.println("hoppty_status_cd : " + hoppty_status_cd);
 		
 		kMap.put("opptyPageNum", opptyPageNum);
 		kMap.put("oppty_no_srch", oppty_no_srch);

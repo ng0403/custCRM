@@ -103,6 +103,9 @@ function opptySchList(opptyPageNum)
 	var session 			 = $("#session").val();
 	var page_type 			 = $("#page_type").val();
 	var opptyData			 = null;
+	
+	console.log(page_type);
+	console.log(hoppty_status_cd);
 
 	if(page_type == 0)		// 전체페이지
 	{
@@ -135,6 +138,21 @@ function opptySchList(opptyPageNum)
 			 	 hoppty_status_cd	 : hoppty_status_cd,
 			 	 session			 : session
 				};
+	}
+	else if(page_type == 2)
+	{
+		opptyData = {opptyPageNum		 : opptyPageNum,
+			 	 	 oppty_no_srch 		 : oppty_no_srch,
+			 	 	 oppty_name_srch  	 : oppty_name_srch,
+			 	 	 cust_name_srch		 : cust_name_srch,
+			 	 	 emp_name_srch		 : emp_name_srch,
+			 	 	 oppty_status_cd_srch : oppty_status_cd_srch,
+			 	 	 oppty_stage_cd_srch  : oppty_stage_cd_srch,
+			 	 	 exp_close_dt_srch 	 : exp_close_dt_srch,
+			 	 	 dtype_cd_srch		 : dtype_cd_srch,
+			 	 	 purchase_type_srch	 : purchase_type_srch,
+			 	 	 hoppty_status_cd	 : hoppty_status_cd,
+					};
 	}
 	
 	var tbody = $('#oppty_list_tbody');

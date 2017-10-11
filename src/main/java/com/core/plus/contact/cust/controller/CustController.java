@@ -158,6 +158,8 @@ public class CustController {
 		Map<String, Object> result = new HashMap<String, Object>(0);
 		Map<String, Object> custMap = new HashMap<String, Object>();
 
+		System.out.println(session);
+		
 		custMap.put("custPageNum", custPageNum);
 		custMap.put("cust_no", cust_no);
 		custMap.put("cust_name", cust_name);
