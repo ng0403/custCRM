@@ -202,7 +202,10 @@ public class OpptyServiceImlp implements OpptyService {
 		int custPageNum = (Integer)map.get("custPopupPageNum");
 		PagerVO page = new PagerVO(custPageNum, 0, 10, 10);
 		
-		int totalRowCount = opptyDao.getOpptyListRow(map);
+		/*int totalRowCount = opptyDao.getOpptyListRow(map);*/
+		
+		int totalRowCount = opptyDao.getCustPopupRow(map);
+		
 		
 		page = new PagerVO(custPageNum, totalRowCount, 10, 10);
 		

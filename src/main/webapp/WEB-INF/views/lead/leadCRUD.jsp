@@ -95,7 +95,7 @@ $(document).ready(function(){
 				<input name="contact_day" id="contact_day" type="text" value="${detail.contact_day}" class="expt_fin_d" 
 							 readonly="readonly" placeholder ="접촉일자" style="text-align: center; cursor: pointer;">
 			</td>
-			<th style="text-align:right;">상태</th>
+			<th id="impTh" class="discount_cost" style="text-align:right;">*상태</th>
 			<td> 
 				   <select id="lead_status_cd_sel" name="lead_status_cd" 
 									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">

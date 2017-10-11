@@ -169,7 +169,7 @@ public class LeadController {
 		
 	}
 	
-	//리드 상태(보류, 전환, 실패) list 출력
+	//리드 상태(진행, 보류, 전환, 실패) list 출력
 		@RequestMapping(value="lead_status")
 		public ModelAndView lead_status(@RequestParam(value = "pageNum", defaultValue = "1") int PageNum, @RequestParam(value="code") String code) {
 			System.out.println("entering" + PageNum);
@@ -178,7 +178,22 @@ public class LeadController {
 			leadMap.put("PageNum", PageNum); 
 			
 			ModelAndView mov = new ModelAndView("lead_status"); 
-			 
+			
+			//진행중 
+			if(code.equals("001"))
+			{
+			 leadMap.put("lead_status_cd", "001");
+			 // paging
+			 PagerVO page = leadService.getLeadStatusListRow(leadMap);
+			 leadMap.put("page", page);  
+			
+			 List<LeadVO> vo = leadService.lead_status_list(leadMap);
+			 mov.addObject("lead_list", vo);
+			 mov.addObject("page", page);
+			 mov.addObject("flg", "001");
+			 mov.addObject("sub_menu_url", "lead_status?code=001");
+			}
+			
 			//보류 
 			if(code.equals("002"))
 			{
