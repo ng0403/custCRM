@@ -514,14 +514,13 @@ public class LeadController {
 		System.out.println("url ? " + path);
 		if(path == null)
 		{
-			path = " ";
+			path = "";
 		}
 		System.out.println("cust_name ? " + cust_name);
    		String contact_day;
 		
 		contact_day = contact_day_srch.replace("-", "");
-		 System.out.println("1");
-		char temp = flg.charAt(flg.length()-1);
+ 		char temp = flg.charAt(flg.length()-1);
  		
 		ModelAndView result = new ModelAndView();
 		Map<String, Object> leadMap = new HashMap<String, Object> ();
@@ -532,12 +531,10 @@ public class LeadController {
 		leadMap.put("contact_day", contact_day);
 		leadMap.put("rank_cd", rank_cd);
 		leadMap.put("cust_name", cust_name);
-		System.out.println("2");
-		// my_lead url 값을 비교
+ 		// my_lead url 값을 비교
 		if(!path.isEmpty())
 		{
-			System.out.println("3");
-			String[] path_my = path.split(",");
+ 			String[] path_my = path.split(",");
 			System.out.println("path ??? " + path_my[0].toString());
 			path = path_my[0].toString();
 			if(path.equals("/my_lead"))
