@@ -463,8 +463,8 @@ function opptySingleAdd()
 				dataType : "json",
 				success : function(data) {
 					alert("매출기회가 추가되었습니다.");
-//					alert("매출기회 리스트로 이동합니다.");
-//					location.href = ctx + '/oppty';
+					alert("매출기회 리스트로 이동합니다.");
+					location.href = ctx + '/oppty';
 				
 				},
 				error : function(request,status,error) {
