@@ -47,6 +47,10 @@ public class MenuController {
 			@RequestParam(value = "menuSearch", defaultValue = "") String menuSearch
 			, @RequestParam(value = "seq_no", defaultValue = "1") int seq_no
 			, String menu_id, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("menu");
 		mov.addObject("main_menu_url", "org");
@@ -120,6 +124,11 @@ public class MenuController {
 	//메뉴 추가
 	@RequestMapping(value = "/menuInsert" , method = RequestMethod.POST)
 	public ModelAndView MenuInsert(HttpSession session, MenuVo menuVo, String main_menu_id) {
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		
 		ModelAndView mov = new ModelAndView("menu");
 		mov.addObject("main_menu_url", "org");
 		mov.addObject("sub_menu_url", "menu");
@@ -156,6 +165,11 @@ public class MenuController {
 	//메뉴 삭제
 	@RequestMapping(value = "/menuDelete", method=RequestMethod.POST)
 	public ModelAndView MenuDelete(HttpSession session, MenuVo menuVo, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		
 		ModelAndView mov = new ModelAndView("menu");
 		mov.addObject("main_menu_url", "org");
 		mov.addObject("sub_menu_url", "menu");
@@ -173,6 +187,10 @@ public class MenuController {
 	//메뉴 체크 삭제 (여러개 삭제)
 	@RequestMapping(value = "/menuChkDelete", method=RequestMethod.POST)
 	public ModelAndView MenuChkDelete(HttpSession session, String[] menu_id, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("menu");
 		mov.addObject("main_menu_url", "org");
@@ -190,6 +208,10 @@ public class MenuController {
 	//메뉴 수정
 	@RequestMapping(value = "/menuUpdate", method=RequestMethod.POST)
 	public ModelAndView MenuUpdate(HttpSession session, MenuVo menuVo, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("menu");
 		mov.addObject("main_menu_url", "org");

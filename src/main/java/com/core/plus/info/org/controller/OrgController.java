@@ -47,6 +47,10 @@ public class OrgController{
 			@RequestParam(value = "delFlag", defaultValue = "0") int delFlag,
 			@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
 			)throws Exception{
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("orglist");
 		mov.addObject("main_menu_url", "org");
@@ -85,6 +89,10 @@ public class OrgController{
 	@RequestMapping(value="/orgForm")
 	public ModelAndView OrgDetail(HttpSession session
 			, @RequestParam Map<String, Object> orgMap, OrgVO orgVO){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 
 		ModelAndView mav = new ModelAndView("orgdetail");
 		mav.addObject("main_menu_url", "org");
