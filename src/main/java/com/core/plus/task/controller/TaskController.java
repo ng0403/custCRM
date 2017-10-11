@@ -74,6 +74,11 @@ public class TaskController {
 									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
 									String excel, String cust_task_no) {
 		
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+				
  		Map<String, Object> taskMap = new HashMap<String, Object>();
 		taskMap.put("taskPageNum", taskPageNum);
 		taskMap.put("cust_no", cust_task_no);

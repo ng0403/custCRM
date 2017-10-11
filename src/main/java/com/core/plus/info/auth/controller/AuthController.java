@@ -48,6 +48,10 @@ public class AuthController {
 	//기준정보 권한관리 리스트
 	@RequestMapping(value="/auth")
 	public ModelAndView AuthList(HttpSession session, @RequestParam Map<String, Object> map, String menu_id, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 
 		ModelAndView mov = new ModelAndView("auth");
 		mov.addObject("main_menu_url", "org");
@@ -65,6 +69,10 @@ public class AuthController {
 	//권한id 눌렀을 때 상세정보
 	@RequestMapping(value = "/authDetail")
 	public ModelAndView AuthDetail(String auth_id, @RequestParam Map<String, Object> map, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("auth");
 		mov.addObject("main_menu_url", "org");
@@ -87,6 +95,10 @@ public class AuthController {
 	//권한 추가
 	@RequestMapping(value = "/authInsert", method = RequestMethod.POST)
 	public ModelAndView AuthInsert(HttpSession session, AuthVO authVo, String main_menu_id) {
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("auth");
 		mov.addObject("main_menu_url", "org");
@@ -111,6 +123,10 @@ public class AuthController {
 	//권한 수정
 	@RequestMapping(value = "/authUpdate", method=RequestMethod.POST)
 	public ModelAndView AuthUpdate(HttpSession session, AuthVO authVo, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("auth");
 		mov.addObject("main_menu_url", "org");
@@ -135,6 +151,10 @@ public class AuthController {
 	//권한 삭제 (여러개 삭제)
 	@RequestMapping(value = "/authDelete", method=RequestMethod.POST)
 	public ModelAndView AuthDelete(HttpSession session, AuthVO authVo, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 
 		ModelAndView mov = new ModelAndView("auth");
 		mov.addObject("main_menu_url", "org");
@@ -156,6 +176,10 @@ public class AuthController {
 	//권한 체크 삭제 (여러개 삭제)
 	@RequestMapping(value = "/authChkDelete", method=RequestMethod.POST)
 	public ModelAndView AuthChkDelete(HttpSession session, String[] auth_id, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 
 		ModelAndView mov = new ModelAndView("auth");
 		mov.addObject("main_menu_url", "org");
@@ -176,6 +200,10 @@ public class AuthController {
 	@RequestMapping(value="/authmenu")
 	public ModelAndView AuthmenuList(HttpSession session, @RequestParam Map<String, Object> map
 			, MenuVo menuVo, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("authmenu");
 		mov.addObject("main_menu_url", "org");
@@ -202,6 +230,10 @@ public class AuthController {
 	//메뉴권한 추가 저장
 	@RequestMapping(value = "/authmenuInsert" , method = RequestMethod.POST)
 	public ModelAndView authmenuInsert(HttpSession session, MenuVo menuVo, String main_menu_id, String auth_id) {
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("authmenu");
 		mov.addObject("main_menu_url", "org");
@@ -250,6 +282,10 @@ public class AuthController {
 	@RequestMapping(value = "/authmenuChkDelete")
 	public ModelAndView AuthMenuChkDelete(HttpSession session, String[] menu_id, MenuVo menuVo
 			, @RequestParam Map<String, Object> map, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("authmenu");
 		mov.addObject("main_menu_url", "org");
@@ -278,6 +314,10 @@ public class AuthController {
 	@RequestMapping(value="/authuser")
 	public ModelAndView AuthuserList(HttpSession session, @RequestParam Map<String, Object> map
 			, String main_menu_id, AuthVO authVo){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("authuser");
 		mov.addObject("main_menu_url", "org");
@@ -301,6 +341,10 @@ public class AuthController {
 	@RequestMapping(value = "/authuserChkDelete")
 	public ModelAndView AuthUserChkDelete(HttpSession session, String[] user_id, AuthVO authVo
 			, @RequestParam Map<String, Object> map, String main_menu_id){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
 		
 		ModelAndView mov = new ModelAndView("authuser");
 		mov.addObject("main_menu_url", "org");

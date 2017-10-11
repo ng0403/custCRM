@@ -86,15 +86,10 @@
              , u.user_nm
              , a.auth_nm
              , COALESCE(o.org_nm, '-') as org_id 
-             , u.email_id ||'@'|| u.email_dm as email
-             , u.cell_ph1 ||'-'|| u.cell_ph2 ||'-'|| u.cell_ph3 as cell_ph
+             , if(u.email_id is null or u.email_id = '','-',concat(u.email_id,'@',u.email_dm)) as email
+             , concat(u.cell_ph1,'-',u.cell_ph2,'-',u.cell_ph3) as cell_ph
              , ua.fin_mdfy_id
-             , (substring(ua.create_date from 1 for 4)||'.'
-       				  ||substring(ua.create_date from 5 for 2)||'.'
-       				  ||substring(ua.create_date from 7 for 2)||'  '
-       				  ||substring(ua.create_date from 9 for 2)||':'
-       				  ||substring(ua.create_date from 11 for 2)||':'
-       				  ||substring(ua.create_date from 12 for 2)) as create_date
+             , date_format(ua.create_date,'%Y-%m-%d %H:%i') as create_date
          from tb_user u
             , tb_user_auth ua
             , tb_auth a

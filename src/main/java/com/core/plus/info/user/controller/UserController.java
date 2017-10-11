@@ -49,6 +49,11 @@ public class UserController {
 			@RequestParam(value = "delFlag", defaultValue = "0") int delFlag,
 			@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
 			){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		
 		String a = "";
 		Map<String, Object> map = new HashMap<String, Object>();	// 검색 값을 넣을 Map생성
 		map.put("user_id", user_id);
@@ -155,6 +160,11 @@ public class UserController {
 				String user_id,
 				String mode
 				){
+			//session 값 체크 후 null값이면 로그인 페이지 이동
+			if (session.getAttribute("user") == null) {
+				return new ModelAndView("redirect:/");
+			}
+			
 			String a = "";
 			String b = "";
 			
@@ -208,6 +218,11 @@ public class UserController {
 			String modes,
 			@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
 			){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		
 		String suc = "ok";
 		String[] auth_ids = userVO.getAuth_id().split(",");
 		String[] auth_nms = userVO.getAuth_nm().split(",");
@@ -295,6 +310,11 @@ public class UserController {
 			String modes,
 			@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
 			){
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		}
+		
 		int userInResult = 2;
 		String[] auth_ids = userVO.getAuth_id().split(",");
 		String[] auth_nms = userVO.getAuth_nm().split(",");
