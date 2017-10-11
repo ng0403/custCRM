@@ -21,6 +21,7 @@ $(document).ready(function() {
 		<div class="searchDiv">
 			<span class="searchText"> 부서명 </span>
 			<input type="text" id="infoSearchInput" name="org_nm" value="${org_nm}" style="margin-left: 0;" autofocus="autofocus">
+			<input type="button" id="org_reset" value="검색 초기화" class="tr_btn" style="margin-left: 15px;float:right;">
 			<input type="submit" value="조회" class="tr_btn" style="margin-left: 15px;float:right;">
 		</div>
 	 	</form>

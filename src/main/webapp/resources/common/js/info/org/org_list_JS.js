@@ -70,6 +70,12 @@ $(document).ready(function() {
 			return false;
 		}
 	});
+	
+	//검색 초기화
+	$("#org_reset").click(function(){
+		$("#infoSearchInput").val("");
+		$("#orgform").submit();
+	});
 });
 
 // 취소 기능
