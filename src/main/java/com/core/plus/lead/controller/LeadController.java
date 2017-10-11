@@ -512,11 +512,15 @@ public class LeadController {
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch,
 			String lead_name_srch, String cust_name, String cust_no, String user_no, String contact_day_srch, String rank_cd, String flg, String code_flg, String cust_lead_no, String user_id, String path) {
 		System.out.println("url ? " + path);
+		if(path == null)
+		{
+			path = " ";
+		}
 		System.out.println("cust_name ? " + cust_name);
    		String contact_day;
 		
 		contact_day = contact_day_srch.replace("-", "");
-		 
+		 System.out.println("1");
 		char temp = flg.charAt(flg.length()-1);
  		
 		ModelAndView result = new ModelAndView();
@@ -528,10 +532,11 @@ public class LeadController {
 		leadMap.put("contact_day", contact_day);
 		leadMap.put("rank_cd", rank_cd);
 		leadMap.put("cust_name", cust_name);
-		
+		System.out.println("2");
 		// my_lead url 값을 비교
 		if(!path.isEmpty())
 		{
+			System.out.println("3");
 			String[] path_my = path.split(",");
 			System.out.println("path ??? " + path_my[0].toString());
 			path = path_my[0].toString();
@@ -548,6 +553,11 @@ public class LeadController {
 		}
 		
 		//code_flg가 Null이지만, 두번째 엑셀 출력 후 code_flg에 ,가 추가 되어 null처리
+		if(code_flg == null)
+		{
+			code_flg = "";
+		}
+		
 		if(!code_flg.isEmpty() && code_flg.charAt(0) == ',')
 		{
 			code_flg = "";

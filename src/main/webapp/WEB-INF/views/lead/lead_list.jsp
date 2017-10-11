@@ -67,7 +67,7 @@
 		                 </div>
 		                 </td>
 					</tr>
-					<tr>
+					<tr style="background-color: white; cursor:default; border:0;">
 					 			 
 						 <th style="width:5%;">담당자명</th>
 						 <td style="width:15%;">
