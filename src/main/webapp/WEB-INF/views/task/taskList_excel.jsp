@@ -40,7 +40,7 @@
 	<thead>
 		<c:if test="${not empty taskExcelExport}">		
 			<tr>
-				<td class="header" style="width: 10%;">task번호</td>
+				<td class="header" style="width: 10%;">상담번호</td>
 				<td class="header" style="width: 10%;">제목</td>
 				<td class="header" style="width: 10%;">고객번호</td>
 				<td class="header" style="width: 10%;">고객명</td>
@@ -55,13 +55,15 @@
 			<tr>
 				<td class="header" style="width: 10%;">제목</td>
 				<td class="header" style="width: 10%;">고객번호</td>
-				<td class="header" style="width: 10%;">리드번호</td>
-				<td class="header" style="width: 10%;">영업기회번호</td>
-				<td class="header" style="width: 10%;">진행장소</td>
-				<td class="header" style="width: 10%;">다음일자</td>
 				<td class="header" style="width: 10%;">담당자번호</td>
+				<td class="header" style="width: 10%;">다음일자</td>
 				<td class="header" style="width: 10%;">분류코드</td>
-				<td class="header" style="width: 10%;">가능성</td>
+				<td class="header" style="width: 10%;">가망고객번호</td>
+				<td class="header" style="width: 10%;">영업기회번호</td>
+				<td class="header" style="width: 10%;">상담유형</td>
+				<td class="header" style="width: 10%;">상대가치점수</td>
+				<td class="header" style="width: 10%;">상담구분</td>
+				<td class="header" style="width: 10%;">진행장소</td>
 				<td class="header" style="width: 10%;">특이사항</td>
 			</tr>
 		</c:if>
@@ -86,12 +88,14 @@
 		<c:if test="${fn:length(taskExcelExport) == 0}" >
 			<tr style="cursor: default; background-color: white;">
 				<td class="body"></td>
-				<td class="body" id="no"></td>
-				<td class="body" id="no"></td>
-				<td class="body" id="no"></td>
 				<td class="body"></td>
 				<td class="body"></td>
-				<td class="body" id="no"></td>
+				<td class="body"></td>
+				<td class="body"></td>
+				<td class="body"></td>
+				<td class="body"></td>
+				<td class="body"></td>
+				<td class="body"></td>
 				<td class="body"></td>
 				<td class="body"></td>
 				<td class="body"></td>

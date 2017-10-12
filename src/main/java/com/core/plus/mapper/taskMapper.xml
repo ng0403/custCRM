@@ -246,7 +246,7 @@
       insert into tb_task
       (
           task_no , subject  , cust_no  , emp_no   , next_day  , dtype_cd
-        , lead_no , oppty_no , score_cd , ttype_cd, divis_cd, location , remark_cn , del_yn
+        , lead_no , oppty_no , ttype_cd , score_cd , divis_cd, location , remark_cn , del_yn
       )  
       values
       (
@@ -258,8 +258,8 @@
         #{dtype_cd},
         #{lead_no},
         #{oppty_no},
-        #{score_cd},
         #{ttype_cd},
+        #{score_cd},
         #{divis_cd},
         #{location},
         #{remark_cn},
