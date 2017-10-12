@@ -111,7 +111,7 @@ function taskSchList(pageNum) {
 	      error: function(){
 	         alert("error");
 	      }
-	   });
+	   });0
 }
 
 
@@ -128,7 +128,7 @@ function taskCancelList() {
 //상담 상세 초기화 버튼
 function task_reset() {
 	
-	if(confirm("초기화 하시겠습니까?"))
+	if(confirm("입력된 정보를 지우겠습니까?"))
 	{
 	$("#subject").val("");
 	$("#cust_no").val("");
