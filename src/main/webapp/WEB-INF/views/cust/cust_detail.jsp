@@ -128,7 +128,7 @@ $(document).ready(function(){
  			</td>
 		</tr>
 		<tr>
-			<th class="discount_cost" style="text-align:right;">고객등급</th>
+			<th id="impTh" class="discount_cost" style="text-align:right;">고객등급</th>
 			<td>
 				<c:if test="${ flg == 2 }">
 					<select id="cust_rank" name="cust_rank" disabled="disabled" 
@@ -160,7 +160,7 @@ $(document).ready(function(){
 				</c:if>
 			</td>
 			
-			<th class="discount_cost" style="text-align:right;">고객유형</th>
+			<th id="impTh" class="discount_cost" style="text-align:right;">고객유형</th>
 			<td>
 				<c:if test="${ flg == 2 }">
 					<select id="cust_type" name="cust_type" disabled="disabled" 
