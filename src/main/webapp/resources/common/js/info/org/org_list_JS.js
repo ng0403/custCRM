@@ -385,3 +385,8 @@ function chkCancel() {
 		$("#orgListCheck").prop("checked", false);
 	});
 }
+
+//디테일에서 리스트로 이동
+function montgtActiveFormSubmit(url,pageNum){
+	location.href = url;
+}
