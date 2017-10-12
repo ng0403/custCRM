@@ -27,7 +27,8 @@ $(document).ready(function(){
 
 //상담조회
 function taskSchList(pageNum) {
-   
+	
+   var cust_task_no = $("#cust_task_no").val();
    var task_no_srch    = $("#task_no_srch").val();
    var subject_srch    = $("#subject_srch").val();
    var cust_name_srch  = $("#cust_name_srch").val();
@@ -50,7 +51,8 @@ function taskSchList(pageNum) {
          emp_name_srch     : emp_name_srch,
          next_day_srch     : next_day_srch,
          dtype_cd_srch     : dtype_cd_srch,
-         session 		   : session
+         session 		   : session,
+         cust_task_no 	   : cust_task_no
       },
       dataType:'json',
       success: function(data){
@@ -391,7 +393,7 @@ function leadlist(){
 
 //lead 고객 상담조회
 function custtaskSchList(cust_no,pageNum) {
-	   
+	 
 	   var task_no_srch    = $("#task_no_srch").val();
 	   var subject_srch    = $("#subject_srch").val();
 	   var cust_name_srch  = $("#cust_name_srch").val();

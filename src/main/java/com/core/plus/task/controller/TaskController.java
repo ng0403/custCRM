@@ -126,6 +126,7 @@ public class TaskController {
 			}
 			else
 			{
+				mov.addObject("cust_task_no", cust_task_no);
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
 				menuImport(mov, "cust");
@@ -191,8 +192,8 @@ public class TaskController {
 										  String task_no_srch, String subject_srch, 
 										  String cust_name_srch, String emp_name_srch,
 										  String next_day_srch, String dtype_cd_srch, String excel 
-										, String session) {
-		
+										, String session, String cust_task_no) {
+		System.out.println(cust_task_no + " 1d");
 		ModelAndView mov = new ModelAndView(new MappingJacksonJsonView());
 		JSONArray json = new JSONArray();
 		
@@ -206,7 +207,7 @@ public class TaskController {
 		taskMap.put("next_day_srch", next_day_srch);
 		taskMap.put("dtype_cd_srch", dtype_cd_srch);
 		taskMap.put("my_user_id", session); 
-		
+		taskMap.put("cust_task_no", cust_task_no);
 		// paging
 		PagerVO page = taskService.getTaskListRow(taskMap);
 		taskMap.put("page", page);
