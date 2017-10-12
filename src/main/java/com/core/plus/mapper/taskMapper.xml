@@ -87,9 +87,9 @@
  					  else (phone_area_no) end as phone_no
 			    , case when (user_nm ) is null then ' ' 
 			          else (user_nm) end as emp_no
-			    , t.next_day
+			    , date_format(t.next_day, '%Y-%m-%d') as next_day 
 			    , (select code_name from tb_code where code_no = '1008' and code = t.divis_cd) as dtype_cd
-			    , date_format(t.create_date, '%Y-%m-%d %H:%i') as create_date
+			    , date_format(t.update_date, '%Y-%m-%d %H:%i') as update_date
 			 from tb_task t left join tb_cust c on t.cust_no = c.cust_no 
 			               left join tb_cust_phone p on t.cust_no = p.cust_no
 			               left join tb_user e on t.emp_no = e.user_no
