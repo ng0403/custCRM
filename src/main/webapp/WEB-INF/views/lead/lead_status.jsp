@@ -19,6 +19,15 @@
 <!-- 쿠폰관리 : 쿠폰목록조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
+	
+	<c:if test="${flg == 001 }">
+ 		<div class="titleDIV" id="lead_detail_title">
+		<span class="titleText">
+		    ■ 고객리드 > 진행된 고객리드
+		</span>
+	</div>   
+	</c:if>
+	
  
 	<c:if test="${flg == 002 }">
  		<div class="titleDIV" id="lead_detail_title">

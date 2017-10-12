@@ -25,19 +25,23 @@
 	<div class="titleDIV">
 		<c:if test="${cust_lead_no != null}">
 			<span class="titleText"> ■ 고객 > <a style="cursor: pointer;" onclick="lcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="lcustDetail('${cust_lead_no}');"> 고객 상세정보 </a> > 고객리드이력 </span>
+		
 		</c:if>
 		<c:if test="${cust_lead_no == null}">
-			 
-			<span class="titleText">
+			<c:if test="${url != '/my_lead'}">
+ 				<span class="titleText">
 				 ■ 고객리드 > 고객리드 관리 
-			</span>
-		 
+			</span>  
+		</c:if> 
+			
 		</c:if>
-			<c:if test="${url == '/my_lead'}">
+		
+		  <c:if test="${url == '/my_lead'}">
 			<span class="titleText">
 				 ■ 고객리드 >  내 담당 고객리드 
 			</span>
 		</c:if>
+	
 	</div>
 	<div style="height:10px;"></div>
 	<div class="commonList">
