@@ -48,7 +48,7 @@
  		                 <td style="width: 12%;">
  		                 <div style="float:right">
 		                 	<input type="button" value="조회" id="code_list_srch" onclick="codeSchList(); "    class="tr_btn" >
-		                 	<input type="button" value="검색 초기화" id="code_cancel_srch" onclick="codeCancelList(); " class="tr_btn" >
+		                 	<input type="button" value="검색 초기화" id="code_cancel_srch" onclick="codeCancelList(); " class="func_btn" >
 		                 </div>	
 		                 </td>
 					</tr>
