@@ -84,17 +84,17 @@ public class LeadController {
 		
 		//session 값 체크 후 null값이면 로그인 페이지 이동
 				if (session.getAttribute("user") == null) {
+					System.out.println("session ? " + session);
 					return new ModelAndView("redirect:/");
 				}
-		
-		//url 가져오기
+ 		//url 가져오기
 		  String Url = (String) request.getAttribute(
 			        HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
 		  
 		Map<String, Object> leadMap = new HashMap<String, Object>();
 		leadMap.put("PageNum", PageNum);
 		leadMap.put("cust_lead_no", cust_lead_no);
-		
+	 
 		// paging
 		PagerVO page = leadService.getLeadListRow(leadMap);
 		leadMap.put("page", page); 
@@ -110,6 +110,7 @@ public class LeadController {
 		mov.addObject("cust_lead_no", cust_lead_no);
 		mov.addObject("lead_list", vo);
 		mov.addObject("url", Url);
+		
 		// 재욱
 		if(cust_lead_no == null)
 		{
@@ -119,6 +120,8 @@ public class LeadController {
 		}
 		if(cust_lead_no != null)
 		{
+			
+			mov.addObject("cust_lead_no", cust_lead_no);
 			mov.addObject("main_menu_url", "cust");
 			mov.addObject("sub_menu_url", "cust");
 			menuImport(mov, "cust");
@@ -403,7 +406,7 @@ public class LeadController {
 	public @ResponseBody Map<String, Object> searchKeyword( 
 			@RequestParam(value = "PageNum", defaultValue = "1") int PageNum,
 			String lead_no_srch,
-			String lead_name_srch, String cust_name, String emp_name, String contact_day_srch, String rank_cd, String session) {
+			String lead_name_srch, String cust_name, String emp_name, String contact_day_srch, String rank_cd, String session, String cust_lead_no) {
 	 
  		System.out.println("session ? " + session);
  		String contact_day;
@@ -421,6 +424,7 @@ public class LeadController {
 		kwMap.put("contact_day", contact_day);
 		kwMap.put("rank_cd", rank_cd);
 		kwMap.put("my_user_id", session); 
+		kwMap.put("cust_lead_no", cust_lead_no);
 		// paging
 	  PagerVO page = leadService.getLeadListRow(kwMap);
 	 

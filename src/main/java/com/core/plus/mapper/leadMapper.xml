@@ -58,7 +58,7 @@
                <when test="my_user_id !=null and my_user_id !=''">
                and(em.user_id like concat('%', #{my_user_id}, '%') )
             </when> 
-           </choose>
+           </choose> 
    </select>
    
     <select id="leadStatusListTotalRow" resultType="int">

@@ -18,7 +18,7 @@
 <input type="hidden" id="cust_lead_no" value="${cust_lead_no}">
 <input type="hidden" id="session" value="${session}">
 <input type="hidden" id="url" value="${url}">
-
+<input type="hidden" id="cust_lead_no" value="${cust_lead_no}">
 <!-- 쿠폰관리 : 쿠폰목록조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
