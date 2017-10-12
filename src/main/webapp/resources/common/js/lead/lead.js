@@ -601,7 +601,7 @@ function searchKeyword(a){
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
- 						+"<a onclick=\"searchKeyword("+data.page.PageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"searchKeyword("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
  						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					}
  					$(".pagingDiv").append(pageContent);
@@ -696,7 +696,7 @@ function StatusSearchKeyword(lead_status_cd, b){
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"<a onclick=\"StatusSearchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadStatusPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
- 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+data.page.PageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
  						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					}
  					$(".pagingDiv").append(pageContent);
