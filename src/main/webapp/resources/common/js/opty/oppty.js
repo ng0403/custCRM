@@ -105,8 +105,7 @@ function opptySchList(opptyPageNum)
 	var cust_opty_no 		 = $("#cust_opty_no").val();
 	var opptyData			 = null;
 	
-	console.log(page_type);
-	console.log(hoppty_status_cd);
+	console.log(opptyPageNum);
 
 	if(page_type == 0)		// 전체페이지
 	{
@@ -222,7 +221,8 @@ function opptySchList(opptyPageNum)
 				pageContent = "<input type='hidden' id='opptyPageNum' value='"+data.opptyPageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
 				+"<a onclick=\"opptySchList("+(data.opptyPageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
 				+"<input type='text' id='pageInput' value='"+data.opptyPageNum+"' onkeypress=\"opptyPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
-				+"<a onclick=\"opptySchList("+data.page.opptyPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+				+"<a onclick=\"opptySchList("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+//				+"<a onclick=\"opptySchList("+data.page.opptyPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
 				+"<a onclick=\"opptySchList("+(data.opptyPageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
 			}
 			$(".pagingDiv").append(pageContent);
