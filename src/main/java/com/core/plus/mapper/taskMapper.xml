@@ -245,7 +245,7 @@
       </selectKey>
       insert into tb_task
       (
-          task_no , subject  , cust_no  , emp_no   , next_day  , dtype_cd
+          task_no , subject  , cust_no  , emp_no   , next_day, dtype_cd
         , lead_no , oppty_no , ttype_cd , score_cd , divis_cd, location , remark_cn , del_yn
       )  
       values
@@ -254,7 +254,7 @@
         #{subject},
         #{cust_no},
         #{emp_no},
-        DATE_FORMAT(#{next_day}, '%Y%m%d'),
+        date_format(#{next_day}, '%Y%m%d'), 
         #{dtype_cd},
         #{lead_no},
         #{oppty_no},
@@ -274,7 +274,7 @@
           subject   = #{subject}
         , cust_no   = #{cust_no}
         , emp_no    = #{emp_no}
-        ,   next_day  = DATE_FORMAT(#{next_day}, '%Y%m%d')
+        , next_day  = DATE_FORMAT(#{next_day}, '%Y%m%d')
         , dtype_cd  = #{dtype_cd}
         , lead_no     = #{lead_no}
         , oppty_no  = #{oppty_no}
@@ -366,26 +366,27 @@
 	         FROM tb_task USE INDEX(PRIMARY)
 	    </selectKey>
 		insert into tb_task
-		(
-		    task_no , subject  , cust_no  , emp_no   , next_day  , dtype_cd
-		  , lead_no , oppty_no , score_cd , ttype_cd, divis_cd, location , remark_cn
-		)  
-		values
-		(
-		  #{task_no},
-		  #{subject},
-		  #{cust_no},
-		  #{emp_no},
-		  DATE_FORMAT(#{next_day}, '%Y%m%d'),
-		  #{dtype_cd},
-		  #{lead_no},
-		  #{oppty_no},
-		  #{score_cd},
-		  #{ttype_cd},
-       	  #{divis_cd},
-		  #{location},
-		  #{remark_cn}
-		) 
+      (
+          task_no , subject  , cust_no  , emp_no   , next_day, dtype_cd
+        , lead_no , oppty_no , ttype_cd , score_cd , divis_cd, location , remark_cn , del_yn
+      )  
+      values
+      (
+        #{task_no},
+        #{subject},
+        #{cust_no},
+        #{emp_no},
+        date_format(#{next_day}, '%Y%m%d'), 
+        #{dtype_cd},
+        #{lead_no},
+        #{oppty_no},
+        #{ttype_cd},
+        #{score_cd},
+        #{divis_cd},
+        #{location},
+        #{remark_cn},
+        'N'
+      ) 
 	</insert>
    
 

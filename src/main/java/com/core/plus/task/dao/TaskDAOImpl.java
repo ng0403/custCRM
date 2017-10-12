@@ -258,19 +258,20 @@ public class TaskDAOImpl implements TaskDAO {
 			String subject  = null;
 			String cust_no  = null;
 			String emp_no   = null;
-			String lead_no  = null;
-			String oppty_no = null;
-			String location = null;
 			String next_day = null;
 			String dtype_cd = null;
+			String lead_no  = null;
+			String oppty_no = null;
+			String ttype_cd = null;
 			String score_cd = null;
+			String divis_cd = null;
+			String location = null;
 			String remark_cn = null;
 			
 			int rows = sheet.getPhysicalNumberOfRows();
 			
 			for(int i=1; i<rows; i++) {
 				row = sheet.getRow(i);
-				
 //				cell = row.getCell(0);
 //				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 //				{
@@ -286,45 +287,64 @@ public class TaskDAOImpl implements TaskDAO {
 				{
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 					cust_no = cell.getStringCellValue();
+					
+				} else {
+					cust_no = cell.getStringCellValue().trim();
 				}
 				
 				cell = row.getCell(2);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					cell.setCellType(Cell.CELL_TYPE_STRING);
-					lead_no = cell.getStringCellValue();
+					emp_no = cell.getStringCellValue();
 				}
-				
 				
 				cell = row.getCell(3);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
-					cell.setCellType(Cell.CELL_TYPE_STRING);
-					oppty_no = cell.getStringCellValue();
+					int tmp = (int) cell.getNumericCellValue();
+					next_day = String.valueOf(tmp);
+				} 
+				else 
+				{
+					next_day = cell.getStringCellValue().trim();
 				}
 				
 				cell = row.getCell(4);
-				location = cell.getStringCellValue();
+				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+				{
+					int tmp = (int) cell.getNumericCellValue();
+					dtype_cd = String.format("%03d", tmp);
+				} else {
+					dtype_cd = cell.getStringCellValue().trim();
+				}
+				
 				
 				cell = row.getCell(5);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
-					int tmp = (int) cell.getNumericCellValue();
-					next_day = String.valueOf(tmp);
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+					lead_no = cell.getStringCellValue();
+				} else {
+					lead_no = cell.getStringCellValue().trim();
 				}
 				
 				cell = row.getCell(6);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					cell.setCellType(Cell.CELL_TYPE_STRING);
-					emp_no = cell.getStringCellValue();
+					oppty_no = cell.getStringCellValue();
+				} else {
+					oppty_no = cell.getStringCellValue().trim();
 				}
 				
 				cell = row.getCell(7);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
-					int tmp = (int) cell.getNumericCellValue();
-					dtype_cd = String.format("%03d", tmp);
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+					ttype_cd = cell.getStringCellValue();
+				} else {
+					ttype_cd = cell.getStringCellValue().trim();
 				}
 				
 				cell = row.getCell(8);
@@ -332,22 +352,38 @@ public class TaskDAOImpl implements TaskDAO {
 				{
 					int tmp = (int) cell.getNumericCellValue();
 					score_cd = String.format("%03d", tmp);
+				} else {
+					score_cd = cell.getStringCellValue().trim();
 				}
 				
 				cell = row.getCell(9);
+				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
+				{
+					int tmp = (int) cell.getNumericCellValue();
+					divis_cd = String.format("%03d", tmp);
+				} else {
+					divis_cd = cell.getStringCellValue().trim();
+				}
+				
+				cell = row.getCell(10);
+				location = cell.getStringCellValue();
+				
+				cell = row.getCell(11);
 				remark_cn = cell.getStringCellValue();
 				
 				TaskVO taskVo = new TaskVO();
 //				taskVo.setTask_no(task_no);
 				taskVo.setSubject(subject);
 				taskVo.setCust_no(cust_no);
-				taskVo.setLead_no(lead_no);;
-				taskVo.setOppty_no(oppty_no);
 				taskVo.setEmp_no(emp_no);
-				taskVo.setLocation(location);
 				taskVo.setNext_day(next_day);
 				taskVo.setDtype_cd(dtype_cd);
+				taskVo.setLead_no(lead_no);;
+				taskVo.setOppty_no(oppty_no);
+				taskVo.setTtype_cd(ttype_cd);
 				taskVo.setScore_cd(score_cd);
+				taskVo.setDivis_cd(divis_cd);
+				taskVo.setLocation(location);
 				taskVo.setRemark_cn(remark_cn);
 				
 				

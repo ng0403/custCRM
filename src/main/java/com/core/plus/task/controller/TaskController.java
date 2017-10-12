@@ -193,7 +193,6 @@ public class TaskController {
 										  String cust_name_srch, String emp_name_srch,
 										  String next_day_srch, String dtype_cd_srch, String excel 
 										, String session, String cust_task_no) {
-		System.out.println(cust_task_no + " 1d");
 		ModelAndView mov = new ModelAndView(new MappingJacksonJsonView());
 		JSONArray json = new JSONArray();
 		

@@ -88,12 +88,12 @@
 		<c:if test="${fn:length(taskExcelExport) == 0}" >
 			<tr style="cursor: default; background-color: white;">
 				<td class="body"></td>
+				<td class="body" id="no"></td>
+				<td class="body" id="no"></td>
 				<td class="body"></td>
 				<td class="body"></td>
-				<td class="body"></td>
-				<td class="body"></td>
-				<td class="body"></td>
-				<td class="body"></td>
+				<td class="body" id="no"></td>
+				<td class="body" id="no"></td>
 				<td class="body"></td>
 				<td class="body"></td>
 				<td class="body"></td>
