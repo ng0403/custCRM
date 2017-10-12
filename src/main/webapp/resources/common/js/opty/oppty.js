@@ -102,6 +102,7 @@ function opptySchList(opptyPageNum)
 	var hoppty_status_cd 	 = $("#hoppty_status_cd").val();
 	var session 			 = $("#session").val();
 	var page_type 			 = $("#page_type").val();
+	var cust_opty_no 		 = $("#cust_opty_no").val();
 	var opptyData			 = null;
 	
 	console.log(page_type);
@@ -119,7 +120,8 @@ function opptySchList(opptyPageNum)
 					 	 exp_close_dt_srch 	 : exp_close_dt_srch,
 					 	 dtype_cd_srch		 : dtype_cd_srch,
 					 	 purchase_type_srch	 : purchase_type_srch,
-					 	 hoppty_status_cd	 : hoppty_status_cd
+					 	 hoppty_status_cd	 : hoppty_status_cd,
+					 	 cust_opty_no		 : cust_opty_no
 						};
 		
 	}
@@ -152,6 +154,7 @@ function opptySchList(opptyPageNum)
 			 	 	 dtype_cd_srch		 : dtype_cd_srch,
 			 	 	 purchase_type_srch	 : purchase_type_srch,
 			 	 	 hoppty_status_cd	 : hoppty_status_cd,
+			 	 	 cust_opty_no		 : cust_opty_no
 					};
 	}
 	

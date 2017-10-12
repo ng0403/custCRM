@@ -98,6 +98,7 @@ public class OpptyController {
 		
 		mov.addObject("page", page);
 		mov.addObject("opptyPageNum", opptyPageNum);
+		mov.addObject("cust_opty_no", cust_opty_no);
 		mov.addObject("opptyList", vo);
 		mov.addObject("opptyStatusCd", status);
 		mov.addObject("opptyStageCd", stage);
@@ -306,7 +307,7 @@ public class OpptyController {
 	public @ResponseBody Map<String, Object> opptSchList(
 												  @RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum,
 												  String oppty_no_srch, String oppty_name_srch, 
-												  String cust_name_srch, String emp_name_srch,
+												  String cust_name_srch, String emp_name_srch, String cust_opty_no,
 												  String oppty_status_cd_srch, String oppty_stage_cd_srch, String hoppty_status_cd,
 												  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String session)
 	{
@@ -317,6 +318,7 @@ public class OpptyController {
 		
 		kMap.put("opptyPageNum", opptyPageNum);
 		kMap.put("oppty_no_srch", oppty_no_srch);
+		kMap.put("cust_opty_no", cust_opty_no);
 		kMap.put("oppty_name_srch", oppty_name_srch);
 		kMap.put("cust_name_srch", cust_name_srch);
 		kMap.put("emp_name_srch", emp_name_srch);
@@ -607,8 +609,14 @@ public class OpptyController {
 	@RequestMapping(value="custListAjax", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> custListPopup(@RequestParam(value = "custPopupPageNum", defaultValue = "1") int custPopupPageNum, String s_cust_name)
 	{
+		System.out.println("s_cust_name : " + s_cust_name);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("custPopupPageNum", custPopupPageNum);
+		
+		if(s_cust_name != null)
+		{
+			map.put("s_cust_name", s_cust_name);
+		}
 		
 		// paging
 		PagerVO page = opptyService.getCustPopupRow(map);

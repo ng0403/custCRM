@@ -160,6 +160,9 @@ function empSchPopupOpen()
 //Popup 닫기
 function popupClose()
 {
+	console.log("AAA");
+	$("#s_cust_name").val("");
+	$("#s_emp_name").val("");
 	$.unblockUI();
 }
 
@@ -204,6 +207,7 @@ function viewCustList(custPopupPageNum)
 						setTimeout($.unblockUI, 0);
 						$("#cust_no").val(cust_no);
 						$("#cust_name").val(cust_name);
+						$("#s_cust_name").val("");
 					});
 					
 					addMouseEvent(trElement);
@@ -304,7 +308,7 @@ function viewEmpList(empPopupPageNum) {
 			
 			$("#empListTbody").empty();
 			$("#s_emp_name").bind("keypress", function(event) {
-				enterSearch(event);
+				EmpPopEnterSearch(event);
 			});
 			
 			if (data.empPopupList.length == 0) {
@@ -322,6 +326,7 @@ function viewEmpList(empPopupPageNum) {
 						setTimeout($.unblockUI, 0);
 						$("#emp_no").val(emp_no);
 						$("#emp_name").val(emp_name);
+						$("#s_emp_name").val("");
 					});
 					
 					addMouseEvent(trElement);
@@ -635,7 +640,21 @@ function opptyDel()
 	});
 }
 
+function enterSearch(event) {
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+	if (keycode == '13') {
+		viewCustList(1);
+	}
+	event.stopPropagation();
+}
 
+function EmpPopEnterSearch(event) {
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+	if (keycode == '13') {
+		viewEmpList(1);
+	}
+	event.stopPropagation();
+}
 
 
 

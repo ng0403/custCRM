@@ -10,6 +10,9 @@
 		<if test="oppty_no_srch != null and oppty_no_srch != ''">
 			AND (oppty_no like concat('%', #{oppty_no_srch}, '%'))
 		</if>
+		<if test="cust_opty_no != null and cust_opty_no != ''">
+			AND (cust_no like concat('%', #{cust_opty_no}, '%'))
+		</if>
 		<if test="oppty_name_srch != null and oppty_name_srch != ''">
 			AND (oppty_name like concat('%', #{oppty_name_srch}, '%'))
 		</if>

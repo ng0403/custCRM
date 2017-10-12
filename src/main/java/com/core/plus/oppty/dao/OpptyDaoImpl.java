@@ -352,7 +352,7 @@ public class OpptyDaoImpl implements OpptyDao {
 	@Override
 	public int opptyUploadExcel(MultipartFile excelFile) {
 		// TODO Auto-generated method stub
-		System.out.println("Excel Upload Dao");
+		System.out.println("Oppty Excel Upload Dao");
 		int result = 0;
 		
 		try {
@@ -384,7 +384,7 @@ public class OpptyDaoImpl implements OpptyDao {
 				cell = row.getCell(0);
 				oppty_name = cell.getStringCellValue().trim();
 				
-				System.out.println("oppty_name");
+				System.out.println("oppty_name : " + oppty_name );
 
 				cell = row.getCell(1);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
@@ -417,6 +417,15 @@ public class OpptyDaoImpl implements OpptyDao {
 				{
 					int tmp = (int) cell.getNumericCellValue();
 					oppty_status_cd = String.format("%03d", tmp);
+					
+					System.out.println("excel dao - tmp : " + tmp);
+					System.out.println("excel dao - oppty_status_cd : " + oppty_status_cd);
+				}
+				else
+				{
+					oppty_status_cd = cell.getStringCellValue().trim();
+					System.out.println("excel dao - oppty_status_cd : " + cell.toString());
+					System.out.println("excel dao - oppty_status_cd : " + oppty_status_cd);
 				}
 				
 				cell = row.getCell(4);
@@ -425,11 +434,19 @@ public class OpptyDaoImpl implements OpptyDao {
 					int tmp = (int) cell.getNumericCellValue();
 					oppty_stage_cd = String.format("%03d", tmp);
 				}
+				else
+				{
+					oppty_stage_cd = cell.getStringCellValue().trim();
+				}
 				
 				cell = row.getCell(5);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					score = (int) cell.getNumericCellValue();
+				}
+				else
+				{
+					System.out.println("score : " + score);
 				}
 				
 				cell = row.getCell(6);
@@ -445,6 +462,10 @@ public class OpptyDaoImpl implements OpptyDao {
 					int tmp = (int) cell.getNumericCellValue();
 					dtype_cd = String.format("%03d", tmp);
 				}
+				else
+				{
+					dtype_cd = cell.getStringCellValue().trim();
+				}
 				
 				cell = row.getCell(8);
 				sur_plan_cn = cell.getStringCellValue();
@@ -455,6 +476,10 @@ public class OpptyDaoImpl implements OpptyDao {
 					int tmp = (int) cell.getNumericCellValue();
 					purchase_type = String.format("%03d", tmp);
 				}
+				else
+				{
+					purchase_type = cell.getStringCellValue().trim();
+				}
 				
 				cell = row.getCell(10);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
@@ -462,12 +487,20 @@ public class OpptyDaoImpl implements OpptyDao {
 					int tmp = (int) cell.getNumericCellValue();
 					payment_cd = String.format("%03d", tmp);
 				}
+				else
+				{
+					payment_cd = cell.getStringCellValue().trim();
+				}
 				
 				cell = row.getCell(11);
 				if(cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC)
 				{
 					int tmp = (int) cell.getNumericCellValue();
 					rec_per_cd = String.format("%03d", tmp);
+				}
+				else
+				{
+					rec_per_cd = cell.getStringCellValue().trim();
 				}
 				
 				cell = row.getCell(12);
