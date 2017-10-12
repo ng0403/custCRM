@@ -313,7 +313,7 @@
 				<c:if test="${flg == 1 }">
 					<div id="cust_single_add_div">
 						<input type="button" class="tr_btn" id="task_single_add" value="저장" onclick="task_add_save();"> 
-						<input type="button" class="tr_btn" id="task_single_del" value="초기화" onclick="task_reset();">
+						<input type="button" class="func_btn" id="task_single_del" value="초기화" onclick="task_reset();">
 							<c:if test="${lead_no == null}">
 						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						
 						    </c:if>

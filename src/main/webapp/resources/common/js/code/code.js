@@ -168,7 +168,7 @@ function codeSchList(pageNum) {
 	            pageContent = "<input type='hidden' id='codePageNum' value='"+data.codePageNum+"'/><input type='hidden' id='codeEndPageNum' value='"+data.page.endPageNum+"'/>"
 	            +"<a onclick=\"codeSchList("+(data.codePageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
 	            +"<input type='text' id='pageInput' value='"+data.codePageNum+"' onkeypress=\"codePageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
-	            +"<a onclick=\"codeSchList("+data.page.codePageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+	            +"<a onclick=\"codeSchList("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
 	            +"<a onclick=\"codeSchList("+(data.codePageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
 	         }
 	         $(".pagingDiv").append(pageContent);
