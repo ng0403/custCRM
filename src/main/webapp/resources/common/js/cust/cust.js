@@ -1030,9 +1030,10 @@ function download_list_Excel(formID, flg)
 // 재욱
 function cust_opty_btn(cust_no)
 {
-	console.log(cust_no);
+	var page_type = $("#page_type").val();
+	console.log(page_type);
 	
-	location.href = "/oppty?cust_opty_no=" + cust_no;
+	location.href = "/oppty?cust_opty_no=" + cust_no + "&page_type=" + page_type;
 }
 
 function cust_lead_btn(cust_no)

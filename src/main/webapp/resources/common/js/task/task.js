@@ -163,14 +163,27 @@ function task_add(){
 		display:false,
 		style:'background-color:white'
 	});
+	var cust_task_no = $("#cust_task_no").val();
+	console.log(cust_task_no);
 	
-	location.href="/task_detail?task_no="
+	location.href="/task_detail?task_no=" +"&cust_task_no=" + cust_task_no;
 }
 
 //상담 상세정보
 function taskDetail(a, PageNum, lead_no, cust_no) {
-  var no = a; 
-  location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no; 
+	var no = a;
+	var cust_task_no = $("#cust_task_no").val();
+  	
+	console.log(cust_task_no);
+  	
+	if(cust_task_no != null)
+	{
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no; 
+	}
+	else
+	{
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no; 
+	}
 }
 
 //고객 상담 이력 돌아가기.
@@ -487,11 +500,12 @@ function tcustList(pageNum)
 function tcustDetail(cust_no)
 {
 	console.log(cust_no);
-	location.href = ctx + '/custForm?cust_no=' + cust_no;
+	location.href = ctx + '/custForm?cust_no=' + cust_no + "&page_type=" + 0;
 }
 
 function custTaskList(cust_no)
 {
+	console.log(cust_no);
 	location.href = ctx + "/task?cust_task_no=" + cust_no;
 }
 

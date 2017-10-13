@@ -38,64 +38,67 @@
 	</div>
 	<div style="height:10px;"></div>
 	<div class="commonList">
-	    <form name="taskListForm" id="taskListForm" method="post" action="${ctx}/couponManager" >
-		 	<div id="searchDiv">
-	        	<table id="cupnSearchTable" class="commonTable">
-					<tr style="background-color: white; cursor:default; border:0;">
-						 <th style="width:5%;">상담번호</th>
-						 <td style="width:15%;">
-						    <input type="text" id="task_no_srch" name="task_no_srch" value="" style="width:80%" onkeypress="taskenterSearch(event);">
-						 </td> 
-						 <th style="width:5%;">제목</th>
-						 <td style="width:15%;">
-						    <input type="text" id="subject_srch" name="subject_srch" value="" style="width:80%" onkeypress="taskenterSearch(event);">
-						 </td>
-						  <th style="width:5%;">고객명</th>
-						 <td style="width:15%;">
-						    <input type="text" id="cust_name_srch" name="cust_name_srch" value="" style="width:80%" onkeypress="taskenterSearch(event);">
-						 </td>
-					  
- 		                 <td style="width: 12%;">
- 		                 <div style="float:right">
-		                 	<input type="button" value="조회" id="task_list_srch" onclick="taskSchList(); "    class="tr_btn" >
-		                 	<input type="button" value="검색 초기화" id="task_cancel_srch" onclick="taskCancelList(); " class="func_btn" >
-		                 </div>	
-		                 </td>
-					</tr>
-					
-					<tr>
-						 <th style="width:5%;">담당자명</th>
-						 <td style="width:15%;">
-						    <input type="text" id="emp_name_srch" name="emp_name_srch" value="" style="width:80%" onkeypress="taskenterSearch(event);">
-						 </td>
-					
-						 <th style="width:5%;">다음일자</th>
-						 <td style="width:15%;">
-<!-- 							<input type="text" id="next_day" name="next_day" value=""  style="width : 80%;" onkeypress="cupnEnterSearch(event);"> -->
- 							<input type="text" name="next_day_srch" id="next_day_srch" value="" class="expt_fin_d" 
-							 		readonly="readonly" style="width : 80%; text-align: center; cursor: pointer;" placeholder="다음일자" >
- 						 </td>
-						 
-						  <th style="width:5%;">분류</th>
-						 <td style="width:15%;">
-						    <select id="dtype_cd_srch" name="dtype_cd_srch" 
-										style="margin-left: 0; width: 83%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
-								<option value="">선택해 주십시오</option>
-								<c:forEach var="dtypeCd" items="${ dtypeCd }">
-<%-- 									<c:if test= "${ dtypeCd.code eq taskList.dtype_cd }"> --%>
-<%-- 										<option value="${ dtypeCd.code }">${ dtypeCd.code_name }</option> --%>
-<%-- 									</c:if> --%>
-<%-- 									<c:if test= "${ dtypeCd.code ne taskList.dtype_cd }"> --%>
-										<option value="${ dtypeCd.code }">${ dtypeCd.code_name }</option>
-<%-- 									</c:if> --%>
-								</c:forEach>
-							</select>
-						 </td>
-					
-					</tr>
-				</table>
-			</div>
-		</form>
+	
+		<c:if test="${ cust_task_no == null }">
+		    <form name="taskListForm" id="taskListForm" method="post" action="${ctx}/couponManager" >
+			 	<div id="searchDiv">
+		        	<table id="cupnSearchTable" class="commonTable">
+						<tr style="background-color: white; cursor:default; border:0;">
+							 <th style="width:5%;">상담번호</th>
+							 <td style="width:15%;">
+							    <input type="text" id="task_no_srch" name="task_no_srch" value="" style="width:80%" onkeypress="taskenterSearch(event);">
+							 </td> 
+							 <th style="width:5%;">제목</th>
+							 <td style="width:15%;">
+							    <input type="text" id="subject_srch" name="subject_srch" value="" style="width:80%" onkeypress="taskenterSearch(event);">
+							 </td>
+							  <th style="width:5%;">고객명</th>
+							 <td style="width:15%;">
+							    <input type="text" id="cust_name_srch" name="cust_name_srch" value="" style="width:80%" onkeypress="taskenterSearch(event);">
+							 </td>
+						  
+	 		                 <td style="width: 12%;">
+	 		                 <div style="float:right">
+			                 	<input type="button" value="조회" id="task_list_srch" onclick="taskSchList(); "    class="tr_btn" >
+			                 	<input type="button" value="검색 초기화" id="task_cancel_srch" onclick="taskCancelList(); " class="func_btn" >
+			                 </div>	
+			                 </td>
+						</tr>
+						
+						<tr>
+							 <th style="width:5%;">담당자명</th>
+							 <td style="width:15%;">
+							    <input type="text" id="emp_name_srch" name="emp_name_srch" value="" style="width:80%" onkeypress="taskenterSearch(event);">
+							 </td>
+						
+							 <th style="width:5%;">다음일자</th>
+							 <td style="width:15%;">
+	<!-- 							<input type="text" id="next_day" name="next_day" value=""  style="width : 80%;" onkeypress="cupnEnterSearch(event);"> -->
+	 							<input type="text" name="next_day_srch" id="next_day_srch" value="" class="expt_fin_d" 
+								 		readonly="readonly" style="width : 80%; text-align: center; cursor: pointer;" placeholder="다음일자" >
+	 						 </td>
+							 
+							  <th style="width:5%;">분류</th>
+							 <td style="width:15%;">
+							    <select id="dtype_cd_srch" name="dtype_cd_srch" 
+											style="margin-left: 0; width: 83%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+									<option value="">선택해 주십시오</option>
+									<c:forEach var="dtypeCd" items="${ dtypeCd }">
+	<%-- 									<c:if test= "${ dtypeCd.code eq taskList.dtype_cd }"> --%>
+	<%-- 										<option value="${ dtypeCd.code }">${ dtypeCd.code_name }</option> --%>
+	<%-- 									</c:if> --%>
+	<%-- 									<c:if test= "${ dtypeCd.code ne taskList.dtype_cd }"> --%>
+											<option value="${ dtypeCd.code }">${ dtypeCd.code_name }</option>
+	<%-- 									</c:if> --%>
+									</c:forEach>
+								</select>
+							 </td>
+						
+						</tr>
+					</table>
+				</div>
+			</form>
+		</c:if>
 		
 		<!-- 엑셀 출력 -->
 		<form id="taskExcelForm" name="taskExcelForm" method="post">
@@ -140,7 +143,8 @@
 			 	<input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿 출력"  onclick="download_list_Excel('taskListForm','1');" >	
 			</c:if>
 			<c:if test="${ cust_task_no != null }">
-			<input type="button" class="func_btn" id="exportBtn"      value="뒤로"  onclick="tcustDetail('${cust_task_no}');" >
+<%-- 				<input type="button" class="func_btn" id="exportBtn"      value="뒤로"  onclick="tcustDetail('${cust_task_no}');" > --%>
+				<input type="button" class="func_btn" id="task_add"       value="단건등록" onclick="task_add();">
 			 	<input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('taskListForm','0');" >
 			 	<input type="button" class="func_btn" id="excel_form_down" value="엑셀템플릿 출력"  onclick="download_list_Excel('taskListForm','1');" >	
 			</c:if>

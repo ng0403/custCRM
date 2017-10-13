@@ -354,11 +354,9 @@ $(document).ready(function(){
 					<input type="button" class="func_btn" id="oppty_list" onclick="opptyList('${opptyPageNum}');" value="취소">
 				</c:if>
 				<c:if test="${ opptyDetail.oppty_no != null }">
-					<c:if test="${ cust_opty_no == null }">
-	 		 			<input type="button" class="func_btn" id="oppty_detail_mdfy" onclick="opptyMody();" value="편집">
-	 		 			<input type="button" class="tr_btn" id="oppty_detail_del" onclick="opptyDel();" value="삭제">
-						<input type="button" class="func_btn" id="oppty_list" onclick="opptyList('${opptyPageNum}');" value="취소">
-					</c:if>
+	 		 		<input type="button" class="func_btn" id="oppty_detail_mdfy" onclick="opptyMody();" value="편집">
+	 		 		<input type="button" class="tr_btn" id="oppty_detail_del" onclick="opptyDel();" value="삭제">
+					<input type="button" class="func_btn" id="oppty_list" onclick="opptyList('${opptyPageNum}');" value="취소">
 					
 				</c:if>
  			</div>

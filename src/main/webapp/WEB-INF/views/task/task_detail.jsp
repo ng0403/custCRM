@@ -22,44 +22,63 @@
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="taskPageNum" value="${taskPageNum}">
 <input type="hidden" id="lead_no" value="${lead_no}">
+<input type="hidden" id="cust_task_no" value="${cust_task_no}">
+
  <!-- 상담 -->
 <div id="task_detail">
 	<div style="height: 10px;"></div>
 	<c:if test="${lead_no != null}"> 
-	<div class="titleDIV">
+		<div class="titleDIV">
 			<span class="titleText">■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> >
 			<a onclick="lead_counsel_read('${cust_no}', '${PageNum}');"> 고객상담 이력 </a> >
 			<span id="task_form_title">고객상담 상세정보 </span>
 			</span>
 		</div> 
 	</c:if>
-   <c:if test="${lead_no == null}">
-	<c:if test="${flg == 2 }">
-		<div class="titleDIV">
-			<span class="titleText"> ■ 상담 > <a style="cursor: pointer;"
-				onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담
-					상세정보</span>
-			</span>
-		</div>
-	</c:if>
+   <c:if test="${lead_no == null} && ${cust_task_no == null}">
+		<c:if test="${flg == 2 }">
+			<div class="titleDIV">
+				<span class="titleText"> ■ 상담 > <a style="cursor: pointer;"
+					onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담
+						상세정보</span>
+				</span>
+			</div>
+		</c:if>
 
-	<c:if test="${flg == 1 }">
-		<div class="titleDIV">
-			<span class="titleText"> ■ 상담 > <a style="cursor: pointer;"
-				onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담
-					추가</span>
-			</span>
-		</div>
-	</c:if>
+		<c:if test="${flg == 1 }">
+			<div class="titleDIV">
+				<span class="titleText"> ■ 상담 > <a style="cursor: pointer;"
+					onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담
+						추가</span>
+				</span>
+			</div>
+		</c:if>
 	
-	<c:if test="${flg == 3 }">
-		<div class="titleDIV">
+		<c:if test="${flg == 3 }">
+			<div class="titleDIV">
+				<span class="titleText"> 
+					■ 가망고객 > <a style="cursor: pointer;" onclick="leadlist();"> 가망고객관리</a> > <span id="coupon_form_title">가망고객 상세정보</span> > 고객상담 이력 > 고객 상담 상세정보
+				</span>
+			</div>
+		</c:if>
+	</c:if>
+	<c:if test="${cust_task_no != null }">
+		<c:if test="${flg != 1 }">
+			<div class="titleDIV">
 			<span class="titleText"> 
-				■ 가망고객 > <a style="cursor: pointer;" onclick="leadlist();"> 가망고객관리</a> > <span id="coupon_form_title">가망고객 상세정보</span> > 고객상담 이력 > 고객 상담 상세정보
+				■ 고객 > <a style="cursor: pointer;" onclick="tcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="tcustDetail('${cust_task_no}');"> 고객 상세정보 </a> > <a style="cursor: pointer;" onclick="custTaskList('${cust_task_no}');"> 상담이력 </a> > 상담이력 상세정보
 			</span>
 		</div>
+		</c:if>
+		<c:if test="${flg == 1 }">
+			<div class="titleDIV">
+				<span class="titleText"> 
+				■ 고객 > <a style="cursor: pointer;" onclick="tcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="tcustDetail('${cust_task_no}');"> 고객 상세정보 </a> > <a style="cursor: pointer;" onclick="custTaskList('${cust_task_no}');"> 상담이력 </a> > 상담
+						추가</span>
+			</div>
+		</c:if>
 	</c:if>
- </c:if>
+ 
 	<%-- 	<c:if test="${flg == 2}"> --%>
 	<!--  		<div class="titleDIV"> -->
 	<!-- 			<span class="titleText"> -->

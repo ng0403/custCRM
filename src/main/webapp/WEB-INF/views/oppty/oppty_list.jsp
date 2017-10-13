@@ -70,96 +70,98 @@
 <%-- 			<input type="hidden" name="active_flg_srch" value="${cupnListMap.active_flg_srch}"> --%>
 <%-- 			<input type="hidden" name="brand_wid" value="${cupnListMap.brand_wid}"> --%>
 		</form>
-	    <form name="opptyListForm" id="opptyListForm" method="post" action="${ctx}/couponManager" >
-		 	<div id="searchDiv">
-	        	<table id="cupnSearchTable" class="commonTable">
-					<tr style="background-color: white; cursor:default; border:0;">
-						 <th style="width:5%;">기회번호</th>
-						 <td style="width:15%;">
-						    <input type="text" id="oppty_no_srch" name="oppty_no_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
-						 </td>
-						 
-						 <th style="width:5%;">기회명</th>
-						 <td style="width:15%;">
-						    <input type="text" id="oppty_name_srch" name="oppty_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
-						 </td>
-						 
-						 <th style="width:5%;">고객명</th>
-						 <td style="width:15%;">
-						    <input type="text" id="cust_name_srch" name="cust_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
-						 </td>
-						 
-						 <td style="width: 12%;">
-							 <div style="float: right;">
-								<input type="button" value="조회" id="oppty_list_sch"  onclick="opptySchList(1);"	class="tr_btn" style="margin-left: 0;"> <!-- pageing 시 매개변수 1을 전달한다. -->
-								<input type="button" value="검색 초기화" id="oppty_list_sch_reset"  onclick="opptySchReset();"	class="tr_btn" style="margin-left: 0;"> <!-- pageing 시 매개변수 1을 전달한다. -->
-							 </div>
-						</td>
-					</tr>
-					<tr style="background-color: white; cursor:default; border:0;">
-						<c:if test="${ pageType != '1' }">
-							<th style="width:5%;">담당자명</th>
-							<td style="width:15%;">
-							    <input type="text" id="emp_name_srch" name="emp_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
-							</td >
-						</c:if>
-						
-						<c:if test="${ hoppty_status_cd == null }">
-							<th style="width:5%;">기회상태</th>
+		<c:if test="${ cust_opty_no == null }">
+		    <form name="opptyListForm" id="opptyListForm" method="post" action="${ctx}/couponManager" >
+			 	<div id="searchDiv">
+		        	<table id="cupnSearchTable" class="commonTable">
+						<tr style="background-color: white; cursor:default; border:0;">
+							 <th style="width:5%;">기회번호</th>
+							 <td style="width:15%;">
+							    <input type="text" id="oppty_no_srch" name="oppty_no_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
+							 </td>
+							 
+							 <th style="width:5%;">기회명</th>
+							 <td style="width:15%;">
+							    <input type="text" id="oppty_name_srch" name="oppty_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
+							 </td>
+							 
+							 <th style="width:5%;">고객명</th>
+							 <td style="width:15%;">
+							    <input type="text" id="cust_name_srch" name="cust_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
+							 </td>
+							 
+							 <td style="width: 12%;">
+								 <div style="float: right;">
+									<input type="button" value="조회" id="oppty_list_sch"  onclick="opptySchList(1);"	class="tr_btn" style="margin-left: 0;"> <!-- pageing 시 매개변수 1을 전달한다. -->
+									<input type="button" value="검색 초기화" id="oppty_list_sch_reset"  onclick="opptySchReset();"	class="tr_btn" style="margin-left: 0;"> <!-- pageing 시 매개변수 1을 전달한다. -->
+								 </div>
+							</td>
+						</tr>
+						<tr style="background-color: white; cursor:default; border:0;">
+							<c:if test="${ pageType != '1' }">
+								<th style="width:5%;">담당자명</th>
+								<td style="width:15%;">
+								    <input type="text" id="emp_name_srch" name="emp_name_srch" value="" style="width:80%" onkeypress="opptyEnterSearch(event);">
+								</td >
+							</c:if>
+							
+							<c:if test="${ hoppty_status_cd == null }">
+								<th style="width:5%;">기회상태</th>
+								<td>
+									<select id="oppty_status_cd_srch" name="oppty_status_cd_srch" 
+											style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+										<option value="">선택해 주십시오</option>
+										<c:forEach var="status" items="${ opptyStatusCd }">
+											<option value="${ status.code }">${ status.code_name }</option>
+										</c:forEach>
+									</select>
+								</td>
+							</c:if>
+							
+							<th style="width:5%;">기회단계</th>
 							<td>
-								<select id="oppty_status_cd_srch" name="oppty_status_cd_srch" 
+								<select id="oppty_stage_cd_srch" name="oppty_stage_cd_srch" 
 										style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
 									<option value="">선택해 주십시오</option>
-									<c:forEach var="status" items="${ opptyStatusCd }">
-										<option value="${ status.code }">${ status.code_name }</option>
+									<c:forEach var="stage" items="${ opptyStageCd }">
+										<option value="${ stage.code }">${ stage.code_name }</option>
 									</c:forEach>
 								</select>
 							</td>
-						</c:if>
-						
-						<th style="width:5%;">기회단계</th>
-						<td>
-							<select id="oppty_stage_cd_srch" name="oppty_stage_cd_srch" 
-									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
-								<option value="">선택해 주십시오</option>
-								<c:forEach var="stage" items="${ opptyStageCd }">
-									<option value="${ stage.code }">${ stage.code_name }</option>
-								</c:forEach>
-							</select>
-						</td>
-					</tr>
-					<tr style="background-color: white; cursor:default; border:0;">
-						<th style="width: 5%;">예상종료일자</th>
-						<td style="width:25%;">
-							<input type="text" name="exp_close_dt_srch" id="exp_close_dt_srch" value="" class="expt_fin_d" placeholder="예상종료일자"
-							 	   readonly="readonly" style="width : 35%; text-align: center; cursor: pointer;">
-						 </td>
-						 
-						<th style="width: 5%;">분류</th>
-						<td style="width: 15%;">
-							<select id="dtype_cd_srch" name="dtype_cd_srch" 
-									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
-								<option value="">선택해 주십시오</option>
-								<c:forEach var="dtype" items="${ dtypeCd }">
-									<option value="${ dtype.code }">${ dtype.code_name }</option>
-								</c:forEach>
-							</select>
-						</td>
-						
-						<th style="width: 5%;">구매형태</th>
-						<td style="width: 15%;">
-							<select id="purchase_type_srch" name="purchase_type_srch" 
-									style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
-								<option value="">선택해 주십시오</option>
-								<c:forEach var="purchase_type" items="${ purchaseType }">
-									<option value="${ purchase_type.code }">${ purchase_type.code_name }</option>
-								</c:forEach>
-							</select>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</form>
+						</tr>
+						<tr style="background-color: white; cursor:default; border:0;">
+							<th style="width: 5%;">예상종료일자</th>
+							<td style="width:25%;">
+								<input type="text" name="exp_close_dt_srch" id="exp_close_dt_srch" value="" class="expt_fin_d" placeholder="예상종료일자"
+								 	   readonly="readonly" style="width : 35%; text-align: center; cursor: pointer;">
+							 </td>
+							 
+							<th style="width: 5%;">분류</th>
+							<td style="width: 15%;">
+								<select id="dtype_cd_srch" name="dtype_cd_srch" 
+										style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+									<option value="">선택해 주십시오</option>
+									<c:forEach var="dtype" items="${ dtypeCd }">
+										<option value="${ dtype.code }">${ dtype.code_name }</option>
+									</c:forEach>
+								</select>
+							</td>
+							
+							<th style="width: 5%;">구매형태</th>
+							<td style="width: 15%;">
+								<select id="purchase_type_srch" name="purchase_type_srch" 
+										style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
+									<option value="">선택해 주십시오</option>
+									<c:forEach var="purchase_type" items="${ purchaseType }">
+										<option value="${ purchase_type.code }">${ purchase_type.code_name }</option>
+									</c:forEach>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+		</c:if>
 		
 		
 		<!-- 엑셀 출력 -->

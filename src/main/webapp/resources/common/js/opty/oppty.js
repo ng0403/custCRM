@@ -16,7 +16,7 @@ function ocustList(custPageNum)
 
 function ocustDetail(custNo)
 {
-	location.href = ctx + '/custForm?cust_no=' + custNo;
+	location.href = ctx + '/custForm?cust_no=' + custNo + "&page_type=" + 0;
 }
 
 // 검색 조건 초기화

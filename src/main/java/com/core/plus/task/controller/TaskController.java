@@ -319,8 +319,21 @@ public class TaskController {
 	// 상세보기 및 단건등록화면
 	@RequestMapping(value="task_detail")
 	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-									String task_no, String flg, String lead_no, String cust_no, String PageNum) {
-
+									String task_no, String flg, String lead_no, String cust_no, String PageNum, String cust_task_no) 
+	{
+		System.out.println("cust_task_no = " + cust_task_no);
+		System.out.println("cust_no = " + cust_no);
+		System.out.println("lead_no = " + lead_no);
+		
+		if(lead_no == null)
+		{
+			lead_no = "undefined";
+		}
+		if(cust_task_no.equals(""))
+		{
+			cust_task_no = null;
+		}
+		
 		if(task_no == null || task_no == "")	// 단건등록 시
 		{
 			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
@@ -339,9 +352,20 @@ public class TaskController {
 			mov.addObject("divisCd", divisCd);
 			mov.addObject("flg", "1");
 			mov.addObject("taskPageNum", taskPageNum);
-			mov.addObject("main_menu_url", "task");
-			mov.addObject("sub_menu_url", "task");
-			menuImport(mov, "task");
+			
+			if(cust_task_no != null)
+			{
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				mov.addObject("cust_task_no", cust_task_no);
+				menuImport(mov, "cust");
+			}
+			else
+			{
+				mov.addObject("main_menu_url", "task");
+				mov.addObject("sub_menu_url", "task");
+				menuImport(mov, "task");
+			}
 			
 			return mov;
 		}
@@ -355,7 +379,6 @@ public class TaskController {
 			
 			ModelAndView mov = new ModelAndView("task_detail");
 			
-			//
 			if(lead_no.equals("undefined"))
 			{
 				mov.addObject("main_menu_url", "task"); 
@@ -370,6 +393,21 @@ public class TaskController {
 				mov.addObject("cust_no", cust_no);
 				mov.addObject("PageNum", PageNum); 
 				menuImport(mov, "lead");
+			}
+			
+			if(cust_task_no.equals("undefined"))
+			{
+				mov.addObject("main_menu_url", "task"); 
+				mov.addObject("sub_menu_url", "task");
+				menuImport(mov, "task");
+			}
+			else 
+			{
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				mov.addObject("cust_task_no", cust_task_no);
+				mov.addObject("PageNum", PageNum); 
+				menuImport(mov, "cust");
 			}
 			
 			mov.addObject("taskDetail",  taskService.taskDetail(task_no));

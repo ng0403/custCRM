@@ -57,6 +57,7 @@
 				<td class="header" style="width: 10%;">주민번호</td>
 				<td class="header" style="width: 10%;">차트번호</td>
 				<td class="header" style="width: 10%;">전능고객ID</td>
+				<td class="header" style="width: 10%;">E-Mail</td>
 				<td class="header" style="width: 10%;">내원경로</td>
 				<td class="header" style="width: 10%;">내원경로상세</td>
 				<td class="header" style="width: 10%;">내원경로내용</td>
@@ -86,6 +87,7 @@
 			
 		<c:if test="${fn:length(custExcelExport) == 0}">
 			<tr style="cursor: default; background-color: white;">
+				<td class="body"></td>
 				<td class="body"></td>
 				<td class="body"></td>
 				<td class="body"></td>

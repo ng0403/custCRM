@@ -65,7 +65,7 @@ public class OpptyController {
 	// 처음 list 화면
 	@RequestMapping(value="/oppty")
 	public ModelAndView opptyList(HttpSession session,
-			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd, String cust_opty_no)
+			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd, String cust_opty_no, String page_type)
 	{
 		Map<String, Object> opptyMap = new HashMap<String, Object>();
 		

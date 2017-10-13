@@ -46,8 +46,8 @@
 	<div style="height:10px;"></div>
 	<div class="commonList">
  
+ 	<c:if test="${ cust_lead_no == null }">
 	    <form name="leadListForm" id="leadListForm" method="post" action="${ctx}/couponManager" >
-		 	
 		 	<div id="searchDiv">
 	        	<table id="cupnSearchTable" class="commonTable">
 					<tr style="background-color: white; cursor:default; border:0;">
@@ -93,6 +93,7 @@
 				</table>
 			</div>
 		</form>
+ 	</c:if>
 		<!-- 엑셀 출력 -->
 		<form id="leadExcelForm" name="leadExcelForm" method="post"></form>
 	 	 <table class="commonTable" id="cupnManagerTabl">
