@@ -332,8 +332,9 @@ public class TaskController {
 		}
 		if(cust_task_no.equals(""))
 		{
-			cust_task_no = null;
+			cust_task_no = "undefined";
 		}
+		
 		
 		if(task_no == null || task_no == "")	// 단건등록 시
 		{

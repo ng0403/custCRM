@@ -116,12 +116,12 @@ var vititDtlCdList = new Array();
 	 	 	<thead>
 	 	 		<tr>
  	 	 			<th style="width: 10%;">고객번호</th> 
-	 	 			<th style="width: 8%;">고객명</th>
+	 	 			<th style="width: 11%;">고객명</th>
  	 	 			<th style="width: 8%;">담당자명</th>
 	 	 			<th style="width: 9%;">내원경로</th> 
-	 	 			<th style="width: 10%;">내원경로상세</th>
-	 	 			<th style="width: 10%;">소개자</th>
-	 	 			<th style="width: 10%;">전화번호</th>
+	 	 			<th style="width: 9%;">내원경로상세</th>
+	 	 			<th style="width: 9%;">소개자</th>
+	 	 			<th style="width: 9%;">전화번호</th>
 	 	 			<th style="width: 20%;">주소</th>
 	 	 			<th style="width: 10%;">수정일시</th> 
  	 	 		</tr>

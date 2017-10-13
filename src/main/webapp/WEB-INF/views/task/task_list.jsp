@@ -39,7 +39,7 @@
 	<div style="height:10px;"></div>
 	<div class="commonList">
 	
-		<c:if test="${ pageType == 0 }">
+		<c:if test="${ cust_task_no == null && pageType == 0 }">
 		    <form name="taskListForm" id="taskListForm" method="post" action="${ctx}/couponManager" >
 			 	<div id="searchDiv">
 		        	<table id="cupnSearchTable" class="commonTable">
@@ -105,7 +105,7 @@
 			<table class="commonTable" id="taskManagerTabl">
 		 	 	<thead>
 		 	 		<tr>
-	 	 	 			<th style="width: 10%;">상담k번호</th> 
+	 	 	 			<th style="width: 10%;">상담번호</th> 
 		 	 			<th style="width: 15%;">제목</th>
 	 	 	 			<th style="width: 10%;">고객번호</th>
 		 	 			<th style="width: 9%;">고객명</th> 

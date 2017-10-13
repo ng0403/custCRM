@@ -1049,8 +1049,9 @@ function cust_lead_btn(cust_no)
 function cust_task_btn(cust_no)
 {
 	console.log(cust_no);
+	var pageType = 2;
 	
-	location.href = "/task?cust_task_no=" + cust_no;
+	location.href = "/task?cust_task_no=" + cust_no ;
 }
 
 //담당자 Popup
