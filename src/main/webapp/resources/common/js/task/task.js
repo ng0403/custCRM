@@ -176,10 +176,13 @@ function taskDetail(a, PageNum, lead_no, cust_no) {
 	var cust_task_no = $("#cust_task_no").val();
   	
 	console.log(cust_task_no);
-  	
-	if(cust_task_no != null)
+  	if (cust_task_no == 'undefined') {
+  		cust_task_no = null;
+  		
+  	}
+	if(cust_task_no != null && cust_task_no != '')
 	{
-		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no; 
+		//location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no; 
 	}
 	else
 	{

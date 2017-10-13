@@ -35,21 +35,19 @@
 			</span>
 		</div> 
 	</c:if>
-   <c:if test="${lead_no == null} && ${cust_task_no == null}">
+   <c:if test="${lead_no == null} && ${cust_task_no == null} ">
 		<c:if test="${flg == 2 }">
 			<div class="titleDIV">
-				<span class="titleText"> ■ 상담 > <a style="cursor: pointer;"
-					onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담
-						상세정보</span>
+				<span class="titleText"> ■ 상담 >
+				 	<a style="cursor: pointer;" onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담상세정보</span>
 				</span>
 			</div>
 		</c:if>
 
 		<c:if test="${flg == 1 }">
 			<div class="titleDIV">
-				<span class="titleText"> ■ 상담 > <a style="cursor: pointer;"
-					onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담
-						추가</span>
+				<span class="titleText"> ■ 상담 > 
+					<a style="cursor: pointer;" onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담추가</span>
 				</span>
 			</div>
 		</c:if>
@@ -79,13 +77,13 @@
 		</c:if>
 	</c:if>
  
-	<%-- 	<c:if test="${flg == 2}"> --%>
-	<!--  		<div class="titleDIV"> -->
-	<!-- 			<span class="titleText"> -->
-	<!-- 			    ■  <a style="cursor: pointer;" onclick="taskList();"> 상담</a> > <span id="cust_form_title">상담 수정</span> -->
-	<!-- 			</span> -->
-	<!-- 		</div>    -->
-	<%-- 	</c:if> --%>
+	<c:if test="${flg == 2}">
+ 		<div class="titleDIV">
+			<span class="titleText"> ■ 상담 >
+				<a style="cursor: pointer;" onclick="taskList();"> 상담관리</a> > <span id="task_form_title">상담 상세정보</span>
+			</span>
+		</div>   
+	</c:if>
 
 	<div style="height: 10px;"></div>
 	<form role="form" name="task_single_add" id="task_single_add"method="post" action="${ctx}/task_single_add">
@@ -318,7 +316,7 @@
 			<div class="listFootDiv">
 				<c:if test="${flg == 0 }">
 					<div id="cust_detail_div">
-						<input type="button" class="func_btn" id="task_update" value="편집" onclick="task_modify(${taskDetail.task_no});">
+						<input type="button" class="func_btn" id="task_update" value="편집" onclick="task_modify_btn();">
 						<input type="button" class="tr_btn" id="task_delete" value="삭제" onclick="task_del_save();" > 
 							<c:if test="${lead_no == null}">
 						     <input type="button" class="func_btn" id="task_detail_cancel" value="취소" onclick="task_cancel('${taskPageNum}');">						

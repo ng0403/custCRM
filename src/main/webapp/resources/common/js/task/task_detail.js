@@ -108,14 +108,16 @@ function task_add_save() {
 function task_modify_btn() {
 	
 	var lead_no = $("#lead_no").val();
- 
+	console.log(lead_no);
 	if($("#task_single_modify").val() == "편집") {
 	  
-		if(lead_no != null)
+		if(lead_no != null && lead_no != '' )
 		{
-		 document.getElementById('task_form_title').innerHTML ="고객상담 수정";
+			console.log('a');
+			document.getElementById('task_form_title').innerHTML ="고객상담 수정";
 		}else{
-		document.getElementById('task_form_title').innerHTML ="상담 수정";
+			console.log('v');
+			document.getElementById('task_form_title').innerHTML ="상담 수정";
 		}
 		
 		$("#task_single_modify").val("저장");
@@ -236,7 +238,7 @@ function task_modify_save() {
 					
 					
 					//location.href= ctx + '/task';
-					if(lead_no != null)
+					if(lead_no != null && lead_no != '' )
 					{
 						alert("상담이 수정되었습니다.");
 						alert("고객 상담 리스트로 이동합니다.");
