@@ -110,6 +110,7 @@ public class LeadController {
 		mov.addObject("cust_lead_no", cust_lead_no);
 		mov.addObject("lead_list", vo);
 		mov.addObject("url", Url);
+		mov.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지, 1: mypage )
 		
 		// 재욱
 		if(cust_lead_no == null)
@@ -166,6 +167,7 @@ public class LeadController {
 		mov.addObject("session", my_user_id);
 		mov.addObject("url", Url);
 		menuImport(mov, "lead");
+		mov.addObject("pageType", "1");		// my page 구분해주기 위한 flg (0: 기본 페이지, 1: mypage )
 		
 		System.out.println("mov ?  " + mov.toString());
 		return mov;
@@ -181,6 +183,7 @@ public class LeadController {
 			leadMap.put("PageNum", PageNum); 
 			
 			ModelAndView mov = new ModelAndView("lead_status"); 
+			
 			
 			//진행중 
 			if(code.equals("001"))
@@ -411,7 +414,7 @@ public class LeadController {
  		System.out.println("session ? " + session);
  		String contact_day;
 		
-		contact_day = contact_day_srch.replace("-", "");
+//		contact_day = contact_day_srch.replace("-", "");
 		 
 		
 		Map<String, Object> kwMap = new HashMap<String, Object>(); 
@@ -421,7 +424,7 @@ public class LeadController {
 		kwMap.put("lead_name_srch", lead_name_srch);
 		kwMap.put("cust_name", cust_name);
 		kwMap.put("emp_name", emp_name);
-		kwMap.put("contact_day", contact_day);
+		kwMap.put("contact_day", contact_day_srch);
 		kwMap.put("rank_cd", rank_cd);
 		kwMap.put("my_user_id", session); 
 		kwMap.put("cust_lead_no", cust_lead_no);
@@ -447,7 +450,7 @@ public class LeadController {
 		  
 			String contact_day;
 			
-			contact_day = contact_day_srch.replace("-", "");
+//			contact_day = contact_day_srch.replace("-", "");
 			 
 			
 			Map<String, Object> kwMap = new HashMap<String, Object>(); 
@@ -457,7 +460,7 @@ public class LeadController {
 			kwMap.put("lead_name_srch", lead_name_srch);
 			kwMap.put("cust_name", cust_name);
 			kwMap.put("emp_name", emp_name);
-			kwMap.put("contact_day", contact_day);
+			kwMap.put("contact_day", contact_day_srch);
 			kwMap.put("rank_cd", rank_cd);
 			kwMap.put("lead_status_cd", lead_status_cd);
 			// paging

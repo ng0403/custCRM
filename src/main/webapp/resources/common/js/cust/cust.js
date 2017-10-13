@@ -232,9 +232,10 @@ function custDelete()
 // 고객 조회
 function searchKeyword(pageNum)
 {
-	var cust_no  = $("#cust_no").val();
+	var cust_no   = $("#cust_no").val();
 	var cust_name = $("#cust_name").val();
- 	var chart_no = $("#chart_no").val();
+ 	var emp_no   = $("#emp_no").val();
+ 	var emp_name = $("#emp_name").val();
 	var visit_cd = $("#visit_cd").val();
 	var rec_per  = $("#rec_per").val();
 	var phone_no = $("#phone_no").val();
@@ -246,7 +247,8 @@ function searchKeyword(pageNum)
 			 		 "custPageNum" : pageNum,
 					 "cust_no": cust_no, 
 					 "cust_name": cust_name,
-					 "chart_no": chart_no, 
+					 "emp_no": emp_no, 
+					 "emp_name": emp_name, 
 					 "visit_cd":visit_cd, 
 					 "rec_per":rec_per,
 					 "phone_no" : phone_no,
@@ -274,7 +276,8 @@ function searchKeyword(pageNum)
 						{
 							var cust_no   = data.custList[i].cust_no;
 							var cust_name = data.custList[i].cust_name;
-							var chart_no  = data.custList[i].chart_no;
+							var emp_no    = data.custList[i].emp_no;
+							var emp_name  = data.custList[i].emp_name;
 							var cust_id	  = data.custList[i].cust_id;
 							var rec_per   = data.custList[i].rec_per;
 							var phone_no  = data.custList[i].phone_no;
@@ -303,15 +306,15 @@ function searchKeyword(pageNum)
 							"<td style='text-align: left;' >" + data.custList[i].cust_no +"</td>" +
 							"<td style='text-align: left;'>" +
 							"<a href='#' onclick=custDetail('"+data.custList[i].cust_no+"','"+data.pageNum+"'); id='"+data.custList[i].cust_no+"'>" + data.custList[i].cust_name+"</a></td>" +
-							"<td style='text-align: left;'>" + data.custList[i].chart_no +"</td>" +
+							"<td style='text-align: left;' id='"+data.custList[i].emp_no+"'>" + data.custList[i].emp_name +"</td>" +
 							"<td style='text-align: left;' > " + vititCdList_contents +
 							"</td>" +
 							"<td style='text-align: left;' > " + vititDtlCdList_contents +
 							"</td>" +
 							"<td style='text-align: left;'>" + data.custList[i].rec_per + "</td>" +
-							"<td style='text-align: left;'>" + data.custList[i].phone_area_no + data.custList[i].phone_no + "</td>" +
+							"<td style='text-align: left;'>" + data.custList[i].phone_area_no +"-"+ data.custList[i].phone_no + "</td>" +
 							"<td style='text-align: left;'>" + data.custList[i].main_address + "</td>" +
-							"<td style='text-align: left;'>" + data.custList[i].create_date + "</td>" +
+							"<td style='text-align: left;'>" + data.custList[i].update_date + "</td>" +
 							"</tr>";
 							
 							tbody.append(tbodyContent);

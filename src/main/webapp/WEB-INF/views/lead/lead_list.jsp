@@ -45,8 +45,7 @@
 	</div>
 	<div style="height:10px;"></div>
 	<div class="commonList">
- 
- 	<c:if test="${ cust_lead_no == null }">
+ 	<c:if test="${  pageType  == 0 }">
 	    <form name="leadListForm" id="leadListForm" method="post" action="${ctx}/couponManager" >
 		 	<div id="searchDiv">
 	        	<table id="cupnSearchTable" class="commonTable">
@@ -100,14 +99,14 @@
 	 	 	<thead>
 	 	 		<tr>
 	 	 			<th style="width: 10%;">리드번호</th>
- 	 	 			<th style="width: 10%;">리드명</th>
+ 	 	 			<th style="width: 17%;">리드명</th>
  	 	 			<th style="width: 10%;">고객번호</th> 
 	 	 			<th style="width: 10%;">고객명</th> 
 	 	 			<th style="width: 10%;">전화번호</th>
 	 	 			<th style="width: 10%;">담당자명</th>
-	 	 			<th style="width: 15%;">접촉할일자</th>
+	 	 			<th style="width: 8%;">접촉할일자</th>
 	 	 			<th style="width: 10%;">순위</th>
-	 	 			<th style="width: 15%;">등록일시</th> 
+	 	 			<th style="width: 10%;">수정일시</th> 
  	 	 		</tr>
 	 	 	</thead>
 	 	 	<tbody id="lead_list_tbody"> 
@@ -119,11 +118,11 @@
 	 	 			</td>
 	 	 			<td style="text-align: left;" >${list.cust_no}</td>
 	 	 			<td style="text-align: left;" >${list.cust_name}</td>
-	 	 			<td style="text-align: left;" >${list.phone}</td>
+	 	 			<td style="text-align: left;" >${list.phone_area_no}-${list.phone_no}</td>
 	 	 			<td style="text-align: left;" >${list.user_nm}</td>
 	 	 			<td style="text-align: left;" >${list.contact_day}</td>
 	 	 			<td style="text-align: left;" >${list.rank_cd}</td>
-	 	 			<td style="text-align: left;" >${list.create_date}</td>
+	 	 			<td style="text-align: left;" >${list.update_date}</td>
 	 	 			</tr>
 	 	 		</c:forEach>
  

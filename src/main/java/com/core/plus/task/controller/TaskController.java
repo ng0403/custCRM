@@ -103,6 +103,7 @@ public class TaskController {
 		mov.addObject("ttypeCd", ttypeCd);
 		mov.addObject("divisCd", divisCd);
 		mov.addObject("cust_task_no", cust_task_no);
+		mov.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
 		
 		if(cust_task_no == null)
 		{

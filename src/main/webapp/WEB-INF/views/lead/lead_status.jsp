@@ -56,67 +56,67 @@
 	<div style="height:10px;"></div>
 	<div class="commonList">
  
-	    <form name="leadListForm" id="leadListForm" method="post" action="${ctx}/couponManager" >
+<%-- 	    <form name="leadListForm" id="leadListForm" method="post" action="${ctx}/couponManager" > --%>
 		 	
-		 	<div id="searchDiv">
-	        	<table id="cupnSearchTable" class="commonTable">
-					<tr style="background-color: white; cursor:default; border:0;">
-						 <th style="width:5%;">리드번호</th>
-						 <td style="width:15%;">
-						    <input type="text" id="lead_no_srch" name="lead_no_srch" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
-						 </td>
-						  <th style="width:5%;">리드명</th>
-						 <td style="width:15%;">
-						    <input type="text" id="lead_name_srch" name="lead_name_srch" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
-						 </td>
-						 <th style="width:5%;">고객명</th>
-						 <td style="width:15%;">
-						    <input type="text" id="cust_name" name="cust_name" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
-						 </td> 
+<!-- 		 	<div id="searchDiv"> -->
+<!-- 	        	<table id="cupnSearchTable" class="commonTable"> -->
+<!-- 					<tr style="background-color: white; cursor:default; border:0;"> -->
+<!-- 						 <th style="width:5%;">리드번호</th> -->
+<!-- 						 <td style="width:15%;"> -->
+<!-- 						    <input type="text" id="lead_no_srch" name="lead_no_srch" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);"> -->
+<!-- 						 </td> -->
+<!-- 						  <th style="width:5%;">리드명</th> -->
+<!-- 						 <td style="width:15%;"> -->
+<!-- 						    <input type="text" id="lead_name_srch" name="lead_name_srch" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);"> -->
+<!-- 						 </td> -->
+<!-- 						 <th style="width:5%;">고객명</th> -->
+<!-- 						 <td style="width:15%;"> -->
+<!-- 						    <input type="text" id="cust_name" name="cust_name" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);"> -->
+<!-- 						 </td>  -->
 					  
- 		                 <td style="width: 12%;">
- 		                 <div style="float:right">
-		                 	<input type="button" value="조회" id="lead_list_srch" onclick="StatusSearchKeyword('${lead_status_cd}');" class="tr_btn" style="margin-left: 0;">
-		                    <input type="button" value="검색 초기화" id="lead_srch_reset" onclick="srch_reset();" class="tr_btn" style="margin-left: 0;"> 
-		                 </div>
-		                 </td>
-					</tr>
-					<tr style="background-color: white; cursor:default; border:0;">
+<!--  		                 <td style="width: 12%;"> -->
+<!--  		                 <div style="float:right"> -->
+<%-- 		                 	<input type="button" value="조회" id="lead_list_srch" onclick="StatusSearchKeyword('${lead_status_cd}');" class="tr_btn" style="margin-left: 0;"> --%>
+<!-- 		                    <input type="button" value="검색 초기화" id="lead_srch_reset" onclick="srch_reset();" class="tr_btn" style="margin-left: 0;">  -->
+<!-- 		                 </div> -->
+<!-- 		                 </td> -->
+<!-- 					</tr> -->
+<!-- 					<tr style="background-color: white; cursor:default; border:0;"> -->
 					 			 
-						 <th style="width:5%;">담당자명</th>
-						 <td style="width:15%;">
-						    <input type="text" id="emp_name" name="emp_name" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
-						 </td>
+<!-- 						 <th style="width:5%;">담당자명</th> -->
+<!-- 						 <td style="width:15%;"> -->
+<!-- 						    <input type="text" id="emp_name" name="emp_name" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);"> -->
+<!-- 						 </td> -->
 					
-						 <th style="width:5%;">접촉할 일자</th>
-						 <td style="width:25%;">
-							<input type="text" name="contact_day_srch" placeholder ="접촉일자" id="contact_day_srch" value="" class="expt_fin_d" 
-							 readonly="readonly" style="width : 35%; text-align: center; cursor: pointer;">
- 						 </td>
+<!-- 						 <th style="width:5%;">접촉할 일자</th> -->
+<!-- 						 <td style="width:25%;"> -->
+<!-- 							<input type="text" name="contact_day_srch" placeholder ="접촉일자" id="contact_day_srch" value="" class="expt_fin_d"  -->
+<!-- 							 readonly="readonly" style="width : 35%; text-align: center; cursor: pointer;"> -->
+<!--  						 </td> -->
 						 
-						  <th style="width:5%;">순위</th>
-						 <td style="width:15%;">
-						    <input type="text" id="rank_cd" name="rank_cd" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);">
-						 </td>
+<!-- 						  <th style="width:5%;">순위</th> -->
+<!-- 						 <td style="width:15%;"> -->
+<!-- 						    <input type="text" id="rank_cd" name="rank_cd" value="" style="width:80%" onkeypress="leadStatusPageNumInputEnter(event);"> -->
+<!-- 						 </td> -->
 					
-					</tr>
-				</table>
-			</div>
-		</form>
+<!-- 					</tr> -->
+<!-- 				</table> -->
+<!-- 			</div> -->
+<!-- 		</form> -->
 		<!-- 엑셀 출력 -->
 		<form id="leadExcelForm" name="leadExcelForm" method="post"></form>
 	 	 <table class="commonTable" id="cupnManagerTabl">
 	 	 	<thead>
 	 	 		<tr>
 	 	 			<th style="width: 10%;">리드번호</th>
- 	 	 			<th style="width: 10%;">리드명</th>
+ 	 	 			<th style="width: 17%;">리드명</th>
  	 	 			<th style="width: 10%;">고객번호</th> 
 	 	 			<th style="width: 10%;">고객명</th> 
 	 	 			<th style="width: 10%;">전화번호</th>
 	 	 			<th style="width: 10%;">담당자명</th>
-	 	 			<th style="width: 15%;">접촉할일자</th>
+	 	 			<th style="width: 8%;">접촉할일자</th>
 	 	 			<th style="width: 10%;">순위</th>
-	 	 			<th style="width: 15%;">등록일시</th> 
+	 	 			<th style="width: 10%;">수정일시</th>  
  	 	 		</tr>
 	 	 	</thead>
 	 	 	<tbody id="lead_list_tbody"> 
@@ -132,7 +132,7 @@
 	 	 			<td style="text-align: left;" >${list.user_nm}</td>
 	 	 			<td style="text-align: left;" >${list.contact_day}</td>
 	 	 			<td style="text-align: left;" >${list.rank_cd}</td>
-	 	 			<td style="text-align: left;" >${list.create_date}</td>
+	 	 			<td style="text-align: left;" >${list.update_date}</td>
 	 	 			</tr>
 	 	 		</c:forEach>
  

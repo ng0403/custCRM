@@ -71,11 +71,12 @@ function taskSchList(pageNum) {
 		                "<a onclick=taskDetail('"+data.srcList[i].task_no+"','"+data.taskPageNum+"'); id='"+data.srcList[i].task_no+"'>" + data.srcList[i].subject+"</a></td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].cust_no +"</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].cust_name +"</td>" +
-		             "<td style='text-align: left;'>" + data.srcList[i].phone_no + "</td>" +
+		             "<td style='text-align: left;'>" + data.srcList[i].phone_area_no +"-"+ data.srcList[i].phone_no + "</td>" +
+//		             "<td style='text-align: left;'>" + data.srcList[i].phone_no + "</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].emp_no + "</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].next_day + "</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].dtype_cd + "</td>" +
-		             "<td style='text-align: left;'>" + data.srcList[i].create_date + "</td>" +
+		             "<td style='text-align: left;'>" + data.srcList[i].update_date + "</td>" +
 		             "</tr>"
 
 		            tbody.append(tbodyContent);

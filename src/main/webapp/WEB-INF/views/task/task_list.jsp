@@ -39,7 +39,7 @@
 	<div style="height:10px;"></div>
 	<div class="commonList">
 	
-		<c:if test="${ cust_task_no == null }">
+		<c:if test="${ pageType == 0 }">
 		    <form name="taskListForm" id="taskListForm" method="post" action="${ctx}/couponManager" >
 			 	<div id="searchDiv">
 		        	<table id="cupnSearchTable" class="commonTable">
@@ -105,7 +105,7 @@
 			<table class="commonTable" id="taskManagerTabl">
 		 	 	<thead>
 		 	 		<tr>
-	 	 	 			<th style="width: 10%;">task번호</th> 
+	 	 	 			<th style="width: 10%;">상담k번호</th> 
 		 	 			<th style="width: 15%;">제목</th>
 	 	 	 			<th style="width: 10%;">고객번호</th>
 		 	 			<th style="width: 9%;">고객명</th> 
@@ -113,7 +113,7 @@
 		 	 			<th style="width: 9%;">담당자명</th>
 		 	 			<th style="width: 10%;">다음일자</th>
 		 	 			<th style="width: 12%;">분류</th>
-		 	 			<th style="width: 10%;">등록일시</th> 
+		 	 			<th style="width: 10%;">수정일시</th> 
 	 	 	 		</tr>
 		 	 	</thead>
 		 	 	<tbody id="task_list_tbody"> 
@@ -125,11 +125,11 @@
 		 	 			</td>
 		 	 			<td style="text-align: left;" >${list.cust_no}</td>
 		 	 			<td style="text-align: left;" >${list.cust_name}</td>
-		 	 			<td style="text-align: left;" >${list.phone_no}</td>
+		 	 			<td style="text-align: left;" >${list.phone_area_no}-${list.phone_no}</td>
 		 	 			<td style="text-align: left;" >${list.emp_no}</td>
 		 	 			<td style="text-align: left;" >${list.next_day}</td>
 		 	 			<td style="text-align: left;" >${list.dtype_cd}</td>
-		 	 			<td style="text-align: left;" >${list.create_date}</td>
+		 	 			<td style="text-align: left;" >${list.update_date}</td>
 		 	 			</tr>
 		 	 		</c:forEach>
 		 	 	</tbody>

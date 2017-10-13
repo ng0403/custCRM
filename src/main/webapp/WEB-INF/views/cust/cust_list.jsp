@@ -53,6 +53,7 @@ var vititDtlCdList = new Array();
 <%-- 			<input type="hidden" name="brand_wid" value="${cupnListMap.brand_wid}"> --%>
 		</form>
 	    <form name="custListForm" id="custListForm" method="post" action="${ctx}/couponManager" >
+		 	<c:if test="${ pageType == 0 }">
 		 	<div id="searchDiv">
 	        	<table id="cupnSearchTable" class="commonTable">
 					<tr style="background-color: white; cursor:default; border:0;">
@@ -106,6 +107,7 @@ var vititDtlCdList = new Array();
 					</tr>
 				</table>
 			</div>
+			</c:if>	
 		</form>
 		
 		<!-- 엑셀 출력 -->
@@ -115,13 +117,13 @@ var vititDtlCdList = new Array();
 	 	 		<tr>
  	 	 			<th style="width: 10%;">고객번호</th> 
 	 	 			<th style="width: 8%;">고객명</th>
- 	 	 			<th style="width: 10%;">차트번호</th>
-	 	 			<th style="width: 10%;">내원경로</th> 
+ 	 	 			<th style="width: 8%;">담당자명</th>
+	 	 			<th style="width: 9%;">내원경로</th> 
 	 	 			<th style="width: 10%;">내원경로상세</th>
 	 	 			<th style="width: 10%;">소개자</th>
 	 	 			<th style="width: 10%;">전화번호</th>
-	 	 			<th style="width: 17%;">주소</th>
-	 	 			<th style="width: 10%;">등록일시</th> 
+	 	 			<th style="width: 20%;">주소</th>
+	 	 			<th style="width: 10%;">수정일시</th> 
  	 	 		</tr>
 	 	 	</thead>
 	 	 	<tbody id="cust_list_tbody">
@@ -132,7 +134,7 @@ var vititDtlCdList = new Array();
 		 	 			<td style="text-align: left;" >
 		 	 				<a href="#" onclick="custDetail('${list.cust_no}','${pageNum}');" id="${list.cust_no}">${list.cust_name}</a>
 		 	 			</td>
-		 	 			<td style="text-align: left;" >${list.chart_no}</td>
+		 	 			<td style="text-align: left;"id="${list.emp_no}" >${list.emp_name}</td>
 		 	 			<td style="text-align: left;" >
 		 	 				<c:forEach var="vititCdList" items="${ vititCdList }">
 								<c:if test= "${ vititCdList.code eq list.visit_cd }">${ vititCdList.code_name }</c:if>
@@ -144,9 +146,9 @@ var vititDtlCdList = new Array();
 							</c:forEach>
 		 	 			</td>
 		 	 			<td style="text-align: left;" >${list.rec_per}</td>
-		 	 			<td style="text-align: left;" >${list.phone_area_no}${list.phone_no}</td>
+		 	 			<td style="text-align: left;" >${list.phone_area_no}-${list.phone_no}</td>
 		 	 			<td style="text-align: left;" >${list.main_address}</td>
-		 	 			<td style="text-align: left;" >${list.create_date}</td>
+		 	 			<td style="text-align: left;" >${list.update_date}</td>
 		 	 			</tr>
 		 	 		</c:forEach>
 	 	 		</c:if>

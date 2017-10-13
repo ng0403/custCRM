@@ -136,23 +136,21 @@
 	   select P.*
 	   from (
       	select
-         l.lead_no,
-         l.lead_name,
-         l.cust_no,
-           case when (user_nm) is null then ' '
-                  else (user_nm) end as user_nm ,
-           case when (cust_name) is null then ' '
-                  else (cust_name) end as cust_name , 
-           case when (phone_area_no) is null then ' '
-              	   else (phone_area_no) end as phone_area_no, 
-           case when (concat(p.phone_area_no, p.phone_no)) is null then ' '
-           			else concat(p.phone_area_no, p.phone_no) end as phone,
-           case when (phone_no) is null then ' '
-                  else (phone_no) end as phone_no ,  
-         l.contact_day,
-        case when (rank_cd) is null then ' '
-                  else (rank_cd) end as rank_cd,
-         date_format(l.create_date, '%Y-%m-%d %H:%i') as create_date
+	         l.lead_no,
+	         l.lead_name,
+	         l.cust_no,
+	         case when (user_nm) is null then ' '
+	         	else (user_nm) end as user_nm ,
+	         case when (cust_name) is null then ' '
+	         	else (cust_name) end as cust_name , 
+	         case when (phone_area_no) is null then ''
+			 	else (phone_area_no ) end as phone_area_no ,
+			case when (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) is null then ''
+				else (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) end as phone_no , 
+	        date_format(l.contact_day, '%Y-%m-%d') as contact_day ,
+	        case when (rank_cd) is null then ' '
+	                  else (rank_cd) end as rank_cd,
+	         date_format(l.update_date, '%Y-%m-%d %H:%i') as update_date
       from 
          tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
       where 1=1 and l.del_yn ='N'
@@ -207,22 +205,20 @@
 	   from (
       	select
          l.lead_no,
-         l.lead_name,
-         l.cust_no,
-           case when (user_nm) is null then ' '
-                  else (user_nm) end as user_nm ,
-           case when (cust_name) is null then ' '
-                  else (cust_name) end as cust_name , 
-           case when (phone_area_no) is null then ' '
-              	   else (phone_area_no) end as phone_area_no, 
-           case when (concat(p.phone_area_no, p.phone_no)) is null then ' '
-           			else concat(p.phone_area_no, p.phone_no) end as phone,
-           case when (phone_no) is null then ' '
-                  else (phone_no) end as phone_no ,  
-         l.contact_day,
-         case when (rank_cd) is null then ' '
-                  else (rank_cd) end as rank_cd,
-         date_format(l.create_date, '%Y-%m-%d %H:%i') as create_date
+	         l.lead_name,
+	         l.cust_no,
+	         case when (user_nm) is null then ' '
+	         	else (user_nm) end as user_nm ,
+	         case when (cust_name) is null then ' '
+	         	else (cust_name) end as cust_name , 
+	         case when (phone_area_no) is null then ''
+			 	else (phone_area_no ) end as phone_area_no ,
+			case when (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) is null then ''
+				else (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) end as phone_no , 
+	        date_format(l.contact_day, '%Y-%m-%d') as contact_day ,
+	        case when (rank_cd) is null then ' '
+	                  else (rank_cd) end as rank_cd,
+	         date_format(l.update_date, '%Y-%m-%d %H:%i') as update_date
       from 
          tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
       where 1=1 and l.del_yn ='N' and l.lead_status_cd = #{lead_status_cd}

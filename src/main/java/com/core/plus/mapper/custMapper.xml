@@ -44,12 +44,13 @@
 		FROM (
 			select
 		         a.cust_no
-		         , date_format(a.create_date, '%Y-%m-%d %H:%i') as create_date
+		         , date_format(a.update_date, '%Y-%m-%d %H:%i') as update_date
 		         ,a.cust_name
 		         ,case when(a.chart_no) is null then '' else (a.chart_no) end as chart_no
 		         ,a.cust_id
 		         ,a.emp_no
-		         ,(select user_nm from tb_user where user_no = a.emp_no) as emp_name
+		         ,case when  (select user_nm from tb_user where user_no = a.emp_no)  is null then ''
+		         	else (select user_nm from tb_user where user_no = a.emp_no) end as emp_name
 		         ,a.cust_type
 		         ,a.cust_rank
 		         ,a.visit_cd
@@ -60,8 +61,8 @@
 		         ,case when(rec_per) is null then '' else (rec_per) end as rec_per
 		         ,case when (select phone_area_no from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) is null then ''
 		          else (select phone_area_no from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) end as phone_area_no
-		         ,case when (select phone_no from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) is null then ''
-		          else (select phone_no from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) end as phone_no
+		         ,case when (select concat(substr(phone_no,1,4),'-',substr(phone_no,5,8)) from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) is null then ''
+		          else (select concat(substr(phone_no,1,4),'-',substr(phone_no,5,8)) from tb_cust_phone where primary_yn = 'Y' and cust_no = a.cust_no) end as phone_no
 		         ,(select zip_no from tb_cust_addr where primary_yn = 'Y' and cust_no = a.cust_no) as zip_no
 		         ,case when (select main_address from tb_cust_addr where primary_yn = 'Y' and cust_no = a.cust_no) is null then ''
 		          else (select main_address from tb_cust_addr where primary_yn = 'Y' and cust_no = a.cust_no) end as main_address

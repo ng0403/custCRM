@@ -19,6 +19,7 @@ public class TaskVO {
 	private String dtype_cd;				// 분류코드
 	private String score_cd;				// 상대 가치 점수
 	private String remark_cn;				// 특이사항
+	private String phone_area_no;			// 지역전화번호
 	private String phone_no;				// 전화번호
 	private String ttype_cd;				// 상담유형
 	private String divis_cd;				// 상담구분	
@@ -31,7 +32,6 @@ public class TaskVO {
 	private String score_name;
 	private String ttype_name;
 	private String divis_name;
-	
 	
 	
 	public String getTask_no() {
@@ -136,6 +136,12 @@ public class TaskVO {
 	public void setRemark_cn(String remark_cn) {
 		this.remark_cn = remark_cn;
 	}
+	public String getPhone_area_no() {
+		return phone_area_no;
+	}
+	public void setPhone_area_no(String phone_area_no) {
+		this.phone_area_no = phone_area_no;
+	}
 	public String getPhone_no() {
 		return phone_no;
 	}
@@ -203,13 +209,9 @@ public class TaskVO {
 				+ ", subject=" + subject + ", cust_no=" + cust_no + ", cust_name=" + cust_name + ", lead_no=" + lead_no
 				+ ", lead_name=" + lead_name + ", oppty_no=" + oppty_no + ", oppty_name=" + oppty_name + ", location="
 				+ location + ", next_day=" + next_day + ", emp_no=" + emp_no + ", emp_name=" + emp_name + ", dtype_cd="
-				+ dtype_cd + ", score_cd=" + score_cd + ", remark_cn=" + remark_cn + ", phone_no=" + phone_no
-				+ ", ttype_cd=" + ttype_cd + ", divis_cd=" + divis_cd + ", code_no=" + code_no + ", code=" + code
-				+ ", code_name=" + code_name + ", dtype_name=" + dtype_name + ", score_name=" + score_name
-				+ ", ttype_name=" + ttype_name + ", divis_name=" + divis_name + "]";
+				+ dtype_cd + ", score_cd=" + score_cd + ", remark_cn=" + remark_cn + ", phone_area_no=" + phone_area_no
+				+ ", phone_no=" + phone_no + ", ttype_cd=" + ttype_cd + ", divis_cd=" + divis_cd + ", code_no="
+				+ code_no + ", code=" + code + ", code_name=" + code_name + ", dtype_name=" + dtype_name
+				+ ", score_name=" + score_name + ", ttype_name=" + ttype_name + ", divis_name=" + divis_name + "]";
 	}
-	
-	
-	
-	
 }

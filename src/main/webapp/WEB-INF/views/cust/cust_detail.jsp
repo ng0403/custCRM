@@ -338,15 +338,18 @@ $(document).ready(function(){
 	 	 </div> 
 	 </c:if>
 	 <c:if test="${flg == 2 }">	 
-	 	  <div id="cust_update_div">
-	 		<input type="button" class="func_btn" id="cust_single_modify" value="편집" onclick="cust_modify();">
-	 		<input type="button" class="tr_btn" id="cust_delete" value="삭제" onclick="custDelete();">
-		 	<input type="button" class="func_btn" id="cust_list" onclick="cust_cancel('${custPageNum}');" value="취소">
-			
-		 	<input type="button" class="func_btn" id="cust_task_list" onclick="cust_task_btn('${custDlist.cust_no}')" value="상담이력">
-		 	<input type="button" class="func_btn" id="cust_lead_list" onclick="cust_lead_btn('${custDlist.cust_no}')" value="고객리드">
-		 	<input type="button" class="func_btn" id="cust_opty_list" onclick="cust_opty_btn('${custDlist.cust_no}')" value="영업기회">
-<%-- 		 	<input type="button" class="func_btn" id="cust_opty_list" onclick="cust_mail_btn('${custDlist.cust_no}')" value="E-Mail"> --%>
+	 	  <div id="cust_update_div" style="width: 587px; float: left; display: -webkit-box; ">
+	 	  	<div style="width: 26%; ">
+		 		<input type="button" class="func_btn" id="cust_single_modify" value="편집" onclick="cust_modify();">
+		 		<input type="button" class="tr_btn" id="cust_delete" value="삭제" onclick="custDelete();">
+			 	<input type="button" class="func_btn" id="cust_list" onclick="cust_cancel('${custPageNum}');" value="취소">
+	 	  	</div>
+			<div style=" border-left : 3px solid #131230; padding-left: 10px;"> 
+			 	<input type="button" class="func_btn" id="cust_task_list" style="border: 1px solid #006600;" onclick="cust_task_btn('${custDlist.cust_no}')" value="상담이력">
+			 	<input type="button" class="func_btn" id="cust_lead_list" style="border: 1px solid Tomato ;" onclick="cust_lead_btn('${custDlist.cust_no}')" value="고객리드">
+			 	<input type="button" class="func_btn" id="cust_opty_list" style="border: 1px solid Crimson ;" onclick="cust_opty_btn('${custDlist.cust_no}')" value="영업기회">
+	<%-- 		 	<input type="button" class="func_btn" id="cust_opty_list" onclick="cust_mail_btn('${custDlist.cust_no}')" value="E-Mail"> --%>
+			</div>
 	 	 </div> 
 	 </c:if>
     </div>

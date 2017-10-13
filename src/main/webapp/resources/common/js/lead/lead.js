@@ -566,11 +566,11 @@ function searchKeyword(a){
 	 	 			"<a href='#' onclick=leadDetail('"+data.leadList[i].lead_no+"','"+data.PageNum+"'); id='"+data.leadList[i].lead_no+"'>" + data.leadList[i].lead_name+"</a></td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].cust_no +"</td>" +
 	 	 			"<td style='text-align: left;'>" +data.leadList[i].cust_name +"</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone_area_no +"-"+ data.leadList[i].phone_no + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].user_nm + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].contact_day + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].rank_cd + "</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].create_date + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].update_date + "</td>" +
 	 	 			"</tr>";
  					tbody.append(tbodyContent);
 					}
@@ -661,11 +661,11 @@ function StatusSearchKeyword(lead_status_cd, b){
 	 	 			"<a href='#' onclick=leadDetail('"+data.leadList[i].lead_no+"','"+data.PageNum+"'); id='"+data.leadList[i].lead_no+"'>" + data.leadList[i].lead_name+"</a></td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].cust_no +"</td>" +
 	 	 			"<td style='text-align: left;'>" +data.leadList[i].cust_name +"</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone_area_no +"-"+ data.leadList[i].phone_no + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].user_nm + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].contact_day + "</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].rank_cd + "</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].create_date + "</td>" +
+	 	 			"<td style='text-align: left;'>" + data.leadList[i].update_date + "</td>" +
 	 	 			"</tr>";
  					tbody.append(tbodyContent);
 					}

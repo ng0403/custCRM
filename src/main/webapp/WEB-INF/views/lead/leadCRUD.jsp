@@ -14,7 +14,6 @@ $(document).ready(function(){
 	$('#contact_day').datepicker();
 
  });	
- 
 </script>
 
 <input type="hidden" id="ctx" value="${ctx}">
@@ -145,11 +144,15 @@ $(document).ready(function(){
 	<div class="listFootDiv">
 	
 	<c:if test="${flg == 0 }">
-	 	 <div id="lead_detail_div">
-	 	 	<input type="button" class="func_btn" id="lead_update" value="편집" onclick="lead_modify();">
-	 	 	<input type="button" class="tr_btn" id="lead_delete" value="삭제" onclick="lead_remove();">
-	 	 	<input type="button" class="func_btn" id="lead_single_cancel" value="취소" onclick="lead_cancel('${PageNum}');"> 
-	 	 	<input type="button" class="func_btn" id="lead_counsel" value="고객상담이력 조회" onclick="lead_counsel_read('${detail.cust_no}', '${PageNum}');">
+	 	 <div id="lead_detail_div"  style="width: 587px; float: left; display: -webkit-box; ">
+	 	 	<div style="width: 26%; ">
+		 	 	<input type="button" class="func_btn" id="lead_update" value="편집" onclick="lead_modify();">
+		 	 	<input type="button" class="tr_btn" id="lead_delete" value="삭제" onclick="lead_remove();">
+		 	 	<input type="button" class="func_btn" id="lead_single_cancel" value="취소" onclick="lead_cancel('${PageNum}');"> 
+	 	 	</div>
+	 	 	<div style=" border-left : 3px solid #131230; padding-left: 10px;">
+		 	 	<input type="button" class="func_btn" id="lead_counsel" value="고객상담이력 조회" style="border: 1px solid #006600;" onclick="lead_counsel_read('${detail.cust_no}', '${PageNum}');">
+	 	 	</div>
 	 	 </div> 
 	 </c:if>
 	
@@ -232,10 +235,10 @@ $(document).ready(function(){
 	 		 			<td style="text-align: left;" >
 	 		 				<input type="text" class="qty" name="qty" value="${ itemList.qty }">
 	 		 			</td>
-	 		 			<td style="text-align: left;" >
+	 		 			<td style="text-align: right;" >
 	 		 				<input type="text" class="list_price" name="list_price" value="${ itemList.list_price }">
 	 		 			</td>
-	 		 			<td style="text-align: left;" >
+	 		 			<td style="text-align: right;" >
 	 		 				<input type="text" class="total_price" name="total_price" value="${ itemList.total_price }" readonly="readonly"> <!-- 총금액 -->
 	 		 			</td> 
 	 	 			</tr>

@@ -17,6 +17,7 @@ public class LeadVO {
 	private String emp_name; 
 	private String cust_name;
 	private String phone_no;
+	private String phone_area_no;
 	private String user_nm;
 	
 	private String phone;
@@ -88,7 +89,12 @@ public class LeadVO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	 
+	public String getPhone_area_no() {
+		return phone_area_no;
+	}
+	public void setPhone_area_no(String phone_area_no) {
+		this.phone_area_no = phone_area_no;
+	} 
 	public String getCust_name() {
 		return cust_name;
 	}

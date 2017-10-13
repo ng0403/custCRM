@@ -83,17 +83,20 @@
 			    , t.subject
 			    , c.cust_no
 			    , c.cust_name
-			    , case when (phone_area_no) is null then ' ' 
- 					  else (phone_area_no) end as phone_no
+			    , case when (phone_area_no) is null then ''
+		          	  else (phone_area_no ) end as phone_area_no
+		         ,case when (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) is null then ''
+		          	  else (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) end as phone_no
 			    , case when (user_nm ) is null then ' ' 
 			          else (user_nm) end as emp_no
 			    , date_format(t.next_day, '%Y-%m-%d') as next_day 
-			    , (select code_name from tb_code where code_no = '1008' and code = t.divis_cd) as dtype_cd
+			    , case when (code_name) is null then ''
+			    	  else (code_name) end as dtype_cd
 			    , date_format(t.update_date, '%Y-%m-%d %H:%i') as update_date
 			 from tb_task t left join tb_cust c on t.cust_no = c.cust_no 
 			               left join tb_cust_phone p on t.cust_no = p.cust_no
 			               left join tb_user e on t.emp_no = e.user_no
-			               left join tb_code code on t.dtype_cd = code.code and code_no ='1008'
+			               left join tb_code code on t.dtype_cd = code.code and code.code_no ='1008'
 	         WHERE 1=1
 	         	and t.del_yn = 'N'
 	            <if test="task_no_srch != null and task_no_srch != ''">
