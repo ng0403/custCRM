@@ -573,9 +573,15 @@ $(document).ready(function(){
 			 	<table id="amountModalTables" style="width: 100%;">
 			 	 	<thead>
 			 	 		<tr id="amountTableHeader">
-			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">수금액 : </th>
+			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">청구액 : </th>
+			 	 			<td>
+			 	 			    <input type="text" id="price" name="price" value="" style="width: 70%;" maxlength="100"/>&nbsp;&nbsp;
+			 	 			</td>
+			 	 		</tr>
+			 	 		<tr>
+			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">납부액 : </th>
 			 	 			<td style="width: 40%;">
-			 	 			    <input type="text" id="amount" name="amount" style="width: 70%;" maxlength="100"/>&nbsp;&nbsp;
+			 	 			    <input type="text" id="payment" name="payment" style="width: 70%;" maxlength="100"/>&nbsp;&nbsp;
 							</td>
 							<td style="width: 40%; text-align: right;">
 								<input type="button" value="납부" class="back_btn" style="float: right;" onclick="paymentBtn();"/> <!-- onclick="viewProdMenuList(1); -->
@@ -587,14 +593,14 @@ $(document).ready(function(){
 			 	<table class="commonTable">
 			 		<thead>
 			 			<tr id="amountTableHeader">
-						  <th width="45%">직원번호</th>
-						  <th width="45%">직원명</th>
+						  <th width="45%">영업기회명</th>
+						  <th width="45%">청구액</th>
 						</tr>	
 			 		</thead>
 			 	 	<tbody id="amountTbody"></tbody>
 				</table>
 			<!-- 페이징 DIV -->
-			<div class="pagingDiv" id="empPopupPagingDiv" style="width: 100%; text-align: center;"></div>
+			<div class="pagingDiv" id="paymentPagingDiv" style="width: 100%; text-align: center;"></div>
 		</div>	
 	</div>
 	</form>

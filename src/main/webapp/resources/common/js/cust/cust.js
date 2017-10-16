@@ -1151,20 +1151,21 @@ function cust_sales_btn(cust_no)
     	'top': '50%',
     	'margin-left': '-400px',
     	'margin-top': '-250px',
-    	'width': '400px',
-    	'height': '250px',
+    	'width': '750px',
+    	'height': '500px',
     	'cursor': 'default'
     	}
 		,onOverlayClick : $.unblockUI
 	});
 	
-	paymentBtn(1)
+	opptyItemList(1)
 }
 
-function paymentBtn(optyAmountPageNum)
+// 청구/수금
+function opptyItemList(optyAmountPageNum)
 {
-//	$("#cust_no").val();
 	var cust_no = $("#cust_no").val();
+	var tmp = 0;
 	
 	$.ajax({
 		url: ctx + "/amountAjax", 
@@ -1187,26 +1188,87 @@ function paymentBtn(optyAmountPageNum)
 				$("#amountTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
 			} else {
 				$.each(data.optyItemAmount, function(i) {
-					console.log(this.user_no);
 					var trElement = $("#amountTableHeader").clone().removeClass().empty();
-//					var emp_no = this.user_no;
-//					var emp_name = this.user_nm;
+					
+					tmp = tmp + this.total_price;
+					console.log(tmp);
+					$("#price").val(tmp);
 
 					// 클릭한 행을 부모창에 입력
 					trElement.bind("click", function(e) {
-						setTimeout($.unblockUI, 0);
-						$("#emp_no").val(emp_no);
-						$("#emp_name").val(emp_name);
+//						setTimeout($.unblockUI, 0);
+//						$("#emp_no").val(emp_no);
+//						$("#emp_name").val(emp_name);
 					});
 					
 					addMouseEvent(trElement);
 					trElement.css("cursor", "pointer");
 					
 					$("#amountTbody").append(trElement);
-//					$("#amountTbody tr:last").append("<td width='60%'>" + emp_no + "</td>"
-//							+ "<td width='30%'>" + emp_name + "</td>");
+					$("#amountTbody tr:last").append("<td width='60%'>" + this.oppty_name + "</td>"
+							+ "<td width='30%'>" + this.total_price);
+//					+ "<td width='30%'>" + this.total_price + "</td>" + "<td width='30%'>" + this.outstding_amount + "</td>");
 				});
 			}
+			console.log(data);
+			
+			// 페이징 그리기
+			$("#paymentPagingDiv").empty();
+			var pageContent = "";
+			
+//			if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+//				pageContent = "◀ <input type='text' id='paymentPopupInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+//			} else if(data.pageNum == data.page.startPageNum){
+//				pageContent = "<input type='hidden' id='paymentPageNum' value='"+data.pageNum+"'/><input type='hidden' id='paymentEndPageNum' value='"+data.page.endPageNum+"'/>"
+//				+"◀ <input type='text' id='paymentPopupInput' value='"+data.page.startPageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+//				+"<a onclick=\"opptyItemList("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+//				+"<a onclick=\"opptyItemList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+//			} else if(data.pageNum == data.page.endPageNum){
+//				pageContent = "<input type='hidden' id='empPageNum' value='"+data.pageNum+"'/><input type='hidden' id='paymentEndPageNum' value='"+data.page.endPageNum+"'/>"
+//				+"<a onclick=\"opptyItemList("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+//				+"<input type='text' id='paymentPopupInput' value='"+data.page.endPageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+//				+"<a> / "+data.page.endPageNum+"</a> ▶";
+//			} else {
+//				pageContent = "<input type='hidden' id='empPageNum' value='"+data.pageNum+"'/><input type='hidden' id='paymentEndPageNum' value='"+data.page.endPageNum+"'/>"
+//				+"<a onclick=\"opptyItemList("+(data.pageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+//				+"<input type='text' id='paymentPopupInput' value='"+data.pageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+//				+"<a onclick=\"opptyItemList("+data.page.pageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+//				+"<a onclick=\"opptyItemList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+//			}
+//			$("#paymentPagingDiv").append(pageContent);
+			
+		},
+		beforeSend: function(){
+        	viewLoadingShow();			
+        },
+        complete:function(){
+        	viewLoadingHide();	
+        },
+		error: function(data) { 
+			alert("담당자목록을 취득하지 못했습니다.");
+			return false;
+		}
+	});
+}
+
+function paymentBtn()
+{
+	var optyAmountPageNum = 1;
+	var cust_no = $("#cust_no").val();
+	
+	console.log($("#payment").val());
+	console.log($("#cust_no").val());
+	
+	$.ajax({
+		url: ctx + "/insertPayment", 
+		type: "POST",  
+		data: {
+			optyAmountPageNum : optyAmountPageNum,
+			cust_no 	: cust_no,
+			payment 	: $("#payment").val()
+		},
+		dataType: "json",
+		success: function(data) { 
 			console.log(data);
 			
 			// 페이징 그리기

@@ -503,6 +503,16 @@ public class CustController {
 		return map;
 	}
 	
+	@RequestMapping(value="insertPayment", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> paymentInsert(String cust_no, String payment)
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println("paymet : " + payment);
+		System.out.println("cust_no : " + cust_no);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="emailSend", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> emailSend(String s_emp_name)
 	{

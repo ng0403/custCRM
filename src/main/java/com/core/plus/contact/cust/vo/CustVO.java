@@ -26,6 +26,7 @@ public class CustVO {
 	
 //	oppty amount
 	private String oppty_no;
+	private String oppty_name;
 	private String sales_no;
 	private int total_price;
 	private int amount;
@@ -264,6 +265,13 @@ public class CustVO {
 	public void setTotal_price(int total_price) {
 		this.total_price = total_price;
 	}
+	public String getOppty_name() {
+		return oppty_name;
+	}
+	public void setOppty_name(String oppty_name) {
+		this.oppty_name = oppty_name;
+	}
+	
 	@Override
 	public String toString() {
 		return "CustVO [cust_no=" + cust_no + ", create_date=" + create_date + ", update_date=" + update_date
@@ -272,11 +280,11 @@ public class CustVO {
 				+ user_nm + ", cust_type=" + cust_type + ", cust_rank=" + cust_rank + ", visit_cd=" + visit_cd
 				+ ", visit_dtl_cd=" + visit_dtl_cd + ", visit_cn=" + visit_cn + ", rec_per=" + rec_per + ", remark_cn="
 				+ remark_cn + ", email_id=" + email_id + ", email_dm=" + email_dm + ", del_yn=" + del_yn + ", oppty_no="
-				+ oppty_no + ", sales_no=" + sales_no + ", total_price=" + total_price + ", amount=" + amount
-				+ ", phone_type_cd=" + phone_type_cd + ", phone_country_cd=" + phone_country_cd + ", phone_area_no="
-				+ phone_area_no + ", phone_no=" + phone_no + ", primary_yn=" + primary_yn + ", addr_type_cd="
-				+ addr_type_cd + ", road_yn=" + road_yn + ", zip_no=" + zip_no + ", main_address=" + main_address
-				+ ", detail_address=" + detail_address + ", cust_key=" + cust_key + "]";
+				+ oppty_no + ", oppty_name=" + oppty_name + ", sales_no=" + sales_no + ", total_price=" + total_price
+				+ ", amount=" + amount + ", phone_type_cd=" + phone_type_cd + ", phone_country_cd=" + phone_country_cd
+				+ ", phone_area_no=" + phone_area_no + ", phone_no=" + phone_no + ", primary_yn=" + primary_yn
+				+ ", addr_type_cd=" + addr_type_cd + ", road_yn=" + road_yn + ", zip_no=" + zip_no + ", main_address="
+				+ main_address + ", detail_address=" + detail_address + ", cust_key=" + cust_key + "]";
 	}
 	
 }
