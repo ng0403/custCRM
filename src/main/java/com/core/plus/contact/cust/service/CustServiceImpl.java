@@ -82,4 +82,12 @@ public class CustServiceImpl implements CustService{
 		return custExcelExport;
 	}
 
+	@Override
+	public List<CustVO> optyItemAmount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<CustVO> optyItemAmount = custDao.optyItemAmount(map);
+		
+		return optyItemAmount;
+	}
+
 }

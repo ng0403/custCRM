@@ -481,6 +481,28 @@ public class CustController {
 		}
 	}
 	
+	// 청구/수금 팝업
+	@RequestMapping(value="amountAjax", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> amountPopup(@RequestParam(value = "optyAmountPageNum", defaultValue = "1") int optyAmountPageNum, String cust_no)
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("optyAmountPageNum", optyAmountPageNum);
+		map.put("cust_no", cust_no);
+		
+		System.out.println("cust_no : " + cust_no);
+		
+		List<CustVO> optyItemAmount = custService.optyItemAmount(map);
+		
+		System.out.println("optyItemAmount : " + optyItemAmount);
+		map.put("optyItemAmount", optyItemAmount);
+		// paging
+//		PagerVO page = opptyService.getEmpPopupRow(map);
+//		map.put("page", page);
+//		map.put("pageNum", optyAmountPageNum);
+		
+		return map;
+	}
+	
 	@RequestMapping(value="emailSend", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> emailSend(String s_emp_name)
 	{

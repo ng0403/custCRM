@@ -87,11 +87,11 @@ function opptyItemAdd()
 			"<td style='text-align: left;'>" +
 				"<input type='hidden' class='small_cate_cd' name='small_cate_cd' value=''>" +
 				"<input type='text' class='small_cate_name' name='small_cate_name' readonly='readonly'></td>"+
-			"<td style='text-align: left;'><input type='text' class='qty' name='qty' onkeyup='totalPriceCalc();'></td>"+
-			"<td style='text-align: left;'><input type='text' class='list_price' name='list_price' readonly='readonly'></td>"+
-			"<td style='text-align: left;'><input type='text' class='total_price' name='total_price' readonly='readonly'></td>"+
-			"<td style='text-align: left;'><input type='text' class='dc_price' name='dc_price' readonly='readonly'></td>"+
-			"<td style='text-align: left;'><input type='text' class='offer_price' name='offer_price' onkeyup='dcPrice();'></td>"+
+			"<td style='text-align: left;'><input type='text' class='qty' name='qty' style='text-align: right;' onkeyup='totalPriceCalc();'></td>"+
+			"<td style='text-align: left;'><input type='text' class='list_price' name='list_price' style='text-align: right;' readonly='readonly'></td>"+
+			"<td style='text-align: left;'><input type='text' class='total_price' name='total_price' style='text-align: right;' readonly='readonly'></td>"+
+			"<td style='text-align: left;'><input type='text' class='dc_price' name='dc_price' style='text-align: right;' readonly='readonly'></td>"+
+			"<td style='text-align: left;'><input type='text' class='offer_price' name='offer_price' style='text-align: right;' onkeyup='dcPrice();'></td>"+
 			"<td style='text-align: left;'><input type='text' class='payment_day' id='payment_day"+ count+"' name='payment_day' readonly='readonly'></td>"+
 		"</tr>"
 	);
@@ -102,7 +102,25 @@ function opptyItemAdd()
 // 매출상품 추가
 function opptyItemInsert()
 {
+	// 상세보기 정보
 	var oppty_no     = $("#oppty_no").val();
+	var oppty_name	 = $("#oppty_name").val();
+	var emp_no		 = $("#emp_no").val();
+	var cust_no		 = $("#cust_no").val();
+	var oppty_status_cd	= $("#oppty_stage_cd_sel").val();
+	var oppty_stage_cd  = $("#oppty_stage_cd_sel").val();
+	var dtype_cd		= $("#dtype_cd_sel").val();
+	var purchase_type	= $("#purchase_type_sel").val();
+	var payment_cd		= $("#payment_cd_sel").val();
+	var score			= $("#score").val();
+	var exp_close_day	= $("#exp_close_day").val();
+	var rec_per_cd_sel	= $("#rec_per_cd_sel").val();
+	var sur_plan_cn		= $("#sur_plan_cn").val();
+	var remark_cn		= $("#description").val();
+	var total_price		= $("#total_price").val();
+	var outstanding_amount = $("#outstanding_amount").val();
+	
+	// 매출 상품
 	var main_cat_cd  = [];
 	var mid_cat_cd   = [];
 	var small_cat_cd = [];
@@ -114,6 +132,9 @@ function opptyItemInsert()
 	
 	var tbody = $("#oppty_item_list_tbody");
 	var tbodyContent = "";
+	
+	var total = 0;
+	var amount = $("#outstanding_amount").val();
 	
 	$("#oppty_item_list_tbody tr").each(function() {
 		main_cat_cd.push($(this).children().eq(1).children().eq(0).val());
@@ -134,26 +155,38 @@ function opptyItemInsert()
 		
 	});
 	
-	console.log(opptyItemList);
-	
 	$.ajax({
 		url : ctx + '/opptyItemInsert',
 		type: 'POST',
 		dataType : 'json',
 		data : {
 			oppty_no	  : oppty_no,
+			oppty_name	  : oppty_name,
+			cust_no		  : cust_no,
+			emp_no		  : emp_no,
+			oppty_status_cd : oppty_status_cd,
+			oppty_stage_cd  : oppty_stage_cd,
+			dtype_cd		: dtype_cd,
+			purchase_type	: purchase_type,
+			payment_cd		: payment_cd,
+			score			: score,
+			exp_close_day	: exp_close_day,
+			rec_per_cd		: rec_per_cd_sel,
+			sur_plan_cn		: sur_plan_cn,
+			remark_cn		: remark_cn,
 			opptyItemList : opptyItemList
 		},
 		success:function(data){
 			tbody.children().remove();
 			
 			alert("매출기회 상품이 추가되었습니다.");
-			console.log(data);
 			
 			var size = data.length;
+		
 			for(var i=0; i<size; i++)
 			{
-				console.log(data[i].offer_price + " : " + data[i].total_price);
+				total = total + data[i].total_price;
+				
 				tbodyContent = "<tr>" +
 				"<td><input type='checkbox' class='del_chk' name='del_chk'></td>" +
 	 			"<td style='text-align: left;'>" +
@@ -187,7 +220,10 @@ function opptyItemInsert()
 	 			"</tr>"
  					
  				tbody.append(tbodyContent);
+ 				
 			}
+			
+			$("#total_price").val(total);
 		},
 		error:function(request){
 			alert("error : " + request.status)

@@ -7,8 +7,8 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<script type="text/javascript" src="${ctx}/resources/common/js/opty/opptyItem.js"></script>
 <script type="text/javascript" src="${ctx}/resources/common/js/opty/oppty_detail.js"></script>
+<script type="text/javascript" src="${ctx}/resources/common/js/opty/opptyItem.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
 
 <script type="text/javascript">
@@ -323,6 +323,26 @@ $(document).ready(function(){
 					</td>
 				</tr>
 				<tr>
+					<th>총금액</th>
+					<td>
+						<c:if test="${ opptyNoIndex.oppty_no != null }">	<!-- 신규 -->
+							<input type="text" name="total_price" id="total_price" maxlength="50" value="" style="width: 70%; text-align: right;" readonly="readonly">
+						</c:if>
+						<c:if test="${ opptyNoIndex.oppty_no == null }">	<!-- 상세 -->
+							<input type="text" name="total_price" id="total_price" maxlength="50" value="${total_price}" style="width: 70%; text-align: right;" readonly="readonly">
+						</c:if>
+					</td>
+					<th>미수금</th>
+					<td>
+						<c:if test="${ opptyNoIndex.oppty_no != null }">	<!-- 신규 -->
+							<input name="outstanding_amount" id="outstanding_amount" type="text" maxlength="50" value="" style="width: 70%; text-align: right;" readonly="readonly">
+						</c:if>
+						<c:if test="${ opptyNoIndex.oppty_no == null }">	<!-- 상세 -->
+							<input name="outstanding_amount" id="outstanding_amount" type="text" maxlength="50" value="" style="width: 70%; text-align: right;" readonly="readonly">
+						</c:if>
+					</td>
+				</tr>
+				<tr>
 					<th style="text-align:right;">시/수술계획</th>
 					<td colspan="3">
 						<c:if test="${ opptyNoIndex.oppty_no != null }">	<!-- 신규 -->
@@ -423,22 +443,22 @@ $(document).ready(function(){
 	 		 				<input type="text" class="small_cate_name" name="small_cate_name" value="${ itemList.small_cate_name }" readonly="readonly" onclick="smallCatPopup();">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="qty" name="qty" value="${ itemList.qty }">
+	 		 				<input type="text" class="qty" name="qty" value="${ itemList.qty }" style="text-align: right;">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="list_price" name="list_price" value="${ itemList.list_price }">
+	 		 				<input type="text" class="list_price" name="list_price" value="${ itemList.list_price }" style="text-align: right;">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="total_price" name="total_price" value="${ itemList.total_price }" readonly="readonly"> <!-- 총금액 -->
+	 		 				<input type="text" class="total_price" name="total_price" value="${ itemList.total_price }" style="text-align: right;" readonly="readonly"> <!-- 총금액 -->
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="dc_price" name="dc_price" value="${ itemList.dc_price }">
+	 		 				<input type="text" class="dc_price" name="dc_price" value="${ itemList.dc_price }" style="text-align: right;">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="offer_price" name="offer_price" value="${ itemList.offer_price }"> <!-- 제안금액 -->
+	 		 				<input type="text" class="offer_price" name="offer_price" value="${ itemList.offer_price }" style="text-align: right;"> <!-- 제안금액 -->
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="patment_day" name="payment_day" value="${ itemList.payment_day }">
+	 		 				<input type="text" class="patment_day" name="payment_day" value="${ itemList.payment_day }" >
 	 		 			</td>
 	 	 			</tr>
 	 	 		</c:forEach>

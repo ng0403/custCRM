@@ -348,6 +348,7 @@ $(document).ready(function(){
 			 	<input type="button" class="func_btn" id="cust_task_list" style="border: 1px solid #006600;" onclick="cust_task_btn('${custDlist.cust_no}')" value="상담이력">
 			 	<input type="button" class="func_btn" id="cust_lead_list" style="border: 1px solid Tomato ;" onclick="cust_lead_btn('${custDlist.cust_no}')" value="고객리드">
 			 	<input type="button" class="func_btn" id="cust_opty_list" style="border: 1px solid Crimson ;" onclick="cust_opty_btn('${custDlist.cust_no}')" value="영업기회">
+			 	<input type="button" class="func_btn" id="cust_opty_list" style="border: 1px solid Crimson ;" onclick="cust_sales_btn('${custDlist.cust_no}')" value="청구/수금">
 	<%-- 		 	<input type="button" class="func_btn" id="cust_opty_list" onclick="cust_mail_btn('${custDlist.cust_no}')" value="E-Mail"> --%>
 			</div>
 	 	 </div> 
@@ -548,6 +549,49 @@ $(document).ready(function(){
 						</tr>	
 			 		</thead>
 			 	 	<tbody id="empListTbody"></tbody>
+				</table>
+			<!-- 페이징 DIV -->
+			<div class="pagingDiv" id="empPopupPagingDiv" style="width: 100%; text-align: center;"></div>
+		</div>	
+	</div>
+	</form>
+	<input type="hidden" id="h_nm_menu">
+</div>
+
+
+<!-- 청구/수금 모달창 시작 -->
+<div id="amountModalDiv" style="display: none;">
+    <div style="width: 100%; height:7%; background-color: #ececec;" align="right">
+ 		<input type="button" value="X" id="popupBoxClose" onclick="popupClose();" >
+ 	</div>
+	<form method='post' name='custListPopup' id='custListPopup'>
+	<div id="amountContent" style="margin: 0 1.5% 0 1.5%;">
+		<div class="titleDIV" style="text-align: left; width: 100%;">
+			<span class="titleText">■ 청구/수금</span>
+		</div>
+		<div id="amountModalList" class="commonList">
+			 	<table id="amountModalTables" style="width: 100%;">
+			 	 	<thead>
+			 	 		<tr id="amountTableHeader">
+			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">수금액 : </th>
+			 	 			<td style="width: 40%;">
+			 	 			    <input type="text" id="amount" name="amount" style="width: 70%;" maxlength="100"/>&nbsp;&nbsp;
+							</td>
+							<td style="width: 40%; text-align: right;">
+								<input type="button" value="납부" class="back_btn" style="float: right;" onclick="paymentBtn();"/> <!-- onclick="viewProdMenuList(1); -->
+							</td>			
+			 	 		</tr>
+			 	 	</thead>
+			 	</table>
+			 	<br>
+			 	<table class="commonTable">
+			 		<thead>
+			 			<tr id="amountTableHeader">
+						  <th width="45%">직원번호</th>
+						  <th width="45%">직원명</th>
+						</tr>	
+			 		</thead>
+			 	 	<tbody id="amountTbody"></tbody>
 				</table>
 			<!-- 페이징 DIV -->
 			<div class="pagingDiv" id="empPopupPagingDiv" style="width: 100%; text-align: center;"></div>

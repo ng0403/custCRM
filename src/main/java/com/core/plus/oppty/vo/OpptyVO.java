@@ -23,6 +23,8 @@ public class OpptyVO {
 	private String rec_per_cd; 		// 소개자코드
 	private String remark_cn; 		// 특이사항
 	private int score; 				// 점수
+	private int total_price;
+	private int outstanding_amount;
 
 	// 공통코드에서 불러오기 위한 변수
 	private String code_no;
@@ -179,7 +181,6 @@ public class OpptyVO {
 		this.score = score;
 	}
 	
-	
 	public String getCode_no() {
 		return code_no;
 	}
@@ -276,19 +277,35 @@ public class OpptyVO {
 		this.emp_name = emp_name;
 	}
 
+	public int getTotal_price() {
+		return total_price;
+	}
+
+	public void setTotal_price(int total_price) {
+		this.total_price = total_price;
+	}
+
+	public int getOutstanding_amount() {
+		return outstanding_amount;
+	}
+
+	public void setOutstanding_amount(int outstanding_amount) {
+		this.outstanding_amount = outstanding_amount;
+	}
+
 	@Override
 	public String toString() {
 		return "OpptyVO [oppty_no=" + oppty_no + ", create_date=" + create_date + ", update_date=" + update_date
 				+ ", oppty_name=" + oppty_name + ", cust_no=" + cust_no + ", cust_name=" + cust_name + ", cust_phone="
-				+ cust_phone + ", emp_no=" + emp_no + ", user_no=" + user_no + ", user_nm=" + user_nm
-				+ ", oppty_status_cd=" + oppty_status_cd + ", oppty_stage_cd=" + oppty_stage_cd + ", exp_close_day="
-				+ exp_close_day + ", dtype_cd=" + dtype_cd + ", sur_plan_cn=" + sur_plan_cn + ", purchase_type="
-				+ purchase_type + ", payment_cd=" + payment_cd + ", rec_per_cd=" + rec_per_cd + ", remark_cn="
-				+ remark_cn + ", score=" + score + ", code_no=" + code_no + ", code=" + code + ", code_name="
-				+ code_name + ", oppty_status_name=" + oppty_status_name + ", oppty_stage_name=" + oppty_stage_name
-				+ ", dtype_name=" + dtype_name + ", purchase_type_name=" + purchase_type_name + ", payment_name="
-				+ payment_name + ", rec_per_name=" + rec_per_name + ", getOppty_no()=" + getOppty_no()
-				+ ", getCreate_date()=" + getCreate_date() + ", getUpdate_date()=" + getUpdate_date()
+				+ cust_phone + ", emp_no=" + emp_no + ", emp_name=" + emp_name + ", user_no=" + user_no + ", user_nm="
+				+ user_nm + ", oppty_status_cd=" + oppty_status_cd + ", oppty_stage_cd=" + oppty_stage_cd
+				+ ", exp_close_day=" + exp_close_day + ", dtype_cd=" + dtype_cd + ", sur_plan_cn=" + sur_plan_cn
+				+ ", purchase_type=" + purchase_type + ", payment_cd=" + payment_cd + ", rec_per_cd=" + rec_per_cd
+				+ ", remark_cn=" + remark_cn + ", score=" + score + ", code_no=" + code_no + ", code=" + code
+				+ ", code_name=" + code_name + ", oppty_status_name=" + oppty_status_name + ", oppty_stage_name="
+				+ oppty_stage_name + ", dtype_name=" + dtype_name + ", purchase_type_name=" + purchase_type_name
+				+ ", payment_name=" + payment_name + ", rec_per_name=" + rec_per_name + ", getOppty_no()="
+				+ getOppty_no() + ", getCreate_date()=" + getCreate_date() + ", getUpdate_date()=" + getUpdate_date()
 				+ ", getOppty_name()=" + getOppty_name() + ", getCust_no()=" + getCust_no() + ", getCust_name()="
 				+ getCust_name() + ", getCust_phone()=" + getCust_phone() + ", getEmp_no()=" + getEmp_no()
 				+ ", getOppty_status_cd()=" + getOppty_status_cd() + ", getOppty_stage_cd()=" + getOppty_stage_cd()
@@ -300,9 +317,9 @@ public class OpptyVO {
 				+ getOppty_status_name() + ", getOppty_stage_name()=" + getOppty_stage_name() + ", getDtype_name()="
 				+ getDtype_name() + ", getPurchase_type_name()=" + getPurchase_type_name() + ", getPayment_name()="
 				+ getPayment_name() + ", getRec_per_name()=" + getRec_per_name() + ", getUser_no()=" + getUser_no()
-				+ ", getUser_nm()=" + getUser_nm() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+				+ ", getUser_nm()=" + getUser_nm() + ", getEmp_name()=" + getEmp_name() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 
-
+	
 }

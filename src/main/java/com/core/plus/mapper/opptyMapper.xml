@@ -362,11 +362,15 @@
 	
 	<!-- OpptyItem -->
 	<insert id="opptyItemInsert" parameterType="com.core.plus.oppty.vo.OpptyItemVO">
+		<selectKey keyProperty="oppty_item_no" resultType="String" order="BEFORE">
+			SELECT IF(SUBSTR(MAX(oppty_item_no), 1, 10) = DATE_FORMAT(now(), '%Y%m%d%H'), MAX(oppty_item_no)+1, concat(DATE_FORMAT(now(), '%Y%m%d%H'),'00001')) oppty_item_no 
+			FROM tb_oppty_item USE INDEX(PRIMARY)
+		</selectKey>
 		INSERT INTO tb_oppty_item
-			(oppty_no, main_cate_cd, mid_cate_cd, small_cate_cd, qty, list_price, dc_price, payment_day)
+			(oppty_no, oppty_item_no, main_cate_cd, mid_cate_cd, small_cate_cd, qty, list_price, dc_price, payment_day)
 		VALUES
 			(
-				#{oppty_no}, #{main_cate_cd}, #{mid_cate_cd}, #{small_cate_cd}, #{qty}, #{list_price}, #{dc_price}, DATE_FORMAT(#{payment_day}, '%Y%m%d')
+				#{oppty_no}, #{oppty_item_no}, #{main_cate_cd}, #{mid_cate_cd}, #{small_cate_cd}, #{qty}, #{list_price}, #{dc_price}, DATE_FORMAT(#{payment_day}, '%Y%m%d')
 			)
 	</insert>
 

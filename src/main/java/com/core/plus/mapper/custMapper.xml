@@ -293,4 +293,12 @@
 			cust_name = #{cust_name} AND resident_no = #{resident_no}
 	</update>
 	
+	<!-- 청구/수금을 위한 쿼리 -->
+	<select id="optyAmount" parameterType="java.util.Map" resultType="com.core.plus.contact.cust.vo.CustVO">
+		SELECT ot.oppty_no, (qty * list_price - dc_price) as total_price
+		FROM tb_oppty o, tb_oppty_item ot
+		WHERE o.oppty_no = ot.oppty_no
+		  AND o.cust_no = #{cust_no}
+	</select>
+	
 </mapper>

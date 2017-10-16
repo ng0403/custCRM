@@ -1030,30 +1030,6 @@ function download_list_Excel(formID, flg)
 	
 }
 
-// 재욱
-function cust_opty_btn(cust_no)
-{
-	var page_type = $("#page_type").val();
-	console.log(page_type);
-	
-	location.href = "/oppty?cust_opty_no=" + cust_no + "&page_type=" + page_type;
-}
-
-function cust_lead_btn(cust_no)
-{
-	console.log(cust_no);
-	
-	location.href = "/lead?cust_lead_no=" + cust_no;
-}
-
-function cust_task_btn(cust_no)
-{
-	console.log(cust_no);
-	var pageType = 2;
-	
-	location.href = "/task?cust_task_no=" + cust_no ;
-}
-
 //담당자 Popup
 function viewEmpList(empPopupPageNum) {
 	var ctx = $("#ctx").val();
@@ -1143,7 +1119,108 @@ function viewEmpList(empPopupPageNum) {
 	});
 }
 
+//재욱
+function cust_opty_btn(cust_no)
+{
+	var page_type = $("#page_type").val();
+	console.log(page_type);
+	
+	location.href = "/oppty?cust_opty_no=" + cust_no + "&page_type=" + page_type;
+}
 
+function cust_lead_btn(cust_no)
+{
+	console.log(cust_no);
+	
+	location.href = "/lead?cust_lead_no=" + cust_no;
+}
 
+function cust_task_btn(cust_no)
+{
+	console.log(cust_no);
+	var pageType = 2;
+	
+	location.href = "/task?cust_task_no=" + cust_no ;
+}
 
+function cust_sales_btn(cust_no)
+{
+	$.blockUI({ message: $('#amountModalDiv'),
+    	css: { 
+    	'left': '65%',
+    	'top': '50%',
+    	'margin-left': '-400px',
+    	'margin-top': '-250px',
+    	'width': '400px',
+    	'height': '250px',
+    	'cursor': 'default'
+    	}
+		,onOverlayClick : $.unblockUI
+	});
+	
+	paymentBtn(1)
+}
 
+function paymentBtn(optyAmountPageNum)
+{
+//	$("#cust_no").val();
+	var cust_no = $("#cust_no").val();
+	
+	$.ajax({
+		url: ctx + "/amountAjax", 
+		type: "POST",  
+		data: {
+			optyAmountPageNum : optyAmountPageNum,
+			cust_no : cust_no 
+		},
+		dataType: "json",
+		success: function(data) { 
+			
+			$("#amountTbody").empty();
+//			$("#s_emp_name").bind("keypress", function(event) {
+//				enterSearch(event);
+//			});
+			
+			if (data.optyItemAmount.length == 0) {
+				var trElement = $("#amountTableHeader").clone().removeClass().empty();
+				$("#amountTbody").append(trElement);
+				$("#amountTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+			} else {
+				$.each(data.optyItemAmount, function(i) {
+					console.log(this.user_no);
+					var trElement = $("#amountTableHeader").clone().removeClass().empty();
+//					var emp_no = this.user_no;
+//					var emp_name = this.user_nm;
+
+					// 클릭한 행을 부모창에 입력
+					trElement.bind("click", function(e) {
+						setTimeout($.unblockUI, 0);
+						$("#emp_no").val(emp_no);
+						$("#emp_name").val(emp_name);
+					});
+					
+					addMouseEvent(trElement);
+					trElement.css("cursor", "pointer");
+					
+					$("#amountTbody").append(trElement);
+//					$("#amountTbody tr:last").append("<td width='60%'>" + emp_no + "</td>"
+//							+ "<td width='30%'>" + emp_name + "</td>");
+				});
+			}
+			console.log(data);
+			
+			// 페이징 그리기
+			
+		},
+		beforeSend: function(){
+        	viewLoadingShow();			
+        },
+        complete:function(){
+        	viewLoadingHide();	
+        },
+		error: function(data) { 
+			alert("담당자목록을 취득하지 못했습니다.");
+			return false;
+		}
+	});
+}

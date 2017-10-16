@@ -274,4 +274,12 @@ public class CustDAOImpl implements CustDAO{
 		return custExcelExport;
 	}
 
+	@Override
+	public List<CustVO> optyItemAmount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<CustVO> optyItemAmount = sqlSession.selectList("cust.optyAmount", map);
+		
+		return optyItemAmount;
+	}
+
 }

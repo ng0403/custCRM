@@ -24,6 +24,12 @@ public class CustVO {
 	private String email_dm;
 	private String del_yn;
 	
+//	oppty amount
+	private String oppty_no;
+	private String sales_no;
+	private int total_price;
+	private int amount;
+	
 //	custphone
 	private String phone_type_cd;
 	private String phone_country_cd;
@@ -234,6 +240,30 @@ public class CustVO {
 	public void setEmail_dm(String email_dm) {
 		this.email_dm = email_dm;
 	}
+	public String getOppty_no() {
+		return oppty_no;
+	}
+	public void setOppty_no(String oppty_no) {
+		this.oppty_no = oppty_no;
+	}
+	public String getSales_no() {
+		return sales_no;
+	}
+	public void setSales_no(String sales_no) {
+		this.sales_no = sales_no;
+	}
+	public int getAmount() {
+		return amount;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	public int getTotal_price() {
+		return total_price;
+	}
+	public void setTotal_price(int total_price) {
+		this.total_price = total_price;
+	}
 	@Override
 	public String toString() {
 		return "CustVO [cust_no=" + cust_no + ", create_date=" + create_date + ", update_date=" + update_date
@@ -241,12 +271,12 @@ public class CustVO {
 				+ cust_id + ", emp_no=" + emp_no + ", emp_name=" + emp_name + ", user_no=" + user_no + ", user_nm="
 				+ user_nm + ", cust_type=" + cust_type + ", cust_rank=" + cust_rank + ", visit_cd=" + visit_cd
 				+ ", visit_dtl_cd=" + visit_dtl_cd + ", visit_cn=" + visit_cn + ", rec_per=" + rec_per + ", remark_cn="
-				+ remark_cn + ", email_id=" + email_id + ", email_dm=" + email_dm + ", del_yn=" + del_yn
+				+ remark_cn + ", email_id=" + email_id + ", email_dm=" + email_dm + ", del_yn=" + del_yn + ", oppty_no="
+				+ oppty_no + ", sales_no=" + sales_no + ", total_price=" + total_price + ", amount=" + amount
 				+ ", phone_type_cd=" + phone_type_cd + ", phone_country_cd=" + phone_country_cd + ", phone_area_no="
 				+ phone_area_no + ", phone_no=" + phone_no + ", primary_yn=" + primary_yn + ", addr_type_cd="
 				+ addr_type_cd + ", road_yn=" + road_yn + ", zip_no=" + zip_no + ", main_address=" + main_address
 				+ ", detail_address=" + detail_address + ", cust_key=" + cust_key + "]";
 	}
-
 	
 }

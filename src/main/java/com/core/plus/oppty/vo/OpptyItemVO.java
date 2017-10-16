@@ -3,6 +3,7 @@ package com.core.plus.oppty.vo;
 public class OpptyItemVO {
 
 	private String oppty_no; 		// 기회번호
+	private String oppty_item_no;
 	private String main_cate_cd; 	// 제품대분류코드
 	private String mid_cate_cd; 	// 제품중분류코드
 	private String small_cate_cd; 	// 제품소분류코드
@@ -25,6 +26,14 @@ public class OpptyItemVO {
 
 	public void setOppty_no(String oppty_no) {
 		this.oppty_no = oppty_no;
+	}
+	
+	public String getOppty_item_no() {
+		return oppty_item_no;
+	}
+
+	public void setOppty_item_no(String oppty_item_no) {
+		this.oppty_item_no = oppty_item_no;
 	}
 
 	public String getMain_cate_cd() {
@@ -141,12 +150,20 @@ public class OpptyItemVO {
 
 	@Override
 	public String toString() {
-		return "OpptyItemVO [oppty_no=" + oppty_no + ", main_cate_cd=" + main_cate_cd + ", mid_cate_cd=" + mid_cate_cd
-				+ ", small_cate_cd=" + small_cate_cd + ", create_date=" + create_date + ", update_date=" + update_date
-				+ ", payment_day=" + payment_day + ", qty=" + qty + ", list_price=" + list_price + ", dc_price="
-				+ dc_price + ", main_cate_name=" + main_cate_name + ", mid_cate_name=" + mid_cate_name
-				+ ", small_cate_name=" + small_cate_name + "]";
+		return "OpptyItemVO [oppty_no=" + oppty_no + ", oppty_item_no=" + oppty_item_no + ", main_cate_cd="
+				+ main_cate_cd + ", mid_cate_cd=" + mid_cate_cd + ", small_cate_cd=" + small_cate_cd + ", create_date="
+				+ create_date + ", update_date=" + update_date + ", payment_day=" + payment_day + ", qty=" + qty
+				+ ", list_price=" + list_price + ", dc_price=" + dc_price + ", main_cate_name=" + main_cate_name
+				+ ", mid_cate_name=" + mid_cate_name + ", small_cate_name=" + small_cate_name + ", total_price="
+				+ total_price + ", offer_price=" + offer_price + ", getOppty_no()=" + getOppty_no()
+				+ ", getOppty_item_no()=" + getOppty_item_no() + ", getMain_cate_cd()=" + getMain_cate_cd()
+				+ ", getMid_cate_cd()=" + getMid_cate_cd() + ", getSmall_cate_cd()=" + getSmall_cate_cd()
+				+ ", getCreate_date()=" + getCreate_date() + ", getUpdate_date()=" + getUpdate_date()
+				+ ", getPayment_day()=" + getPayment_day() + ", getQty()=" + getQty() + ", getList_price()="
+				+ getList_price() + ", getDc_price()=" + getDc_price() + ", getMain_cate_name()=" + getMain_cate_name()
+				+ ", getMid_cate_name()=" + getMid_cate_name() + ", getSmall_cate_name()=" + getSmall_cate_name()
+				+ ", getTotal_price()=" + getTotal_price() + ", getOffer_price()=" + getOffer_price() + ", getClass()="
+				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
-	
-	
+
 }

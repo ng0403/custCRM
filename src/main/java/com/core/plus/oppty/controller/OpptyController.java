@@ -300,8 +300,6 @@ public class OpptyController {
 		return mov;
 	}
 	
-	// 영업
-	
 	// List Ajax(검색, 페이징)
 	@RequestMapping(value="oppty_sch", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> opptSchList(
@@ -464,10 +462,20 @@ public class OpptyController {
 			List<OpptyVO> purchase 		= opptyService.opptyPerchaseType();
 			List<OpptyVO> payment 		= opptyService.opptyPaymentCD();
 			List<OpptyVO> recper 		= opptyService.opptyRecPerCD();
+			String total_price;
+			int tmp = 0;
+			
+			for(int i=0; i<itemList.size(); i++)
+			{
+				tmp = tmp + itemList.get(i).getTotal_price();
+			}
+			total_price = Integer.toString(tmp);
 			
 			System.out.println("itemList : " + itemList);
+			System.out.println("tmp : " + tmp);
+			System.out.println("total_price : " + total_price);
 			ModelAndView mov = new ModelAndView("oppty_detail");
-
+			
 			mov.addObject("opptyDetail",  opptyService.opptyDetail(oppty_no));
 			mov.addObject("itemList", itemList);
 			mov.addObject("opptyStatusCd", status);
@@ -479,6 +487,7 @@ public class OpptyController {
 			mov.addObject("opptyPageNum", opptyPageNum);
 			mov.addObject("hoppty_status_cd", hoppty_status_cd);
 			mov.addObject("page_type", page_type);
+			mov.addObject("total_price", total_price);
 			
 			if(cust_opty_no != null && cust_opty_no == " ")
 			{
@@ -558,13 +567,17 @@ public class OpptyController {
 	/* Item CUD */
 	// 상품추가
 	@RequestMapping(value="opptyItemInsert", method=RequestMethod.POST)
-	public @ResponseBody List<OpptyItemVO> opptItemInsert(@RequestParam(value="opptyItemList[]", required=false) List<String> opptyItemList, String oppty_no)
+	public @ResponseBody List<OpptyItemVO> opptItemInsert(@RequestParam(value="opptyItemList[]", required=false) List<String> opptyItemList, String oppty_no, OpptyVO opptyVo)
 	{
 		System.out.println("Item Insert : " + opptyItemList);
 		System.out.println("Item Insert : " + oppty_no);
+		System.out.println("opptyVo : " + opptyVo);
 		
 		List<OpptyItemVO> itemList = new ArrayList<OpptyItemVO>();
 		List<OpptyItemVO> ditemList = opptyService.opptyItemList(oppty_no);		// 매출상품 조회
+		
+		int total_price =0;
+		int outstanding_amount = 0;
 		
 		if(ditemList == null)
 		{
@@ -572,7 +585,6 @@ public class OpptyController {
 		}
 		else		// 리스트가 존재하면 전부 삭제한다.
 		{
-			System.out.println("list");
 			int result = opptyService.opptyItemDelete(oppty_no);
 		}
 		
@@ -580,6 +592,8 @@ public class OpptyController {
 		{
 			for(int i=0; i<opptyItemList.size(); i++)
 			{
+				int tmp = 0;
+				
 				OpptyItemVO ovo = new OpptyItemVO();
 				
 				ovo.setOppty_no(oppty_no);
@@ -592,7 +606,7 @@ public class OpptyController {
 				ovo.setPayment_day(opptyItemList.get(++i));
 				itemList.add(ovo);
 			}
-			System.out.println("itemList : " + itemList);
+			
 			// opptyItem Insert
 			int oResult = opptyService.opptyItemInsert(itemList);	// 매출상품 추가
 		}
