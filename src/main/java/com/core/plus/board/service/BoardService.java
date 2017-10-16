@@ -9,7 +9,7 @@ import com.core.plus.common.PagerVO;
   
 public interface BoardService {
 	
-	  public List<Object> list(Map map);
+	  public List<BoardVO> list(Map map);
 	  public List<BoardVO> ajaxlist();
 	  public List<BoardVO> QnAajaxlist();
 	  public List<BoardVO> fileboardList();

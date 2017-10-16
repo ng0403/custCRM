@@ -51,7 +51,7 @@ import com.core.plus.utils.FileManager;
 	 
 	//보드 전체 리스트.
 	@RequestMapping(value="/boardInqr", method={RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView boardList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam Map<String, Object> map ,HttpSession session
+	public ModelAndView boardList(@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, @RequestParam Map<String, Object> map ,HttpSession session
 			,@RequestParam("BOARD_MNG_NO") String BOARD_MNG_NO) throws Exception{
 		 
 		System.out.println("board_list Entering " + map.toString());
@@ -65,7 +65,7 @@ import com.core.plus.utils.FileManager;
 		} 
 		
 		
-		map.put("pageNum", pageNum);
+		map.put("PageNum", PageNum);
 		map.put("sessionID", sessionID); 
 		map.put("BOARD_MNG_NO", BOARD_MNG_NO); 
 		PagerVO page=boardService.getBoardListCount(map); 
@@ -76,12 +76,12 @@ import com.core.plus.utils.FileManager;
 			page.setEndRow(0);
 		}
 		
-  		List<Object> boardlist = boardService.list(map); 
+  		List<BoardVO> boardlist = boardService.list(map); 
  		ModelAndView mov = new ModelAndView("board_list");
 		
 		mov.addObject("boardlist", boardlist);
 		mov.addObject("page",  page);
-		mov.addObject("pageNum",  pageNum);
+		mov.addObject("PageNum",  PageNum);
  		mov.addObject("BOARD_MNG_NO", BOARD_MNG_NO);
 		
  		return mov; 
@@ -108,7 +108,9 @@ import com.core.plus.utils.FileManager;
 		String FILE_CD = vo.getFILE_CD(); 
 		
 		boardService.viewadd(BOARD_NO);
-		ModelAndView mov = new ModelAndView("board_CRUD");
+		ModelAndView mov = new ModelAndView("board_detail");
+		mov.addObject("crud_flg", "0");
+		
  	    mov.addObject("sessionID",sessionID);
 		if(FILE_CD == null)
 		{ 
@@ -120,8 +122,7 @@ import com.core.plus.utils.FileManager;
 			mov.addObject("boardlist",  boardService.ReadFilePage(BOARD_NO));
 		}
 		mov.addObject("boardmnglist",boardService.checkBoardMngNo(BOARD_MNG_NO));
-		System.out.println("mov list? " + mov.toString());	
-		
+ 		
 		return mov;
 		 
 	}
@@ -130,9 +131,10 @@ import com.core.plus.utils.FileManager;
 	//보드 추가.
 	@RequestMapping(value="/boardInsert", method=RequestMethod.GET)
 	public ModelAndView board_add(@RequestParam("BOARD_MNG_NO") String BOARD_MNG_NO) {
-		  System.out.println("Entering"); 
- 		  System.out.println(BOARD_MNG_NO);
+ 
+		System.out.println(BOARD_MNG_NO);
 		  ModelAndView mov = new ModelAndView("board_insert");
+		  mov.addObject("crud_flg", "1");
 		  mov.addObject("board_mng" ,BOARD_MNG_NO);
 		  mov.addObject("boardmnglist", boardService.checkBoardMngNo(BOARD_MNG_NO));
 		  System.out.println("insert mov??" + mov.toString());
@@ -370,14 +372,14 @@ import com.core.plus.utils.FileManager;
 	
 	@RequestMapping(value="/search_boardInqr", method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Map<String, Object> search_board_list( ModelMap model, HttpServletRequest request,
-													   @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
+													   @RequestParam(value = "PageNum", defaultValue = "1") int PageNum) {
 		System.out.println("search entering1111");
  		String keyword    = request.getParameter("keyword");
 	    
 	    Map<String,Object> map = new HashMap<String,Object>();
 	    
  		map.put("keyword", keyword);
-		map.put("pageNum", pageNum);
+		map.put("PageNum", PageNum);
 
 		PagerVO page = boardService.getBoardListCount(map);
 		System.out.println("page?" + page.toString());
@@ -395,7 +397,7 @@ import com.core.plus.utils.FileManager;
 		System.out.println("list?" + list.toString());
 		
 		model.addAttribute("page", page);
-		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("PageNum", PageNum);
 		model.addAttribute("qna_list", list);
 
 		return model;
@@ -460,21 +462,22 @@ import com.core.plus.utils.FileManager;
 	// 전체리스트 출력 페이징/검색
 	@RequestMapping(value = "/boardPaging", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> ActListSearch(HttpSession session,
-			@RequestParam(value = "boardPageNum", defaultValue = "1") int boardPageNum, @RequestParam Map<String, Object> boardMap) {
+			@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, @RequestParam Map<String, Object> boardMap) {
 		
 		System.out.println("board paging entering" + boardMap.toString());
-  		boardMap.put("boardPageNum", boardPageNum);
+  		boardMap.put("PageNum", PageNum);
 
-		PagerVO page = boardService.boardListCount(boardMap);
+		PagerVO page = boardService.getBoardListCount(boardMap);
 		System.out.println("boardPage ? " + page.toString());
 		boardMap.put("page", page);
 
-		List<BoardVO> boardList = boardService.boardAllList(boardMap);
+		List<BoardVO> boardList = boardService.list(boardMap);
 		System.out.println("boardLitst? "  + boardList.toString());
 		System.out.println("boardListSize? " + boardList.size());
 		boardMap.put("boardList", boardList);
 		boardMap.put("boardListSize", boardList.size());
-
+		
+		System.out.println("final boardMap ? " + boardMap.toString());
 		return boardMap;
 	}
  	

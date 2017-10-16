@@ -4,26 +4,18 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }" />
  <c:set var="SessionID" value="${sessionScope.user_id}" />
- <%-- <%@include file="../include/header.jsp"%> --%>
-
+ 
  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<%-- <link rel="stylesheet" href="${ctx}/resources/common/css/standard/board/boardCSS.css" type="text/css" /> 
-<link rel="stylesheet" href="${ctx}/resources/common/css/standard/common/sfa_common_detail.css" type="text/css" />
- --%>
+ 
 
- <script type="text/javascript" src="${ctx}/resources/common/js/standard/board/board_list.js"></script> 
-<script type="text/javascript" src="${ctx}/resources/common/js/standard/board/reply.js"></script>  
- 
-<link rel="stylesheet" href="${ctx}/resources/common/css/standard/common/sfa_common_list.css" type="text/css" />
- 
- 
-<link rel="stylesheet" type="text/css" href="${ctx}/resources/common/Semantic/semantic.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="  crossorigin="anonymous"></script>
-<script src="${ctx}/resources/common/Semantic/semantic.js"></script>
+ <script type="text/javascript" src="${ctx}/resources/common/js/board/board_list.js"></script> 
+<script type="text/javascript" src="${ctx}/resources/common/js/board/reply.js"></script>  
+<script src="http://malsup.github.com/jquery.form.js"></script>
 
+ 
 
 <title>Insert title here</title>
 </head>
@@ -51,17 +43,16 @@
 		</c:if>		</div>
 </div>
 
-  <div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
+  <div id="board_detail_div" class="bt_position_authuser"> <!-- 버튼 div  -->
 		<input type="button" id="board_modify_fbtn" class = "tiny ui blue button" value="편집" onClick="board_modify();"/> 
 		<input type="button" id="board_remove_fbtn" class="tiny ui blue button" value="삭제" onClick="board_detail_remove();"/>  
 		<input type="button" class="tiny ui button" id="board_list_fbtn" value="취소" onClick="goboardList();"/>
- </div> 
- 
-
-<table class="ui sortable celled table" style="table-layout:fixed" >
+ </div>  
+ <div class="commonDetail">
+<table class="commonDetailTable" id="coupon_form_tbl" >
 <tr>
  <th style="width:165px">제목</th> 
- <td colspan="5"><input type="text" placeholder="제목" readonly="readonly"  id="TITLE" name="TITLE" value="${boardlist.TITLE}" style="width:100%; height:35px"/></td>
+ <td colspan="5"><input type="text" readonly="readonly" placeholder="제목"  id="TITLE" name="TITLE" value="${boardlist.TITLE}" style="width:100%; height:35px"/></td>
 </tr>
 <tr>
 <th> 조회수</th>
@@ -87,14 +78,13 @@
    	</c:when>
 </c:choose> 	
 
-<a href="javascript:pptPopup('${boardlist.FILE_CD}');">법인고객 통합 물류 대행 서비스 제안서</a>
-</td>
+ </td>
 
 </tr>
 <tr>
 <th>내 용</th>
 <td colspan="5">
-<textarea  rows="10" id="boardcontent"  readonly="readonly" style="width:100%" >${boardlist.CONTENT}</textarea>
+<textarea  rows="10" id="boardcontent" readonly="readonly" style="width:100%" >${boardlist.CONTENT}</textarea>
 </td> 
 </tr>
 </table>
@@ -115,14 +105,14 @@
 </tr> 
 
 </table>	
-	
+
 <table id = "reply_table" class="ui sortable celled table">
 <tbody class="reply_list" id="reply_list_tbody">
 </tbody>
 </table> 
 </div>
 </c:if>
-
+</div>	
 <%-- <div class="container"> <!-- 전체 div-->
 
 	<div> <!-- 제목 div-->
@@ -222,12 +212,7 @@
 		<div class="right">
  		</div> 
 	</div>  
- 
- 
-
-
- 
-
+  
 </body>
 </html>
  

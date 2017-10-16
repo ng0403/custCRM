@@ -1,41 +1,13 @@
  $(function(){
 	var ctx = $('#ctx').val(); 
-	
-  });
+    });
  
  $(document).ready(function(){
- 	 var tbodylength = $('#board_list_tbody tr').length;
-	 	var tbody = $('#board_list_tbody');
-		
-		/*if(tbodylength < 10){
-				for(var i=0; i<10-tbodylength; i++){
- 				tbodyContent='<tr style="height: 35.5px;"><td scope="row" style="width:10%"></td>'
-						+'<td style="width:10%;"></td>'
-						+'<td style="width:40%;"></td>'
-						+'<td style="width:10%;"></td>'
-						+'<td style="width:20%;"></td>'
-						+'<td style="width:10%;"></td></tr>';
-				tbody.append(tbodyContent);
-			}		
-		}*/
+ 	
+	 //상세, 추가, 편집 구분 flg
+	 var crud_flg = $("#crud_flg").val();
+	 
  })
- 
-//13자리 날짜 변환 함수
- function dateFormat(timestamp) {
-
- 	var date = new Date(timestamp);
- 	var year = date.getFullYear();
- 	var month = date.getMonth() + 1;
- 	var day = date.getDate();
- 	var hour = date.getHours();
- 	var min = date.getMinutes();
- 	var sec = date.getSeconds();
-
- 	var retVal = year + "-" + (month < 10 ? "0" + month : month) + "-"
- 			+ (day < 10 ? "0" + day : day) + " "+ (hour==0 ? "00" : hour )+":"+(min==0 ? "00" : min );
-
- 	return retVal
- }
  
  
  
@@ -49,7 +21,7 @@
  
  //보드 상세보기.
  function boardDetail(a){
- var no = a;
+  var no = a;
      location.href="/boardDetail?BOARD_NO=" + no;
  } 
  
@@ -67,14 +39,48 @@
  
 //보드 편집 버튼.  
 function board_modify(){
- 	    var formObj = $("form[role='form']"); 
- 		formObj.attr("action", "/boardModify");
-		formObj.attr("method", "get");		
-		formObj.submit();
+   
+	var formObj = $("form[role='form']"); 
+    formObj.attr("action", "/boardModify");
+	formObj.attr("method", "get");		
+	formObj.submit(); 
  	     
- 	 /* $("form[name='form_modify']").attr("action", "${ctx}/board/board_read?BOARD_NO=?").submit();  */
-	 
  } 
+
+
+//게시판 수정 저장
+function board_modify_save() {
+	
+	var formObj = $("form[role='form']");
+
+    	
+    	if($("#TITLE").val() == null || $("#TITLE").val()==""){
+    	    alert("제목을 입력해 주세요.");
+    	    return false;
+    	}  	
+    	    	
+    	if($("#boardcontent").val() == null || $("#boardcontent").val()==""){
+    	    alert("내용을 입력해 주세요.");
+    	    return false;
+        } 
+    	
+     
+    	
+     if(confirm("수정 하시겠습니까?")){ 
+     alert("내용이 수정되었습니다.");
+	 alert("게시판 리스트로 이동합니다.");
+
+	   var formObj = $("form[role='form']"); 
+		formObj.attr("action", "/board_modify");
+		formObj.attr("method", "post");		
+		formObj.submit();  
+		
+    }else{
+   	 return false;
+    }
+	
+}
+
 
 //보드 상세 삭제
 function board_detail_remove() {
@@ -182,13 +188,13 @@ function deleteAction() {
   
 
 //보드 리스트 그냥 페이징
-function boardPaging(boardPageNum, a) {
+function boardPaging(boardPageNum) {
  	var keyword = $("#keyword").val();
 	var ctx = $("#ctx").val();
     var BOARD_MNG_NO = $("#BOARD_MNG_NO").val();
  	var tbody = $('#board_list_tbody');
 	var tbodyContent = "";
-  	var boardData = { "boardPageNum": boardPageNum, "BOARD_MNG_NO" : BOARD_MNG_NO,"keyword" : keyword 
+  	var boardData = { "PageNum": boardPageNum, "BOARD_MNG_NO" : BOARD_MNG_NO,"keyword" : keyword 
  			        };
 	
 	$.ajax({
@@ -210,7 +216,7 @@ function boardPaging(boardPageNum, a) {
  	 				    +'<td style=width:10%">' + data.boardList[i].board_NO + '</td>'
  	         			+"<td style=width:40%;><a href='#' onclick=boardDetail('"+data.boardList[i].board_NO+"'); style='cursor: pointer;' class='callClick'>" + data.boardList[i].title +"</a></td>"
  	         			+'<td style="width:10%;">' + data.boardList[i].created_BY +'</td>'
- 	         		    +'<td style="width:20%;">'+dateFormat(data.boardList[i].created)+'</td>'
+ 	         		    +'<td style="width:20%;">'+data.boardList[i].created+'</td>'
  	        	        +'<td style="width:10%;">'+data.boardList[i].view_CNT+'</td></tr>' ; 
  				    }
  				    else{
@@ -218,42 +224,37 @@ function boardPaging(boardPageNum, a) {
  	 				    +'<td style=width:10%">' + data.boardList[i].board_NO + '</td>'
  	 				    +"<td style=width:40%;><a href='#' onclick=boardDetail('"+data.boardList[i].board_NO+"'); style='cursor: pointer;' class='callClick'>" + data.boardList[i].title +"</a> <i class='file icon'></i></td>" 	
  	         			+'<td style="width:10%;">' + data.boardList[i].created_BY +'</td>'
- 	         		    +'<td style="width:20%;">'+dateFormat(data.boardList[i].created)+'</td>'
+ 	         		    +'<td style="width:20%;">'+data.boardList[i].created+'</td>'
  	        	        +'<td style="width:10%;">'+data.boardList[i].view_CNT+'</td></tr>' ; 
  				    }
         		}
  			   tbody.append(tbodyContent);
  			}
-			
-			/*if(data.boardList.length < 10){
- 				for(var i=0; i<10-data.boardListSize; i++){
-					tbodyContent='<tr style="height: 35.5px;"><td scope="row" style="width:10%"></td>'
- 						+'<td style="width:10%;"></td>'
-						+'<td style="width:40%;"></td>'
-						+'<td style="width:10%;"></td>'
-						+'<td style="width:20%;"></td>'
- 						+'<td style="width:10%;"></td></tr>';
-					tbody.append(tbodyContent);
-				}		
-			}*/
-			
-			var pageContent = "";
-
-			// 시작
-
-			$("#pageSpace").children().remove();
-			var ccPageNum = data.boardPageNum;
-			var startPageNum = data.page.startPageNum;
-			var endPageNum = data.page.endPageNum;
-			var firstPageCount = data.page.firstPageCount;
-			var totalPageCount = data.page.totalPageCount;
-			var prevPageNum = data.page.prevPageNum;
-			var nextPageNum = data.page.nextPageNum;
-			var prevStepPage = data.page.prevStepPage;
-			var nextStepPage = data.page.nextStepPage;
-			paging(ccPageNum, startPageNum, endPageNum, firstPageCount,
-					totalPageCount, prevPageNum, nextPageNum,
-					prevStepPage, nextStepPage);
+		 
+			 
+			// 페이징
+				$(".pagingDiv").empty();
+				var pageContent = "";
+ 				if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+					pageContent = "◀ <input type='text' id='pageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
+				} else if(data.PageNum == data.page.startPageNum){
+ 					pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
+					+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
+					+"<a onclick=\"boardPaging("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+					+"<a onclick=\"boardPaging("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+				} else if(data.PageNum == data.page.endPageNum){
+  					pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
+					+"<a onclick=\"boardPaging("+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+					+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+					+"<a> / "+data.page.endPageNum+"</a> ▶";
+				} else {
+ 					pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
+					+"<a onclick=\"boardPaging("+(data.PageNum-1)+" );\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+					+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
+					+"<a onclick=\"boardPaging("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+					+"<a onclick=\"boardPaging("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+				}
+				$(".pagingDiv").append(pageContent);
 		},
 			
 		 
@@ -263,51 +264,7 @@ function boardPaging(boardPageNum, a) {
 	});
 } 
   
-
-//페이징
-function paging(ccPageNum, startPageNum, endPageNum, firstPageCount, totalPageCount, prevPageNum, nextPageNum, prevStepPage, nextStepPage){
-	var endPageNo = $("<input>");
-	endPageNo.attr({"type":"hidden","id":"endPageNum","value":endPageNum});
-	var ccPageeNo = $("<input>");
-	ccPageeNo.attr({"type":"hidden","id":"ccPageNum","value":ccPageNum});
-	$("#pageSpace").append(endPageNo).append(ccPageeNo);
-	
-	var prevPage = $("<a>");
-	prevPage.addClass("icon item");
-	var prevI = $("<i>");
-	prevI.addClass("left chevron icon");
-	console.log(prevPageNum);
-	console.log(firstPageCount);
-	if(ccPageNum != firstPageCount){
-		prevPage.attr("href","javascript:boardPaging("+prevPageNum+")");
-	}
-	prevPage.append(prevI);
-	$("#pageSpace").append(prevPage);
-	for(var i = startPageNum; i <= endPageNum; i++){
-		var ccPage = $("<a>");
-		ccPage.addClass("item");
-		ccPage.attr("href","javascript:boardPaging("+i+")");
-		ccPage.html(i);
-		if(i == ccPageNum){
-			var b = $("<b>");
-			ccPage.attr("id","pNum");
-			b.append(ccPage);
-			$("#pageSpace").append(b);
-		}else{
-			$("#pageSpace").append(ccPage);
-		}
-	}
-	var nextPage = $("<a>");
-	nextPage.addClass("icon item");
-	var nextI = $("<i>");
-	nextI.addClass("right chevron icon");
-	if(ccPageNum != totalPageCount){
-		nextPage.attr("href","javascript:boardPaging("+nextPageNum+")");
-	}
-	nextPage.append(nextI);
-	$("#pageSpace").append(nextPage);
-}
-
+ 
 //검색 엔터키 기능
 function boardSearchEnter(event) {
 	var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -323,16 +280,4 @@ function boardSearchEnter(event) {
 	event.stopPropagation();
 }
 
-
-//ppt 다운로드 팝업
-function pptPopup(FILE_CD){  
-	alert(FILE_CD);
-	$("#file_cd").val(FILE_CD);
-	var windowW = 400; // 창의 가로 길이
-    var windowH = 400; // 창의 세로 길이
-    var left = Math.ceil((window.screen.width - windowW)/2);
-    var top = Math.ceil((window.screen.height - windowH)/2);
-	//var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;"; //팝업창 옵션(optoin)
-	window.open('standardDetailPop?FILE_CD=' + FILE_CD,"","top="+top+", left="+left+", height="+windowH+", width="+windowW);
-}
  

@@ -18,7 +18,7 @@ public class BoardServiceImpl implements BoardService {
 	BoardDao boardDao;
 
 	@Override
-	public List<Object> list(Map map) {
+	public List<BoardVO> list(Map map) {
 		System.out.println("boardList Service " + map.toString());
  		return boardDao.list(map);
 	}
@@ -63,10 +63,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public PagerVO getBoardListCount(Map<String, Object> map) {
 		System.out.println("getboardListCOunt  " + map.toString());
-		int boardPageNum = (Integer)map.get("pageNum");
+		int PageNum = (Integer)map.get("PageNum");
 		int totalRowCount = boardDao.BoardListCount("boardListCount", map);
 		
-		PagerVO page = new PagerVO(boardPageNum, totalRowCount, 10, 999);
+		PagerVO page = new PagerVO(PageNum, totalRowCount, 10, 999);
 		
 		return page;
 	}

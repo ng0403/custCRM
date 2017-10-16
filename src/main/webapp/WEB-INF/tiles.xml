@@ -27,10 +27,18 @@
 		<put-attribute name="body" value="/WEB-INF/views/board/board_list.jsp"></put-attribute>
 	</definition>
 	
-	<definition name="board_CRUD" extends="onebodyLayout">
-		<put-attribute name="body" value="/WEB-INF/views/board/board_CRUD.jsp"></put-attribute>
+	<definition name="board_detail" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/board/board_detail.jsp"></put-attribute>
 	</definition>	
 	
+	<definition name="board_insert" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/board/board_insert.jsp"></put-attribute>
+	</definition>	
+
+	<definition name="board_modify" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/board/board_modify.jsp"></put-attribute>
+	</definition>	
+		
 	<!-- lead -->
 	<definition name="lead_list" extends="onebodyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/lead/lead_list.jsp"></put-attribute>

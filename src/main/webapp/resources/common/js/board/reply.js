@@ -1,11 +1,11 @@
   $(document).ready(function(){
- 	 replyPaging(1); 
+  	 replyPaging(1); 
  })
  
  
 //댓글 리스트 그냥 페이징
 function replyPaging(replyPageNum) {
-    	var ctx = $("#ctx").val();
+    var ctx = $("#ctx").val();
   	var BOARD_NO = $("#BOARD_NO").val();
  	var tbody = $('#reply_list_tbody');
 	var tbodyContent = "";

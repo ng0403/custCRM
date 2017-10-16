@@ -8,8 +8,7 @@
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){
-	$('#contact_day_srch').datepicker();
-
+	$('#contact_day_srch').datepicker(); 
  });
 </script>
 

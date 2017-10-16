@@ -20,8 +20,8 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<Object> list(Map map) {	
- 		 List<Object> qwer = sqlSession.selectList("BoardList", map);
+	public List<BoardVO> list(Map map) {	
+ 		 List<BoardVO> qwer = sqlSession.selectList("BoardList", map);
  		return qwer ;
 	}
 

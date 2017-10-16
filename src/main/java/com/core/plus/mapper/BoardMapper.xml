@@ -2,38 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 
-	<!-- 전체 행의 개수 -->
+	<!-- 전체 행의 개수 이거 사용. -->
 	<select id="boardListCount" parameterType="java.util.Map"
 		resultType="int">
 		select count(*) as cnt
 		FROM TB_BOARD
 		where ACTIVE_FLG='Y' AND BOARD_MNG_NO = #{BOARD_MNG_NO}
-		<if test="keyword != null and keyword != ''">
-			AND TITLE LIKE '%' || #{keyword} || '%'
+	    <if test="keyword !=null and keyword !=''">
+ 			and(title like concat('%', #{keyword}, '%') )
 		</if> 
 	</select>
  
-
-	<!-- 전체리스트 -->
-	<select id="selectAll" parameterType="java.util.Map"
-		resultType="com.core.plus.board.vo.BoardVO">
-		SELECT b.*
-		FROM ( 
-		SELECT
-		BOARD_NO, BOARD_MNG_NO, FILE_CD, TITLE, CONTENT, VIEW_CNT, ACTIVE_FLG, DEL_FLG, CREATED_BY, CREATED, UPDATED_BY, UPDATED
-		FROM tb_board
-		WHERE ACTIVE_FLG='Y' and BOARD_MNG_NO = 'BMG001'
-		ORDER BY BOARD_NO DESC 
-		<if test="keyword !=null and keyword !=''">
-			AND title like '%'||#{keyword}||'%'
-		</if> 
-	    ORDER BY BOARD_NO DESC
-		
-		) b 
-		LIMIT #{page.limitStartNum}, #{page.pageSize}
-	</select> 
-
-	<select id="BoardList" parameterType="java.util.Map" resultType="map">
+ 
+	<select id="BoardList" parameterType="java.util.Map" resultType="com.core.plus.board.vo.BoardVO">
 		SELECT b.*
 		FROM ( 
 		SELECT
@@ -41,7 +22,7 @@
 		FROM tb_board
 		WHERE ACTIVE_FLG='Y' and BOARD_MNG_NO = 'BMG001'
  		<if test="keyword !=null and keyword !=''">
-			AND title like '%'||#{keyword}||'%'
+ 			and(title like concat('%', #{keyword}, '%') )
 		</if> 
 	    ORDER BY BOARD_NO DESC
 		
@@ -64,15 +45,15 @@
 
 	<select id="ReadPage" resultType="com.core.plus.board.vo.BoardVO">
 		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO,
-		to_char(A.CREATED,'yy-mm-dd hh:mi') CREATED, A.CREATED_BY, A.VIEW_CNT, B.REPLY_FLG,
-		A.QUESTION_TYPE_CD, A.FILE_CD
+		A.CREATED, A.CREATED_BY, A.VIEW_CNT, B.REPLY_FLG,
+		 A.FILE_CD
 		FROM TB_BOARD A, TB_BOARD_MNG B
 		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO
 	</select>
 
 	<select id="ReadFilePage" resultType="com.core.plus.board.vo.BoardVO">
 		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO, A.CREATED, A.CREATED_BY,
-		A.VIEW_CNT, B.REPLY_FLG, A.QUESTION_TYPE_CD, C.FILE_CD, C.FILE_NM
+		A.VIEW_CNT, B.REPLY_FLG, C.FILE_CD, C.FILE_NM
 		FROM TB_BOARD A, TB_BOARD_MNG B, TB_FILE C
 		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO AND
 		A.FILE_CD = C.FILE_CD
@@ -80,9 +61,9 @@
 
 	<insert id="InsertBoard" parameterType="com.core.plus.board.vo.BoardVO">
 		INSERT INTO TB_BOARD (BOARD_NO, BOARD_MNG_NO, FILE_CD, TITLE, CONTENT,
-		VIEW_CNT, QUESTION_TYPE_CD, CREATED_BY, UPDATED_BY)
-		VALUES(board_seq.nextval, #{BOARD_MNG_NO},(SELECT FILE_CD FROM TB_FILE
-		WHERE FILE_NM =#{FILE_NM} and CREATED = sysdate), #{TITLE}, #{CONTENT}, '0', ' ',
+		VIEW_CNT, CREATED_BY, UPDATED_BY)
+		VALUES((select *from (select max(board_no)+1 from tb_board) next), #{BOARD_MNG_NO},(SELECT FILE_CD FROM TB_FILE
+		WHERE FILE_NM =#{FILE_NM} and CREATED = now()), #{TITLE}, #{CONTENT}, '0',
 		#{CREATED_BY}, '')
 
 	</insert> 
@@ -91,7 +72,7 @@
 	<select id="readBoardFile" resultType="com.core.plus.board.vo.BoardVO">
 
 		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO, A.CREATED,
-		A.VIEW_CNT, B.REPLY_FLG, A.QUESTION_TYPE_CD, C.FILE_NM, C.FILE_CD
+		A.VIEW_CNT, B.REPLY_FLG, C.FILE_NM, C.FILE_CD
 		FROM TB_BOARD A, TB_BOARD_MNG B, TB_FILE C
 		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO AND
 		C.FILE_CD = A.FILE_CD
@@ -101,7 +82,7 @@
 	<select id="readBoard" resultType="com.core.plus.board.vo.BoardVO">
 
 		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO, A.CREATED,
-		A.VIEW_CNT, B.REPLY_FLG, A.QUESTION_TYPE_CD, A.FILE_CD
+		A.VIEW_CNT, B.REPLY_FLG, A.FILE_CD
 		FROM TB_BOARD A, TB_BOARD_MNG B
 		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO
 
@@ -124,7 +105,7 @@
 
 	<update id="ModifyBoard"> 
 		update tb_board set title = #{TITLE}, content = #{CONTENT}, updated_by = #{UPDATED_BY}, file_cd = (SELECT FILE_CD FROM TB_FILE
-		WHERE FILE_NM =#{FILE_NM} and CREATED = sysdate), UPDATED = sysdate
+		WHERE FILE_NM =#{FILE_NM} and CREATED = now()), UPDATED = now()
 		where BOARD_NO = #{BOARD_NO}
 	</update>
  

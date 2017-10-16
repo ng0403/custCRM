@@ -9,19 +9,9 @@
 <html>
 <head>
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
-<script src="${ctx}/resources/common/js/standard/common.js"></script>
-<script type="text/javascript" src="${ctx}/resources/common/js/standard/board/board_list.js"></script> 
-
-<link rel="stylesheet" type="text/css" href="${ctx}/resources/common/Semantic/semantic.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="  crossorigin="anonymous"></script>
-<script src="${ctx}/resources/common/Semantic/semantic.js"></script>
-
-<link rel="stylesheet" href="${ctx}/resources/common/css/standard/common/sfa_common_list.css" type="text/css" />
- 
-<link rel="stylesheet" type="text/css" href="${ctx}/resources/common/Semantic/semantic.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="  crossorigin="anonymous"></script>
- 
+ <script type="text/javascript" src="/resources/common/js/board/board_list.js"></script> 
+  <script src="http://malsup.github.com/jquery.form.js"></script>
+  
  
 <title>Insert title here</title>
 
@@ -36,23 +26,23 @@
 </div>
  
    <!-- Q&A 리스트, 조회화면 -->
-   <div class="search_div" id="search_div">
-       <div class="ui left icon input">
-			<input type="text" placeholder="제목"  id="keyword" name="keyword"  onkeydown="boardSearchEnter(event);">
+   <div class="commonList">
+       <div class="searchDiv">
+			<input type="text" placeholder="제목"  id="keyword" name="keyword"  onkeydown="boardSearchEnter(event);" style="width:20%">
 			<i class="list icon"></i>
+		    <input type="button" onclick="boardPaging(1);" value="조회" id="board_inqr_fbtn" class="tiny ui blue button" value="검색"">
+			
 		</div>	
-              <input type="button" onclick="boardPaging(1);" value="조회" id="board_inqr_fbtn" class="tiny ui blue button" value="검색"">
-     </div>
-
+    
            <form name="delAllForm" id ="delAllForm" method="post" action="/board_remove">  
            <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${BOARD_MNG_NO}"/> 
              <div id="tableline">
-               <table  class="ui sortable celled table" style="table-layout:fixed;" >
+               <table class="commonTable" id="boardTable">
                   <thead>
                      <tr style="text-align:center">
                         <th style="width:5%"><input id="checkall" type="checkbox" onclick="checkAll();"/></th>
                         <th>번호</th>
-                        <th style="width:50%">제목</th>
+                        <th>제목</th>
                         <th>작성자</th>
                         <th>작성일</th>
                         <th>조회수</th> 
@@ -93,35 +83,35 @@
 		<div class="pagingDiv">
 			<input type="hidden" id="endPageNum" value="${page.endPageNum}"/>
 			<input type="hidden" id="startPageNum" value="${page.startPageNum}"/>
-			<input type="hidden" id="pageNum" value="${pageNum}"/>
+			<input type="hidden" id="PageNum" value="${PageNum}"/>
 			<c:choose>
 				<c:when test="${page.endPageNum == 0 || page.endPageNum == 1}">
 					<a style="color: black; text-decoration: none;"> ◀ </a><input type="text" id="pageInput" value="${page.startPageNum}" readonly="readonly"/>  
 					<a style="color: black; text-decoration: none;"> / 1</a>
 					<a style="color: black; text-decoration: none;"> ▶ </a>
 				</c:when>
-				<c:when test="${pageNum == page.startPageNum}">
+				<c:when test="${PageNum == page.startPageNum}">
 					 ◀ <input type="text" id="pageInput" value="${page.startPageNum}"  onkeypress="leadPageNumInputEnter(event);"/>  
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum+1}');" id="pNum"> ▶ </a>
+					<a style="cursor: pointer;" onclick="boardPaging('${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="boardPaging('${PageNum+1}');" id="pNum"> ▶ </a>
 				</c:when>
-				<c:when test="${pageNum == page.endPageNum}">
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum-1}');" id="pNum"> ◀ </a>
+				<c:when test="${PageNum == page.endPageNum}">
+					<a style="cursor: pointer;" onclick="boardPaging('${PageNum-1}');" id="pNum"> ◀ </a>
 					<input type="text" id="pageInput"  value="${page.endPageNum}" onkeypress="leadPageNumInputEnter(event);"/> 
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="boardPaging('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
 					<a style="color: black; text-decoration: none;"> ▶ </a>
 				</c:when>
 				<c:otherwise>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum-1}');" id="pNum" > ◀ </a>
-					<input type="text" id="pageInput"  value="${pageNum}" onkeypress="leadPageNumInputEnter(event);"/>  
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum+1}');" id="pNum"> ▶ </a>
+					<a style="cursor: pointer;" onclick="boardPaging('${PageNum-1}');" id="pNum" > ◀ </a>
+					<input type="text" id="pageInput"  value="${PageNum}" onkeypress="leadPageNumInputEnter(event);"/>  
+					<a style="cursor: pointer;" onclick="boardPaging('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="boardPaging('${PageNum+1}');" id="pNum"> ▶ </a>
 				</c:otherwise>
-			</c:choose>
+				</c:choose>
+			</div>
+    	
 		</div>
-    
-</div>
-  
+    </div>
 
 </body>
 </html>

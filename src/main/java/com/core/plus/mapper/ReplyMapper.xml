@@ -7,7 +7,7 @@
  <insert id="addReply">
   INSERT INTO TB_REPLY (REPLY_NO, BOARD_NO, REPLY_CONTENT, CREATED_BY)
   values
-   (reply_seq.nextval, #{BOARD_NO ,jdbcType=VARCHAR}, #{REPLY_CONTENT ,jdbcType=VARCHAR}, #{CREATED_BY, jdbcType=VARCHAR})
+   ((select *from (select max(reply_no)+1 from tb_reply) next), #{BOARD_NO ,jdbcType=VARCHAR}, #{REPLY_CONTENT ,jdbcType=VARCHAR}, #{CREATED_BY, jdbcType=VARCHAR})
  </insert> 
 
 <select id ="replyList" parameterType="int" resultType="com.core.plus.board.vo.ReplyVO">
@@ -31,21 +31,19 @@ WHERE BOARD_NO = #{BOARD_NO}
 		
 <select id="SearchList"  parameterType="map" resultType="com.core.plus.board.vo.ReplyVO">
 SELECT X.*
-FROM ( SELECT ROWNUM AS RNUM, A.*
-       FROM (
-         SELECT REPLY_NO, REPLY_CONTENT, to_char(CREATED,'yy-mm-dd hh:mi') CREATED, CREATED_BY
+FROM (  
+         SELECT REPLY_NO, REPLY_CONTENT, CREATED, CREATED_BY
          FROM TB_REPLY
          WHERE 
          	BOARD_NO = #{BOARD_NO} 
-         ORDER BY REPLY_NO DESC ) A
+         ORDER BY REPLY_NO DESC 
      ) X
-     <![CDATA[
-        WHERE X.RNUM >= #{startRow} AND X.RNUM <= #{endRow}
-	 ]]>
+ LIMIT #{page.limitStartNum}, #{page.pageSize}
+      
 </select>		
 		
 		
-		<!-- 리스트 개수 -->
+	 <!-- 리스트 개수 -->
 	<select id="selectTotalCount" parameterType="java.util.Map"
 		resultType="integer">
 		SELECT COUNT(*)
@@ -58,17 +56,14 @@ FROM ( SELECT ROWNUM AS RNUM, A.*
 	<select id="selectAll" parameterType="java.util.Map"
 		resultType="com.core.plus.board.vo.ReplyVO">
 		SELECT b.*
-		FROM (
-		SELECT ROWNUM seq, a.*
-		from(
+		FROM ( 
 		SELECT
 		*
 		FROM tb_reply
 		WHERE BOARD_NO = #{BOARD_NO} 
-		ORDER BY REPLY_NO DESC
-		) a
+		ORDER BY REPLY_NO DESC 
 		) b
-		<![CDATA[WHERE seq >= #{page.startRow} and seq <= #{page.endRow}]]>
+	 LIMIT #{page.limitStartNum}, #{page.pageSize}
 	</select>
 	
 	
@@ -78,9 +73,6 @@ FROM ( SELECT ROWNUM AS RNUM, A.*
 	where BOARD_NO = #{BOARD_NO}
 	</select>
 	
-	
-
-
-
+	 
 
 </mapper>

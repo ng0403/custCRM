@@ -1,5 +1,7 @@
 package com.core.plus.board.vo;
 
+import java.util.Date;
+
 public class BoardVO {
 	
 	private Integer BOARD_NO;
@@ -13,9 +15,9 @@ public class BoardVO {
 	private String ACTIVE_FLG;
 	private String DEL_FLG;
 	private String CREATED_BY;
-	private String CREATED;
+	private Date CREATED;
 	private String UPDATED_BY;
-	private String UPDATED;
+	private Date UPDATED;
 	private String delcode;
 	private String BOARD_MNG_CD;
 	private String REPLY_FLG;
@@ -148,10 +150,10 @@ public class BoardVO {
 		CREATED_BY = cREATED_BY;
 	}
 	 
-	public String getCREATED() {
+	public Date getCREATED() {
 		return CREATED;
 	}
-	public void setCREATED(String cREATED) {
+	public void setCREATED(Date cREATED) {
 		CREATED = cREATED;
 	}
 	public String getUPDATED_BY() {
@@ -160,10 +162,10 @@ public class BoardVO {
 	public void setUPDATED_BY(String uPDATED_BY) {
 		UPDATED_BY = uPDATED_BY;
 	}
-	public String getUPDATED() {
+	public Date getUPDATED() {
 		return UPDATED;
 	}
-	public void setUPDATED(String uPDATED) {
+	public void setUPDATED(Date uPDATED) {
 		UPDATED = uPDATED;
 	}
 	@Override

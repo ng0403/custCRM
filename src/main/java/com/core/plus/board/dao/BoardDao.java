@@ -11,7 +11,7 @@ import com.core.plus.boardmng.vo.BoardMngVO;
 public interface BoardDao {
 	
 	public List<BoardVO> fileboardList();
-	public List<Object> list(Map map);
+	public List<BoardVO> list(Map map);
 	public List<BoardVO> ajaxlist();
 	public List<BoardVO> QnAajaxlist();
 	public BoardMngVO checkBoardMngNo(String BOARD_MNG_NO);
