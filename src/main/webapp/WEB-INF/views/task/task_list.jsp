@@ -20,16 +20,21 @@
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="cust_task_no" value="${cust_task_no}">
 <input type="hidden" id="session" value="${session}">
+<input type="hidden" id="url" value="${url}">
+<input type="hidden" id="page_type" value="${pageType}">
   
 <!-- task : task조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
 	<div class="titleDIV">
 		<c:if test="${ cust_task_no == null }">
-			<span class="titleText">
-				 ■ 상담 > 상담 관리 
-			</span>
-		</c:if>
+			<c:if test="${ pageType == '0' }">
+ 				<span class="titleText">  ■ 상담 > 상담 관리  </span>  
+			</c:if> 
+			  <c:if test="${ pageType == '1' }">
+				<span class="titleText"> ■ 상담 >  내 담당 상담 </span>
+			</c:if>
+		</c:if>	
 		<c:if test="${ cust_task_no != null }">
 			<span class="titleText">
 				 ■ 고객 > <a style="cursor: pointer;" onclick="tcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="tcustDetail('${cust_task_no}');"> 고객 상세정보 </a> > 상담이력관리 

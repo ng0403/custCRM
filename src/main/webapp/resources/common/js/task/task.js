@@ -188,18 +188,19 @@ function taskDetail(a, PageNum, lead_no, cust_no) {
 	var no = a;
 	var cust_task_no = $("#cust_task_no").val();
   	
-	console.log(cust_task_no);
+  	var page_type = $("#page_type").val();
+	
   	if (cust_task_no == 'undefined') {
   		cust_task_no = null;
   		
   	}
 	if(cust_task_no != null && cust_task_no != '')
 	{
-		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no; 
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type;; 
 	}
 	else
 	{
-		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no; 
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no + "&page_type=" + page_type;; 
 	}
 }
 
@@ -525,8 +526,4 @@ function custTaskList(cust_no)
 	console.log(cust_no);
 	location.href = ctx + "/task?cust_task_no=" + cust_no;
 }
-
-
-
-
 

@@ -177,9 +177,10 @@ public class TaskController {
 		mov.addObject("divisCd", divisCd);
 		mov.addObject("main_menu_url", "task");
 		mov.addObject("sub_menu_url", "mytask");
-		mov.addObject("session", my_user_id);
 		mov.addObject("url", Url);
+		mov.addObject("session", my_user_id);
 		menuImport(mov, "task");
+		mov.addObject("pageType", "1");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
 		
 		return mov;
 	}
@@ -208,6 +209,7 @@ public class TaskController {
 		taskMap.put("dtype_cd_srch", dtype_cd_srch);
 		taskMap.put("my_user_id", session); 
 		taskMap.put("cust_task_no", cust_task_no);
+		
 		// paging
 		PagerVO page = taskService.getTaskListRow(taskMap);
 		taskMap.put("page", page);
@@ -220,6 +222,182 @@ public class TaskController {
 		mov.addObject("srcList", srcList);
 		
 		return mov;
+	}
+	
+	// 상세보기 및 단건등록화면
+	@RequestMapping(value="task_detail")
+	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
+									HttpServletRequest request,  String page_type ,
+									String task_no, String flg, String lead_no, String cust_no, String PageNum, String cust_task_no) 
+	{
+		
+		//url 가져오기
+		String Url = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
+				
+		if(lead_no == null)
+		{
+			lead_no = "undefined";
+		}
+		if( cust_task_no == null || cust_task_no == "")
+		{
+			cust_task_no = "undefined";
+		} 
+		
+		if(task_no == null || task_no == "")	// 단건등록 시
+		{
+			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
+			List<TaskVO> dtypeCd = taskService.taskDtypeCD();			// 분류코드
+			List<TaskVO> scoreCd = taskService.taskScoreCD();			// 상대가치점수
+			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
+			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
+
+			ModelAndView mov = new ModelAndView("task_detail");
+			
+			if(lead_no.equals("undefined"))
+			{
+				mov.addObject("main_menu_url", "task"); 
+				mov.addObject("sub_menu_url", "task");
+				mov.addObject("url", Url);
+				mov.addObject("flg", "1");
+				menuImport(mov, "task");
+			}
+			else if (lead_no != null)
+			{
+				mov.addObject("main_menu_url", "lead");
+				mov.addObject("sub_menu_url", "lead");
+				mov.addObject("lead_no", lead_no);
+				mov.addObject("cust_no", cust_no);
+				mov.addObject("flg", "2");
+				mov.addObject("PageNum", PageNum); 
+				menuImport(mov, "lead");
+			}
+			
+			if(cust_task_no.equals("undefined"))
+			{
+				mov.addObject("main_menu_url", "task"); 
+				mov.addObject("sub_menu_url", "task");
+				mov.addObject("url", Url);
+				menuImport(mov, "task");
+				
+			}
+			else if(!cust_task_no.equals("1"))
+			{
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				mov.addObject("cust_task_no", cust_task_no);
+				mov.addObject("PageNum", PageNum); 
+				menuImport(mov, "cust");
+			}
+			
+			mov.addObject("flg", "1");
+
+			mov.addObject("taskNoIndex", taskNoIndex);
+			mov.addObject("dtypeCd", dtypeCd);
+			mov.addObject("scoreCd", scoreCd);
+			mov.addObject("ttypeCd", ttypeCd);
+			mov.addObject("divisCd", divisCd);
+			mov.addObject("taskPageNum", taskPageNum);
+
+			mov.addObject("url", Url);
+			mov.addObject("page_type", page_type);
+			
+			return mov;
+		}
+		else	// 상세보기	
+		{
+
+			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
+			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
+			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
+			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
+			
+			ModelAndView mov = new ModelAndView("task_detail");
+			
+			if(lead_no.equals("undefined"))
+			{
+				mov.addObject("main_menu_url", "task"); 
+				mov.addObject("sub_menu_url", "task");
+				mov.addObject("url", Url);
+				mov.addObject("flg", "2");
+				menuImport(mov, "task");
+			}
+			else 
+			{
+				mov.addObject("main_menu_url", "lead");
+				mov.addObject("sub_menu_url", "lead");
+				mov.addObject("lead_no", lead_no);
+				mov.addObject("cust_no", cust_no);
+				mov.addObject("PageNum", PageNum); 
+				menuImport(mov, "lead");
+			}
+			
+			if(cust_task_no.equals("undefined"))
+			{
+				mov.addObject("main_menu_url", "task"); 
+				mov.addObject("sub_menu_url", "task");
+				mov.addObject("url", Url);
+				mov.addObject("flg", "2");
+				menuImport(mov, "task");
+			}
+			else 
+			{
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				mov.addObject("cust_task_no", cust_task_no);
+				mov.addObject("PageNum", PageNum); 
+				menuImport(mov, "cust");
+			}
+			
+			mov.addObject("flg", "2");
+
+			mov.addObject("taskDetail",  taskService.taskDetail(task_no));
+			mov.addObject("dtypeCd", dtypeCd);
+			mov.addObject("scoreCd", scoreCd);
+			mov.addObject("ttypeCd", ttypeCd);
+			mov.addObject("divisCd", divisCd);
+			mov.addObject("taskPageNum", taskPageNum);
+			
+			mov.addObject("url", Url);
+			mov.addObject("page_type", page_type);
+			
+			return mov;
+		}
+	}
+	
+	// 추가
+	@RequestMapping(value="task_single_add", method=RequestMethod.POST)
+	public @ResponseBody int taskSingleInsert(TaskVO taskVo, HttpSession session, HttpServletRequest request,
+												@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
+		int flg=1;
+		int result = 0;
+		result = taskService.taskInsert(taskVo);
+		
+		return 0;
+	}
+	
+	// 수정
+	@RequestMapping(value="task_edit", method=RequestMethod.POST)
+	public @ResponseBody int taskEdit(TaskVO taskVo, HttpSession session,
+										@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
+		
+		int result = 0;
+		int flg=2;
+		
+		result = taskService.taskEdit(taskVo);
+
+		return result;
+	}
+	
+	// 삭제
+	@RequestMapping(value="task_delete", method=RequestMethod.POST)
+	public @ResponseBody int taskDelete(TaskVO taskVo, HttpSession session,
+											@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
+		
+		int result = 0;
+		
+		result = taskService.taskDelete(taskVo);
+		
+		return result;
 	}
 	
 	//엑셀 출력 
@@ -286,20 +464,6 @@ public class TaskController {
 					 } 
 				}
 			}
-			/*if(cst_num != null){
-				if(cst_num.contains(",") && cst_num.equals("undefined")){
-					cst_num = "";
-					taskMap.put("cust_no", cst_num);
-				} else{
-				  String[] num_cst = cst_num.split(",");
-				  cst_num = num_cst[0].toString();
-				  taskMap.put("cust_no", cst_num);
-				}
-				custtmp = cst_num.substring(0, 15);
-				taskMap.put("cust_no", custtmp);
-			}else{
-				custtmp = "";
-			}*/
 			
 			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
 			List<TaskVO> list = taskService.taskExcelExport(taskMap);	// 쿼리
@@ -316,180 +480,7 @@ public class TaskController {
 		}
 		
 	}
-	
-	// 상세보기 및 단건등록화면
-	@RequestMapping(value="task_detail")
-	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-									String task_no, String flg, String lead_no, String cust_no, String PageNum, String cust_task_no) 
-	{
-		System.out.println("cust_task_no = " + cust_task_no);
-		System.out.println("cust_no = " + cust_no);
-		System.out.println("lead_no = " + lead_no);
-		System.out.println("flg = " + flg);
 		
-		if(lead_no == null)
-		{
-			lead_no = "undefined";
-		}
-		if( cust_task_no == null || cust_task_no == "")
-		{
-			cust_task_no = "undefined";
-		} 
-		
-		
-		if(task_no == null || task_no == "")	// 단건등록 시
-		{
-			System.out.println("single_insert");
-			System.out.println("lead_no : " + lead_no);
-			
-			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
-			List<TaskVO> dtypeCd = taskService.taskDtypeCD();			// 분류코드
-			List<TaskVO> scoreCd = taskService.taskScoreCD();			// 상대가치점수
-			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
-			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
-						
-
-			ModelAndView mov = new ModelAndView("task_detail");
-			
-			if(lead_no.equals("undefined"))
-			{
-				mov.addObject("main_menu_url", "task"); 
-				mov.addObject("sub_menu_url", "task");
-				mov.addObject("flg", "1");
-				menuImport(mov, "task");
-				System.out.println("AAAA");
-			}
-			else if (lead_no != null)
-			{
-				mov.addObject("main_menu_url", "lead");
-				mov.addObject("sub_menu_url", "lead");
-				mov.addObject("lead_no", lead_no);
-				mov.addObject("cust_no", cust_no);
-				mov.addObject("flg", "2");
-				mov.addObject("PageNum", PageNum); 
-				menuImport(mov, "lead");
-				System.out.println("flg :" + lead_no );
-			}
-			
-			if(cust_task_no.equals("undefined"))
-			{
-				mov.addObject("main_menu_url", "task"); 
-				mov.addObject("sub_menu_url", "task");
-//				mov.addObject("flg", "1");
-				menuImport(mov, "task");
-				System.out.println("BBBB");
-			}
-			else if(!cust_task_no.equals("1"))
-			{
-				mov.addObject("main_menu_url", "cust");
-				mov.addObject("sub_menu_url", "cust");
-				mov.addObject("cust_task_no", cust_task_no);
-				mov.addObject("PageNum", PageNum); 
-				menuImport(mov, "cust");
-				System.out.println("flg :" + cust_task_no );
-			}
-			
-			mov.addObject("taskNoIndex", taskNoIndex);
-			mov.addObject("dtypeCd", dtypeCd);
-			mov.addObject("scoreCd", scoreCd);
-			mov.addObject("ttypeCd", ttypeCd);
-			mov.addObject("divisCd", divisCd);
-			mov.addObject("flg", "1");
-			mov.addObject("taskPageNum", taskPageNum);
-			
-			return mov;
-		}
-		else	// 상세보기	
-		{
-
-			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
-			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
-			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
-			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
-			
-			ModelAndView mov = new ModelAndView("task_detail");
-			
-			if(lead_no.equals("undefined"))
-			{
-				mov.addObject("main_menu_url", "task"); 
-				mov.addObject("sub_menu_url", "task");
-				mov.addObject("flg", "2");
-				menuImport(mov, "task");
-			}
-			else 
-			{
-				mov.addObject("main_menu_url", "lead");
-				mov.addObject("sub_menu_url", "lead");
-				mov.addObject("lead_no", lead_no);
-				mov.addObject("cust_no", cust_no);
-				mov.addObject("PageNum", PageNum); 
-				menuImport(mov, "lead");
-			}
-			
-			if(cust_task_no.equals("undefined"))
-			{
-				mov.addObject("main_menu_url", "task"); 
-				mov.addObject("sub_menu_url", "task");
-				mov.addObject("flg", "2");
-				menuImport(mov, "task");
-			}
-			else 
-			{
-				mov.addObject("main_menu_url", "cust");
-				mov.addObject("sub_menu_url", "cust");
-				mov.addObject("cust_task_no", cust_task_no);
-				mov.addObject("PageNum", PageNum); 
-				menuImport(mov, "cust");
-			}
-			
-			mov.addObject("taskDetail",  taskService.taskDetail(task_no));
-			mov.addObject("dtypeCd", dtypeCd);
-			mov.addObject("scoreCd", scoreCd);
-			mov.addObject("ttypeCd", ttypeCd);
-			mov.addObject("divisCd", divisCd);
-			mov.addObject("flg", "2");
-			mov.addObject("taskPageNum", taskPageNum);
-			
-			return mov;
-		}
-	}
-	
-	// 추가
-	@RequestMapping(value="task_single_add", method=RequestMethod.POST)
-	public @ResponseBody int taskSingleInsert(TaskVO taskVo, HttpSession session, HttpServletRequest request,
-												@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
-		int flg=1;
-		int result = 0;
-		result = taskService.taskInsert(taskVo);
-		
-		return 0;
-	}
-	
-	// 수정
-	@RequestMapping(value="task_edit", method=RequestMethod.POST)
-	public @ResponseBody int taskEdit(TaskVO taskVo, HttpSession session,
-										@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
-		
-		int result = 0;
-		int flg=2;
-		
-		result = taskService.taskEdit(taskVo);
-
-		return result;
-	}
-	
-	// 삭제
-	@RequestMapping(value="task_delete", method=RequestMethod.POST)
-	public @ResponseBody int taskDelete(TaskVO taskVo, HttpSession session,
-											@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
-		
-		int result = 0;
-		
-		result = taskService.taskDelete(taskVo);
-		
-		return result;
-	}
-	
 	/* Popup*/
 	@RequestMapping(value="taskCustListAjax", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> taskCustListPopup(@RequestParam(value = "custPopupPageNum", defaultValue = "1") 
