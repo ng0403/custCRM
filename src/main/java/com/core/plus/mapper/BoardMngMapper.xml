@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardmng">
+
+<!-- 전체 행의 개수 -->
+	<select id="boardMngListCount" parameterType="java.util.Map" resultType="int">
+	    select count(*) as cnt
+		 FROM TB_BOARD_MNG
+		where del_flg='N'   
+	</select>
+	 
+<select id="BoardMngList" parameterType="int" resultType="map">
+select X.*
+		from ( 
+		 SELECT
+ 		 BOARD_MNG_NO,
+ 		 BOARD_MNG_CD,
+ 		 BOARD_NM,
+ 		 REPLY_FLG,
+ 		 FILE_ATTACH_FLG,
+ 		 NOTICE_FLG,
+ 		 ACTIVE_FLG, 
+ 		 DEL_FLG, 
+ 		 CREATED,
+ 		 if(ACTIVE_FLG='Y', '활성화', '비활성화') AS ACTIVE_FLGSTRING
+		 FROM tb_board_mng
+		 order by UPDATED DESC 
+	  ) X
+ LIMIT #{page.limitStartNum}, #{page.pageSize}
+ </select>
+ 
+ 
+ <select id="ReadPage"  resultType="com.core.plus.boardmng.vo.BoardMngVO">
+ SELECT A.BOARD_MNG_NO, A.BOARD_MNG_CD, A.BOARD_NM, A.REPLY_FLG, A.ACTIVE_FLG, A.FILE_ATTACH_FLG, A.NOTICE_FLG, B.CD_NM
+ FROM TB_BOARD_MNG A , CODE B
+ WHERE BOARD_MNG_NO = #{BOARD_MNG_NO} AND A.BOARD_MNG_CD = B.CODE AND B.CD_GRP_ID='BOG'
+ </select>
+ 
+  <update id="Modify" > 
+ update tb_board_mng set BOARD_NM = #{BOARD_NM}, FILE_ATTACH_FLG =  #{FILE_ATTACH_FLG}, REPLY_FLG =  #{REPLY_FLG}, ACTIVE_FLG = #{ACTIVE_FLG}
+ where BOARD_MNG_NO = #{BOARD_MNG_NO}
+ 
+ </update>
+ 
+ <insert id ="Add">
+ 
+  <selectKey keyProperty="board_mng_no" resultType="String" order="BEFORE">
+   SELECT IF(SUBSTR(MAX(a.board_mng_no), 1, 3) = 'BMG', concat(SUBSTR(MAX(a.board_mng_no),1,3) , LPAD(SUBSTR(MAX(a.board_mng_no),4,3)+1, 3, '0')), concat('BMG','001')) board_mng_no 
+   FROM tb_board_mng a USE INDEX(PRIMARY)
+ </selectKey>  
+ 
+insert into tb_board_mng (board_mng_no, board_mng_cd, board_nm, reply_flg, file_attach_flg, created_by)
+values (
+   board_mng_no
+   #{BOARD_MNG_CD},
+   #{BOARD_NM},
+   #{REPLY_FLG},
+   #{FILE_ATTACH_FLG}, 
+   #{CREATED_BY}
+   );
+ 
+ 
+ </insert>
+ 
+ 
+ <delete id="Delete">
+ DELETE TB_BOARD_MNG
+ WHERE BOARD_MNG_NO = #{BOARD_MNG_NO}
+ </delete>
+ 
+  
+ 
+ <select id="codelist" resultType="map">
+ select CODE, CD_NM
+from CODE
+where cd_grp_id='BOG'
+ </select>
+ 
+  
+
+</mapper>

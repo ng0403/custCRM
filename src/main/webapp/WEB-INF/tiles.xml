@@ -22,6 +22,14 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
 	
+	<!-- board -->
+	<definition name="board_list" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/board/board_list.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="board_CRUD" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/board/board_CRUD.jsp"></put-attribute>
+	</definition>	
 	
 	<!-- lead -->
 	<definition name="lead_list" extends="onebodyLayout">

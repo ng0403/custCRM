@@ -1,0 +1,199 @@
+@CHARSET "UTF-8";
+
+#main_div {
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+}
+  
+.navi_div {
+	font-size: 15pt;
+	font-weight: bold;
+	margin-left: 25px;
+}
+
+.search_div {
+	 
+	width: 90%;
+	height: 60px;
+	margin-left: 22px;
+/* 	vertical-align: middle; */
+}
+
+.search2_div  {
+	
+	margin-top: 30px;
+	
+}
+
+label {
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+#keyword {
+	
+	width: 200px;
+	height: 34px;
+	float: left;
+	margin-left: 10px;
+}
+
+#sel1
+{
+	width: 95%;
+	margin-left: 20px;
+}
+
+#dept_inqr_fbtn {
+	
+	margin-left: 5px;
+	width: 55px;
+	height: 34px;
+	
+}
+
+.list1_div {
+	
+	position:relative;
+	margin-left: 10px;
+	width: 95%;
+	margin: auto;
+	overflow:auto;
+	
+}
+
+.table_div{
+	height:500px;;
+}
+
+.checkall {
+	text-align: center;
+	vertical-align: middle;
+}
+.paging_div {
+	
+	width: 90%;
+	margin-left: 23px;
+	height: auto;
+	text-align: center;
+	margin-top: 5px;
+	clear: both;
+}
+
+.btn01 {
+	float: left;
+	width: 100%;
+}
+
+.left {
+	float: left;
+	vertical-align: top;
+	margin:0;
+}
+
+.page {
+	width: auto;
+	clear: both;
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	margin:0 auto;
+}
+.right {
+	float: right;
+	vertical-align: top;
+}
+.pNum{
+	width: 25%;
+}
+.btn02 {
+	margin-left: 10px;
+}
+.main-footer {
+	clear: both;
+}
+#pageInput{
+	width: 15%;
+}
+
+
+/* insert 화면  */
+.container {
+	
+	margin-top: 20px; 
+	width: 90%;
+	height: 500px;
+	
+}
+
+ .reply_div{
+	/* float : right; */
+	height:50px; 
+} 
+
+#txt {
+	margin-right: 10px;
+}
+
+#TITLE, #CONTENT {
+	
+	width: 99.5%;
+/* 	margin-left: 20px; */
+}
+
+ #boardcontent { 
+ 	margin-top: 6px; 
+ 	width: 99.5%;
+ 	height: 250px;;
+ }
+ 
+ #reply_content{
+ 	width: 99.5%;
+/*  	margin-left : -15px; */	
+  }
+
+#file {
+	
+	margin-top: 13px;
+	margin-left: 50px;
+	
+}
+
+#btns {
+	
+	margin-top: 20px;
+ 
+}
+
+
+/* 디테일 */
+
+#created {
+	float: left;
+	
+}
+
+#detail_con {
+	
+}
+
+
+#detail_btns {
+	
+	margin-top: 20px;
+	margin-bottom: 20px;
+	/* text-align: right; */
+	margin-right: 10px;
+/* 	margin-left: 980px;  */
+	
+}
+
+/* #detail_btn_div {
+	width: 30px;
+} */
+
+#reply_add_fbtn {
+	margin-left: 100px;
+	margin-top: 13px;
+
+}

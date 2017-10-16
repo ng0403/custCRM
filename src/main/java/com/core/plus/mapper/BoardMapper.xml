@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<!-- 전체 행의 개수 -->
+	<select id="boardListCount" parameterType="java.util.Map"
+		resultType="int">
+		select count(*) as cnt
+		FROM TB_BOARD
+		where ACTIVE_FLG='Y' AND BOARD_MNG_NO = #{BOARD_MNG_NO}
+		<if test="keyword != null and keyword != ''">
+			AND TITLE LIKE '%' || #{keyword} || '%'
+		</if> 
+	</select>
+ 
+
+	<!-- 전체리스트 -->
+	<select id="selectAll" parameterType="java.util.Map"
+		resultType="com.core.plus.board.vo.BoardVO">
+		SELECT b.*
+		FROM ( 
+		SELECT
+		BOARD_NO, BOARD_MNG_NO, FILE_CD, TITLE, CONTENT, VIEW_CNT, ACTIVE_FLG, DEL_FLG, CREATED_BY, CREATED, UPDATED_BY, UPDATED
+		FROM tb_board
+		WHERE ACTIVE_FLG='Y' and BOARD_MNG_NO = 'BMG001'
+		ORDER BY BOARD_NO DESC 
+		<if test="keyword !=null and keyword !=''">
+			AND title like '%'||#{keyword}||'%'
+		</if> 
+	    ORDER BY BOARD_NO DESC
+		
+		) b 
+		LIMIT #{page.limitStartNum}, #{page.pageSize}
+	</select> 
+
+	<select id="BoardList" parameterType="java.util.Map" resultType="map">
+		SELECT b.*
+		FROM ( 
+		SELECT
+		BOARD_NO, BOARD_MNG_NO, FILE_CD, TITLE, CONTENT, VIEW_CNT, ACTIVE_FLG, DEL_FLG, CREATED_BY, CREATED, UPDATED_BY, UPDATED
+		FROM tb_board
+		WHERE ACTIVE_FLG='Y' and BOARD_MNG_NO = 'BMG001'
+ 		<if test="keyword !=null and keyword !=''">
+			AND title like '%'||#{keyword}||'%'
+		</if> 
+	    ORDER BY BOARD_NO DESC
+		
+		) b 
+		LIMIT #{page.limitStartNum}, #{page.pageSize}
+	</select>
+	
+	 
+
+	<select id="ajaxList" resultType="com.core.plus.board.vo.BoardVO">
+
+		SELECT
+		BOARD_NO, TITLE, CONTENT, CREATED_BY, to_char(to_date(CREATED,'yy-mm-dd
+		hh:mi'),'yyyy-mm-dd hh:mm') CREATED, VIEW_CNT
+		FROM tb_board
+		WHERE ACTIVE_FLG='Y' AND BOARD_MNG_NO = #{BOARD_MNG_NO}
+		ORDER BY BOARD_NO DESC
+
+	</select> 
+
+	<select id="ReadPage" resultType="com.core.plus.board.vo.BoardVO">
+		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO,
+		to_char(A.CREATED,'yy-mm-dd hh:mi') CREATED, A.CREATED_BY, A.VIEW_CNT, B.REPLY_FLG,
+		A.QUESTION_TYPE_CD, A.FILE_CD
+		FROM TB_BOARD A, TB_BOARD_MNG B
+		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO
+	</select>
+
+	<select id="ReadFilePage" resultType="com.core.plus.board.vo.BoardVO">
+		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO, A.CREATED, A.CREATED_BY,
+		A.VIEW_CNT, B.REPLY_FLG, A.QUESTION_TYPE_CD, C.FILE_CD, C.FILE_NM
+		FROM TB_BOARD A, TB_BOARD_MNG B, TB_FILE C
+		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO AND
+		A.FILE_CD = C.FILE_CD
+	</select>
+
+	<insert id="InsertBoard" parameterType="com.core.plus.board.vo.BoardVO">
+		INSERT INTO TB_BOARD (BOARD_NO, BOARD_MNG_NO, FILE_CD, TITLE, CONTENT,
+		VIEW_CNT, QUESTION_TYPE_CD, CREATED_BY, UPDATED_BY)
+		VALUES(board_seq.nextval, #{BOARD_MNG_NO},(SELECT FILE_CD FROM TB_FILE
+		WHERE FILE_NM =#{FILE_NM} and CREATED = sysdate), #{TITLE}, #{CONTENT}, '0', ' ',
+		#{CREATED_BY}, '')
+
+	</insert> 
+
+
+	<select id="readBoardFile" resultType="com.core.plus.board.vo.BoardVO">
+
+		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO, A.CREATED,
+		A.VIEW_CNT, B.REPLY_FLG, A.QUESTION_TYPE_CD, C.FILE_NM, C.FILE_CD
+		FROM TB_BOARD A, TB_BOARD_MNG B, TB_FILE C
+		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO AND
+		C.FILE_CD = A.FILE_CD
+
+	</select>
+
+	<select id="readBoard" resultType="com.core.plus.board.vo.BoardVO">
+
+		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO, A.CREATED,
+		A.VIEW_CNT, B.REPLY_FLG, A.QUESTION_TYPE_CD, A.FILE_CD
+		FROM TB_BOARD A, TB_BOARD_MNG B
+		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO
+
+	</select>
+
+	<update id="removeBoard" parameterType="String">
+		update tb_board set active_flg = 'N'
+		where BOARD_NO = #{BOARD_NO}
+	</update>
+
+	<update id="removeDetail" parameterType="int">
+		update tb_board set active_flg = 'N'
+		where BOARD_NO = #{BOARD_NO}
+	</update>
+
+	<update id="viewadd" parameterType="int">
+		update tb_board set view_cnt = view_cnt + 1
+		where BOARD_NO = #{BOARD_NO}
+	</update>
+
+	<update id="ModifyBoard"> 
+		update tb_board set title = #{TITLE}, content = #{CONTENT}, updated_by = #{UPDATED_BY}, file_cd = (SELECT FILE_CD FROM TB_FILE
+		WHERE FILE_NM =#{FILE_NM} and CREATED = sysdate), UPDATED = sysdate
+		where BOARD_NO = #{BOARD_NO}
+	</update>
+ 
+	
+	<update id="AnswerFlg" parameterType="int">
+	update tb_board set answer_flg = 'Y'
+	where BOARD_NO = #{BOARD_NO}
+	</update>
+	
+	<update id="AnswerFlgN" parameterType="int">
+	update tb_board set answer_flg = 'N'
+	where BOARD_NO = #{BOARD_NO}
+	</update>
+  
+	 
+
+	<select id="SearchList" parameterType="map"
+		resultType="com.core.plus.board.vo.BoardVO">
+		SELECT X.*
+		FROM ( SELECT ROWNUM AS RNUM, A.*
+		FROM (
+		SELECT BOARD_NO, TITLE, QUESTION_TYPE_CD, ANSWER_FLG, CREATED_BY,
+		to_char(CREATED,'yy-mm-dd hh:mi') CREATED, VIEW_CNT
+		FROM TB_BOARD
+		WHERE
+		ACTIVE_FLG = 'Y' AND BOARD_MNG_NO = 'BMG1000002'
+		<if test="qna_answer != null and qna_answer != '' ">
+			AND ANSWER_FLG = #{qna_answer}
+		</if>
+		<if test="keyword != null and keyword != ''">
+			AND TITLE LIKE '%' || #{keyword} || '%'
+		</if>
+		ORDER BY BOARD_NO DESC ) A
+		) X
+     <![CDATA[
+        WHERE X.RNUM >= #{startRow} AND X.RNUM <= #{endRow}
+	 ]]>
+	</select>
+
+
+	<insert id="insertAttachData" parameterType="com.core.plus.board.vo.BoardVO">
+
+		insert into TB_FILE (FILE_CD, FILE_NO, FILE_PATH, FILE_NM, FILE_EXT,
+		CREATED_BY)
+		values (
+		(
+		SELECT /*+INDEX_DESC(TB_FILE TB_FILE)*/
+		DECODE(MAX(FILE_CD), NULL, 'FIL1000001', SUBSTR(MAX(FILE_CD), 1, 3) ||
+		(SUBSTR(MAX(FILE_CD), 4, 7)+1)) FILE_CD
+		FROM TB_FILE
+     <![CDATA[
+    WHERE FILE_CD < CONCAT('FIL', '9999999')
+          AND ROWNUM = 1
+          	]]>
+		),
+		FILE_SEQ.NEXTVAL,	
+		#{FILE_PATH},
+		#{FILE_NM},
+		#{FILE_EXT},
+		'ADMIN'
+		)
+
+	</insert>
+
+	<select id="searchOneFiledata" parameterType="java.lang.String"
+		resultType="map">
+		SELECT *
+		FROM TB_FILE
+		WHERE FILE_CD=#{FILE_CD}
+	</select>
+
+	<select id="CODE" parameterType="java.lang.String"
+		resultType="com.core.plus.board.vo.BoardVO">
+		SELECT CD_NM
+		FROM CODE
+		WHERE CODE = #{QUESTION_TYPE_CD} AND CD_GRP_ID = 'QAT'
+	</select>
+	
+	
+	<select id="fileboardList" resultType="com.core.plus.board.vo.BoardVO">
+	 SELECT *
+        FROM 
+        (
+        SELECT * FROM TB_BOARD WHERE BOARD_MNG_NO = 'BMG1000002' AND ACTIVE_FLG ='Y' ORDER BY CREATED DESC
+        ) 
+        WHERE ROWNUM <![CDATA[<= 5 ]]> 
+	</select>
+	
+	<delete id = "file_remove" parameterType="java.lang.String">
+	delete from tb_file
+	where FILE_CD = #{FILE_CD}	
+	</delete>
+	
+	<update id = "file_removeMd" parameterType="java.lang.String">
+	update tb_board set FILE_CD = ''
+	where FILE_CD  = #{FILE_CD}
+	</update>
+	
+	<select id ="checkBoardMngNo" parameterType="java.lang.String" resultType="com.core.plus.boardmng.vo.BoardMngVO">
+	select * from TB_BOARD_MNG
+	WHERE BOARD_MNG_NO = #{BOARD_MNG_NO}
+	</select>
+
+
+</mapper>
