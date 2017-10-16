@@ -182,7 +182,7 @@ function taskDetail(a, PageNum, lead_no, cust_no) {
   	}
 	if(cust_task_no != null && cust_task_no != '')
 	{
-		//location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no; 
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no; 
 	}
 	else
 	{

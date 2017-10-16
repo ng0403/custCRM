@@ -330,7 +330,7 @@ public class TaskController {
 		{
 			lead_no = "undefined";
 		}
-		if( cust_task_no == null)
+		if( cust_task_no == null || cust_task_no == "")
 		{
 			cust_task_no = "undefined";
 		} 
@@ -346,7 +346,41 @@ public class TaskController {
 						
 
 			ModelAndView mov = new ModelAndView("task_detail");
-
+			
+			if(lead_no.equals("undefined"))
+			{
+				mov.addObject("main_menu_url", "task"); 
+				mov.addObject("sub_menu_url", "task");
+				mov.addObject("flg", "2");
+				menuImport(mov, "task");
+			}
+			else 
+			{
+				mov.addObject("main_menu_url", "lead");
+				mov.addObject("sub_menu_url", "lead");
+				mov.addObject("lead_no", lead_no);
+				mov.addObject("cust_no", cust_no);
+				mov.addObject("PageNum", PageNum); 
+				mov.addObject("flg", "3");
+				menuImport(mov, "lead");
+			}
+			
+			if(cust_task_no.equals("undefined"))
+			{
+				mov.addObject("main_menu_url", "task"); 
+				mov.addObject("sub_menu_url", "task");
+				mov.addObject("flg", "2");
+				menuImport(mov, "task");
+			}
+			else 
+			{
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				mov.addObject("cust_task_no", cust_task_no);
+				mov.addObject("PageNum", PageNum); 
+				menuImport(mov, "cust");
+			}
+			
 			mov.addObject("taskNoIndex", taskNoIndex);
 			mov.addObject("dtypeCd", dtypeCd);
 			mov.addObject("scoreCd", scoreCd);
@@ -355,19 +389,9 @@ public class TaskController {
 			mov.addObject("flg", "1");
 			mov.addObject("taskPageNum", taskPageNum);
 			
-			if(cust_task_no != null)
-			{
-				mov.addObject("main_menu_url", "cust");
-				mov.addObject("sub_menu_url", "cust");
-				mov.addObject("cust_task_no", cust_task_no);
-				menuImport(mov, "cust");
-			}
-			else
-			{
-				mov.addObject("main_menu_url", "task");
-				mov.addObject("sub_menu_url", "task");
-				menuImport(mov, "task");
-			}
+			System.out.println("cust_task_no : " + cust_task_no);
+			System.out.println("lead_no: " + lead_no);
+			System.out.println("flg" + flg);
 			
 			return mov;
 		}
@@ -385,6 +409,7 @@ public class TaskController {
 			{
 				mov.addObject("main_menu_url", "task"); 
 				mov.addObject("sub_menu_url", "task");
+				mov.addObject("flg", "2");
 				menuImport(mov, "task");
 			}
 			else 
@@ -401,6 +426,7 @@ public class TaskController {
 			{
 				mov.addObject("main_menu_url", "task"); 
 				mov.addObject("sub_menu_url", "task");
+				mov.addObject("flg", "2");
 				menuImport(mov, "task");
 			}
 			else 
