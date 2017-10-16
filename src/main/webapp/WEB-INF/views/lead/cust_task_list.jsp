@@ -19,15 +19,17 @@
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
-<input type="hidden" id="cust_no" value="${cust_no}">  
+<input type="hidden" id="lead_no" value="${lead_no}">
+<input type="hidden" id="cust_no" value="${cust_no}">
 <!-- task : task조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
 		<div class="titleDIV" id="lead_detail_title">
 		<span class="titleText">
-		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> > 고객상담 이력
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 12고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> > 고객상담 이력
 		</span>
 	</div> 
+	
 	<div style="height:10px;"></div>
 	<div class="commonList">
 	    <form name="taskListForm" id="taskListForm" method="post" action="${ctx}/couponManager" >

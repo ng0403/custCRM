@@ -325,6 +325,7 @@ public class TaskController {
 		System.out.println("cust_task_no = " + cust_task_no);
 		System.out.println("cust_no = " + cust_no);
 		System.out.println("lead_no = " + lead_no);
+		System.out.println("flg = " + flg);
 		
 		if(lead_no == null)
 		{
@@ -338,6 +339,9 @@ public class TaskController {
 		
 		if(task_no == null || task_no == "")	// 단건등록 시
 		{
+			System.out.println("single_insert");
+			System.out.println("lead_no : " + lead_no);
+			
 			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
 			List<TaskVO> dtypeCd = taskService.taskDtypeCD();			// 분류코드
 			List<TaskVO> scoreCd = taskService.taskScoreCD();			// 상대가치점수
@@ -351,34 +355,38 @@ public class TaskController {
 			{
 				mov.addObject("main_menu_url", "task"); 
 				mov.addObject("sub_menu_url", "task");
-				mov.addObject("flg", "2");
+				mov.addObject("flg", "1");
 				menuImport(mov, "task");
+				System.out.println("AAAA");
 			}
-			else 
+			else if (lead_no != null)
 			{
 				mov.addObject("main_menu_url", "lead");
 				mov.addObject("sub_menu_url", "lead");
 				mov.addObject("lead_no", lead_no);
 				mov.addObject("cust_no", cust_no);
+				mov.addObject("flg", "2");
 				mov.addObject("PageNum", PageNum); 
-				mov.addObject("flg", "3");
 				menuImport(mov, "lead");
+				System.out.println("flg :" + lead_no );
 			}
 			
 			if(cust_task_no.equals("undefined"))
 			{
 				mov.addObject("main_menu_url", "task"); 
 				mov.addObject("sub_menu_url", "task");
-				mov.addObject("flg", "2");
+//				mov.addObject("flg", "1");
 				menuImport(mov, "task");
+				System.out.println("BBBB");
 			}
-			else 
+			else if(!cust_task_no.equals("1"))
 			{
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
 				mov.addObject("cust_task_no", cust_task_no);
 				mov.addObject("PageNum", PageNum); 
 				menuImport(mov, "cust");
+				System.out.println("flg :" + cust_task_no );
 			}
 			
 			mov.addObject("taskNoIndex", taskNoIndex);
@@ -388,10 +396,6 @@ public class TaskController {
 			mov.addObject("divisCd", divisCd);
 			mov.addObject("flg", "1");
 			mov.addObject("taskPageNum", taskPageNum);
-			
-			System.out.println("cust_task_no : " + cust_task_no);
-			System.out.println("lead_no: " + lead_no);
-			System.out.println("flg" + flg);
 			
 			return mov;
 		}

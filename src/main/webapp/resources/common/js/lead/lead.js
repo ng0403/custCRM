@@ -712,11 +712,15 @@ function StatusSearchKeyword(lead_status_cd, b){
 }
 
 
-function lead_counsel_read(cust_no, PageNum){
-     var lead_no = $("#lead_no").val();
- 	location.href="/cust_task?cust_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum;
-}
+//function lead_counsel_read(cust_no, PageNum){
+//     var lead_no = $("#lead_no").val();
+// 	location.href="/cust_task?cust_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum;
+//}
 
+function lead_counsel_read(cust_no, PageNum){
+    var lead_no = $("#lead_no").val();
+	location.href="/cust_task?cust_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum;
+}
 
 //엑셀 출력 
 function download_list_Excel(formID, flgNum) {

@@ -298,7 +298,8 @@ function task_del_save() {
 // 취소버튼
 function task_cancel(taskPageNum) {
 	if(confirm("리스트 페이지로 이동하시겠습니까?"))
-	location.href="/task?taskPageNum=" + taskPageNum;
+//	location.href="/task?taskPageNum=" + taskPageNum;
+	history.back();
 }
 
 //가망 고객 취소 페이지 이동

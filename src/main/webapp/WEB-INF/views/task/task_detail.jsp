@@ -65,11 +65,11 @@
 		</c:if>
 	</c:if>
 	
-	<c:if test="${lead_no != null && cust_no != null}"> 
-		<c:if test="${flg != 1 }">
+	<c:if test="${lead_no != null }"> 
+		<c:if test="${flg == 2 }">
 			<div class="titleDIV">
 				<span class="titleText">
-				■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> 
+				■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 345고객리드관리</a> 
 					> <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> 
 					> <a style="cursor: pointer;" onclick="lead_counsel_read('${cust_no}', '${PageNum}');"> 고객상담 이력 </a> 
 					> <span id="task_form_title">고객상담 상세정보 </span>

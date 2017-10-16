@@ -165,9 +165,22 @@ function task_add(){
 		style:'background-color:white'
 	});
 	var cust_task_no = $("#cust_task_no").val();
-	console.log(cust_task_no);
+	var lead_no = $("#lead_no").val();
+	var cust_no = $("#cust_no").val();
 	
-	location.href="/task_detail?task_no=" +"&cust_task_no=" + cust_task_no;
+	console.log(cust_task_no);
+	console.log(lead_no);
+	console.log(cust_no);
+	
+	if(cust_task_no != null)
+	{
+		location.href="/task_detail?task_no=" +"&cust_task_no=" + cust_task_no;
+	}
+	if(lead_no != null)
+	{
+		location.href="/task_detail?lead_no=" + lead_no + "&cust_no=" + cust_no +"&cust_task_no=1";
+	}
+	
 }
 
 //상담 상세정보
