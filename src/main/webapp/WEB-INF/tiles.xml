@@ -38,6 +38,26 @@
 	<definition name="board_modify" extends="onebodyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/board/board_modify.jsp"></put-attribute>
 	</definition>	
+	
+	<!-- board mng -->
+	<definition name="board_mng_list" extends="twobodyLayout">
+		<put-attribute name="master"
+			value="/WEB-INF/views/board_mng/board_mng_list.jsp" />
+		<put-attribute name="detail"
+			value="/WEB-INF/views/board_mng/board_mng_detail.jsp" /> 
+	</definition>
+	
+	
+	<definition name="board_mng_add" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/board_mng/board_mng_add.jsp" />
+	</definition>
+	
+	<definition name="board_mng_detail" extends="onebodyLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/board_mng/board_mng_detail.jsp" />
+	</definition>
+	
 		
 	<!-- lead -->
 	<definition name="lead_list" extends="onebodyLayout">

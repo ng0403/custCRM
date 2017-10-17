@@ -6,32 +6,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
-<script src="${ctx}/resources/common/js/common.js"></script>
-<script type="text/javascript"
-	src="${ctx}/resources/common/js/standard/boardmng/boardmng.js"></script>
-<link rel="stylesheet" href="${ctx}/resources/common/css/common.css"
-	type="text/css" />
-
-<link rel="stylesheet" type="text/css"
-	href="${ctx}/resources/common/Semantic/semantic.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"
-	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-	crossorigin="anonymous"></script>
-<script src="${ctx}/resources/common/Semantic/semantic.js"></script>
-
- <link rel="stylesheet" href="${ctx}/resources/common/css/common.css"
-		type="text/css" />
-<link rel="stylesheet" href="${ctx}/resources/common/css/standard/common/sfa_common_list.css" type="text/css" />
-
-<script src="${ctx}/resources/common/js/standard/common/tablesort.js"></script>
-<script>
-$(function() {
-
-   $('table').tablesort();
-
-});  
-</script>
+  <script type="text/javascript"
+	src="${ctx}/resources/common/js/boardmng/boardmng.js"></script>
+ 
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
@@ -47,7 +24,7 @@ $(function() {
 
 	 			<div style="height:323px">
 <!--<form name="delAllForm" id="delAllForm" method="post" action="/board/board_remove"> -->
-					<table class="ui sortable celled table">
+					<table class="commonTable">
 						<thead>
 							<tr style="text-align:center">
 								<th ><input id="checkall" type="checkbox"

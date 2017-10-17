@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.core.plus.boardmng.service.BoardMngService;
 import com.core.plus.boardmng.vo.BoardMngVO;
 import com.core.plus.common.PagerVO;
+import com.core.plus.info.menu.service.MenuService;
+import com.core.plus.info.menu.vo.MenuVo;
+import com.core.plus.login.dao.LoginDAO;
 
 @Controller
 /*@RequestMapping("/board_mng")*/
@@ -27,9 +31,35 @@ public class BoardMngController {
 	
 	@Autowired
 	BoardMngService boardmngService;
+	@Resource
+	MenuService menuService;
+	@Autowired
+	private HttpSession session;
+    @Resource
+	LoginDAO loginDao;
+    
+	public void menuImport(ModelAndView mav, String url){
+		String menu_id = menuService.getMenuUrlID(url);
+		String user_id = session.getAttribute("user").toString();
+	
+		Map<String, String> menuAuthMap = new HashMap<String, String>();
+		menuAuthMap.put("menu_url", url);
+		menuAuthMap.put("user_id", user_id);
+		menuAuthMap.put("menu_id", menu_id);
+		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+		mav.addObject("menuAuth", menuAuth);
+			
+		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
+		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
+		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
+		mav.addObject("subMenuList", subMenuList);    //subMenuList
+	}
+	
+	
+	
 	
 	//게시판 관리 리스트
-	@RequestMapping(value="/boardmngInqr", method=RequestMethod.GET) 
+	@RequestMapping(value="/boardmngInqr",  method=RequestMethod.POST) 
 	public ModelAndView boardmngList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, @RequestParam Map<String, Object> map ) throws Exception{
 		map.put("pageNum", pageNum);
 		
@@ -47,7 +77,8 @@ public class BoardMngController {
 		mov.addObject("page",  page);
 		mov.addObject("pageNum",  pageNum); 
 		mov.addObject("codelist", codelist);
-		
+ 		menuImport(mov, "bordmngInqr");
+
 		System.out.println(mov.toString());
 		return mov; 
 		
