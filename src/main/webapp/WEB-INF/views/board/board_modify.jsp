@@ -8,16 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <script type="text/javascript" src="${ctx}/resources/common/js/board/board_modify.js"></script>  
-
-<link rel="stylesheet" href="${ctx}/resources/common/css/standard/common/sfa_common_list.css" type="text/css" />
-
-<script src="${ctx}/resources/common/js/jquery-1.11.1.js"></script>
-<script src="${ctx}/resources/common/js/common.js"></script>
-
-    
- <script src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="  crossorigin="anonymous"></script>
-  
-
+   
 <title>Insert title here</title>
 </head>
 <body>
@@ -34,18 +25,14 @@
 		</div>
 </div>
 
- <div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
- <button type="submit" id = "board_modify_fbtn" onClick="board_save();" class="tiny ui blue button">저장</button>
-  <input type="button" class="tiny ui button" id="board_list_fbtn" onClick="board_list();" value="취소"/>
- </div> 
  
  <form role="form" name="modifyForm" action="/board_modify " method="post" enctype="multipart/form-data">
  	 <input type='hidden' id="BOARD_NO" name='BOARD_NO' value="${boardVO.BOARD_NO}"> 
 	 <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${boardVO.BOARD_MNG_NO}">   
-<table class="ui sortable celled table" style="table-layout:fixed;" >
+<table class="commonDetailTable" style="table-layout:fixed;" >
 <tr>
- <th style="width:165px">제목</th> 
- <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE" value= "${boardVO.TITLE}" style="width:100%; height:35px"/></td>
+ <th>제목</th> 
+ <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE" value= "${boardVO.TITLE}"/></td>
 </tr>
 <tr>
  <th>파일</th>
@@ -76,6 +63,10 @@
 </table>
  </form>   
 
+ <div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
+ <input type="button" id = "board_modify_fbtn" onClick="board_save();" class="tr_btn" value="저장"/>
+  <input type="button" class="func_btn" id="board_list_fbtn" onClick="board_list();" value="취소"/>
+ </div> 
  
 <%-- <div class="container"> <!-- 전체 div-->
 

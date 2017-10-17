@@ -1,23 +1,18 @@
 package com.core.plus.board.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +32,9 @@ import com.core.plus.board.service.BoardService;
 import com.core.plus.board.service.ReplyService;
 import com.core.plus.board.vo.BoardVO;
 import com.core.plus.common.PagerVO;
+import com.core.plus.info.menu.service.MenuService;
+import com.core.plus.info.menu.vo.MenuVo;
+import com.core.plus.login.dao.LoginDAO;
 import com.core.plus.utils.FileManager;
 
 @Controller
@@ -46,15 +44,38 @@ import com.core.plus.utils.FileManager;
 	@Autowired
 	BoardService boardService; 
 	ReplyService replyService;
-	/*@Autowired
-	SessionAuthService sessionAuthService;*/
+	@Resource
+	MenuService menuService;
+	@Autowired
+	private HttpSession session;
+    @Resource
+	LoginDAO loginDao;
 	 
+	public void menuImport(ModelAndView mav, String url){
+		String menu_id = menuService.getMenuUrlID(url);
+		String user_id = session.getAttribute("user").toString();
+	
+		Map<String, String> menuAuthMap = new HashMap<String, String>();
+		menuAuthMap.put("menu_url", url);
+		menuAuthMap.put("user_id", user_id);
+		menuAuthMap.put("menu_id", menu_id);
+		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+		mav.addObject("menuAuth", menuAuth);
+			
+		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
+		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
+		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
+		mav.addObject("subMenuList", subMenuList);    //subMenuList
+	}
+	
+	
+	
 	//보드 전체 리스트.
 	@RequestMapping(value="/boardInqr", method={RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView boardList(@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, @RequestParam Map<String, Object> map ,HttpSession session
 			,@RequestParam("BOARD_MNG_NO") String BOARD_MNG_NO) throws Exception{
 		 
-		System.out.println("board_list Entering " + map.toString());
+		System.out.println("board_list Entering " + BOARD_MNG_NO);
 		
 //		접속된 사용자 아이디 
 		String sessionID = (String) session.getAttribute("user");
@@ -77,14 +98,15 @@ import com.core.plus.utils.FileManager;
 		}
 		
   		List<BoardVO> boardlist = boardService.list(map); 
+  		System.out.println("boardlist ? " + boardlist.toString());
  		ModelAndView mov = new ModelAndView("board_list");
 		
 		mov.addObject("boardlist", boardlist);
 		mov.addObject("page",  page);
 		mov.addObject("PageNum",  PageNum);
  		mov.addObject("BOARD_MNG_NO", BOARD_MNG_NO);
-		
- 		return mov; 
+ 		menuImport(mov, "boardInqr?BOARD_MNG_NO=BMG001");
+  		return mov; 
 	} 
 	
 	//보드 상세정보
@@ -102,9 +124,8 @@ import com.core.plus.utils.FileManager;
 		System.out.println("vovo?" + vo);
 		
 		String BOARD_MNG_NO = vo.getBOARD_MNG_NO();
-		
-	 
-		
+		 
+
 		String FILE_CD = vo.getFILE_CD(); 
 		
 		boardService.viewadd(BOARD_NO);
@@ -122,8 +143,8 @@ import com.core.plus.utils.FileManager;
 			mov.addObject("boardlist",  boardService.ReadFilePage(BOARD_NO));
 		}
 		mov.addObject("boardmnglist",boardService.checkBoardMngNo(BOARD_MNG_NO));
- 		
-		return mov;
+ 
+ 		return mov;
 		 
 	}
 	
@@ -182,15 +203,16 @@ import com.core.plus.utils.FileManager;
 	    } 
  
 	    if(attach.getFILE_NM() != null){ 
+	    	System.out.println("file_name is not null");
 		FileManager fileManager = new FileManager(); 
-		
-		List<MultipartFile> file = multi.getFiles("filedata");
+ 		List<MultipartFile> file = multi.getFiles("filedata");
 
 		for(int i=0; i<file.size(); i++){
-			
-			String uploadpath = fileManager.doFileUpload(file.get(i), request);
-		
-			attach.setFILE_PATH(uploadpath);
+			//Created 넣기.
+			attach.setCREATED_BY(session.getAttribute("user").toString());
+			attach.setUPDATED_BY(session.getAttribute("user").toString());
+ 			String uploadpath = fileManager.doFileUpload(file.get(i), request);
+  			attach.setFILE_PATH(uploadpath);
 			boardService.insertAttachData(attach);
 			
 		
@@ -349,26 +371,7 @@ import com.core.plus.utils.FileManager;
 			
 	    return "redirect:/boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO;
 	}
-	
-	//ajax 리스트
-	/*@RequestMapping(value="/ajax_list", method=RequestMethod.POST) 
-	 @ResponseBody
-	public ResponseEntity<List<BoardVO>> ajax_list( ){ 
-		
-		System.out.println("ajax List Entering");
-	  
-		ResponseEntity<List<BoardVO>> entity = null;
-	    try {
- 	      entity = new ResponseEntity(boardService.ajaxlist(), HttpStatus.OK);
-	      System.out.println("entity? "+ entity);
-	      System.out.println("insert entity" + entity);
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	      entity = new ResponseEntity( HttpStatus.BAD_REQUEST);
-	    }
-	    return entity;
-		 
-	}*/ 
+	 
 	
 	@RequestMapping(value="/search_boardInqr", method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody Map<String, Object> search_board_list( ModelMap model, HttpServletRequest request,

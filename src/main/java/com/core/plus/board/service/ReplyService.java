@@ -12,13 +12,11 @@ public interface ReplyService {
 
 	  public List<ReplyVO> listReply(Integer bno) throws Exception;
 	  public void addReply(ReplyVO vo) throws Exception;
-	  public void removeReply(String REPLY_NO);
-	  PagerVO getReplyListCount(Map<String, Object> map);
-	  public List<ReplyVO> SearchList(Map<String, Object> map);
+	  public void removeReply(String REPLY_NO); 
+ 	  public List<ReplyVO> SearchList(Map<String, Object> map);
 
-	  
-	  public PagerVO replyListCount(Map<String, Object> boardMap); //댓글 페이징
-	  public List<ReplyVO> replyAllList(Map<String,Object> boardMap); //댓글 리스트 
+	  PagerVO getReplyListRow(Map<String, Object> map); 
+ 	  public List<ReplyVO> replyAllList(Map<String,Object> boardMap); //댓글 리스트 
 	  public void AnswerFlg(int BOARD_NO);
 	  public void AnswerFlgN(Integer bOARD_NO);  // 댓글 삭제시 Q&A 답변 플래그
 	  public int replyCount(Integer bOARD_NO);  //댓글 개수 구하기

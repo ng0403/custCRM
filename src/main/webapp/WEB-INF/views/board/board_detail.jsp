@@ -43,16 +43,12 @@
 		</c:if>		</div>
 </div>
 
-  <div id="board_detail_div" class="bt_position_authuser"> <!-- 버튼 div  -->
-		<input type="button" id="board_modify_fbtn" class = "tiny ui blue button" value="편집" onClick="board_modify();"/> 
-		<input type="button" id="board_remove_fbtn" class="tiny ui blue button" value="삭제" onClick="board_detail_remove();"/>  
-		<input type="button" class="tiny ui button" id="board_list_fbtn" value="취소" onClick="goboardList();"/>
- </div>  
+
  <div class="commonDetail">
 <table class="commonDetailTable" id="coupon_form_tbl" >
 <tr>
  <th style="width:165px">제목</th> 
- <td colspan="5"><input type="text" readonly="readonly" placeholder="제목"  id="TITLE" name="TITLE" value="${boardlist.TITLE}" style="width:100%; height:35px"/></td>
+ <td colspan="5"><input type="text" readonly="readonly" placeholder="제목"  id="TITLE" name="TITLE" value="${boardlist.TITLE}" /></td>
 </tr>
 <tr>
 <th> 조회수</th>
@@ -84,29 +80,35 @@
 <tr>
 <th>내 용</th>
 <td colspan="5">
-<textarea  rows="10" id="boardcontent" readonly="readonly" style="width:100%" >${boardlist.CONTENT}</textarea>
+<textarea  rows="15" id="boardcontent" readonly="readonly" style="width:100%" >${boardlist.CONTENT}</textarea>
 </td> 
 </tr>
 </table>
+
+  <div id="board_detail_div" class="bt_position_authuser"> <!-- 버튼 div  -->
+		<input type="button" id="board_modify_fbtn" class = "func_btn" value="편집" onClick="board_modify();"/> 
+		<input type="button" id="board_remove_fbtn" class="tr_btn" value="삭제" onClick="board_detail_remove();"/>  
+		<input type="button" class="tiny ui button" id="func_btn" value="취소" onClick="goboardList();"/>
+ </div>  
 
 <c:if test="${boardmnglist.REPLY_FLG =='N'}">
 </c:if>
 <c:if test="${boardmnglist.REPLY_FLG == 'Y'}">	
 <div id = "reply_div">	
-<table class="ui sortable celled table" style="table-layout:fixed"> 
+<table class="commonDetailTable"> 
 <tr >
-<th style="width:165px">댓글 내용</th>
+<th>댓글 내용</th>
 <td>
-<textarea id = "reply_content" class="form-control" rows="2" id="content" style="width:100%" ></textarea>
+<textarea id = "reply_content" class="form-control" rows="3"  cols="120" style="resize: none;" id="content" style="width:100%" ></textarea>
 </td>
-<td style="width:100px; text-align:center">
- <input type="button" id="reply_add_fbtn" class = "tiny ui blue button " value="저장" onclick="reply_add();"/>  
+<td>
+ <input type="button" id="reply_add_fbtn" class = "func_btn" value="저장" onclick="reply_add();"/>  
 </td>
 </tr> 
 
 </table>	
 
-<table id = "reply_table" class="ui sortable celled table">
+<table id = "reply_table" class="commonDetailTable">
 <tbody class="reply_list" id="reply_list_tbody">
 </tbody>
 </table> 
@@ -168,45 +170,8 @@
 </div>	 --%>
     
 			<!-- 페이징 처리 -->
-			<div id="pageSpace" class="ui right floated pagination menu">
-				<input type="hidden" id="endPageNum" value="${page.endPageNum}"/>
-				<input type="hidden" id="ccPageNum" value="${ccPageNum}">
-				<c:choose>
-					<c:when test="${ccPageNum eq page.firstPageCount}">
-						<a class="icon item">
-	        				<i class="left chevron icon"></i>
-	        			</a>	
-		    		</c:when>
-					<c:when test="${ccPageNum ne page.firstPageCount}">
-		        		<a href="javascript:replyPaging(${page.prevPageNum})" class="icon item">
-		        			<i class="left chevron icon"></i>
-		        		</a>
-		    		</c:when>
-				</c:choose>
-				<c:forEach var="i" begin="${page.startPageNum }" end="${page.endPageNum}" step="1">
-					<c:choose>
-						<c:when test="${i eq ccPageNum }">
-							<b>
-								<a  href="javascript:replyPaging('${i}');" id="pNum" class="item">${i}</a>
-							</b>
-						</c:when>
-						<c:otherwise>
-							<a  href="javascript:replyPaging('${i}');" class="item" >${i}</a>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				<c:choose>
-					<c:when test="${ccPageNum eq page.totalPageCount}">
-							<a class="icon item">
-		        				<i class="right chevron icon"></i>
-		        			</a>	
-		    		</c:when>
-					<c:when test="${ccPageNum ne page.totalPageCount}">
-		       			<a href="javascript:replyPaging(${page.nextPageNum})" class="icon item">
-		       				<i class="right chevron icon"></i>
-		       			</a>
-		    		</c:when>
-				</c:choose>
+			<div class="pagingDiv">
+		 
 			</div>
 		
 		<div class="right">

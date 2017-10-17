@@ -3,6 +3,7 @@ package com.core.plus.utils;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -94,8 +95,21 @@ public class FileManager {
 			if (folderFile.isDirectory() == false) {
 				folderFile.mkdirs();
 			}
+			
+			try {
+
+				byte[] input = file.getBytes();
+				FileOutputStream fos = new FileOutputStream(uploadFile);
+				fos.write(input);
+				fos.close();
+				
+				return uploadFile.toString();
+
+			} catch (IOException e1) {
+				System.out.println("error!");
+			}
 		 
-		return null;
+		return uploadFilePath;
 	}
 	
 	public boolean doCompressFile(String[] source, HttpServletResponse response){

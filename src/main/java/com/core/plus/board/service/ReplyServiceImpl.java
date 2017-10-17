@@ -34,15 +34,7 @@ public class ReplyServiceImpl implements ReplyService {
 		
 	}
 
-	@Override
-	public PagerVO getReplyListCount(Map<String, Object> map) {
-		int boardPageNum = (Integer)map.get("pageNum");
-		int totalRowCount = replyDao.ReplyListCount("replyListCount", map);
-		
-		PagerVO page = new PagerVO(boardPageNum, totalRowCount,5, 999);
-		
-		return page;
-	}
+ 
 
 	@Override
 	public List<ReplyVO> SearchList(Map<String, Object> map) {
@@ -51,21 +43,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 	
 	
-	//전체리스트 개수 
-	@Override
-	public PagerVO replyListCount(Map<String, Object> replyMap) {
-		System.out.println("ReplyListCount service " +  replyMap.toString());
-		int actPageNum = (Integer) replyMap.get("replyPageNum");
-		// 현재 페이지 얻어오기
-		PagerVO page = new PagerVO(actPageNum, 0, 5, 10);
-		// 전체 글의 갯수 구하기
-		System.out.println("actPage Num " + actPageNum);
-		int totalRowCount = replyDao.replyListCount(replyMap);
-		System.out.println("totalRowCount ? " + totalRowCount);		
-		page = new PagerVO(actPageNum, totalRowCount, 5, 10);
-	
-		return page;
-	}
+	 
 
 	//전체리스트 
 	@Override
@@ -88,5 +66,19 @@ public class ReplyServiceImpl implements ReplyService {
 	public int replyCount(Integer BOARD_NO) {
 		 
 		return replyDao.replyCount(BOARD_NO);
+	}
+	
+
+	@Override
+	public PagerVO getReplyListRow(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		int PageNum = (Integer)map.get("PageNum");
+		PagerVO page = new PagerVO(PageNum, 0, 5, 10);
+		
+		int totalRowCount = replyDao.getReplyListRow(map);
+		
+		page = new PagerVO(PageNum, totalRowCount, 5, 10);
+		
+		return page;
 	}
 }

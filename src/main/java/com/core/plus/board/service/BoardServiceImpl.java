@@ -79,6 +79,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void insertAttachData(BoardVO attach) {
+		
+		System.out.println("ATTACH? " + attach.toString());
 		boardDao.insertAttachData(attach);
 	}
 

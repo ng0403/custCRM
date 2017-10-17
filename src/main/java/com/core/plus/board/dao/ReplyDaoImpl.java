@@ -36,34 +36,24 @@ public class ReplyDaoImpl implements ReplyDao {
 		sqlSession.delete("removeReply", REPLY_NO);
 		
 	}
-
-	@Override
-	public int ReplyListCount(String string, Map<String, Object> map) {
-		int totalCount = 0;
-		try {
-			totalCount = sqlSession.selectOne("reply.replyListCount", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return totalCount;
-	}
-
+ 
 	@Override
 	public List<ReplyVO> SearchList(Map<String, Object> map) {
 		
 		return sqlSession.selectList("reply.SearchList", map);
 
 	}
-	
-	
-	//전체리스트 개수
+  
 	@Override
-	public int replyListCount(Map<String, Object> replyMap) {
-		System.out.println("reply Map Dao "  + replyMap.toString());
+	public int getReplyListRow(Map<String, Object> map) {
+		// TODO Auto-generated method stub
 		int totalCount = 0;
+		
 		try {
-			totalCount = sqlSession.selectOne("reply.selectTotalCount", replyMap);
+			totalCount = sqlSession.selectOne("reply.selectTotalCount", map);
+			
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		}
 		

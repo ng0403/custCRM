@@ -71,9 +71,9 @@ values (
   
  
  <select id="codelist" resultType="map">
- select CODE, CD_NM
-from CODE
-where cd_grp_id='BOG'
+select CODE, code_name
+from tb_CODE
+where code_no='1024'
  </select>
  
   

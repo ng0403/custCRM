@@ -38,7 +38,7 @@ FROM (
          	BOARD_NO = #{BOARD_NO} 
          ORDER BY REPLY_NO DESC 
      ) X
- LIMIT #{page.limitStartNum}, #{page.pageSize}
+ LIMIT #{page.startRow}, #{page.pageSize}
       
 </select>		
 		

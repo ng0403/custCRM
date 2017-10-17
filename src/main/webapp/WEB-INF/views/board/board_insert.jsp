@@ -31,18 +31,15 @@
 </div>
 
 
-	<div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
-		 <input type="button" id ="board_add_fbtn" class = "tiny ui blue button" value="저장" onclick="board_add_save();"/>
-		 <input type="button" id="board_list_fbtn" class="tiny ui button" value="취소" onclick="goboardList();"/> 
-	</div>
+
 
 
 <form role="form" method="post" enctype="multipart/form-data">
    <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${board_mng}"/>    
-<table class="ui sortable celled table" style="table-layout:fixed" >
+<table class="commonDetailTable">
 <tr>
- <th style="width:165px">제목</th> 
- <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE" style="width:100%; height:35px" /></td>
+ <th>제목</th> 
+ <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE"/></td>
 </tr>
 <tr>
 <th colsapn="3">파일</th>
@@ -65,7 +62,10 @@
  </table>
  </form>   
 
-
+	<div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
+		 <input type="button" id ="board_add_fbtn" class = "tr_btn" value="저장" onclick="board_add_save();"/>
+		 <input type="button" id="board_list_fbtn" class="func_btn" value="취소" onclick="goboardList();"/> 
+	</div>
 
 <%-- <div class="container" >  <!-- 전체 div-->
 

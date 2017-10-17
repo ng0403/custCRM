@@ -51,23 +51,6 @@ public class ReplyController {
 		    }
 		    return entity;
 	}
-	
-	
-	 @RequestMapping(value = "/reply_list/{BOARD_NO}", method = RequestMethod.GET)
-	  public ResponseEntity<List<ReplyVO>> list(@PathVariable("BOARD_NO") Integer BOARD_NO, @RequestParam Map<String, Object> map) {
-		System.out.println("board_no ajax " + map.toString()); 
- 	    ResponseEntity<List<ReplyVO>> entity = null;
-	    try {
-	      
- 	      entity = new ResponseEntity(replyService.replyAllList(map), HttpStatus.OK);
-
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	      entity = new ResponseEntity(HttpStatus.BAD_REQUEST);
-	    }
-	    
-	    return entity;
-	  }
 	 
 	 
 	 @RequestMapping(value="/reply_remove", method=RequestMethod.POST) 
@@ -103,16 +86,15 @@ public class ReplyController {
 	 
 	 @RequestMapping(value="/search_replyInqr", method={RequestMethod.GET,RequestMethod.POST})
 		public @ResponseBody Map<String, Object> search_reply_list( ModelMap model, HttpServletRequest request,
-														   @RequestParam(value = "replyPageNum", defaultValue = "1") int replyPageNum) {
+														   @RequestParam(value = "PageNum", defaultValue = "1") int PageNum) {
  	 		String BOARD_NO = request.getParameter("BOARD_NO");
- 	 		System.out.println("replyPageNum ?? " + replyPageNum);
-	 		System.out.println("BOARD_NO !" + BOARD_NO);
- 		    Map<String,Object> map = new HashMap<String,Object>();
+ 	 		System.out.println("PageNum ?? " + PageNum);
+  		    Map<String,Object> map = new HashMap<String,Object>();
 		    
- 			map.put("replyPageNum", replyPageNum);
+ 			map.put("PageNum", PageNum);
  			map.put("BOARD_NO", BOARD_NO);
  
-			PagerVO page = replyService.replyListCount(map);
+			PagerVO page = replyService.getReplyListRow(map);
 			System.out.println("reply page?" + page.toString());
 			if(page.getEndRow()==1){
 				page.setEndRow(0);
@@ -124,7 +106,7 @@ public class ReplyController {
 			System.out.println("reply list?" + list.toString()); 
 			
 			model.addAttribute("page", page);
-			model.addAttribute("pageNum", replyPageNum);
+			model.addAttribute("PageNum", PageNum);
 			model.addAttribute("reply_list", list);
 			model.addAttribute("replyListSize", list.size());
 
@@ -143,7 +125,7 @@ public class ReplyController {
 			replyMap.put("replyPageNum", replyPageNum);
 			replyMap.put("BOARD_NO", BOARD_NO);
 
-			PagerVO page = replyService.replyListCount(replyMap);
+			PagerVO page = replyService.getReplyListRow(replyMap);
 			System.out.println("boardPage ? " + page.toString());
 			replyMap.put("page", page);
 
