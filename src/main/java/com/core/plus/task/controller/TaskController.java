@@ -260,6 +260,7 @@ public class TaskController {
 				mov.addObject("url", Url);
 				mov.addObject("flg", "1");
 				menuImport(mov, "task");
+				
 			}
 			else if (lead_no != null)
 			{
@@ -270,6 +271,7 @@ public class TaskController {
 				mov.addObject("flg", "2");
 				mov.addObject("PageNum", PageNum); 
 				menuImport(mov, "lead");
+				
 			}
 			
 			if(cust_task_no.equals("undefined"))
@@ -315,11 +317,25 @@ public class TaskController {
 			
 			if(lead_no.equals("undefined"))
 			{
-				mov.addObject("main_menu_url", "task"); 
-				mov.addObject("sub_menu_url", "task");
-				mov.addObject("url", Url);
-				mov.addObject("flg", "2");
-				menuImport(mov, "task");
+				if(page_type == "0"){
+					mov.addObject("main_menu_url", "task"); 
+					mov.addObject("sub_menu_url", "task");
+					mov.addObject("url", Url);
+					mov.addObject("flg", "2");
+					menuImport(mov, "task");
+					System.out.println("1 List page_type :" + page_type );
+				} 
+				else
+				{
+					mov.addObject("main_menu_url", "task"); 
+					mov.addObject("sub_menu_url", "mytask");
+					mov.addObject("url", Url);
+					mov.addObject("flg", "2");
+					menuImport(mov, "task");
+
+					System.out.println("2 List page_type :" + page_type );
+
+				}
 			}
 			else 
 			{
@@ -333,11 +349,23 @@ public class TaskController {
 			
 			if(cust_task_no.equals("undefined"))
 			{
-				mov.addObject("main_menu_url", "task"); 
-				mov.addObject("sub_menu_url", "task");
-				mov.addObject("url", Url);
-				mov.addObject("flg", "2");
-				menuImport(mov, "task");
+				if(page_type == "0"){
+					mov.addObject("main_menu_url", "task"); 
+					mov.addObject("sub_menu_url", "task");
+					mov.addObject("url", Url);
+					mov.addObject("flg", "2");
+					menuImport(mov, "task");
+					System.out.println("3 page_type: " + page_type);
+				} 
+				else
+				{
+					mov.addObject("main_menu_url", "task"); 
+					mov.addObject("sub_menu_url", "task");
+					mov.addObject("url", Url);
+					mov.addObject("flg", "2");
+					menuImport(mov, "task");
+					System.out.println("4 page_type: " + page_type);
+				}
 			}
 			else 
 			{

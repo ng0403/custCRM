@@ -72,7 +72,6 @@ function taskSchList(pageNum) {
 		             "<td style='text-align: left;'>" + data.srcList[i].cust_no +"</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].cust_name +"</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].phone_area_no +"-"+ data.srcList[i].phone_no + "</td>" +
-//		             "<td style='text-align: left;'>" + data.srcList[i].phone_no + "</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].emp_no + "</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].next_day + "</td>" +
 		             "<td style='text-align: left;'>" + data.srcList[i].dtype_cd + "</td>" +
@@ -168,10 +167,6 @@ function task_add(){
 	var lead_no = $("#lead_no").val();
 	var cust_no = $("#cust_no").val();
 	
-	console.log(cust_task_no);
-	console.log(lead_no);
-	console.log(cust_no);
-	
 	if(cust_task_no != null)
 	{
 		location.href="/task_detail?task_no=" +"&cust_task_no=" + cust_task_no;
@@ -187,20 +182,25 @@ function task_add(){
 function taskDetail(a, PageNum, lead_no, cust_no) {
 	var no = a;
 	var cust_task_no = $("#cust_task_no").val();
-  	
   	var page_type = $("#page_type").val();
 	
   	if (cust_task_no == 'undefined') {
   		cust_task_no = null;
-  		
   	}
-	if(cust_task_no != null && cust_task_no != '')
+  	if (page_type == 'undefined') {
+  		page_type = null;
+  	}
+	if(cust_task_no != null && cust_task_no != '' )
 	{
-		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type;; 
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type;
+	}
+	else if (lead_no != null && lead_no != '' )
+	{
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no + "&page_type=" + page_type; 
 	}
 	else
 	{
-		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no + "&page_type=" + page_type;; 
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&page_type=" + page_type; 
 	}
 }
 
