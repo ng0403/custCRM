@@ -562,7 +562,7 @@ $(document).ready(function(){
 <!-- 청구/수금 모달창 시작 -->
 <div id="amountModalDiv" style="display: none;">
     <div style="width: 100%; height:7%; background-color: #ececec;" align="right">
- 		<input type="button" value="X" id="popupBoxClose" onclick="popupClose();" >
+ 		<input type="button" value="X" id="popupBoxClose" onclick="paymentPopupClose();" >
  	</div>
 	<form method='post' name='custListPopup' id='custListPopup'>
 	<div id="amountContent" style="margin: 0 1.5% 0 1.5%;">
@@ -573,19 +573,30 @@ $(document).ready(function(){
 			 	<table id="amountModalTables" style="width: 100%;">
 			 	 	<thead>
 			 	 		<tr id="amountTableHeader">
-			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">청구액 : </th>
+			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">총 청구액 : </th>
 			 	 			<td>
-			 	 			    <input type="text" id="price" name="price" value="" style="width: 70%;" maxlength="100"/>&nbsp;&nbsp;
+			 	 			    <input type="text" id="price" name="price" value="" style="width: 70%; text-align: right;"  maxlength="100";/>&nbsp;&nbsp;
 			 	 			</td>
 			 	 		</tr>
 			 	 		<tr>
-			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">납부액 : </th>
+			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">영업기회명 : </th>
 			 	 			<td style="width: 40%;">
-			 	 			    <input type="text" id="payment" name="payment" style="width: 70%;" maxlength="100"/>&nbsp;&nbsp;
+			 	 			    <input type="text" id="pay_opty_name" name="pay_opty_name" style="width: 70%;" maxlength="100" readonly="readonly"/>&nbsp;&nbsp;
+			 	 			    <input type="hidden" id="pay_opty_no" name="pay_opty_no" value=""/>
+							</td>
+			 	 		</tr>
+			 	 		<tr>
+			 	 			<th style="width: 20%; text-align: right; padding-right: 1%;">청구액(미수금액) : </th>
+			 	 			<td style="width: 40%;">
+			 	 			    <input type="text" id="claim" name="claim" style="width: 70%; text-align: right;" maxlength="100" readonly="readonly"/>&nbsp;&nbsp;
+							</td>
+							<th style="width: 20%; text-align: right; padding-right: 1%;">납부액 : </th>
+			 	 			<td style="width: 40%;">
+			 	 			    <input type="text" id="payment" name="payment" style="width: 70%; text-align: right;"  maxlength="100"/>&nbsp;&nbsp;
 							</td>
 							<td style="width: 40%; text-align: right;">
 								<input type="button" value="납부" class="back_btn" style="float: right;" onclick="paymentBtn();"/> <!-- onclick="viewProdMenuList(1); -->
-							</td>			
+							</td>
 			 	 		</tr>
 			 	 	</thead>
 			 	</table>
@@ -593,8 +604,11 @@ $(document).ready(function(){
 			 	<table class="commonTable">
 			 		<thead>
 			 			<tr id="amountTableHeader">
-						  <th width="45%">영업기회명</th>
-						  <th width="45%">청구액</th>
+						  <th >영업기회명</th>
+						  <th >청구액</th>
+						  <th >납부금액</th>
+						  <th >미수금액</th>
+						  <th >완납여부</th>
 						</tr>	
 			 		</thead>
 			 	 	<tbody id="amountTbody"></tbody>

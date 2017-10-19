@@ -274,12 +274,84 @@ public class CustDAOImpl implements CustDAO{
 		return custExcelExport;
 	}
 
+	/**
+	 * 청구/수금 리스트 목록
+	 * */
 	@Override
 	public List<CustVO> optyItemAmount(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		List<CustVO> optyItemAmount = sqlSession.selectList("cust.optyAmount", map);
-		
+		System.out.println("DAO : " + optyItemAmount);
 		return optyItemAmount;
+	}
+	
+	/**
+	 * 납부 상품 리스트
+	 * */
+	@Override
+	public List<CustVO> salesList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<CustVO> salesList = sqlSession.selectList("cust.salesList", map);
+		System.out.println("DAO : " + salesList);
+		return salesList;
+	}
+	
+	/**
+	 * 납부금액 등록
+	 * */
+	@Override
+	public int optyPaymentAdd(CustVO cvo) {
+		// TODO Auto-generated method stub
+		System.out.println("Insert");
+		int result = sqlSession.insert("cust.paymentInsert", cvo);
+		return result;
+	}
+
+	/**
+	 * 납부금액 이력 등록
+	 * */
+	@Override
+	public int optyPaymentRecordAdd(CustVO cvo) {
+		// TODO Auto-generated method stub
+		int result = sqlSession.insert("cust.paymentRecordInsert", cvo);
+		return result;
+	}
+
+	/**
+	 * 납부를 했을 때 수정되는 메소드
+	 * 
+	 * 납부금액이 수정이 되고 미수금이 0이 되면
+	 * payment_flg 값을 Y로 변경해준다.
+	 * */
+	@Override
+	public int optyPaymentMdfy(CustVO cvo) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<String, Object>();
+		int result = sqlSession.update("cust.paymentUpdate", cvo);
+		
+		if(result == 1)
+		{
+			map.put("cust_no", cvo.getCust_no());
+			map.put("oppty_no", cvo.getOppty_no());
+			
+			List<CustVO> tmp = sqlSession.selectList("cust.paymentFlgUpdateList", map);
+			System.out.println("TT : " + tmp.get(0).getOutstding_amount());
+			
+			if(tmp.get(0).getOutstding_amount() == 0)
+			{
+				cvo.setPayment_flg("Y");
+				System.out.println("0 : " + cvo);
+				sqlSession.update("cust.paymentFlgUpdate", cvo);
+			}
+			else
+			{
+				cvo.setPayment_flg("N");
+				System.out.println("1 : " + cvo);
+				sqlSession.update("cust.paymentFlgUpdate", cvo);
+			}
+		}
+		
+		return result;
 	}
 
 }

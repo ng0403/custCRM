@@ -483,7 +483,8 @@ public class CustController {
 	
 	// 청구/수금 팝업
 	@RequestMapping(value="amountAjax", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> amountPopup(@RequestParam(value = "optyAmountPageNum", defaultValue = "1") int optyAmountPageNum, String cust_no)
+	public @ResponseBody Map<String, Object> amountPopup(@RequestParam(value = "optyAmountPageNum", defaultValue = "1") int optyAmountPageNum, 
+														 String cust_no, String oppty_no)
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("optyAmountPageNum", optyAmountPageNum);
@@ -504,14 +505,49 @@ public class CustController {
 	}
 	
 	@RequestMapping(value="insertPayment", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> paymentInsert(String cust_no, String payment)
+	public @ResponseBody Map<String, Object> paymentInsert(CustVO custVo)
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println("paymet : " + payment);
-		System.out.println("cust_no : " + cust_no);
+		map.put("oppty_no", custVo.getOppty_no());
+		map.put("cust_no", custVo.getCust_no());
+		
+		System.out.println("MAP : " + map);
+		
+		List<CustVO> salseList = custService.salesList(map);
+		int result = 0;
+		System.out.println("salseList : " + salseList.size());
+		
+		if(salseList.size() == 0)
+		{
+			result = custService.optyPaymentAdd(custVo);
+			System.out.println("A");
+		}
+		else
+		{
+			result = custService.optyPaymentMdfy(custVo);
+			System.out.println("B");
+		}
+		
+		map.put("result", result);
+		System.out.println("MAP : " + map);
+		
+		if(result == 1)
+		{
+			custService.optyPaymentRecordAdd(custVo);
+			List<CustVO> optyItemAmount = custService.optyItemAmount(map);	
+			map.put("optyItemAmount", optyItemAmount);
+		}
 		
 		return map;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="emailSend", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> emailSend(String s_emp_name)

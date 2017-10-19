@@ -89,5 +89,31 @@ public class CustServiceImpl implements CustService{
 		
 		return optyItemAmount;
 	}
+	
+	@Override
+	public List<CustVO> salesList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<CustVO> salesList = custDao.salesList(map);
+		
+		return salesList;
+	}
+
+	@Override
+	public int optyPaymentAdd(CustVO cvo) {
+		// TODO Auto-generated method stub
+		return custDao.optyPaymentAdd(cvo);
+	}
+
+	@Override
+	public int optyPaymentRecordAdd(CustVO cvo) {
+		// TODO Auto-generated method stub
+		return custDao.optyPaymentRecordAdd(cvo);
+	}
+
+	@Override
+	public int optyPaymentMdfy(CustVO cvo) {
+		// TODO Auto-generated method stub
+		return custDao.optyPaymentMdfy(cvo);
+	}
 
 }

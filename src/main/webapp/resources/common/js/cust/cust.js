@@ -10,6 +10,10 @@
 * cust_remove() 						: 테이블 행 삭제
 * cust_delete()							: 고객 삭제
 * 
+* 
+* cust_sales_btn						: 청구/수금 팝업
+* paymentListContent					: 청구(미수)금액 납부 리스트
+* 
 */
 
 var ctx = $("#ctx").val();
@@ -72,7 +76,6 @@ function cust_cancel(custPageNum)
 	}
 	else
 		return false;
-	
 } 
 
 // 특수문자 예외처리
@@ -99,6 +102,9 @@ function wordch(thisword)
 	return flag;
 }
 
+/**
+ * 고객 담당자 팝업창
+ * */
 function custEmpSchPopupOpen()
 {
 	// 팝업창 표시
@@ -124,6 +130,37 @@ function custEmpSchPopupOpen()
 //Popup 닫기
 function popupClose()
 {
+	$.unblockUI();
+}
+
+/**
+ * 청구/수금 팝업창
+ * */
+function cust_sales_btn(cust_no)
+{
+	$.blockUI({ message: $('#amountModalDiv'),
+    	css: { 
+    	'left': '65%',
+    	'top': '50%',
+    	'margin-left': '-900px',
+    	'margin-top': '-350px',
+    	'width': '1300px',
+    	'height': '650px',
+    	'cursor': 'default'
+    	}
+		,onOverlayClick : $.unblockUI
+	});
+	
+	opptyItemList(1)
+}
+/**
+ * 팝업창 닫기
+ * */
+function paymentPopupClose()
+{
+	$("#payment").val("");
+	$("#pay_opty_name").val("");
+	$("#claim").val("");
 	$.unblockUI();
 }
 
@@ -989,7 +1026,6 @@ function checkFileType(filePath)
 
 }
 
-
 //엑셀 출력 적용 함수
 function download_list_Excel(formID, flg) 
 {
@@ -1143,25 +1179,10 @@ function cust_task_btn(cust_no)
 	location.href = "/task?cust_task_no=" + cust_no ;
 }
 
-function cust_sales_btn(cust_no)
-{
-	$.blockUI({ message: $('#amountModalDiv'),
-    	css: { 
-    	'left': '65%',
-    	'top': '50%',
-    	'margin-left': '-400px',
-    	'margin-top': '-250px',
-    	'width': '750px',
-    	'height': '500px',
-    	'cursor': 'default'
-    	}
-		,onOverlayClick : $.unblockUI
-	});
-	
-	opptyItemList(1)
-}
 
-// 청구/수금
+/**
+ * 청구/수금 리스트 팝업창에 띄우기
+ * */
 function opptyItemList(optyAmountPageNum)
 {
 	var cust_no = $("#cust_no").val();
@@ -1178,39 +1199,29 @@ function opptyItemList(optyAmountPageNum)
 		success: function(data) { 
 			
 			$("#amountTbody").empty();
-//			$("#s_emp_name").bind("keypress", function(event) {
-//				enterSearch(event);
-//			});
 			
 			if (data.optyItemAmount.length == 0) {
 				var trElement = $("#amountTableHeader").clone().removeClass().empty();
 				$("#amountTbody").append(trElement);
-				$("#amountTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+				$("#amountTbody tr:last").append("<td colspan='2' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
 			} else {
 				$.each(data.optyItemAmount, function(i) {
 					var trElement = $("#amountTableHeader").clone().removeClass().empty();
+					var oppty_no = this.oppty_no;
+					var oppty_name = this.oppty_name;
+					var claim = this.total_price;
+					var outstding_amount = this.outstding_amount;
+					var payment_flg = this.payment_flg;
 					
-					tmp = tmp + this.total_price;
-					console.log(tmp);
-					$("#price").val(tmp);
+					tmp = tmp + this.outstding_amount;
+					$("#price").val(comma(tmp));
 
-					// 클릭한 행을 부모창에 입력
-					trElement.bind("click", function(e) {
-//						setTimeout($.unblockUI, 0);
-//						$("#emp_no").val(emp_no);
-//						$("#emp_name").val(emp_name);
-					});
-					
-					addMouseEvent(trElement);
-					trElement.css("cursor", "pointer");
-					
-					$("#amountTbody").append(trElement);
-					$("#amountTbody tr:last").append("<td width='60%'>" + this.oppty_name + "</td>"
-							+ "<td width='30%'>" + this.total_price);
-//					+ "<td width='30%'>" + this.total_price + "</td>" + "<td width='30%'>" + this.outstding_amount + "</td>");
+					paymentListContent(trElement, oppty_no, oppty_name, claim, this.total_price, this.payment_price, this.outstding_amount, this.payment_flg);				
 				});
 			}
 			console.log(data);
+			
+			console.log($("#pay_opty_no").val());
 			
 			// 페이징 그리기
 			$("#paymentPagingDiv").empty();
@@ -1245,32 +1256,78 @@ function opptyItemList(optyAmountPageNum)
         	viewLoadingHide();	
         },
 		error: function(data) { 
-			alert("담당자목록을 취득하지 못했습니다.");
+			alert("청구목록을 취득하지 못했습니다.");
 			return false;
 		}
 	});
 }
 
+/**
+ * 납부 버튼 눌렀을 시
+ * */ 
 function paymentBtn()
 {
 	var optyAmountPageNum = 1;
-	var cust_no = $("#cust_no").val();
+	var payment = $("#payment").val();
+	var claim   = $("#claim").val();
+	var tmp = 0;
 	
-	console.log($("#payment").val());
-	console.log($("#cust_no").val());
+	if($("#pay_opty_name").val() == null || $("#pay_opty_name").val() == '')
+	{
+		alert("납부할 영업기회를 선택해주세요.");
+		return false;
+	}
+	else if($("#payment").val() == null || $("#payment").val() == '')
+	{
+		alert("납부금액을 입력하세요.");
+		return false;
+	}
+	
+	if(parseInt(payment) > parseInt(uncomma(claim)))
+	{
+		alert("청구(미수) 금액보다 큽니다. 다시 입력해주세요.");
+		return false;
+	}
 	
 	$.ajax({
 		url: ctx + "/insertPayment", 
 		type: "POST",  
 		data: {
 			optyAmountPageNum : optyAmountPageNum,
-			cust_no 	: cust_no,
-			payment 	: $("#payment").val()
+			oppty_no	: $("#pay_opty_no").val(),
+			cust_no 	: $("#cust_no").val(),
+			payment_price 	: $("#payment").val()
 		},
 		dataType: "json",
 		success: function(data) { 
 			console.log(data);
+			alert("납부 완료되었습니다.");
+			$("#pay_opty_no").val("");
+			$("#pay_opty_name").val("");
+			$("#claim").val("");
+			$("#payment").val("");
 			
+			$("#amountTbody").empty();
+			
+			if (data.optyItemAmount.length == 0) {
+				var trElement = $("#amountTableHeader").clone().removeClass().empty();
+				$("#amountTbody").append(trElement);
+				$("#amountTbody tr:last").append("<td colspan='2' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+			} else {
+				$.each(data.optyItemAmount, function(i) {
+					var trElement = $("#amountTableHeader").clone().removeClass().empty();
+					var oppty_no = this.oppty_no;
+					var oppty_name = this.oppty_name;
+					var claim = this.total_price;
+					var outstding_amount = this.outstding_amount;	
+					
+					tmp = tmp + this.outstding_amount;
+					$("#price").val(comma(tmp));
+					
+					paymentListContent(trElement, oppty_no, oppty_name, claim, this.total_price, this.payment_price, this.outstding_amount, this.payment_flg);
+					
+				});
+			}
 			// 페이징 그리기
 			
 		},
@@ -1281,8 +1338,55 @@ function paymentBtn()
         	viewLoadingHide();	
         },
 		error: function(data) { 
-			alert("담당자목록을 취득하지 못했습니다.");
+			alert("처리중 오류가 발생하였습니다.");
 			return false;
 		}
 	});
+}
+
+/**
+ * 청구(미수)금 납부 리스트
+ * */
+function paymentListContent(trElement, oppty_no, oppty_name, claim, total_price, payment_price, outstding_amount, payment_flg)
+{
+	console.log(trElement, oppty_name, total_price, payment_price, outstding_amount, payment_flg);
+	// 클릭한 행을 부모창에 입력
+	trElement.bind("click", function(e) {
+		if(outstding_amount == 0)
+		{
+			alert("이미 완납한 상품입니다.");
+			return false;
+		}
+		else
+		{
+			$("#payment").val("");
+			$("#pay_opty_name").val(oppty_name);
+			$("#pay_opty_no").val(oppty_no);
+			
+			if(outstding_amount != claim)
+				$("#claim").val(comma(outstding_amount));
+			else
+				$("#claim").val(comma(claim));
+		}
+	});
+	
+	addMouseEvent(trElement);
+	trElement.css("cursor", "pointer");
+	
+	$("#amountTbody").append(trElement);
+	$("#amountTbody tr:last").append("<td >" + oppty_name + "</td>"
+			+ "<td width='20%'>" + comma(total_price) + "</td>" + "<td width='20%'>" + comma(payment_price) + "</td>"
+			+ "</td>" + "<td width='20%'>" + comma(outstding_amount) + "</td>" + "<td width='10%'>" + payment_flg + "</td>");
+}
+
+//컴마 입력 함수
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+//컴마 해제 함수
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
 }

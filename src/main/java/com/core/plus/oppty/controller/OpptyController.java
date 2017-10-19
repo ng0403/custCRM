@@ -1,5 +1,6 @@
 package com.core.plus.oppty.controller;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.core.plus.common.PagerVO;
+import com.core.plus.contact.cust.service.CustService;
 import com.core.plus.contact.cust.vo.CustVO;
 import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.info.menu.service.MenuService;
@@ -38,6 +40,9 @@ public class OpptyController {
 	
 	@Resource
 	MenuService menuService;
+	
+	@Resource
+	CustService custService;
 	
 	@Resource
 	LoginDAO loginDao;
@@ -462,6 +467,8 @@ public class OpptyController {
 			List<OpptyVO> purchase 		= opptyService.opptyPerchaseType();
 			List<OpptyVO> payment 		= opptyService.opptyPaymentCD();
 			List<OpptyVO> recper 		= opptyService.opptyRecPerCD();
+			
+			DecimalFormat df = new DecimalFormat("#,##0.00");
 			String total_price;
 			int tmp = 0;
 			
@@ -470,6 +477,7 @@ public class OpptyController {
 				tmp = tmp + itemList.get(i).getTotal_price();
 			}
 			total_price = Integer.toString(tmp);
+			
 			
 			System.out.println("itemList : " + itemList);
 			System.out.println("tmp : " + tmp);
@@ -609,6 +617,16 @@ public class OpptyController {
 			
 			// opptyItem Insert
 			int oResult = opptyService.opptyItemInsert(itemList);	// 매출상품 추가
+			
+//			if(oResult == 1)
+//			{
+//				CustVO custVo = new CustVO();
+//				custVo.setOppty_no(opptyVo.getOppty_no());
+//				custVo.setCust_no(opptyVo.getCust_no());
+//				
+//				int result = custService.optyPaymentAdd(custVo);
+//				System.out.println(result);
+//			}
 		}
 		
 		// 바로 detail 화면으로 뿌려준다.

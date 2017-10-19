@@ -201,18 +201,18 @@ function opptyItemInsert()
  				"<td style='text-align: left;'>" +
  					"<input type='text' class='qty' name='qty' value='"+ data[i].qty +"'></td>" +
  				"<td style='text-align: left;'>" +
- 					"<input type='text' class='list_price' name='list_price' value='"+ data[i].list_price +"'></td>" +
+ 					"<input type='text' class='list_price' name='list_price' value='"+ comma(data[i].list_price) +"'></td>" +
  				"<td style='text-align: left;'>" +
- 					"<input type='text' class='total_price' name='total_price' value='"+ data[i].total_price +"' readonly='readonly'></td>" +
+ 					"<input type='text' class='total_price' name='total_price' value='"+ comma(data[i].total_price) +"' readonly='readonly'></td>" +
  				"<td style='text-align: left;'>" +
- 					"<input type='text' class='dc_price' name='dc_price' value='"+ data[i].dc_price +"'></td>" +
+ 					"<input type='text' class='dc_price' name='dc_price' value='"+ comma(data[i].dc_price) +"'></td>" +
  				"<td style='text-align: left;'>";
 				
  				if(data[i].total_price == data[i].offer_price){
  					tbodyContent += "<input type='text' class='offer_price' name='offer_price' value='"+ 0 +"'></td>";
  				}
  				else {
- 					tbodyContent += "<input type='text' class='offer_price' name='offer_price' value='"+ data[i].offer_price +"'></td>";
+ 					tbodyContent += "<input type='text' class='offer_price' name='offer_price' value='"+ comma(data[i].offer_price) +"'></td>";
  				}
  				
  				tbodyContent += "<td style='text-align: left;'>" +
@@ -560,7 +560,7 @@ function viewSmallCateList(smallCatePopupPageNum)
 						setTimeout($.unblockUI, 0);
 						tmp.parent().children().eq(0).val(small_cate_cd);
 						tmp.val(small_cate_name);
-						tmp.parent().parent().children().eq(5).children().eq(0).val(list_price);		
+						tmp.parent().parent().children().eq(5).children().eq(0).val(comma(list_price));		
 						
 						console.log(tmp.parent().parent().children().eq(4).val());	// qty
 					});
@@ -649,7 +649,7 @@ function totalPriceCalc()
 	var totalPrice = inputQty * listPrice;
 	
 	// total_price에 값 대입
-	total = selQty.parent().parent().children().eq(6).children().eq(0).val(totalPrice);
+	total = selQty.parent().parent().children().eq(6).children().eq(0).val(comma(totalPrice));
 	selQty.parent().parent().children().eq(7).children().eq(0).val(0);
 }
 
@@ -680,7 +680,7 @@ function dcPrice()
 		
 		if(dcTotalPrice > 0)
 		{
-			selDC.parent().parent().children().eq(7).children().eq(0).val(dcTotalPrice);
+			selDC.parent().parent().children().eq(7).children().eq(0).val(comma(dcTotalPrice));
 		}
 		if(offerPrice == NaN || offerPrice == 0)
 		{
@@ -689,10 +689,17 @@ function dcPrice()
 	}
 }
 
+//컴마 입력 함수
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
 
-
-
-
+//컴마 해제 함수
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
 
 
 

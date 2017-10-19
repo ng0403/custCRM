@@ -294,11 +294,75 @@
 	</update>
 	
 	<!-- 청구/수금을 위한 쿼리 -->
+	<!-- 전체 리스트 -->
 	<select id="optyAmount" parameterType="java.util.Map" resultType="com.core.plus.contact.cust.vo.CustVO">
-		SELECT ot.oppty_no, o.oppty_name, (qty * list_price - dc_price) as total_price
-		FROM tb_oppty o, tb_oppty_item ot
-		WHERE o.oppty_no = ot.oppty_no
-		  AND o.cust_no = #{cust_no}
+		SELECT A.oppty_no, A.oppty_name, A.total_price, ifnull(sum(payment_price), 0) as payment_price, (A.total_price - ifnull(sum(payment_price), 0)) as outstding_amount, ifnull(B.payment_flg, 'N') as payment_flg
+		FROM (
+			SELECT ot.oppty_no, o.oppty_name, sum((ot.qty * ot.list_price - ot.dc_price)) as total_price
+			FROM tb_oppty o, tb_oppty_item ot
+			WHERE o.oppty_no = ot.oppty_no
+			AND o.cust_no = #{cust_no} AND o.oppty_status_cd = '003' AND o.oppty_stage_cd = '004'
+			GROUP BY o.oppty_name
+		) A left outer join tb_sales B on A.oppty_no = B.oppty_no
+		GROUP BY A.oppty_no
 	</select>
+	
+	<!-- 납부한 상품에 대한 단일 리스트 -->
+	<select id="paymentFlgUpdateList" parameterType="java.util.Map" resultType="com.core.plus.contact.cust.vo.CustVO">
+		SELECT A.total_price, (A.total_price - sum(payment_price)) as outstding_amount
+		FROM (
+			SELECT ot.oppty_no, o.oppty_name, sum((ot.qty * ot.list_price - ot.dc_price)) as total_price
+			FROM tb_oppty o, tb_oppty_item ot
+			WHERE o.oppty_no = ot.oppty_no
+			AND o.cust_no = #{cust_no} AND o.oppty_no = #{oppty_no}
+			GROUP BY o.oppty_name
+		) A left outer join tb_sales B on A.oppty_no = B.oppty_no
+		GROUP BY A.oppty_no
+	</select>
+	
+	<!-- 현재 납부한 목록 -->
+	<select id="salesList" parameterType="java.util.Map" resultType="com.core.plus.contact.cust.vo.CustVO">
+		SELECT *
+		FROM tb_sales
+		WHERE
+			oppty_no = #{oppty_no} AND cust_no = #{cust_no}
+	</select>
+	
+	<!-- 납부 상품 등록 -->
+	<insert id="paymentInsert" parameterType="com.core.plus.contact.cust.vo.CustVO">
+		INSERT INTO tb_sales (oppty_no,  cust_no, payment_price)
+		VALUES (#{oppty_no}, #{cust_no}, #{payment_price})
+	</insert>
+	
+	<!-- 납부 이력 -->
+	<insert id="paymentRecordInsert" parameterType="com.core.plus.contact.cust.vo.CustVO">
+		<selectKey keyProperty="sales_no" resultType="String" order="BEFORE">
+			SELECT 
+                  IF(SUBSTR(MAX(sales_no), 1, 10) = DATE_FORMAT(now(), '%Y%m%d%H')
+                     , MAX(sales_no)+1
+                     , concat(DATE_FORMAT(now(), '%Y%m%d%H'),'00001')) sales_no
+                  FROM tb_sales_record USE INDEX(PRIMARY)
+		</selectKey>
+		INSERT INTO tb_sales_record (oppty_no, sales_no, cust_no, payment_price)
+		VALUES (#{oppty_no}, #{sales_no}, #{cust_no}, #{payment_price})
+	</insert>
+	
+	<update id="paymentUpdate" parameterType="com.core.plus.contact.cust.vo.CustVO">
+		UPDATE 
+			tb_sales
+		SET
+			payment_price = payment_price + #{payment_price}
+		WHERE
+			oppty_no = #{oppty_no} AND cust_no = #{cust_no}
+	</update>
+	
+	<update id="paymentFlgUpdate" parameterType="com.core.plus.contact.cust.vo.CustVO">
+		UPDATE 
+			tb_sales
+		SET
+			payment_flg = #{payment_flg}
+		WHERE
+			oppty_no = #{oppty_no} AND cust_no = #{cust_no}
+	</update>
 	
 </mapper>
