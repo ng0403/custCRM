@@ -6,14 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script src="${ctx}/resources/common/js/jquery-1.11.1.js"></script> 
-<script type="text/javascript" src="${ctx}/resources/common/js/standard/boardmng/boardmng_detail.js"></script>  
-<link rel="stylesheet" href="${ctx}/resources/common/css/common.css" type="text/css" />
-
-<link rel="stylesheet" type="text/css" href="${ctx}/resources/common/Semantic/semantic.css">
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="  crossorigin="anonymous"></script>
-<script src="${ctx}/resources/common/Semantic/semantic.js"></script>
-<link rel="stylesheet" href="${ctx}/resources/common/css/standard/common/sfa_common_list.css" type="text/css" />
+ <script type="text/javascript" src="${ctx}/resources/common/js/boardmng/boardmng_detail.js"></script>  
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
@@ -39,13 +32,18 @@
 	
  	<div class="detailBtn"> 
 	<div id = "baseBtnDiv" class="bt_position_authuser">
-	<input type="button" id="board_mng_modify_fbtn" class = "tiny ui button" value="편집" onclick="modify_fbtn();"/>
-	<input type="button" class="tiny ui button" id="board_list_fbtn" value="취소" onclick="cancelBtn();"/>
+	<input type="button" id="board_mng_modify_fbtn" class = "func_btn" value="편집" onclick="modify_fbtn();"/>
+	<input type="button" class="func_btn" id="board_list_fbtn" value="취소" onclick="cancelBtn();"/>
 	</div>
 	
 	<div id = "baseBtnDiv2" class="bt_position_authuser" style="display:none">
-		<input type="button" class = "tiny ui blue button" id="board_mng_add_fbtn"  value="저장" onclick="updateBoardMng();"/>
-		<input type="button" class="tiny ui button" id="board_cancle_fbtn" value="취소" onclick="modify_cancel();"/>
+		<input type="button" class = "tr_btn" id="board_mng_add_fbtn"  value="저장" onclick="updateBoardMng();"/>
+		<input type="button" class="func_btn" id="board_cancle_fbtn" value="취소" onclick="modify_cancel();"/>
+	</div>
+	
+	<div id = "baseBtnDiv3" class="bt_position_authuser" style="display:none">
+		<input type="button" class = "tr_btn" id="board_mng_add_fbtn"  value="저장" onclick="boardmngInsert();"/>
+		<input type="button" class="func_btn" id="board_cancle_fbtn" value="취소" onclick="modify_cancel();"/>
 	</div>
 	</div>
 	
@@ -53,7 +51,7 @@
 	<div id="board_mng_detail"  > 
   <form role="form" name="board_mng_form"> 
    <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${board_mng_list.BOARD_MNG_NO}"/> 
- 	<table class="ui celled table">
+ 	<table class="commonDetailTable">
  	<tbody class="detailtbody">
 	<tr> 
 	<th>게시판이름</th>
@@ -61,13 +59,14 @@
 	<th>게시판분류</th>
    <td id="board_cate"> 
    <select class="form-control" id="sel1" onchange= "fn_SelectBox(this.value);"> 
+    <option value="default">==선택==</option>
     <c:forEach items="${codelist}" var="list">
  		 <c:choose>
 			 <c:when test="${board_mng_list.BOARD_MNG_CD eq list.CODE}">
-			 <option value="${list.CODE}" selected="selected">${list.CD_NM}</option>
+			 <option value="${list.CODE}" selected="selected">${list.code_name}</option>
 		     </c:when>
 		     <c:otherwise>
-		     <option value="${list.CODE}">${list.CD_NM}</option>							
+		     <option value="${list.CODE}">${list.code_name}</option>							
 			 </c:otherwise>
 			 </c:choose>
 		 </c:forEach> 

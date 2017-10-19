@@ -41,9 +41,9 @@
 	
 	<!-- board mng -->
 	<definition name="board_mng_list" extends="twobodyLayout">
-		<put-attribute name="master"
+		<put-attribute name="leftBody"
 			value="/WEB-INF/views/board_mng/board_mng_list.jsp" />
-		<put-attribute name="detail"
+		<put-attribute name="rightBody"
 			value="/WEB-INF/views/board_mng/board_mng_detail.jsp" /> 
 	</definition>
 	

@@ -25,12 +25,11 @@
 		</div>
 </div>
  
-   <!-- Q&A 리스트, 조회화면 -->
-   <div class="commonList">
+    <div class="commonList">
        <div class="searchDiv">
 			<input type="text" placeholder="제목"  id="keyword" name="keyword"  onkeydown="boardSearchEnter(event);" style="width:20%">
 			<i class="list icon"></i>
-		    <input type="button" onclick="boardPaging(1);" value="조회" id="board_inqr_fbtn" class="tiny ui blue button" value="검색"">
+		    <input type="button" onclick="boardPaging(1);" value="조회" id="board_inqr_fbtn" class="func_btn" value="검색"">
 			
 		</div>	
     
@@ -64,7 +63,7 @@
                            </c:if>
                            </td>                           
                            <td style='width:10%;'>${boardVO.CREATED_BY} </td>
-                           <td style='width:20%;'><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${boardVO.CREATED}" /></td>
+                           <td style='width:20%;'>${boardVO.CREATED}</td>
                            <td style='width:10%;'>${boardVO.VIEW_CNT}</td>   
                         </tr> 
                      </c:forEach>
@@ -75,8 +74,8 @@
        
   <div class="bottom_div">
        <div class="functionBtn_div">
-         <input type="button" id = "board_add_fbtn"  class = "tiny ui button" value="추가" onclick="board_add();"/> 
-           <input type="button" id ="board_remove_fbtn" class="tiny ui blue button" value="삭제"  onclick="deleteAction() "/>
+         <input type="button" id = "board_add_fbtn"  class = "func_btn" value="추가" onclick="board_add();"/> 
+           <input type="button" id ="board_remove_fbtn" class="tr_btn" value="삭제"  onclick="deleteAction() "/>
  </div> 
     
    <!-- 페이징 처리 -->

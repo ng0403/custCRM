@@ -6,7 +6,7 @@ import java.util.Map;
 import com.core.plus.boardmng.vo.BoardMngVO;
 
 public interface BoardMngDao {
-	int BoardMngListCount(String string, Map<String, Object> map);
+	public int BoardMngListCount(Map<String, Object> boardMap); 
 	public List<Object> list(Map map);
 	public BoardMngVO detail(String BOARD_MNG_NO);
 	public void modify(BoardMngVO vo);

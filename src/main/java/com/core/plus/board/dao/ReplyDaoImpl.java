@@ -29,6 +29,11 @@ public class ReplyDaoImpl implements ReplyDao {
 		sqlSession.insert("addReply", vo);
 		
 	}
+	
+	@Override
+	public void modifyReply(ReplyVO vo) {
+		sqlSession.update("modifyReply", vo);		
+	}
 
 	@Override
 	public void removeReply(String REPLY_NO) {
@@ -85,4 +90,6 @@ public class ReplyDaoImpl implements ReplyDao {
 		 
 		return sqlSession.selectOne("replyCount", BOARD_NO);
 	}
+
+	
 }

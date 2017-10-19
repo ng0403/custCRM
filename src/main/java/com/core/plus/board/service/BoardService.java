@@ -10,9 +10,7 @@ import com.core.plus.common.PagerVO;
 public interface BoardService {
 	
 	  public List<BoardVO> list(Map map);
-	  public List<BoardVO> ajaxlist();
-	  public List<BoardVO> QnAajaxlist();
-	  public List<BoardVO> fileboardList();
+ 	  public List<BoardVO> fileboardList();
 	  public BoardMngVO checkBoardMngNo(String BOARD_MNG_NO);
 	  
 

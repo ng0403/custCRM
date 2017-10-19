@@ -15,9 +15,9 @@ public class BoardVO {
 	private String ACTIVE_FLG;
 	private String DEL_FLG;
 	private String CREATED_BY;
-	private Date CREATED;
+	private String CREATED;
 	private String UPDATED_BY;
-	private Date UPDATED;
+	private String UPDATED;
 	private String delcode;
 	private String BOARD_MNG_CD;
 	private String REPLY_FLG;
@@ -150,10 +150,10 @@ public class BoardVO {
 		CREATED_BY = cREATED_BY;
 	}
 	 
-	public Date getCREATED() {
+	public String getCREATED() {
 		return CREATED;
 	}
-	public void setCREATED(Date cREATED) {
+	public void setCREATED(String cREATED) {
 		CREATED = cREATED;
 	}
 	public String getUPDATED_BY() {
@@ -162,10 +162,10 @@ public class BoardVO {
 	public void setUPDATED_BY(String uPDATED_BY) {
 		UPDATED_BY = uPDATED_BY;
 	}
-	public Date getUPDATED() {
+	public String getUPDATED() {
 		return UPDATED;
 	}
-	public void setUPDATED(Date uPDATED) {
+	public void setUPDATED(String uPDATED) {
 		UPDATED = uPDATED;
 	}
 	@Override

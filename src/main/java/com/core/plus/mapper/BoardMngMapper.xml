@@ -6,9 +6,9 @@
 	<select id="boardMngListCount" parameterType="java.util.Map" resultType="int">
 	    select count(*) as cnt
 		 FROM TB_BOARD_MNG
-		where del_flg='N'   
 	</select>
-	 
+
+<!-- 게시판 관리 리스트 -->	 
 <select id="BoardMngList" parameterType="int" resultType="map">
 select X.*
 		from ( 
@@ -21,55 +21,57 @@ select X.*
  		 NOTICE_FLG,
  		 ACTIVE_FLG, 
  		 DEL_FLG, 
- 		 CREATED,
+ 		 DATE_FORMAT(CREATED, '%Y-%m-%d %H:%i') CREATED,
+ 		 DATE_FORMAT(UPDATED, '%Y-%m-%d %H:%i') UPDATED,
  		 if(ACTIVE_FLG='Y', '활성화', '비활성화') AS ACTIVE_FLGSTRING
 		 FROM tb_board_mng
-		 order by UPDATED DESC 
+ 		 order by UPDATED DESC 
 	  ) X
  LIMIT #{page.limitStartNum}, #{page.pageSize}
  </select>
  
- 
+ <!-- 게시판 관리 상세정보 -->
  <select id="ReadPage"  resultType="com.core.plus.boardmng.vo.BoardMngVO">
- SELECT A.BOARD_MNG_NO, A.BOARD_MNG_CD, A.BOARD_NM, A.REPLY_FLG, A.ACTIVE_FLG, A.FILE_ATTACH_FLG, A.NOTICE_FLG, B.CD_NM
- FROM TB_BOARD_MNG A , CODE B
- WHERE BOARD_MNG_NO = #{BOARD_MNG_NO} AND A.BOARD_MNG_CD = B.CODE AND B.CD_GRP_ID='BOG'
+ SELECT A.BOARD_MNG_NO, A.BOARD_MNG_CD, A.BOARD_NM, A.REPLY_FLG, A.ACTIVE_FLG, A.FILE_ATTACH_FLG, A.NOTICE_FLG, B.CODE_NAME
+ FROM TB_BOARD_MNG A , TB_CODE B
+ WHERE BOARD_MNG_NO = #{BOARD_MNG_NO} AND A.BOARD_MNG_CD = B.CODE  AND B.CODE_NO='1024'
  </select>
  
+ <!-- 게시판 관리 수정 -->
   <update id="Modify" > 
  update tb_board_mng set BOARD_NM = #{BOARD_NM}, FILE_ATTACH_FLG =  #{FILE_ATTACH_FLG}, REPLY_FLG =  #{REPLY_FLG}, ACTIVE_FLG = #{ACTIVE_FLG}
+	  , BOARD_MNG_CD=#{BOARD_MNG_CD}
  where BOARD_MNG_NO = #{BOARD_MNG_NO}
  
  </update>
  
- <insert id ="Add">
  
-  <selectKey keyProperty="board_mng_no" resultType="String" order="BEFORE">
+ <!-- 게시판 관리 추가. -->
+ <insert id ="Add"> 
+  <selectKey keyProperty="BOARD_MNG_NO" resultType="String" order="BEFORE">
    SELECT IF(SUBSTR(MAX(a.board_mng_no), 1, 3) = 'BMG', concat(SUBSTR(MAX(a.board_mng_no),1,3) , LPAD(SUBSTR(MAX(a.board_mng_no),4,3)+1, 3, '0')), concat('BMG','001')) board_mng_no 
    FROM tb_board_mng a USE INDEX(PRIMARY)
  </selectKey>  
  
 insert into tb_board_mng (board_mng_no, board_mng_cd, board_nm, reply_flg, file_attach_flg, created_by)
 values (
-   board_mng_no
+   #{BOARD_MNG_NO},
    #{BOARD_MNG_CD},
    #{BOARD_NM},
    #{REPLY_FLG},
    #{FILE_ATTACH_FLG}, 
    #{CREATED_BY}
    );
- 
- 
+  
  </insert>
  
- 
+ <!-- 게시판 관리 삭제 -->
  <delete id="Delete">
- DELETE TB_BOARD_MNG
+ DELETE FROM TB_BOARD_MNG
  WHERE BOARD_MNG_NO = #{BOARD_MNG_NO}
  </delete>
- 
   
- 
+ <!-- 코드 리스트 출력 -->
  <select id="codelist" resultType="map">
 select CODE, code_name
 from tb_CODE

@@ -53,9 +53,9 @@ function modify_cancel(){
 	$('#BOARD_MNG_CD').css("background-color", "white"); 
 	
 	$("#baseBtnDiv").css("display", "block");
-	$("#baseBtnDiv2").css("display", "none");
-	
-	
+	$("#baseBtnDiv2").css("display", "none"); 
+	$("#baseBtnDiv3").css("display", "none");
+	 
 
 }
 

@@ -6,8 +6,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <script type="text/javascript"
-	src="${ctx}/resources/common/js/boardmng/boardmng.js"></script>
+  <script type="text/javascript"src="${ctx}/resources/common/js/boardmng/boardmng.js"></script>
+  <script type="text/javascript" src="${ctx}/resources/common/js/boardmng/boardmng_detail.js"></script>  
  
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
@@ -22,7 +22,7 @@
 	 </div> 
 </div>
 
-	 			<div style="height:323px">
+	 			<div >
 <!--<form name="delAllForm" id="delAllForm" method="post" action="/board/board_remove"> -->
 					<table class="commonTable">
 						<thead>
@@ -32,7 +32,7 @@
 								<th>게시판관리번호</th>
 								<th>게시판구분</th>
 								<th>게시판이름</th>
-								<th>생성일</th>
+								<th>수정일</th>
 								<th>사용여부</th>
 							</tr>
 						</thead>
@@ -49,8 +49,7 @@
 									<a href="" style="color:black" onclick="boardmngDetailClick('${boardMngVO.BOARD_MNG_NO}')">${boardMngVO.BOARD_NM}</a>	
 										
 								   </td>
-									<td style=" text-align:center"><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
-											value="${boardMngVO.CREATED}" /></td>
+									<td style=" text-align:center">${boardMngVO.UPDATED}</td>
 									<td style=" text-align:center"><c:if test="${boardMngVO.ACTIVE_FLG eq 'Y'}">활성화</c:if>
 										<c:if test="${boardMngVO.ACTIVE_FLG eq 'N'}">비활성화</c:if></td>
 								</tr>
@@ -58,62 +57,51 @@
 						</tbody>
 					</table>
 				<!-- </form> -->
-
 			</div>
 			 <div class="bottom_div">
      	<div class="functionBtn_div" id="btn_1">
 					<input type="button" id="board_add_fbtn"
-						class="tiny ui blue button" value="추가" onclick="boardMngAddp();" />
+						class="func_btn" value="추가" onclick="boardMngAddp();" />
 					<input type="button" id="board_remove_fbtn"
-						class="tiny ui blue button" value="삭제" onclick="deleteAction() " />
+						class="tr_btn" value="삭제" onclick="deleteAction() " />
 				</div>
 				
 				<div class="functionBtn_div" id="btn_2" style="display:none">
 				<input type="button" id="board_add_save" class="tiny ui blue button" value="저장" onclick="boardmngInsert();"/>
 				<input type="button" id="board_remove_fbtn"	class="tiny ui blue button" value="취소" onclick="cancelBtn() " />
+				</div> 
 				
-				</div>
   
 				<!-- 페이징 처리 -->
-				<div id="pageSpace" class="ui right floated pagination menu">
-					<input type="hidden" id="endPageNum" value="${page.endPageNum}" />
-					<input type="hidden" id="ccPageNum" value="${ccPageNum}">
-					<c:choose>
-						<c:when test="${ccPageNum eq page.firstPageCount}">
-							<a class="icon item"> <i class="left chevron icon"></i>
-							</a>
-						</c:when>
-						<c:when test="${ccPageNum ne page.firstPageCount}">
-							<a href="javascript:boardPaging(${page.prevPageNum})"
-								class="icon item"> <i class="left chevron icon"></i>
-							</a>
-						</c:when>
-					</c:choose>
-					<c:forEach var="i" begin="${page.startPageNum }"
-						end="${page.endPageNum}" step="1">
-						<c:choose>
-							<c:when test="${i eq ccPageNum }">
-								<b> <a href="javascript:boardPaging('${i}');" id="pNum"
-									class="item">${i}</a>
-								</b>
-							</c:when>
-							<c:otherwise>
-								<a href="javascript:boardPaging('${i}');" class="item">${i}</a>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-					<c:choose>
-						<c:when test="${ccPageNum eq page.totalPageCount}">
-							<a class="icon item"> <i class="right chevron icon"></i>
-							</a>
-						</c:when>
-						<c:when test="${ccPageNum ne page.totalPageCount}">
-							<a href="javascript:boardPaging(${page.nextPageNum})"
-								class="icon item"> <i class="right chevron icon"></i>
-							</a>
-						</c:when>
-					</c:choose>
-				</div>
+		<div class="pagingDiv">
+			<input type="hidden" id="endPageNum" value="${page.endPageNum}"/>
+			<input type="hidden" id="startPageNum" value="${page.startPageNum}"/>
+			<input type="hidden" id="PageNum" value="${PageNum}"/>
+			<c:choose>
+				<c:when test="${page.endPageNum == 0 || page.endPageNum == 1}">
+					<a style="color: black; text-decoration: none;"> ◀ </a><input type="text" id="pageInput" value="${page.startPageNum}" readonly="readonly"/>  
+					<a style="color: black; text-decoration: none;"> / 1</a>
+					<a style="color: black; text-decoration: none;"> ▶ </a>
+				</c:when>
+				<c:when test="${PageNum == page.startPageNum}">
+					 ◀ <input type="text" id="pageInput" value="${page.startPageNum}"  onkeypress="leadPageNumInputEnter(event);"/>  
+					<a style="cursor: pointer;" onclick="boardMngPaging('${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="boardMngPaging('${PageNum+1}');" id="pNum"> ▶ </a>
+				</c:when>
+				<c:when test="${PageNum == page.endPageNum}">
+					<a style="cursor: pointer;" onclick="boardMngPaging('${PageNum-1}');" id="pNum"> ◀ </a>
+					<input type="text" id="pageInput"  value="${page.endPageNum}" onkeypress="leadPageNumInputEnter(event);"/> 
+					<a style="cursor: pointer;" onclick="boardMngPaging('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="color: black; text-decoration: none;"> ▶ </a>
+				</c:when>
+				<c:otherwise>
+					<a style="cursor: pointer;" onclick="boardMngPaging('${PageNum-1}');" id="pNum" > ◀ </a>
+					<input type="text" id="pageInput"  value="${PageNum}" onkeypress="leadPageNumInputEnter(event);"/>  
+					<a style="cursor: pointer;" onclick="boardMngPaging('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="boardMngPaging('${PageNum+1}');" id="pNum"> ▶ </a>
+				</c:otherwise>
+				</c:choose>
+			</div>
 
 			</div> 
 	 

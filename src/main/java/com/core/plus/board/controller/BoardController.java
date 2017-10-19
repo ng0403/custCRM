@@ -112,11 +112,9 @@ import com.core.plus.utils.FileManager;
 	//보드 상세정보
 	@RequestMapping(value="/boardDetail", method= RequestMethod.GET)
 	public ModelAndView boardDetail(@RequestParam("BOARD_NO") int BOARD_NO, HttpSession session) throws Exception {
-		System.out.println("detail entering");
-		//		접속된 사용자 아이디 
+ 		//		접속된 사용자 아이디 
 		String sessionID = (String) session.getAttribute("user");
-		System.out.println("접속된 계정 : " + sessionID);
-		
+ 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("sessionID", sessionID);   
  
@@ -143,7 +141,8 @@ import com.core.plus.utils.FileManager;
 			mov.addObject("boardlist",  boardService.ReadFilePage(BOARD_NO));
 		}
 		mov.addObject("boardmnglist",boardService.checkBoardMngNo(BOARD_MNG_NO));
- 
+ 		menuImport(mov, "boardInqr?BOARD_MNG_NO=BMG001");
+
  		return mov;
 		 
 	}
@@ -242,6 +241,7 @@ import com.core.plus.utils.FileManager;
 		System.out.println("접속된 계정 : " + sessionID);
  		
 		BoardVO vo = boardService.detail(BOARD_NO);
+		vo.setCREATED_BY(sessionID);
 		vo.setUPDATED_BY(sessionID);
 		System.out.println("modify vo/" + vo);
 		String FILE_CD = vo.getFILE_CD();
@@ -271,7 +271,8 @@ import com.core.plus.utils.FileManager;
 	{
 		String sessionID = (String) session.getAttribute("user");
 		System.out.println("접속된 계정 : " + sessionID);
-
+		
+		vo.setCREATED_BY(sessionID);
  		vo.setUPDATED_BY(sessionID);
 		System.out.println("modify  Entering" + vo);
 		

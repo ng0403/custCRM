@@ -52,7 +52,7 @@ public class ReplyController {
 		    return entity;
 	}
 	 
-	 
+	 //댓글 삭제.
 	 @RequestMapping(value="/reply_remove", method=RequestMethod.POST) 
 		public ResponseEntity<String> reply_remove(@RequestBody ReplyVO vo){
 			
@@ -82,6 +82,37 @@ public class ReplyController {
 			    }
 			    return entity;
 		}
+	 
+	 
+	//댓글 편집.
+		 @RequestMapping(value="/reply_modify", method=RequestMethod.POST) 
+			public ResponseEntity<String> reply_modify(@RequestBody ReplyVO vo){
+				
+			 System.out.println("hello delete reply" + vo.toString());
+				 
+				ResponseEntity<String> entity = null;
+				
+				//q&a 답변을 할 때에 answer flg 변환
+		  		Integer BOARD_NO = vo.getBOARD_NO();
+ 				
+				    try {
+		 		      replyService.modifyReply(vo); 
+		 		      
+		 		     if(vo.getBOARD_MNG_NO().equals("BMG1000003"))
+		 			{
+		 				int replyCount = replyService.replyCount(BOARD_NO);
+		 				if(replyCount == 0){
+		 				replyService.AnswerFlgN(BOARD_NO);
+		 				}
+		 			}
+		 		      
+				      entity = new ResponseEntity("success", HttpStatus.OK);
+				    } catch (Exception e) {
+				      e.printStackTrace();
+				      entity = new ResponseEntity( HttpStatus.BAD_REQUEST);
+				    }
+				    return entity;
+			}
 	 
 	 
 	 @RequestMapping(value="/search_replyInqr", method={RequestMethod.GET,RequestMethod.POST})

@@ -18,7 +18,17 @@
 		SELECT b.*
 		FROM ( 
 		SELECT
-		BOARD_NO, BOARD_MNG_NO, FILE_CD, TITLE, CONTENT, VIEW_CNT, ACTIVE_FLG, DEL_FLG, CREATED_BY, CREATED, UPDATED_BY, UPDATED
+		BOARD_NO,
+	    BOARD_MNG_NO,
+	    FILE_CD, TITLE,
+	    CONTENT, 
+	    VIEW_CNT, 
+	    ACTIVE_FLG, 
+	    DEL_FLG, 
+	    CREATED_BY, 
+	    DATE_FORMAT(CREATED, '%Y-%m-%d %H:%i') CREATED, 
+	    UPDATED_BY, 
+	    DATE_FORMAT(UPDATED, '%Y-%m-%d %H:%i') UPDATED
 		FROM tb_board
 		WHERE ACTIVE_FLG='Y' and BOARD_MNG_NO = #{BOARD_MNG_NO}
  		<if test="keyword !=null and keyword !=''">
@@ -44,8 +54,15 @@
 	</select> 
 
 	<select id="ReadPage" resultType="com.core.plus.board.vo.BoardVO">
-		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO,
-		A.CREATED, A.CREATED_BY, A.VIEW_CNT, B.REPLY_FLG,
+		SELECT
+		 A.TITLE, 
+		 A.CONTENT,
+		 A.BOARD_MNG_NO,
+		 A.BOARD_NO,
+		 DATE_FORMAT(A.CREATED, '%Y-%m-%d %H:%i') CREATED, 
+		 A.CREATED_BY, 
+		 A.VIEW_CNT, 
+		 B.REPLY_FLG,
 		 A.FILE_CD
 		FROM TB_BOARD A, TB_BOARD_MNG B
 		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO

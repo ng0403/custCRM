@@ -7,7 +7,8 @@ import com.core.plus.boardmng.vo.BoardMngVO;
 import com.core.plus.common.PagerVO;
 
 public interface BoardMngService {
-	  PagerVO getBoardMngListCount(Map<String, Object> map);
+ 	  public PagerVO getBoardMngListCount(Map<String, Object> boardMap); //보드 페이징
+
 	  public List<Object> list(Map map);
 	  public BoardMngVO detail(String BOARD_MNG_NO);
 	  public void modify(BoardMngVO vo);

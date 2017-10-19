@@ -20,7 +20,10 @@ function replyPaging(PageNum) {
     		 tbody.children().remove();
  			 for (var i = 0; i < data.reply_list.length; i++) { 
  				tbodyContent +='<tr><th>' + data.reply_list[i].created_BY + '</th>'
- 				+ '<td colspan="5">' + data.reply_list[i].reply_CONTENT+ '<i style="float:right" class="large trash icon" id = '+data.reply_list[i].reply_NO+' onclick="remove_reply(this.id);"></i></td></tr>';
+ 				+ '<td colspan="5">' 
+ 				+ data.reply_list[i].reply_CONTENT+
+ 				'<a href style="float:right" id='+data.reply_list[i].reply_NO+' onclick="modify_reply(this.id);">편집</a>'+  
+ 				'<a href style="float:right" id='+data.reply_list[i].reply_NO+' onclick="remove_reply(this.id);">삭제</a></td></tr>';
         		}
  			   tbody.append(tbodyContent);
   			 
@@ -83,34 +86,67 @@ function replyPaging(PageNum) {
 		          
 			      });
 		} 
-	 
-		function remove_reply(e){ 
-			 var REPLY_NO = e;
-			 var BOARD_MNG_NO = $("#BOARD_MNG_NO").val();
-	 		 var BOARD_NO = $("#BOARD_NO").val(); 
+		
+	 //댓글 삭제 기능.
+function remove_reply(REPLY_NO){ 
+  var BOARD_MNG_NO = $("#BOARD_MNG_NO").val();
+  var BOARD_NO = $("#BOARD_NO").val(); 
 	 	 
-			if(confirm("정보를 삭제 하시겠습니까?")){
-			 $.ajax({
-					url : '/reply_remove/',
-					headers : {
-			            "Content-Type" : "application/json",
-			            "X-HTTP-Method-Override" : "POST"
-			         },
-					data : JSON.stringify({"board_NO":BOARD_NO, "reply_NO":REPLY_NO ,"board_MNG_NO":BOARD_MNG_NO}),
-					dataType : 'text',
-					processData: false,
-					contentType: false,
-					type: 'POST',
-					success : function(result) {
-						 
-						if(result=="success"){
-							replyPaging(1); 
+	 if(confirm("정보를 삭제 하시겠습니까?")){
+			
+	   $.ajax({
+		  url : '/reply_remove/',
+		  headers : {
+			         "Content-Type" : "application/json",
+			         "X-HTTP-Method-Override" : "POST"
+			        },
+		  data : JSON.stringify({"board_NO":BOARD_NO, "reply_NO":REPLY_NO ,"board_MNG_NO":BOARD_MNG_NO}),
+     	  dataType : 'text',
+		  processData: false,
+		  contentType: false,
+		  type: 'POST',
+		  success : function(result) {			 
+		    if(result=="success"){
+			  replyPaging(1);
+	 		}						  
+		  } 			         
+	    }) 
+	  }  
+} 
 
-	 					}
-						  
-					} 
-			         
-					}) 
-			}
-		} 
+//댓글 편집 버튼
+function modify_reply(){
+	
+}
+		
+//댓글 편집 저장.
+function modify_reply_save(REPLY_NO){ 
+  
+ var BOARD_MNG_NO = $("#BOARD_MNG_NO").val();
+ var BOARD_NO = $("#BOARD_NO").val(); 
+ var REPLY_CONTENT = $("#reply_content").val();
+  
+ if(confirm("정보를 수정 하시겠습니까?")){
+			
+    $.ajax({
+	  url : '/reply_modify/',
+	  headers : {
+			      "Content-Type" : "application/json",
+			       "X-HTTP-Method-Override" : "POST"
+			    },
+	    data : JSON.stringify({"board_NO":BOARD_NO, "reply_NO":REPLY_NO ,"board_MNG_NO":BOARD_MNG_NO, "REPLY_CONTENT":REPLY_CONTENT}),
+	    dataType : 'text',
+	    processData: false,
+	    contentType: false,
+	    type: 'POST',
+	    success : function(result) {
+						 
+	       if(result=="success"){
+		   replyPaging(1);
+	       }						  
+	     } 			         
+	  }) 
+   }  
+} 		
+		
 	 

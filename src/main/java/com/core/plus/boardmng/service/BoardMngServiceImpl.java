@@ -15,17 +15,21 @@ public class BoardMngServiceImpl implements BoardMngService {
 
 	@Autowired
 	BoardMngDao boardmngDao;
-	
-	@Override
-	public PagerVO getBoardMngListCount(Map<String, Object> map) {
-		System.out.println("getboardmnglistcount" + map.toString());
-		int boardPageNum = (Integer)map.get("pageNum");
-		int totalRowCount = boardmngDao.BoardMngListCount("boardmngListCount", map);
+ 
+ 	 //전체리스트 개수 
+		@Override
+		public PagerVO getBoardMngListCount(Map<String, Object> boardMap) {
+ 			int actPageNum = (Integer) boardMap.get("PageNum");
+			// 현재 페이지 얻어오기
+			PagerVO page = new PagerVO(actPageNum, 0, 10, 10);
+			// 전체 글의 갯수 구하기
+			System.out.println("actPage Num " + actPageNum);
+			int totalRowCount = boardmngDao.BoardMngListCount(boardMap);
+			System.out.println("totalRowCount ? " + totalRowCount);		
+			page = new PagerVO(actPageNum, totalRowCount, 10, 10);
 		
-		PagerVO page = new PagerVO(boardPageNum, totalRowCount, 6, 999);
-		
-		return page;
-	}
+			return page;
+       }
 	
 	//전체리스트 개수 
 	@Override

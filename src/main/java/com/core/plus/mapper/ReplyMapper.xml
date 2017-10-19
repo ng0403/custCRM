@@ -17,6 +17,12 @@ FROM TB_REPLY
 WHERE BOARD_NO = #{BOARD_NO} 
 </select>
 
+<update id="modifyReply" parameterType="com.core.plus.board.vo.ReplyVO">
+UPDATE TB_REPLY
+SET REPLY_CONTENT = #{REPLY_CONTENT}
+FROM REPLY_NO = #{REPLY_NO}
+</update>
+
  <delete id="removeReply" parameterType="String" > 
  delete tb_reply
  	where REPLY_NO = #{REPLY_NO}
@@ -38,7 +44,7 @@ FROM (
          	BOARD_NO = #{BOARD_NO} 
          ORDER BY REPLY_NO DESC 
      ) X
- LIMIT #{page.startRow}, #{page.pageSize}
+ LIMIT #{page.limitStartNum}, #{page.pageSize}
       
 </select>		
 		

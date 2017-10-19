@@ -19,8 +19,12 @@ public class PagerVO {
 		this.currentPageNum = currentPageNum;
 		this.pageSize=pageSize;
 		this.pageBlockSize=pageBlockSize;
-		
+		if(pageSize == 10)
+		{	
 		limitStartNum = (currentPageNum-1)*10;
+		}else{
+		limitStartNum = (currentPageNum-1)*5;
+		}
 		startRow = (currentPageNum-1)*pageSize+1;
 		
 		if(startRow != 1){

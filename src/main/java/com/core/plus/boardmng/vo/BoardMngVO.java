@@ -13,7 +13,7 @@ public class BoardMngVO {
 	private String ACTIVE_FLG;
 	private String DEL_FLG;
 	private String CREATED_BY;
-	private Date CREATED;
+	private String CREATED;
 	private String UPDATED_BY;
 	private String UPDATED;
 	private String BOARD_MNG_NM;
@@ -93,10 +93,10 @@ public class BoardMngVO {
 	public void setCREATED_BY(String cREATED_BY) {
 		CREATED_BY = cREATED_BY;
 	}
-	public Date getCREATED() {
+	public String getCREATED() {
 		return CREATED;
 	}
-	public void setCREATED(Date cREATED) {
+	public void setCREATED(String cREATED) {
 		CREATED = cREATED;
 	}
 	public String getUPDATED_BY() {

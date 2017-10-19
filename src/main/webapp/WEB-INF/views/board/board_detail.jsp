@@ -86,9 +86,9 @@
 </table>
 
   <div id="board_detail_div" class="bt_position_authuser"> <!-- 버튼 div  -->
-		<input type="button" id="board_modify_fbtn" class = "func_btn" value="편집" onClick="board_modify();"/> 
-		<input type="button" id="board_remove_fbtn" class="tr_btn" value="삭제" onClick="board_detail_remove();"/>  
-		<input type="button" class="tiny ui button" id="func_btn" value="취소" onClick="goboardList();"/>
+		<input type="button" class = "func_btn" value="편집" onClick="board_modify();"/> 
+		<input type="button" class="tr_btn" value="삭제" onClick="board_detail_remove();"/>  
+		<input type="button" class="func_btn" value="취소" onClick="goboardList();"/>
  </div>  
 
 <c:if test="${boardmnglist.REPLY_FLG =='N'}">
@@ -102,7 +102,7 @@
 <textarea id = "reply_content" class="form-control" rows="3"  cols="120" style="resize: none;" id="content" style="width:100%" ></textarea>
 </td>
 <td>
- <input type="button" id="reply_add_fbtn" class = "func_btn" value="저장" onclick="reply_add();"/>  
+ <input type="button" id="reply_add_fbtn" class = "tr_btn" value="저장" onclick="reply_add();"/>  
 </td>
 </tr> 
 

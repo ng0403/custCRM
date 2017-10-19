@@ -14,19 +14,19 @@ public class BoardMngDaoImpl implements BoardMngDao {
 	
 	@Autowired
 	SqlSession sqlSession;
-	
-	@Override
-	public int BoardMngListCount(String string, Map<String, Object> map) {
-		System.out.println("bouardmnglistdao " + map.toString());
-		int totalCount = 0;
-		try {
-			totalCount = sqlSession.selectOne("boardmng.boardMngListCount", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return totalCount;
-	}
-	
+ 
+ 	 @Override
+		public int BoardMngListCount(Map<String, Object> boardMap){
+			System.out.println("BoardListCount Dao " + boardMap.toString());
+			int totalCount = 0;
+			try {
+				totalCount = sqlSession.selectOne("boardmng.boardMngListCount", boardMap);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return totalCount;
+		} 
+ 	 
 	//전체리스트 개수
 	@Override
 	public int BoardMngListCountP(Map<String, Object> boardMap) {
@@ -84,4 +84,5 @@ public class BoardMngDaoImpl implements BoardMngDao {
 	return sqlSession.selectList("boardmng.codelist");
 		
 	}
+
 }

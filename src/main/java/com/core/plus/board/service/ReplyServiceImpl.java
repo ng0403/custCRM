@@ -26,6 +26,13 @@ public class ReplyServiceImpl implements ReplyService {
  		
 		  replyDao.addReply(vo);
 	}
+	
+
+	@Override
+	public void modifyReply(ReplyVO vo) {
+		replyDao.modifyReply(vo);
+		
+	}
 
 	@Override
 	public void removeReply(String REPLY_NO) {
@@ -81,4 +88,5 @@ public class ReplyServiceImpl implements ReplyService {
 		
 		return page;
 	}
+
 }

@@ -52,12 +52,6 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		return boardDao.read(BOARD_NO);
 	}
-
-	@Override
-	public List<BoardVO> ajaxlist() {
-		
- 		return boardDao.ajaxlist();
-	}
  
 	
 	@Override
@@ -108,14 +102,8 @@ public class BoardServiceImpl implements BoardService {
 		 boardDao.removeDetail(BOARD_NO);
 		
 	}
-
-	@Override
-	public List<BoardVO> QnAajaxlist() {
-		 
-		return boardDao.QnAajaxlist();
-	}
-
-	
+ 
+	//조회수 증가 
 	@Override
 	public void viewadd(int BOARD_NO) {
 		
@@ -138,7 +126,7 @@ public class BoardServiceImpl implements BoardService {
 				page = new PagerVO(actPageNum, totalRowCount, 10, 10);
 			
 				return page;
-			}
+	       }
  
 			//전체리스트 
 			@Override
