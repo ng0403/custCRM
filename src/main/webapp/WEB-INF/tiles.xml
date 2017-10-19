@@ -22,6 +22,11 @@
 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
 	</definition>
 	
+	<!-- Dashboard -->
+	<definition name="dash_board" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/info/dashboard/dashboard_list.jsp"></put-attribute>
+	</definition>
+	
 	<!-- board -->
 	<definition name="board_list" extends="onebodyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/board/board_list.jsp"></put-attribute>
