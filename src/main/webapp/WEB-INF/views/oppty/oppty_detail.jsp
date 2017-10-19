@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath }" />
 <c:set var="opptyDetail" value="${ opptyDetail }" />
@@ -29,6 +30,7 @@ $(document).ready(function(){
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="hoppty_status_cd" value="${hoppty_status_cd}">
 <input type="hidden" id="page_type" value="${page_type}">
+<input type="hidden" id="item_flg" value="${item_flg}">
 <input type="hidden" id="tmp" value="">
 
 <div id="oppty_detail">
@@ -338,7 +340,8 @@ $(document).ready(function(){
 							<input name="outstanding_amount" id="outstanding_amount" type="text" maxlength="50" value="" style="width: 70%; text-align: right;" readonly="readonly">
 						</c:if>
 						<c:if test="${ opptyNoIndex.oppty_no == null }">	<!-- 상세 -->
-							<input name="outstanding_amount" id="outstanding_amount" type="text" maxlength="50" value="" style="width: 70%; text-align: right;" readonly="readonly">
+							<input name="outstanding_amount" id="outstanding_amount" type="text" maxlength="50" value="${outstanding_amount}" style="width: 70%; text-align: right;" readonly="readonly">
+<%-- 							<fmt:formatNumber name="outstanding_amount" id="outstanding_amount" value="${opptyDetail.outstanding_amount}" type="number"/> --%>
 						</c:if>
 					</td>
 				</tr>
@@ -395,7 +398,7 @@ $(document).ready(function(){
 			</span>
 		</div>	
 		<div id="coupon_mdfy_btn_div" style="float: right;">
-			<c:if test="${ cust_opty_no == null }">
+			<c:if test="${ item_flg != 'complete' }">
 				<input type="button" class="func_btn" id="opptyItem_add" onclick="opptyItemAdd();" value="추가">
 				<input type="button" class="tr_btn" id="opptyItem_save" onclick="opptyItemInsert();" value="저장" >
 				<input type="button" class="tr_btn" id="opptyItem_save" onclick="opptyItemDelte();" value="삭제" >
@@ -443,22 +446,22 @@ $(document).ready(function(){
 	 		 				<input type="text" class="small_cate_name" name="small_cate_name" value="${ itemList.small_cate_name }" readonly="readonly" onclick="smallCatPopup();">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="qty" name="qty" value="${ itemList.qty }" style="text-align: right;">
+	 		 				<input type="text" class="qty" name="qty" value="${ itemList.qty }" style="text-align: right;" onkeyup="totalPriceCalc();">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="list_price" name="list_price" value="${ itemList.list_price }" style="text-align: right;">
+	 		 				<input type="text" class="list_price" name="list_price" value="${ itemList.list_price }" style="text-align: right;" readonly="readonly">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="total_price" name="total_price" value="${ itemList.total_price }" style="text-align: right;" readonly="readonly"> <!-- 총금액 -->
+	 		 				<input type="text" class="total_price" name="total_price" value="${ itemList.totalPirce }" style="text-align: right;" readonly="readonly"> <!-- 총금액 -->
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="dc_price" name="dc_price" value="${ itemList.dc_price }" style="text-align: right;">
+	 		 				<input type="text" class="dc_price" name="dc_price" value="${ itemList.dcPirce }" style="text-align: right;" readonly="readonly">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="offer_price" name="offer_price" value="${ itemList.offer_price }" style="text-align: right;"> <!-- 제안금액 -->
+	 		 				<input type="text" class="offer_price" name="offer_price" value="${ itemList.offerPirce }" style="text-align: right;" onkeyup="dcPrice();"> <!-- 제안금액 -->
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="patment_day" name="payment_day" value="${ itemList.payment_day }" >
+	 		 				<input type="text" class="patment_day" name="payment_day" value="${ itemList.payment_day }" readonly="readonly">
 	 		 			</td>
 	 	 			</tr>
 	 	 		</c:forEach>

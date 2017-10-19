@@ -30,7 +30,7 @@ public class CustVO {
 	private String sales_no;
 	private int total_price;
 	private int payment_price;
-	private int outstding_amount;
+	private int outstanding_amount;
 	private String payment_flg;
 	private String payment_date;
 	
@@ -286,11 +286,11 @@ public class CustVO {
 	public void setPayment_date(String payment_date) {
 		this.payment_date = payment_date;
 	}
-	public int getOutstding_amount() {
-		return outstding_amount;
+	public int getOutstanding_amount() {
+		return outstanding_amount;
 	}
-	public void setOutstding_amount(int outstding_amount) {
-		this.outstding_amount = outstding_amount;
+	public void setOutstanding_amount(int outstanding_amount) {
+		this.outstanding_amount = outstanding_amount;
 	}
 	@Override
 	public String toString() {
@@ -301,13 +301,12 @@ public class CustVO {
 				+ ", visit_dtl_cd=" + visit_dtl_cd + ", visit_cn=" + visit_cn + ", rec_per=" + rec_per + ", remark_cn="
 				+ remark_cn + ", email_id=" + email_id + ", email_dm=" + email_dm + ", del_yn=" + del_yn + ", oppty_no="
 				+ oppty_no + ", oppty_name=" + oppty_name + ", sales_no=" + sales_no + ", total_price=" + total_price
-				+ ", payment_price=" + payment_price + ", outstding_amount=" + outstding_amount + ", payment_flg="
+				+ ", payment_price=" + payment_price + ", outstanding_amount=" + outstanding_amount + ", payment_flg="
 				+ payment_flg + ", payment_date=" + payment_date + ", phone_type_cd=" + phone_type_cd
 				+ ", phone_country_cd=" + phone_country_cd + ", phone_area_no=" + phone_area_no + ", phone_no="
 				+ phone_no + ", primary_yn=" + primary_yn + ", addr_type_cd=" + addr_type_cd + ", road_yn=" + road_yn
 				+ ", zip_no=" + zip_no + ", main_address=" + main_address + ", detail_address=" + detail_address
 				+ ", cust_key=" + cust_key + "]";
 	}
-	
 	
 }

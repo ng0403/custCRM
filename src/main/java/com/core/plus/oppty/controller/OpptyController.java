@@ -346,152 +346,77 @@ public class OpptyController {
 		return kMap;
 	}
 	
-	//엑셀 출력 
-	@RequestMapping(value = "/toOpptyExcel",  method=RequestMethod.POST)
-	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, 
-			 String oppty_no_srch, String oppty_name_srch, 
-			  String cust_name_srch, String emp_name_srch,
-			  String oppty_status_cd_srch, String oppty_stage_cd_srch,
-			  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String flg,
-			  String hoppty_status_cd, String cust_opty_no, String page_type) 
-	{
-		ModelAndView result = new ModelAndView();
-		Map<String, Object> opptykMap = new HashMap<String, Object> ();
-		
-		char temp = flg.charAt(flg.length()-1);
-		char temp1;
-		
-		System.out.println(page_type);
-		System.out.println(temp);
-		if(page_type == null)
-		{
-			page_type = "";
-		}
-		if(page_type.equals("1"))
-		{
-			temp1 = page_type.charAt(page_type.length()-1);
-			String user_id = session.getAttribute("user").toString();
-			System.out.println("user_id : " + user_id);
-			opptykMap.put("user_id", user_id);
-		}
-		
-		if(temp == '0')
-		{
-			opptykMap.put("oppty_no_srch", oppty_no_srch);
-			opptykMap.put("oppty_name_srch", oppty_name_srch);
-			opptykMap.put("cust_name_srch", cust_name_srch);
-			opptykMap.put("emp_name_srch", emp_name_srch);
-			opptykMap.put("oppty_status_cd_srch", oppty_status_cd_srch);
-			opptykMap.put("oppty_stage_cd_srch", oppty_stage_cd_srch);
-			opptykMap.put("exp_close_dt_srch", exp_close_dt_srch);
-			opptykMap.put("dtype_cd_srch", dtype_cd_srch);
-			opptykMap.put("purchase_type_srch", purchase_type_srch);
-			
-			if(hoppty_status_cd != null)
-			{
-				char temp2 = hoppty_status_cd.charAt(hoppty_status_cd.length()-1);
-//				String opptyStatusCd = "00" + temp2;	//	hoppty_status_cd 코드값을 위한 변수
-				String[] tmp = hoppty_status_cd.split(",");
-				String opptyStatusCd = tmp[0];
-				System.out.println("hoppty_status_cd : " + opptyStatusCd);
-				opptykMap.put("oppty_status_cd", opptyStatusCd);
-			}
-			if(cust_opty_no != null)
-			{
-				String[] tmp = cust_opty_no.split(",");
-				String custOptyNo = tmp[0];
-				
-				opptykMap.put("cust_opty_no", custOptyNo);
-			}
-			//taskMap.put("some",req.getParameter("some"));    				// where에 들어갈 조건??
-			System.out.println("opptykMap : " + opptykMap);
-			List<OpptyVO> list = opptyService.opptyExcelExport(opptykMap);	// 쿼리
-			System.out.println("list : " + list);
-			
-			result.addObject("opptyExcelExport", list); 					// 쿼리 결과를 model에 담아줌
-			result.setViewName("/oppty/opptyList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
-			
-			return result;
-		}
-		else
-		{
-			result.setViewName("/oppty/opptyList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
-			
-			return result;
-		}
-		 
-	}
-	
 	// 상세보기 및 단건등록화면
 	@RequestMapping(value="oppty_detail")
 	public ModelAndView opptyDetail(@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, 
 									String oppty_no, String hoppty_status_cd, String cust_opty_no, String page_type)
 	{
-		System.out.println(oppty_no);
-		System.out.println("opptyPageNum? " + opptyPageNum);
-		System.out.println("hoppty_status_cd? " + hoppty_status_cd);
-		System.out.println("cust_opty_no? " + cust_opty_no);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("oppty_no", oppty_no);
+		
+		List<OpptyVO> status = opptyService.opptyStatusCD();
+		List<OpptyVO> stage = opptyService.opptyStageCD();
+		List<OpptyVO> dtype = opptyService.opptyDtypeCD();
+		List<OpptyVO> purchase = opptyService.opptyPerchaseType();
+		List<OpptyVO> payment = opptyService.opptyPaymentCD();
+		List<OpptyVO> recper = opptyService.opptyRecPerCD();
+		
+		ModelAndView mov = new ModelAndView("oppty_detail");
 		
 		if(oppty_no == null || oppty_no == "")	// 단건등록 시
 		{
 			OpptyVO opptyNo = opptyService.opptyNoIndex();
-			List<OpptyVO> status = opptyService.opptyStatusCD();
-			List<OpptyVO> stage = opptyService.opptyStageCD();
-			List<OpptyVO> dtype = opptyService.opptyDtypeCD();
-			List<OpptyVO> purchase = opptyService.opptyPerchaseType();
-			List<OpptyVO> payment = opptyService.opptyPaymentCD();
-			List<OpptyVO> recper = opptyService.opptyRecPerCD();
 			
-			ModelAndView mov = new ModelAndView("oppty_detail");
-
 			mov.addObject("opptyNoIndex", opptyNo);
-			mov.addObject("opptyStatusCd", status);
-			mov.addObject("opptyStageCd", stage);
-			mov.addObject("dtypeCd", dtype);
-			mov.addObject("purchaseType", purchase);
-			mov.addObject("paymentCd", payment);
-			mov.addObject("recperCd", recper);
 			mov.addObject("opptyPageNum", opptyPageNum);
 			mov.addObject("main_menu_url", "oppty");
 			
 			menuImport(mov, "oppty");
-			
-			return mov;
 		}
 		else	// 상세보기	OpptyItem도 조회해야함.
 		{
+			OpptyVO optyVo = opptyService.opptyDetail(oppty_no);
+			CustVO optyItemAmount = custService.optyItemAmount(map); 
 			List<OpptyItemVO> itemList 	= opptyService.opptyItemList(oppty_no);	// 매출상품 리스트 조회
-			List<OpptyVO> status 		= opptyService.opptyStatusCD();
-			List<OpptyVO> stage 		= opptyService.opptyStageCD();
-			List<OpptyVO> dtype 		= opptyService.opptyDtypeCD();
-			List<OpptyVO> purchase 		= opptyService.opptyPerchaseType();
-			List<OpptyVO> payment 		= opptyService.opptyPaymentCD();
-			List<OpptyVO> recper 		= opptyService.opptyRecPerCD();
 			
-			DecimalFormat df = new DecimalFormat("#,##0.00");
-			String total_price;
-			int tmp = 0;
+			int tmp=0, list_price=0, stotal_price=0, dc_price=0, offer_price=0;
+			String listPirce="", totalPrice="", dcPrice="", offerPrice="";
 			
 			for(int i=0; i<itemList.size(); i++)
 			{
 				tmp = tmp + itemList.get(i).getTotal_price();
+				
+				list_price = itemList.get(i).getList_price();
+				stotal_price = itemList.get(i).getTotal_price();
+				dc_price = itemList.get(i).getDc_price();
+				offer_price = itemList.get(i).getOffer_price();
+				
+				listPirce = Comma_won(Integer.toString(list_price));
+				totalPrice = Comma_won(Integer.toString(stotal_price));
+				dcPrice = Comma_won(Integer.toString(dc_price));
+				offerPrice = Comma_won(Integer.toString(offer_price));
+				
+				itemList.get(i).setListPirce(listPirce);
+				itemList.get(i).setDcPirce(dcPrice);
+				itemList.get(i).setOfferPirce(offerPrice);
+				itemList.get(i).setTotalPirce(totalPrice);
+				
 			}
-			total_price = Integer.toString(tmp);
+			String total_price = Comma_won(Integer.toString(tmp));
 			
+			if(optyVo.getOppty_stage_cd().equals("004") && optyVo.getOppty_status_cd().equals("003"))
+			{
+				String outstanding_amount = Comma_won(Integer.toString(optyItemAmount.getOutstanding_amount()));;
+				mov.addObject("item_flg",  "complete");
+				mov.addObject("outstanding_amount", outstanding_amount);
+			}
+			else
+				mov.addObject("outstanding_amount", "0");
 			
 			System.out.println("itemList : " + itemList);
-			System.out.println("tmp : " + tmp);
-			System.out.println("total_price : " + total_price);
-			ModelAndView mov = new ModelAndView("oppty_detail");
 			
-			mov.addObject("opptyDetail",  opptyService.opptyDetail(oppty_no));
+			mov.addObject("opptyDetail",  optyVo);
 			mov.addObject("itemList", itemList);
-			mov.addObject("opptyStatusCd", status);
-			mov.addObject("opptyStageCd", stage);
-			mov.addObject("dtypeCd", dtype);
-			mov.addObject("purchaseType", purchase);
-			mov.addObject("paymentCd", payment);
-			mov.addObject("recperCd", recper);
 			mov.addObject("opptyPageNum", opptyPageNum);
 			mov.addObject("hoppty_status_cd", hoppty_status_cd);
 			mov.addObject("page_type", page_type);
@@ -526,9 +451,16 @@ public class OpptyController {
 				
 				menuImport(mov, "oppty");
 			}
-			
-			return mov;
 		}
+		
+		mov.addObject("opptyStatusCd", status);
+		mov.addObject("opptyStageCd", stage);
+		mov.addObject("dtypeCd", dtype);
+		mov.addObject("purchaseType", purchase);
+		mov.addObject("paymentCd", payment);
+		mov.addObject("recperCd", recper);
+		
+		return mov;
 	}
 
 	/* CUD */
@@ -548,17 +480,29 @@ public class OpptyController {
 	
 	// 수정
 	@RequestMapping(value="oppty_edit", method=RequestMethod.POST)
-	public @ResponseBody int opptyEdit(OpptyVO opptyVo, HttpSession session)
+	public @ResponseBody Map<String, Object> opptyEdit(OpptyVO opptyVo, HttpSession session)
 	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("oppty_no", opptyVo.getOppty_no());
+
 		int result = 0;
-		
-		System.out.println("opptyvo : " + opptyVo);
-		
 		result = opptyService.opptyEdit(opptyVo);
 		
-		System.out.println("edit : " + result);
-		
-		return result;
+		if(result == 1)
+		{
+			CustVO optyItemAmount = custService.optyItemAmount(map);
+			System.out.println(optyItemAmount);
+			map.put("optyItemAmount", optyItemAmount);
+			
+			if(optyItemAmount != null)
+			{
+				String outstanding_amount = Comma_won(Integer.toString(optyItemAmount.getOutstanding_amount()));;
+				map.put("outstanding_amount", outstanding_amount);
+			}
+			
+		}
+
+		return map;
 	}
 	
 	// 삭제
@@ -584,24 +528,19 @@ public class OpptyController {
 		List<OpptyItemVO> itemList = new ArrayList<OpptyItemVO>();
 		List<OpptyItemVO> ditemList = opptyService.opptyItemList(oppty_no);		// 매출상품 조회
 		
-		int total_price =0;
+		int result = 0;
+		int total_price = 0;
 		int outstanding_amount = 0;
 		
 		if(ditemList == null)
-		{
 			System.out.println("list 없음.");
-		}
 		else		// 리스트가 존재하면 전부 삭제한다.
-		{
-			int result = opptyService.opptyItemDelete(oppty_no);
-		}
+			result = opptyService.opptyItemDelete(oppty_no);
 		
 		if(opptyItemList != null)
 		{
 			for(int i=0; i<opptyItemList.size(); i++)
 			{
-				int tmp = 0;
-				
 				OpptyItemVO ovo = new OpptyItemVO();
 				
 				ovo.setOppty_no(oppty_no);
@@ -638,6 +577,9 @@ public class OpptyController {
 	}
 	
 	/* Popup*/
+	/**
+	 * 고객 popup
+	 * */
 	@RequestMapping(value="custListAjax", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> custListPopup(@RequestParam(value = "custPopupPageNum", defaultValue = "1") int custPopupPageNum, String s_cust_name)
 	{
@@ -677,6 +619,9 @@ public class OpptyController {
 		}
 	}
 	
+	/**
+	 * 담당자 popup
+	 * */
 	@RequestMapping(value="empListAjax", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> empListPopup(@RequestParam(value = "empPopupPageNum", defaultValue = "1") int empPopupPageNum, String s_emp_name)
 	{
@@ -818,5 +763,91 @@ public class OpptyController {
 		
 		return result;
 	}
+    
+  //엑셀 출력 
+  	@RequestMapping(value = "/toOpptyExcel",  method=RequestMethod.POST)
+  	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, 
+  			 String oppty_no_srch, String oppty_name_srch, 
+  			  String cust_name_srch, String emp_name_srch,
+  			  String oppty_status_cd_srch, String oppty_stage_cd_srch,
+  			  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String flg,
+  			  String hoppty_status_cd, String cust_opty_no, String page_type) 
+  	{
+  		ModelAndView result = new ModelAndView();
+  		Map<String, Object> opptykMap = new HashMap<String, Object> ();
+  		
+  		char temp = flg.charAt(flg.length()-1);
+  		char temp1;
+  		
+  		System.out.println(page_type);
+  		System.out.println(temp);
+  		if(page_type == null)
+  		{
+  			page_type = "";
+  		}
+  		if(page_type.equals("1"))
+  		{
+  			temp1 = page_type.charAt(page_type.length()-1);
+  			String user_id = session.getAttribute("user").toString();
+  			System.out.println("user_id : " + user_id);
+  			opptykMap.put("user_id", user_id);
+  		}
+  		
+  		if(temp == '0')
+  		{
+  			opptykMap.put("oppty_no_srch", oppty_no_srch);
+  			opptykMap.put("oppty_name_srch", oppty_name_srch);
+  			opptykMap.put("cust_name_srch", cust_name_srch);
+  			opptykMap.put("emp_name_srch", emp_name_srch);
+  			opptykMap.put("oppty_status_cd_srch", oppty_status_cd_srch);
+  			opptykMap.put("oppty_stage_cd_srch", oppty_stage_cd_srch);
+  			opptykMap.put("exp_close_dt_srch", exp_close_dt_srch);
+  			opptykMap.put("dtype_cd_srch", dtype_cd_srch);
+  			opptykMap.put("purchase_type_srch", purchase_type_srch);
+  			
+  			if(hoppty_status_cd != null)
+  			{
+  				char temp2 = hoppty_status_cd.charAt(hoppty_status_cd.length()-1);
+//  				String opptyStatusCd = "00" + temp2;	//	hoppty_status_cd 코드값을 위한 변수
+  				String[] tmp = hoppty_status_cd.split(",");
+  				String opptyStatusCd = tmp[0];
+  				System.out.println("hoppty_status_cd : " + opptyStatusCd);
+  				opptykMap.put("oppty_status_cd", opptyStatusCd);
+  			}
+  			if(cust_opty_no != null)
+  			{
+  				String[] tmp = cust_opty_no.split(",");
+  				String custOptyNo = tmp[0];
+  				
+  				opptykMap.put("cust_opty_no", custOptyNo);
+  			}
+  			//taskMap.put("some",req.getParameter("some"));    				// where에 들어갈 조건??
+  			System.out.println("opptykMap : " + opptykMap);
+  			List<OpptyVO> list = opptyService.opptyExcelExport(opptykMap);	// 쿼리
+  			System.out.println("list : " + list);
+  			
+  			result.addObject("opptyExcelExport", list); 					// 쿼리 결과를 model에 담아줌
+  			result.setViewName("/oppty/opptyList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
+  			
+  			return result;
+  		}
+  		else
+  		{
+  			result.setViewName("/oppty/opptyList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
+  			
+  			return result;
+  		}
+  		 
+  	}
+  	
+  	public static String Comma_won(String junsu) 
+  	{
+  		int inValues = Integer.parseInt(junsu);
+  		DecimalFormat Commas = new DecimalFormat("#,###");
+  		String result_int = (String)Commas.format(inValues);
+  		
+  		return result_int;
+  	 }
+
 
 }

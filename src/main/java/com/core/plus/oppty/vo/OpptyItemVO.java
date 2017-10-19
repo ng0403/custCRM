@@ -19,6 +19,11 @@ public class OpptyItemVO {
 	private String small_cate_name;
 	private int total_price;
 	private int offer_price;
+	
+	private String cListPirce;
+	private String cDcPirce;
+	private String cOfferPirce;
+	private String cTotalPirce;
 
 	public String getOppty_no() {
 		return oppty_no;
@@ -148,6 +153,38 @@ public class OpptyItemVO {
 		this.offer_price = offer_price;
 	}
 
+	public String getListPirce() {
+		return cListPirce;
+	}
+
+	public void setListPirce(String listPirce) {
+		this.cListPirce = listPirce;
+	}
+
+	public String getDcPirce() {
+		return cDcPirce;
+	}
+
+	public void setDcPirce(String dcPirce) {
+		this.cDcPirce = dcPirce;
+	}
+
+	public String getOfferPirce() {
+		return cOfferPirce;
+	}
+
+	public void setOfferPirce(String offerPirce) {
+		this.cOfferPirce = offerPirce;
+	}
+
+	public String getTotalPirce() {
+		return cTotalPirce;
+	}
+
+	public void setTotalPirce(String totalPirce) {
+		this.cTotalPirce = totalPirce;
+	}
+
 	@Override
 	public String toString() {
 		return "OpptyItemVO [oppty_no=" + oppty_no + ", oppty_item_no=" + oppty_item_no + ", main_cate_cd="
@@ -155,15 +192,9 @@ public class OpptyItemVO {
 				+ create_date + ", update_date=" + update_date + ", payment_day=" + payment_day + ", qty=" + qty
 				+ ", list_price=" + list_price + ", dc_price=" + dc_price + ", main_cate_name=" + main_cate_name
 				+ ", mid_cate_name=" + mid_cate_name + ", small_cate_name=" + small_cate_name + ", total_price="
-				+ total_price + ", offer_price=" + offer_price + ", getOppty_no()=" + getOppty_no()
-				+ ", getOppty_item_no()=" + getOppty_item_no() + ", getMain_cate_cd()=" + getMain_cate_cd()
-				+ ", getMid_cate_cd()=" + getMid_cate_cd() + ", getSmall_cate_cd()=" + getSmall_cate_cd()
-				+ ", getCreate_date()=" + getCreate_date() + ", getUpdate_date()=" + getUpdate_date()
-				+ ", getPayment_day()=" + getPayment_day() + ", getQty()=" + getQty() + ", getList_price()="
-				+ getList_price() + ", getDc_price()=" + getDc_price() + ", getMain_cate_name()=" + getMain_cate_name()
-				+ ", getMid_cate_name()=" + getMid_cate_name() + ", getSmall_cate_name()=" + getSmall_cate_name()
-				+ ", getTotal_price()=" + getTotal_price() + ", getOffer_price()=" + getOffer_price() + ", getClass()="
-				+ getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+				+ total_price + ", offer_price=" + offer_price + ", listPirce=" + cListPirce + ", dcPirce=" + cDcPirce
+				+ ", offerPirce=" + cOfferPirce + ", totalPirce=" + cTotalPirce + "]";
 	}
 
+	
 }

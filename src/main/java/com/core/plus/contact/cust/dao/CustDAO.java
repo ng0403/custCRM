@@ -26,8 +26,9 @@ public interface CustDAO {
 
 	List<CustVO> custExcelExport(Map<String, Object> custkMap);						// 엑셀 출력
 
-	List<CustVO> optyItemAmount(Map<String, Object> map);
+	CustVO optyItemAmount(Map<String, Object> map);
 	List<CustVO> salesList(Map<String, Object> map);
+	List<CustVO> optyItemAmountList(Map<String, Object> map);
 	
 	int optyPaymentAdd(CustVO cvo);
 	int optyPaymentRecordAdd(CustVO cvo);

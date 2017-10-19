@@ -1199,6 +1199,8 @@ function opptyItemList(optyAmountPageNum)
 		success: function(data) { 
 			
 			$("#amountTbody").empty();
+			console.log(data);
+			console.log(data.optyItemAmount.length);
 			
 			if (data.optyItemAmount.length == 0) {
 				var trElement = $("#amountTableHeader").clone().removeClass().empty();
@@ -1210,13 +1212,15 @@ function opptyItemList(optyAmountPageNum)
 					var oppty_no = this.oppty_no;
 					var oppty_name = this.oppty_name;
 					var claim = this.total_price;
-					var outstding_amount = this.outstding_amount;
+					var outstanding_amount = this.outstanding_amount;
 					var payment_flg = this.payment_flg;
 					
-					tmp = tmp + this.outstding_amount;
+					tmp = tmp + this.outstanding_amount;
 					$("#price").val(comma(tmp));
-
-					paymentListContent(trElement, oppty_no, oppty_name, claim, this.total_price, this.payment_price, this.outstding_amount, this.payment_flg);				
+					
+					console.log(tmp);
+					
+					paymentListContent(trElement, oppty_no, oppty_name, claim, this.total_price, this.payment_price, this.outstanding_amount, this.payment_flg);				
 				});
 			}
 			console.log(data);
@@ -1319,12 +1323,12 @@ function paymentBtn()
 					var oppty_no = this.oppty_no;
 					var oppty_name = this.oppty_name;
 					var claim = this.total_price;
-					var outstding_amount = this.outstding_amount;	
+					var outstanding_amount = this.outstanding_amount;	
 					
-					tmp = tmp + this.outstding_amount;
+					tmp = tmp + this.outstanding_amount;
 					$("#price").val(comma(tmp));
 					
-					paymentListContent(trElement, oppty_no, oppty_name, claim, this.total_price, this.payment_price, this.outstding_amount, this.payment_flg);
+					paymentListContent(trElement, oppty_no, oppty_name, claim, this.total_price, this.payment_price, this.outstanding_amount, this.payment_flg);
 					
 				});
 			}
@@ -1347,12 +1351,11 @@ function paymentBtn()
 /**
  * 청구(미수)금 납부 리스트
  * */
-function paymentListContent(trElement, oppty_no, oppty_name, claim, total_price, payment_price, outstding_amount, payment_flg)
+function paymentListContent(trElement, oppty_no, oppty_name, claim, total_price, payment_price, outstanding_amount, payment_flg)
 {
-	console.log(trElement, oppty_name, total_price, payment_price, outstding_amount, payment_flg);
 	// 클릭한 행을 부모창에 입력
 	trElement.bind("click", function(e) {
-		if(outstding_amount == 0)
+		if(outstanding_amount == 0)
 		{
 			alert("이미 완납한 상품입니다.");
 			return false;
@@ -1363,8 +1366,8 @@ function paymentListContent(trElement, oppty_no, oppty_name, claim, total_price,
 			$("#pay_opty_name").val(oppty_name);
 			$("#pay_opty_no").val(oppty_no);
 			
-			if(outstding_amount != claim)
-				$("#claim").val(comma(outstding_amount));
+			if(outstanding_amount != claim)
+				$("#claim").val(comma(outstanding_amount));
 			else
 				$("#claim").val(comma(claim));
 		}
@@ -1376,7 +1379,7 @@ function paymentListContent(trElement, oppty_no, oppty_name, claim, total_price,
 	$("#amountTbody").append(trElement);
 	$("#amountTbody tr:last").append("<td >" + oppty_name + "</td>"
 			+ "<td width='20%'>" + comma(total_price) + "</td>" + "<td width='20%'>" + comma(payment_price) + "</td>"
-			+ "</td>" + "<td width='20%'>" + comma(outstding_amount) + "</td>" + "<td width='10%'>" + payment_flg + "</td>");
+			+ "</td>" + "<td width='20%'>" + comma(outstanding_amount) + "</td>" + "<td width='10%'>" + payment_flg + "</td>");
 }
 
 //컴마 입력 함수

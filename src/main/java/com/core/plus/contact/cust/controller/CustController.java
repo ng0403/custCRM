@@ -492,7 +492,7 @@ public class CustController {
 		
 		System.out.println("cust_no : " + cust_no);
 		
-		List<CustVO> optyItemAmount = custService.optyItemAmount(map);
+		List<CustVO> optyItemAmount = custService.optyItemAmountList(map);
 		
 		System.out.println("optyItemAmount : " + optyItemAmount);
 		map.put("optyItemAmount", optyItemAmount);
@@ -534,7 +534,7 @@ public class CustController {
 		if(result == 1)
 		{
 			custService.optyPaymentRecordAdd(custVo);
-			List<CustVO> optyItemAmount = custService.optyItemAmount(map);	
+			List<CustVO> optyItemAmount = custService.optyItemAmountList(map);	
 			map.put("optyItemAmount", optyItemAmount);
 		}
 		

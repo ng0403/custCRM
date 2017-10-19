@@ -83,9 +83,17 @@ public class CustServiceImpl implements CustService{
 	}
 
 	@Override
-	public List<CustVO> optyItemAmount(Map<String, Object> map) {
+	public CustVO optyItemAmount(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		List<CustVO> optyItemAmount = custDao.optyItemAmount(map);
+		CustVO optyItemAmount = custDao.optyItemAmount(map);
+		
+		return optyItemAmount;
+	}
+	
+	@Override
+	public List<CustVO> optyItemAmountList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		List<CustVO> optyItemAmount = custDao.optyItemAmountList(map);
 		
 		return optyItemAmount;
 	}

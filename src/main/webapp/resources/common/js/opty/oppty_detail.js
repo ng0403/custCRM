@@ -14,6 +14,17 @@
  */
 var ctx = $("#ctx").val();
 
+$(document).ready(function(){
+	var item_flg = $("#item_flg").val();
+	
+	if(item_flg == 'complete')
+	{
+		console.log("A");
+		itemControl();
+	}
+	
+});
+
 function odCustList(custPageNum)
 {
 	location.href = ctx + '/cust?custPageNum=' + custPageNum;
@@ -516,6 +527,58 @@ function opptyMody()
 	{
 		opptyEdit();
 	}
+}
+
+function opptySave()
+{
+	$("#oppty_detail_mdfy").val("편집");
+	
+	$("#oppty_detail_mdfy").removeClass("tr_btn");
+	$("#oppty_detail_mdfy").addClass("func_btn");
+	
+	$("#oppty_name").prop("readonly", true);
+	$("#score").prop("readonly", true);
+	$("#exp_close_day").prop("readonly", true);
+	$("#sur_plan_cn").prop("readonly", true);
+	$("#description").prop("readonly", true);
+	
+	$("#custSchBtn").prop("disabled", true);
+	$("#empSchBtn").prop("disabled", true);
+	$("#oppty_status_cd_sel").prop("disabled", true);
+	$("#oppty_stage_cd_sel").prop("disabled", true);
+	$("#dtype_cd_sel").prop("disabled", true);
+	$("#purchase_type_sel").prop("disabled", true);
+	$("#payment_cd_sel").prop("disabled", true);
+	$("#rec_per_cd_sel").prop("disabled", true);
+	$("#exp_close_day").prop("disabled", true);
+}
+
+function itemControl()
+{
+	if($("#oppty_status_cd_sel").val() == '003' && $("#oppty_stage_cd_sel").val() == '004')
+	{
+		$(".main_cate_name").prop("disabled", true);
+		$(".mid_cate_name").prop("disabled", true);
+		$(".small_cate_name").prop("disabled", true);
+		$(".qty").prop("disabled", true);
+		$(".list_price").prop("disabled", true);
+		$(".total_price").prop("disabled", true);
+		$(".dc_price").prop("disabled", true);
+		$(".offer_price").prop("disabled", true);
+		$(".patment_day").prop("disabled", true);
+	}
+	else
+	{
+		$(".main_cate_name").prop("disabled", false);
+		$(".mid_cate_name").prop("disabled", false);
+		$(".small_cate_name").prop("disabled", false);
+		$(".qty").prop("disabled", false);
+		$(".list_price").prop("disabled", false);
+		$(".total_price").prop("disabled", false);
+		$(".dc_price").prop("disabled", false);
+		$(".offer_price").prop("disabled", false);
+		$(".patment_day").prop("disabled", false);
+	}
 	
 }
 
@@ -593,7 +656,21 @@ function opptyEdit()
 				},
 				dataType : "json",
 				success : function(data) {
+					console.log(data);
 					alert("매출기회가 수정되었습니다.");
+					
+					opptySave();
+					itemControl();
+					console.log(data.outstanding_amount);
+					
+					if(data.outstanding_amount == 'undefined' || data.outstanding_amount == null)
+					{
+						console.log("A");
+						$("#outstanding_amount").val("0");
+					}
+					else
+						$("#outstanding_amount").val(data.outstanding_amount);
+						
 				},
 				error : function(request,status,error) {
 					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -655,21 +732,6 @@ function EmpPopEnterSearch(event) {
 	}
 	event.stopPropagation();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

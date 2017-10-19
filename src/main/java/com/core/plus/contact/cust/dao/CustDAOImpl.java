@@ -278,7 +278,15 @@ public class CustDAOImpl implements CustDAO{
 	 * 청구/수금 리스트 목록
 	 * */
 	@Override
-	public List<CustVO> optyItemAmount(Map<String, Object> map) {
+	public CustVO optyItemAmount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		CustVO optyItemAmount = sqlSession.selectOne("cust.optyAmount", map);
+		System.out.println("DAO : " + optyItemAmount);
+		return optyItemAmount;
+	}
+	
+	@Override
+	public List<CustVO> optyItemAmountList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		List<CustVO> optyItemAmount = sqlSession.selectList("cust.optyAmount", map);
 		System.out.println("DAO : " + optyItemAmount);
@@ -335,9 +343,9 @@ public class CustDAOImpl implements CustDAO{
 			map.put("oppty_no", cvo.getOppty_no());
 			
 			List<CustVO> tmp = sqlSession.selectList("cust.paymentFlgUpdateList", map);
-			System.out.println("TT : " + tmp.get(0).getOutstding_amount());
+			System.out.println("TT : " + tmp.get(0).getOutstanding_amount());
 			
-			if(tmp.get(0).getOutstding_amount() == 0)
+			if(tmp.get(0).getOutstanding_amount() == 0)
 			{
 				cvo.setPayment_flg("Y");
 				System.out.println("0 : " + cvo);

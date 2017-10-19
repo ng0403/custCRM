@@ -1,6 +1,7 @@
 package com.core.plus.oppty.dao;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,6 @@ import com.core.plus.contact.cust.vo.CustVO;
 import com.core.plus.emp.vo.EmpVO;
 import com.core.plus.oppty.vo.OpptyItemVO;
 import com.core.plus.oppty.vo.OpptyVO;
-import com.core.plus.task.vo.TaskVO;
 
 @Repository
 public class OpptyDaoImpl implements OpptyDao {
@@ -58,11 +58,7 @@ public class OpptyDaoImpl implements OpptyDao {
 	@Override
 	public OpptyVO opptyDetail(String oppty_no) {
 		// TODO Auto-generated method stub
-		System.out.println("DAO : " + oppty_no);
-		
 		OpptyVO detail = sqlSession.selectOne("oppty.opptyDetail", oppty_no);
-		
-		System.out.println("detail : " + detail);
 		
 		return detail;
 	}
