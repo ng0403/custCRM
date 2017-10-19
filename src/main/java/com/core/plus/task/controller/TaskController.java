@@ -24,8 +24,8 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 import com.core.plus.common.PagerVO;
 import com.core.plus.contact.cust.vo.CustVO;
 import com.core.plus.emp.vo.EmpVO;
+import com.core.plus.info.menu.controller.MenuController;
 import com.core.plus.info.menu.service.MenuService;
-import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.lead.vo.LeadVO;
 import com.core.plus.login.dao.LoginDAO;
 import com.core.plus.oppty.vo.OpptyVO;
@@ -36,13 +36,16 @@ import net.sf.json.JSONArray;
 
 @Controller
 public class TaskController {
-
 	
 	@Resource
 	TaskService taskService;
 	
 	@Resource
 	MenuService menuService;
+	
+	//메뉴를 위한 추가
+	@Resource
+	MenuController menuControlleri;
 	
 	@Resource
 	LoginDAO loginDao;
@@ -51,23 +54,28 @@ public class TaskController {
 	private HttpSession session;
 	
 	//메뉴
-	public void menuImport(ModelAndView mav, String url){
-		String menu_id = menuService.getMenuUrlID(url);
-		String user_id = session.getAttribute("user").toString();
-	
-		Map<String, String> menuAuthMap = new HashMap<String, String>();
-		menuAuthMap.put("menu_url", url);
-		menuAuthMap.put("user_id", user_id);
-		menuAuthMap.put("menu_id", menu_id);
-		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-		mav.addObject("menuAuth", menuAuth);
-			
-		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
-		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
-		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
-		mav.addObject("subMenuList", subMenuList);    //subMenuList
-	}
-	
+//	public void menuImport(ModelAndView mav, String url){
+
+//		menuImport(mav, url);
+//		System.out.println("mav : " + mav + "url :" + url);
+		
+//		String menu_id = menuService.getMenuUrlID(url);
+//		String user_id = session.getAttribute("user").toString();
+//	
+//		Map<String, String> menuAuthMap = new HashMap<String, String>();
+//		menuAuthMap.put("menu_url", url);
+//		menuAuthMap.put("user_id", user_id);
+//		menuAuthMap.put("menu_id", menu_id);
+//		
+//		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+//		mav.addObject("menuAuth", menuAuth);
+//			
+//		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
+//		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
+//		mav.addObject("mainMenuList", mainMenuList);  	//mainMenuList
+//		mav.addObject("subMenuList", subMenuList);    	//subMenuList
+//	}
+
 	// List
 	@RequestMapping(value="/task")
 	public ModelAndView TaskList(HttpSession session,
@@ -109,7 +117,7 @@ public class TaskController {
 		{
 			mov.addObject("main_menu_url", "task");
 			mov.addObject("sub_menu_url", "task");
-			menuImport(mov, "task");
+			menuControlleri.menuImport(mov, "task");
 		}
 		if(cust_task_no != null)
 		{
@@ -117,20 +125,20 @@ public class TaskController {
 			{
 				mov.addObject("main_menu_url", "task");
 				mov.addObject("sub_menu_url", "task");
-				menuImport(mov, "task");
+				menuControlleri.menuImport(mov, "task");
 			}
 			else if(cust_task_no.equals(null))
 			{
 				mov.addObject("main_menu_url", "task");
 				mov.addObject("sub_menu_url", "task");
-				menuImport(mov, "task");
+				menuControlleri.menuImport(mov, "task");
 			}
 			else
 			{
 				mov.addObject("cust_task_no", cust_task_no);
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
-				menuImport(mov, "cust");
+				menuControlleri.menuImport(mov, "cust");
 			}
 		}
 		
@@ -179,7 +187,7 @@ public class TaskController {
 		mov.addObject("sub_menu_url", "mytask");
 		mov.addObject("url", Url);
 		mov.addObject("session", my_user_id);
-		menuImport(mov, "task");
+		menuControlleri.menuImport(mov, "task");
 		mov.addObject("pageType", "1");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
 		
 		return mov;
@@ -259,7 +267,7 @@ public class TaskController {
 				mov.addObject("sub_menu_url", "task");
 				mov.addObject("url", Url);
 				mov.addObject("flg", "1");
-				menuImport(mov, "task");
+				menuControlleri.menuImport(mov, "task");
 				
 			}
 			else if (lead_no != null)
@@ -270,7 +278,7 @@ public class TaskController {
 				mov.addObject("cust_no", cust_no);
 				mov.addObject("flg", "2");
 				mov.addObject("PageNum", PageNum); 
-				menuImport(mov, "lead");
+				menuControlleri.menuImport(mov, "lead");
 				
 			}
 			
@@ -279,7 +287,7 @@ public class TaskController {
 				mov.addObject("main_menu_url", "task"); 
 				mov.addObject("sub_menu_url", "task");
 				mov.addObject("url", Url);
-				menuImport(mov, "task");
+				menuControlleri.menuImport(mov, "task");
 				
 			}
 			else if(!cust_task_no.equals("1"))
@@ -288,7 +296,7 @@ public class TaskController {
 				mov.addObject("sub_menu_url", "cust");
 				mov.addObject("cust_task_no", cust_task_no);
 				mov.addObject("PageNum", PageNum); 
-				menuImport(mov, "cust");
+				menuControlleri.menuImport(mov, "cust");
 			}
 			
 			mov.addObject("flg", "1");
@@ -322,7 +330,7 @@ public class TaskController {
 					mov.addObject("sub_menu_url", "task");
 					mov.addObject("url", Url);
 					mov.addObject("flg", "2");
-					menuImport(mov, "task");
+					menuControlleri.menuImport(mov, "task");
 					System.out.println("1 List page_type :" + page_type );
 				} 
 				else
@@ -331,7 +339,7 @@ public class TaskController {
 					mov.addObject("sub_menu_url", "mytask");
 					mov.addObject("url", Url);
 					mov.addObject("flg", "2");
-					menuImport(mov, "task");
+					menuControlleri.menuImport(mov, "task");
 
 					System.out.println("2 List page_type :" + page_type );
 
@@ -344,7 +352,7 @@ public class TaskController {
 				mov.addObject("lead_no", lead_no);
 				mov.addObject("cust_no", cust_no);
 				mov.addObject("PageNum", PageNum); 
-				menuImport(mov, "lead");
+				menuControlleri.menuImport(mov, "lead");
 			}
 			
 			if(cust_task_no.equals("undefined"))
@@ -354,7 +362,7 @@ public class TaskController {
 					mov.addObject("sub_menu_url", "task");
 					mov.addObject("url", Url);
 					mov.addObject("flg", "2");
-					menuImport(mov, "task");
+					menuControlleri.menuImport(mov, "task");
 					System.out.println("3 page_type: " + page_type);
 				} 
 				else
@@ -363,7 +371,7 @@ public class TaskController {
 					mov.addObject("sub_menu_url", "task");
 					mov.addObject("url", Url);
 					mov.addObject("flg", "2");
-					menuImport(mov, "task");
+					menuControlleri.menuImport(mov, "task");
 					System.out.println("4 page_type: " + page_type);
 				}
 			}
@@ -373,7 +381,7 @@ public class TaskController {
 				mov.addObject("sub_menu_url", "cust");
 				mov.addObject("cust_task_no", cust_task_no);
 				mov.addObject("PageNum", PageNum); 
-				menuImport(mov, "cust");
+				menuControlleri.menuImport(mov, "cust");
 			}
 			
 			mov.addObject("flg", "2");

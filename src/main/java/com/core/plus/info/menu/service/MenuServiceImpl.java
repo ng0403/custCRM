@@ -144,7 +144,9 @@ public class MenuServiceImpl implements MenuService {
 	// 메뉴 주소 가져올 메뉴 아이디 가져오기
 	@Override
 	public String getMenuUrlID(String url) {
+		
 		String menu_id = dao.getMenuUrlID(url);
+		
 		return menu_id;
 	}
 
