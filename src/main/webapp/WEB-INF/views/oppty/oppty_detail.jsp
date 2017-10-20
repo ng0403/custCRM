@@ -449,7 +449,7 @@ $(document).ready(function(){
 	 		 				<input type="text" class="qty" name="qty" value="${ itemList.qty }" style="text-align: right;" onkeyup="totalPriceCalc();">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
-	 		 				<input type="text" class="list_price" name="list_price" value="${ itemList.list_price }" style="text-align: right;" readonly="readonly">
+	 		 				<input type="text" class="list_price" name="list_price" value="${ itemList.listPirce }" style="text-align: right;" readonly="readonly">
 	 		 			</td>
 	 		 			<td style="text-align: left;" >
 	 		 				<input type="text" class="total_price" name="total_price" value="${ itemList.totalPirce }" style="text-align: right;" readonly="readonly"> <!-- 총금액 -->
