@@ -54,25 +54,15 @@ function opptyDetail(oppty_no, opptyPageNum)
 	var cust_opty_no = $("#cust_opty_no").val();
 	var page_type = $("#page_type").val();
 	
-	console.log(page_type);
-	console.log(cust_opty_no);
-	
 	if(cust_opty_no == null || cust_opty_no == '')		// 영업기회
 	{
 		if(page_type == 0)
-		{
-//			console.log("A");
 			location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd + "&page_type=" + page_type;
-		}
 		else
-		{
-//			console.log("AB");
 			location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd + "&page_type=" + page_type;
-		}
 	}
 	if(cust_opty_no != null && cust_opty_no != '')		// 고객에서 타고 들어오는 영업기회
 		location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&cust_opty_no=" + cust_opty_no;
-//		console.log("B");
 	
 }
 
@@ -105,8 +95,6 @@ function opptySchList(opptyPageNum)
 	var cust_opty_no 		 = $("#cust_opty_no").val();
 	var opptyData			 = null;
 	
-	console.log(opptyPageNum);
-
 	if(page_type == 0)		// 전체페이지
 	{
 		opptyData = {opptyPageNum		 : opptyPageNum,
@@ -203,8 +191,6 @@ function opptySchList(opptyPageNum)
 			$(".pagingDiv").empty();
 			var pageContent = "";
 
-			console.log(data);
-			
 			if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
 				pageContent = "◀ <input type='text' id='pageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
 			} else if(data.opptyPageNum == data.page.startPageNum){
@@ -326,8 +312,6 @@ function opptyExcelCheck()
     		}
     	};
     	$("#excelUploadForm").ajaxSubmit(options);
-//    	$("#excelUploadForm").append(excelFile);
-//    	$("#excelUploadForm").submit();
 	}
 	
 }
@@ -337,16 +321,13 @@ function opptyCheckFileType(filePath)
 {
 	var fileFormat = filePath.split(".");
 	
-	if (fileFormat.indexOf("xlsx") > -1) {
+	if (fileFormat.indexOf("xlsx") > -1) 
 		return true;
-	} 
+	else 
+		return false;
 //	if (fileFormat.indexOf("xls") > -1) {
 //		return true;
 //	} 
-	else {
-		return false;
-	}
-
 }
 
 //엑셀 출력 적용 함수
@@ -363,33 +344,15 @@ function download_list_Excel(formID, flg)
 	var flg = $("<input type='hidden' value='"+ flg +"' name='flg'>");
 	var page_type = page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
 	
-	console.log(page);
-	
-//	if(count == 0)
-//	{
-//		page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
-//	}
-//	else
-//	{
-//		page_type = null;
-//		page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
-//	}
-	
 	if(hoppty_status_cd != null && hoppty_status_cd != '')
 	{
 		var oppty_status_cd = $("<input type='hidden' value='"+ hoppty_status_cd +"' name='hoppty_status_cd'>");
 		form.append(oppty_status_cd);
-		
-		console.log("A");
-		console.log(oppty_status_cd);
-		console.log(hoppty_status_cd);
 	}
 	if(cust_opty_no != null && cust_opty_no != '')
 	{
 		var cust_opty_no = $("<input type='hidden' value='"+ cust_opty_no +"' name='cust_opty_no'>");
 		form.append(cust_opty_no);
-		
-		console.log("BA");
 	}
 	
 	if(t == 0)

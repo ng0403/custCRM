@@ -100,7 +100,10 @@ function opptyItemAdd()
 	$(document).find("input[class=payment_day]").removeClass('hasDatepicker').datepicker();		// datepicker 동적 생성
 }
 
-// 매출상품 추가
+/**
+ * 영업기회 상품등록
+ * Ajax 처리를 하기 때문에 상세정보 정보도 같이 넘겨준다.
+ * */
 function opptyItemInsert()
 {
 	// 상세보기 정보
@@ -183,15 +186,11 @@ function opptyItemInsert()
 			alert("매출기회 상품이 추가되었습니다.");
 			
 			var size = data.length;
-			console.log(data);
-			
 			for(var i=0; i<size; i++)
 			{
 				total = total + data[i].total_price;
 				var offer_price = data[i].offer_price;
 				var tprice = data[i].total_price;
-				console.log(offer_price);
-				console.log(tprice);
 				
 				tbodyContent = "<tr>" +
 				"<td><input type='checkbox' class='del_chk' name='del_chk'></td>" +
@@ -215,11 +214,9 @@ function opptyItemInsert()
  				"<td style='text-align: left;'>";
 				
  				if(tprice == offer_price){
- 					console.log("A");
  					tbodyContent += "<input type='text' class='offer_price' name='offer_price' style='text-align: right;' value='"+ comma(data[i].offer_price) +"'></td>";
  				}
  				else {
- 					console.log("B");
  					tbodyContent += "<input type='text' class='offer_price' name='offer_price' style='text-align: right;' value='"+ 0 +"'></td>";
  				}
  				
@@ -228,7 +225,6 @@ function opptyItemInsert()
 	 			"</tr>"
  					
  				tbody.append(tbodyContent);
- 				
 			}
 			
 			$("#total_price").val(total);
@@ -240,6 +236,9 @@ function opptyItemInsert()
 }
 
 // 삭제버튼 눌렀을 시
+/**
+ * 상품 삭제
+ * */
 function opptyItemDelte()
 {
 	var checkbox=$('#opptyItemTable tbody').find('input[type=checkbox]:checked');	// 체크된 체크박스를 담는다.
@@ -281,6 +280,9 @@ function mainCatePopup()
 	
 }
 
+/**
+ * 대분류 리스트
+ * */
 function viewMainCateList(mainCatePopupPageNum)
 {
 	var ctx = $("#ctx").val();
@@ -329,8 +331,7 @@ function viewMainCateList(mainCatePopupPageNum)
 							+ "<td width='30%'>" + main_cate_name + "</td>");
 				});
 			}
-			console.log(data);
-			
+
 			// 페이징 그리기
 			$("#mainCatePagingDiv").empty();
 			var pageContent = "";
@@ -374,8 +375,6 @@ function viewMainCateList(mainCatePopupPageNum)
 
 function midCatePopup()
 {
-//	var main_cate_cd = $("#main_cate_cd").val();
-	
 	$(document).on( 'click','.mid_cate_name',function(event) {
 		tmp = $(this);
 		main_cate_cd = tmp.parent().parent().children().eq(1).children().eq(0).val();	// 선택한 대분류에 포함된 중분류를 가지고 와야하기 떄문에 필요하다.
@@ -383,6 +382,7 @@ function midCatePopup()
 		if(main_cate_cd == "" || main_cate_cd == null)
 		{
 			alert("대분류를 먼저 선택하세요.");
+			return false;
 		}
 		else
 		{
@@ -405,6 +405,9 @@ function midCatePopup()
 	});
 }
 
+/**
+ * 중분류리스트
+ * */
 function viewMidCateList(mainCatePopupPageNum)
 {
 	var ctx = $("#ctx").val();
@@ -430,7 +433,6 @@ function viewMidCateList(mainCatePopupPageNum)
 				$("#midCateListTbody").append(trElement);
 				$("#midCateListTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
 			} else {
-				console.log(data);
 				$.each(data.midCatePopupList, function(i) {
 					var trElement = $("#midCateListTableHeader").clone().removeClass().empty();
 					var mid_cate_cd = this.mid_cate_cd;
@@ -494,7 +496,6 @@ function viewMidCateList(mainCatePopupPageNum)
 
 function smallCatePopup()
 {
-	
 	$(document).on( 'click','.small_cate_name',function(event) {
 		tmp = $(this);
 		main_cate_cd = tmp.parent().parent().children().eq(1).children().eq(0).val();
@@ -505,10 +506,12 @@ function smallCatePopup()
 		if(main_cate_cd == "" || main_cate_cd == null)
 		{
 			alert("대분류를 먼저 선택하세요.");
+			return false;
 		}
 		else if(mid_cate_cd == "" || mid_cate_cd == null)
 		{
 			alert("중분류를 먼저 선택하세요.");
+			return false;
 		}
 		else
 		{
@@ -531,6 +534,9 @@ function smallCatePopup()
 	});
 }
 
+/**
+ * 소분류 리스트
+ * */
 function viewSmallCateList(smallCatePopupPageNum)
 {
 	var ctx = $("#ctx").val();
@@ -623,7 +629,9 @@ function viewSmallCateList(smallCatePopupPageNum)
 	});
 }
 
-//대/중/소분류 리스트 페이징 엔터 기능
+/**
+ * 대/중/소분류 리스트 페이징 엔터
+ * */
 function catePageNumInputEnter(event) {
 	$(document).ready(function() {
 		var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -649,7 +657,9 @@ function catePageNumInputEnter(event) {
 	});
 }
 
-// 총금액 계산
+/**
+ * 상품 총액 계산 
+ * */
 function totalPriceCalc()
 {
 	var inputQty = selQty.val();
@@ -665,6 +675,9 @@ function totalPriceCalc()
 	console.log(selQty.parent().parent().children().eq(8).children().eq(0).val(comma(totalPrice)));
 }
 
+/**
+ * 상품 금액 Discount 
+ * */
 function dcPrice()
 {
 	var offerPrice = selDC.parent().parent().children().eq(8).children().eq(0).val();

@@ -66,7 +66,9 @@ function custAddrAllChk()
 	}
 }
 
-//취소버튼 
+/**
+ * 취소 버튼
+ * */ 
 function cust_cancel(custPageNum)
 {
 	if(confirm("취소하시겠습니까?"))
@@ -78,11 +80,11 @@ function cust_cancel(custPageNum)
 		return false;
 } 
 
-// 특수문자 예외처리
+/**
+ * 특수문자 예외처리(중복 - 공통으로 빼는게 좋을 듯)
+ * */
 function wordch(thisword)
 {
-	console.log(thisword);
-	
 	var flag = true;
 	var specialChars="~`!@#$%^&*-=+\|[](){};:'<.,>/?_";
 
@@ -164,7 +166,9 @@ function paymentPopupClose()
 	$.unblockUI();
 }
 
-// 검색 초기화 버튼
+/**
+ * 고객 검색조건 초기화
+ * */
 function custSchReset()
 {
 	$("#cust_no").val("");
@@ -175,7 +179,9 @@ function custSchReset()
 	$("#phone_no").val("");
 }
 
-//고객 상세 초기화 버튼
+/**
+ * 고객 상세내역 초기화
+ * */
 function cust_reset() 
 {
 	if(confirm("입력한 정보를 지우겠습니까?"))
@@ -202,7 +208,9 @@ function cust_reset()
 		
 }
 
-//검색 엔터키 기능
+/**
+ * 검색 언터키 기능
+ * */
 function custEnterSearch(event) {
 	var keycode = (event.keyCode ? event.keyCode : event.which);
 	
@@ -217,7 +225,10 @@ function custEnterSearch(event) {
 	event.stopPropagation();
 }
 
-
+/**
+ * 고객 리스트로 이동
+ * 페이지 타입으로 전체 리스트와 내담당 리스트로 이동
+ * */
 function custList(custPageNum)
 {
 	var page_type = $("#page_type").val();
@@ -231,11 +242,11 @@ function custList(custPageNum)
 	}
 }
 
-// 고객 삭제
+/**
+ * 고객 삭제
+ * */
 function custDelete()
 {
-	 console.log($("#cust_no").val());
-	 
 	$(document).ready(function() {
 		var ynChk = confirm("해당 고객을 삭제하시겠습니까?");
 		if(ynChk)
@@ -266,7 +277,9 @@ function custDelete()
 	 
 }
 
-// 고객 조회
+/**
+ * 고객 리스트 검색, 페이징 
+ * */
 function searchKeyword(pageNum)
 {
 	var cust_no   = $("#cust_no").val();
@@ -277,8 +290,6 @@ function searchKeyword(pageNum)
 	var rec_per  = $("#rec_per").val();
 	var phone_no = $("#phone_no").val();
 	var user_id  = $("#session").val();
-	
-	console.log(user_id);
 	
 	var custData = { 
 			 		 "custPageNum" : pageNum,
@@ -356,15 +367,12 @@ function searchKeyword(pageNum)
 							
 							tbody.append(tbodyContent);
 						}
-						
 					}
 					
  					// 페이징
  					$(".pagingDiv").empty();
  					var pageContent = "";
 
- 					console.log(data);
- 					
  					if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
  						pageContent = "◀ <input type='text' id='pageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
  					} else if(data.pageNum == data.page.startPageNum){
@@ -392,7 +400,9 @@ function searchKeyword(pageNum)
 			});
 }
 
-//페이징 엔터키
+/**
+ * 페이징 언터키
+ * */
 function custPageNumInputEnter(event) {
 	var keycode = (event.keyCode ? event.keyCode : event.which);
 	if (keycode == '13') {
@@ -416,17 +426,20 @@ function custPageNumInputEnter(event) {
 	event.stopPropagation();
 }
 
- // 고객 단건 추가
-function cust_add(){
+/**
+ * 고객 단건등록 화면이동
+ * */
+function cust_add()
+{
 	location.href="/custForm?cust_no=";
 }
  
-// 고객 상세정보
+/**
+ * 고객 상세정보
+ * */
  function custDetail(a, custPageNum) {
    var no = a;
    var page_type = $("#page_type").val();
-   
-   console.log(page_type);
    
    if(page_type == 0)
 	   location.href=ctx + "/custForm?cust_no=" + no + "&custPageNum=" + custPageNum + "&page_type=" + page_type;
@@ -436,7 +449,9 @@ function cust_add(){
    $("#cust_phone").css("display", "block");
  }
  
-// 고객 저장
+ /**
+  * 고객 단건등록
+  * */
 function cust_add_save() 
 {
 	if($("#cust_name").val() == null || $("#cust_name").val() == "")
@@ -455,8 +470,6 @@ function cust_add_save()
 		return false;
 	}
 	
-	console.log($("#email_id").val());
-	 
 	$(document).ready(function() {
 		var cust_no = $("#cust_no").val();
 		var ynChk = confirm("해당 고객을 저장하시겠습니까?");
@@ -483,10 +496,11 @@ function cust_add_save()
 				},
 				dataType : "json",
 				success : function(data) {
-					console.log(data);
 					$("#cust_no").val(data.cust_no);
+					
 					alert("고객이 저장되었습니다.");
 					alert("고객 리스트로 이동합니다.");
+					
 					location.href = ctx + '/cust';
 				}, error : function(request,status,error) {
 				        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -498,7 +512,9 @@ function cust_add_save()
 	});
  }
  
-// 편집 눌렀을 때
+/**
+ * 편집버튼 눌렀을 시 화면제어
+ * */
  function cust_modify()
  {
 	 if($("#cust_single_modify").val() == "편집")
@@ -531,7 +547,9 @@ function cust_add_save()
 	 
  }
  
-// 고객 수정
+/**
+ * 고객 수정
+ * */
 function cust_modify_save() 
 {
 	if($("#cust_name").val() == null || $("#cust_name").val() == "")
@@ -549,9 +567,6 @@ function cust_modify_save()
 		alert("내원경로상세를 선택해주세요.");
 		return false;
 	}
-	
-	console.log($("#email_id").val());
-	console.log($("#email_dm").val());
 	
 	$(document).ready(function() {
 		var cust_no = $("#cust_no").val();
@@ -593,11 +608,11 @@ function cust_modify_save()
 	});
  }
  
- // 테이블 행 추가
+/**
+ * 전화번호 동적테이블 생성
+ * */
 function cust_phone_add() {
 	var cust_no = $("#cust_no").val();
-	
-	console.log(cust_no);
 	
     var tbody = $('#table_tbody');
     var phoneTypeCdList_contents = '';
@@ -644,13 +659,14 @@ function cust_phone_add() {
     
 }
 
-// 테이블 행 삭제
+/**
+ * 테이플 행 삭제
+ * */
 function cust_remove()
 {
 	var checkbox=$('#custP_form_tbl tbody').find('input[type=checkbox]:checked');	// 체크된 체크박스를 담는다.
 	var delTr = checkbox.parent().parent();											// 체크된 체크박스의 tr을 담는다.
 	
-	console.log(delTr);
 	delTr.remove();
 	
 	var checkbox1=$('#custP_form_tbl thead').find('input[type=checkbox]');
@@ -658,8 +674,6 @@ function cust_remove()
 	if($('#custPhoneChk').is(":checked")){
 		$(checkbox1).prop("checked", false);
 	}
-	
-//	var table_tbody = document.getElementById('table_tbody');
 }
 
 // 전화번호 등록
@@ -698,7 +712,7 @@ function cust_phone_save()
 		custPlist.push(primary_yn);
 		
 	});
-	console.log(custPlist);
+	
 	$.ajax({
 		url : ctx + '/custPhoneSave',
 		type : 'POST',
@@ -786,7 +800,6 @@ function cust_phone_save()
 function cust_address_add()
 {
 	var cust_no = $("#cust_no").val();
-	console.log(cust_no);
 
 	var tbody = $('#tableAddr_tbody');
 	var addrTypeCdList_contents = '';
@@ -843,10 +856,10 @@ function custAddr_remove() {
 //	var table_tbody = document.getElementById('tableAddr_tbody');
 }
 
-//function cust_addr_save(cust_no)
 function cust_addr_save()
 {
 	var cust_no = $("#cust_no").val();
+	
 	var addr_type_cd   = [];
 	var zip_no	  	   = [];
 	var main_address   = [];
@@ -880,9 +893,6 @@ function cust_addr_save()
 		custAlist.push(primary_yn);
 	});
 	
-	console.log(cust_no);
-	console.log(custAlist);
-	
 	$.ajax({
 		url : ctx + '/custAddrSave',
 		type : 'POST',
@@ -892,7 +902,6 @@ function cust_addr_save()
 			custAlist : custAlist
 		},
 		success:function(data){
-			console.log(data);
 			tbody.children().remove();
 			
 			alert("우편번호가 등록되었습니다.");
@@ -1069,10 +1078,7 @@ function download_list_Excel(formID, flg)
 //담당자 Popup
 function viewEmpList(empPopupPageNum) {
 	var ctx = $("#ctx").val();
-	
 	var s_emp_name = $("#s_emp_name").val();
-	
-	console.log(s_emp_name);
 	
 	$.ajax({
 		url: ctx + "/custEmpListAjax", 

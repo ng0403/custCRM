@@ -18,10 +18,7 @@ $(document).ready(function(){
 	var item_flg = $("#item_flg").val();
 	
 	if(item_flg == 'complete')
-	{
-		console.log("A");
 		itemControl();
-	}
 	
 });
 
@@ -40,10 +37,11 @@ function optyCustList(custNo)
 	location.href = "/oppty?cust_opty_no=" + custNo;
 }
 
+/**
+ * 특수문자 예외처리
+ * */
 function wordch(thisword)
 {
-	console.log(thisword);
-	
 	var flag = true;
 	var specialChars="~`!@#$%^&*-=+\|[](){};:'<.,>/?_";
 
@@ -63,6 +61,9 @@ function wordch(thisword)
 	return flag;
 }
 
+/**
+ * 영업기회 리스트 이동
+ * */
 function opptyList(opptyPageNum)
 {
 	if(confirm("취소하시겠습니까?"))
@@ -74,30 +75,25 @@ function opptyList(opptyPageNum)
 		return false;
 }
 
+/**
+ * 영업기회 각 메뉴 화면이동
+ * */
 function opptyListPage(opptyPageNum)
 {
 	var page_type = $("#page_type").val();
 	var hoppty_status_cd = $("#hoppty_status_cd").val();
 	
-	console.log(hoppty_status_cd);
-	console.log(page_type);
-	
 	if(page_type == 0)
-	{
 		location.href = ctx + "/oppty?opptyPageNum="+opptyPageNum;
-	}
 	else if(page_type == 1)
-	{
 		location.href = ctx + "/my_oppty?opptyPageNum="+opptyPageNum;
-	}
 	else if(hoppty_status_cd != null)
-	{
-		console.log(hoppty_status_cd);
 		location.href = ctx + "/oppty?oppty_status_cd="+hoppty_status_cd;
-	}
 }
 
-//매출기회 상세 초기화 버튼
+/**
+ * 영업기회 상세내역 초기화
+ * */
 function oppty_reset() 
 {
 	if(confirm("입력한 정보를 지우겠습니까?"))
@@ -141,7 +137,6 @@ function custSchPopupOpen()
 	});
 	
 	// list 불러오는 함수.
-//	viewCustList(1);
 	viewCustList(1);
 }
 
@@ -167,26 +162,21 @@ function empSchPopupOpen()
 	viewEmpList(1);
 }
 
-
 //Popup 닫기
 function popupClose()
 {
-	console.log("AAA");
 	$("#s_cust_name").val("");
 	$("#s_emp_name").val("");
 	$.unblockUI();
 }
 
-/* 팝업창 고객목록 표시 */
-//function viewCustList(prodMenuPageNum) {
+/**
+ * 고객리스트 팝업
+ * */
 function viewCustList(custPopupPageNum) 
 {
-	var ctx = $("#ctx").val();
-	
+//	var ctx = $("#ctx").val();
 	var s_cust_name = $("#s_cust_name").val();
-//	var custPopupPageNum = $("#custPopupPageNum").val();
-	
-	console.log(custPopupPageNum);
 	
 	$.ajax({
 		url: ctx + "/custListAjax", 
@@ -234,8 +224,6 @@ function viewCustList(custPopupPageNum)
 			$("#custPopupPagingDiv").empty();
 			var pageContent = "";
 	
-			console.log(data.pageNum);
-			
 			if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
 				pageContent = "◀ <input type='text' id='custPopupInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
 			} else if(data.pageNum == data.page.startPageNum){
@@ -256,8 +244,6 @@ function viewCustList(custPopupPageNum)
 				+"<a onclick=\"viewCustList("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
 			}
 			$("#custPopupPagingDiv").append(pageContent);
-			
-			
 		},
 		beforeSend: function(){
         	viewLoadingShow();			
@@ -272,7 +258,9 @@ function viewCustList(custPopupPageNum)
 	});
 }
 
-//가맹점 리스트 페이징 엔터 기능
+/**
+ * 고객리스트 팝업 페이징 엔터
+ * */
 function custPageNumInputEnter(event) {
 	$(document).ready(function() {
 		var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -299,13 +287,12 @@ function custPageNumInputEnter(event) {
 }
 
 
-// 담당자 Popup
+/**
+ * 담당자리스트 팝업
+ * */
 function viewEmpList(empPopupPageNum) {
-	var ctx = $("#ctx").val();
-	
+//	var ctx = $("#ctx").val();
 	var s_emp_name = $("#s_emp_name").val();
-	
-	console.log(s_emp_name);
 	
 	$.ajax({
 		url: ctx + "/empListAjax", 
@@ -328,7 +315,6 @@ function viewEmpList(empPopupPageNum) {
 				$("#empListTbody tr:last").append("<td colspan='3' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
 			} else {
 				$.each(data.empPopupList, function(i) {
-					console.log(this.user_no);
 					var trElement = $("#empListTableHeader").clone().removeClass().empty();
 					var emp_no = this.user_no;
 					var emp_name = this.user_nm;
@@ -348,7 +334,6 @@ function viewEmpList(empPopupPageNum) {
 							+ "<td width='30%'>" + emp_name + "</td>");
 				});
 			}
-			console.log(data);
 			
 			// 페이징 그리기
 			$("#empPopupPagingDiv").empty();
@@ -389,11 +374,12 @@ function viewEmpList(empPopupPageNum) {
 	});
 }
 
-// 단건 등록
+/**
+ * 영업기회 단건등록
+ * */
 function opptySingleAdd()
 {
 	$(document).ready(function() {
-		
 		if($("#oppty_name").val == null || $("#oppty_name").val() == "")
 		{
 			alert("기회명을 입력하세요.");
@@ -444,9 +430,6 @@ function opptySingleAdd()
 			var now = new Date();
 			var date = now.getFullYear() + "-" + (now.getMonth()+1) + "-" + now.getDate();
 			
-			console.log(now);
-			console.log(date);
-			
 			$("#exp_close_day").val(date);
 		}
 		if($("#score").val() == 0 || $("#score").val() == null || $("#score").val() == "")
@@ -496,7 +479,9 @@ function opptySingleAdd()
 	});
 }
 
-// 편집 버튼 제어
+/**
+ * 편집버튼 눌렀을 시 화면제어
+ * */
 function opptyMody()
 {
 	if($("#oppty_detail_mdfy").val() == "편집")
@@ -529,6 +514,9 @@ function opptyMody()
 	}
 }
 
+/**
+ * 영업기회를 수정한 뒤에 화면제어
+ * */
 function opptySave()
 {
 	$("#oppty_detail_mdfy").val("편집");
@@ -553,6 +541,9 @@ function opptySave()
 	$("#exp_close_day").prop("disabled", true);
 }
 
+/**
+ * 기회상태와 기회단계를 통한 화면제어
+ * */
 function itemControl()
 {
 	if($("#oppty_status_cd_sel").val() == '003' && $("#oppty_stage_cd_sel").val() == '004')
@@ -582,7 +573,9 @@ function itemControl()
 	
 }
 
-// edit 수정
+/**
+ * 영업기회 수정
+ * */
 function opptyEdit()
 {
 	$(document).ready(function() {
@@ -656,18 +649,13 @@ function opptyEdit()
 				},
 				dataType : "json",
 				success : function(data) {
-					console.log(data);
 					alert("매출기회가 수정되었습니다.");
 					
 					opptySave();
 					itemControl();
-					console.log(data.outstanding_amount);
 					
 					if(data.outstanding_amount == 'undefined' || data.outstanding_amount == null)
-					{
-						console.log("A");
 						$("#outstanding_amount").val("0");
-					}
 					else
 						$("#outstanding_amount").val(data.outstanding_amount);
 						
@@ -685,6 +673,9 @@ function opptyEdit()
 	});
 }
 
+/**
+ * 영업기회 삭제
+ * */
 function opptyDel()
 {
 	$(document).ready(function() {
@@ -710,14 +701,13 @@ function opptyDel()
 			});
 		}
 		else
-		{
 			alert("취소되었습니다.");
-		}
 
 	});
 }
 
-function enterSearch(event) {
+function enterSearch(event) 
+{
 	var keycode = (event.keyCode ? event.keyCode : event.which);
 	if (keycode == '13') {
 		viewCustList(1);
@@ -725,7 +715,8 @@ function enterSearch(event) {
 	event.stopPropagation();
 }
 
-function EmpPopEnterSearch(event) {
+function EmpPopEnterSearch(event) 
+{
 	var keycode = (event.keyCode ? event.keyCode : event.which);
 	if (keycode == '13') {
 		viewEmpList(1);
