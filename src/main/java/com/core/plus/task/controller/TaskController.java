@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import com.core.plus.common.PagerVO;
@@ -201,8 +202,9 @@ public class TaskController {
 										  @RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
 										  String task_no_srch, String subject_srch, 
 										  String cust_name_srch, String emp_name_srch,
-										  String next_day_srch, String dtype_cd_srch, String excel 
-										, String session, String cust_task_no) {
+										  String next_day_srch, String dtype_cd_srch, String excel ,
+										  String session, String cust_task_no) {
+		
 		ModelAndView mov = new ModelAndView(new MappingJacksonJsonView());
 		JSONArray json = new JSONArray();
 		
