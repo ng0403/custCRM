@@ -134,8 +134,23 @@
 							<input name="task_no" id="task_no" type="text" value="${taskDetail.task_no}" style="width: 60%; background-color: white" disabled="disabled">
 						</c:if>
 					</td>
-					<th id="impTh" style="text-align: right;">* 제목</th>
+					
+					<th style="text-align: right;">영업기회</th>
 					<td>
+						<c:if test="${flg == 1 }">
+							<input type="hidden" name="oppty_no" id="oppty_no"value="${taskDetail.oppty_no}">
+							<input name="oppty_name" id="oppty_name" type="text"maxlength="50" value="${taskDetail.oppty_name}"style="width: 60%; background-color: white;" readonly="readonly">
+							<input type="button" class="back_btn" id="opptySchBtn"value="영업기회" onclick="opptySchPopupOpen(); ">
+						</c:if> <c:if test="${flg == 2 }">
+							<input type="hidden" name="oppty_no" id="oppty_no"value="${taskDetail.oppty_no}">
+							<input name="oppty_name" id="oppty_name" type="text"maxlength="50" value="${taskDetail.oppty_name}"style="width: 60%;" readonly="readonly">
+							<input type="button" class="back_btn" id="opptySchBtn"value="영업기회" onclick="opptySchPopupOpen(); " disabled="disabled">
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<th id="impTh" style="text-align: right;">* 제목</th>
+					<td colspan='3'>
 						<c:if test="${flg == 1 }">
 							<input type="text" id="subject" name="subject" value="${taskDetail.subject }">
 						</c:if> 
@@ -144,7 +159,6 @@
 						</c:if>
 					</td>
 				</tr>
-
 				<tr>
 					<th id="impTh" style="text-align: right;">* 고객</th>
 					<td>
@@ -208,28 +222,6 @@
 									</c:if>
 								</c:forEach>
 							</select>
-						</c:if></td>
-				</tr>
-				<tr>
-					<th style="text-align: right;">가망고객</th>
-					<td><c:if test="${flg == 1 }">
-							<input type="hidden" id="lead_no" name="lead_no"value="${taskDetail.lead_no}">
-							<input type="text" name="lead_name" id="lead_name" maxlength="50"value="${taskDetail.lead_name}"style="width: 60%; background-color: white;" readonly="readonly">
-							<input type="button" class="back_btn" id="leadSchBtn"value="가망고객" onclick="leadSchPopupOpen();">
-						</c:if> <c:if test="${flg == 2 }">
-							<input type="hidden" id="lead_no" name="lead_no"value="${taskDetail.lead_no}">
-							<input type="text" name="lead_name" id="lead_name" maxlength="50"value="${taskDetail.lead_name}" style="width: 60%;"readonly="readonly">
-							<input type="button" class="back_btn" id="leadSchBtn"value="가망고객" onclick="leadSchPopupOpen();" disabled="disabled">
-						</c:if></td>
-					<th style="text-align: right;">영업기회</th>
-					<td><c:if test="${flg == 1 }">
-							<input type="hidden" name="oppty_no" id="oppty_no"value="${taskDetail.oppty_no}">
-							<input name="oppty_name" id="oppty_name" type="text"maxlength="50" value="${taskDetail.oppty_name}"style="width: 60%; background-color: white;" readonly="readonly">
-							<input type="button" class="back_btn" id="opptySchBtn"value="영업기회" onclick="opptySchPopupOpen(); ">
-						</c:if> <c:if test="${flg == 2 }">
-							<input type="hidden" name="oppty_no" id="oppty_no"value="${taskDetail.oppty_no}">
-							<input name="oppty_name" id="oppty_name" type="text"maxlength="50" value="${taskDetail.oppty_name}"style="width: 60%;" readonly="readonly">
-							<input type="button" class="back_btn" id="opptySchBtn"value="영업기회" onclick="opptySchPopupOpen(); " disabled="disabled">
 						</c:if></td>
 				</tr>
 				<tr>
@@ -485,55 +477,6 @@
 	</form>
 	<input type="hidden" id="h_nm_menu">
 </div>
-
-
-<!-- 가망고객 모달창 시작 -->
-<div id="leadListModalDiv" style="display: none;">
-	<div style="width: 100%; height: 7%; background-color: #ececec;"
-		align="right">
-		<input type="button" value="X" id="popupBoxClose"
-			onclick="popupClose();">
-	</div>
-	<form method='post' name='leadListPopup' id='leadListPopup'>
-		<div id="leadListModalContent" style="margin: 0 1.5% 0 1.5%;">
-			<div class="titleDIV" style="text-align: left; width: 100%;">
-				<span class="titleText">■ 가망고객 리스트</span>
-			</div>
-			<div id="leadModalList" class="commonList">
-				<table id="leadListModalTables" style="width: 100%;">
-					<thead>
-						<tr id="leadListTableHeader">
-							<th style="width: 20%; text-align: right; padding-right: 1%;">가망고객명
-								:</th>
-							<td style="width: 40%;"><input type="text" id="s_lead_name"
-								name="s_lead_name" style="width: 70%;" maxlength="100" />&nbsp;&nbsp;
-							</td>
-							<td style="width: 40%; text-align: right;"><input
-								type="button" value="검색" class="back_btn" style="float: right;"
-								onclick="viewLeadList();" /> <!-- onclick="viewProdMenuList(1); -->
-							</td>
-						</tr>
-					</thead>
-				</table>
-				<br>
-				<table class="commonTable">
-					<thead>
-						<tr id="leadListTableHeader">
-							<th width="45%">가망고객번호</th>
-							<th width="45%">가망고객명</th>
-						</tr>
-					</thead>
-					<tbody id="leadListTbody"></tbody>
-				</table>
-				<!-- 페이징 DIV -->
-				<div class="pagingDiv" id="leadPopupPagingDiv"
-					style="width: 100%; text-align: center;"></div>
-			</div>
-		</div>
-	</form>
-	<input type="hidden" id="h_nm_menu">
-</div>
-
 
 <!-- 영업기회 모달창 시작 -->
 <div id="opptyListModalDiv" style="display: none;">

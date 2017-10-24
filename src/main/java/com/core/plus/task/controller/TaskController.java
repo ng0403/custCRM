@@ -44,7 +44,6 @@ public class TaskController {
 	@Resource
 	MenuService menuService;
 	
-	//메뉴를 위한 추가
 	@Resource
 	MenuController menuControlleri;
 	
@@ -54,29 +53,6 @@ public class TaskController {
 	@Autowired
 	private HttpSession session;
 	
-	//메뉴
-//	public void menuImport(ModelAndView mav, String url){
-
-//		menuImport(mav, url);
-//		System.out.println("mav : " + mav + "url :" + url);
-		
-//		String menu_id = menuService.getMenuUrlID(url);
-//		String user_id = session.getAttribute("user").toString();
-//	
-//		Map<String, String> menuAuthMap = new HashMap<String, String>();
-//		menuAuthMap.put("menu_url", url);
-//		menuAuthMap.put("user_id", user_id);
-//		menuAuthMap.put("menu_id", menu_id);
-//		
-//		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-//		mav.addObject("menuAuth", menuAuth);
-//			
-//		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
-//		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
-//		mav.addObject("mainMenuList", mainMenuList);  	//mainMenuList
-//		mav.addObject("subMenuList", subMenuList);    	//subMenuList
-//	}
-
 	// List
 	@RequestMapping(value="/task")
 	public ModelAndView TaskList(HttpSession session,
@@ -194,16 +170,15 @@ public class TaskController {
 		return mov;
 	}
 		
-	// 조회
+	// 리스트 Ajax(조회, 페이징)
 	@RequestMapping(value="/task_sch", method=RequestMethod.POST)
 	@ResponseBody
 	public  ModelAndView taskSchList(
-//										HttpSession session,
-										  @RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-										  String task_no_srch, String subject_srch, 
-										  String cust_name_srch, String emp_name_srch,
-										  String next_day_srch, String dtype_cd_srch, String excel ,
-										  String session, String cust_task_no) {
+									  @RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
+									  String task_no_srch, String subject_srch, 
+									  String cust_name_srch, String emp_name_srch,
+									  String next_day_srch, String dtype_cd_srch, String excel ,
+									  String session, String cust_task_no) {
 		
 		ModelAndView mov = new ModelAndView(new MappingJacksonJsonView());
 		JSONArray json = new JSONArray();
@@ -333,7 +308,6 @@ public class TaskController {
 					mov.addObject("url", Url);
 					mov.addObject("flg", "2");
 					menuControlleri.menuImport(mov, "task");
-					System.out.println("1 List page_type :" + page_type );
 				} 
 				else
 				{
@@ -342,8 +316,6 @@ public class TaskController {
 					mov.addObject("url", Url);
 					mov.addObject("flg", "2");
 					menuControlleri.menuImport(mov, "task");
-
-					System.out.println("2 List page_type :" + page_type );
 
 				}
 			}
@@ -365,7 +337,6 @@ public class TaskController {
 					mov.addObject("url", Url);
 					mov.addObject("flg", "2");
 					menuControlleri.menuImport(mov, "task");
-					System.out.println("3 page_type: " + page_type);
 				} 
 				else
 				{
@@ -374,7 +345,6 @@ public class TaskController {
 					mov.addObject("url", Url);
 					mov.addObject("flg", "2");
 					menuControlleri.menuImport(mov, "task");
-					System.out.println("4 page_type: " + page_type);
 				}
 			}
 			else 
@@ -436,6 +406,140 @@ public class TaskController {
 		result = taskService.taskDelete(taskVo);
 		
 		return result;
+	}
+	
+	
+		
+	/* Popup*/
+	@RequestMapping(value="taskCustListAjax", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> taskCustListPopup(@RequestParam(value = "custPopupPageNum", defaultValue = "1") 
+																int custPopupPageNum, String s_cust_name) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("custPopupPageNum", custPopupPageNum);
+		
+		// paging
+		PagerVO page = taskService.getTaskPopupRow(map);
+		map.put("page", page);
+		map.put("pageNum", custPopupPageNum);
+		
+		// 고객리스트 불러오는 서비스/다오/맵퍼 작성
+		if(s_cust_name == null || s_cust_name == "") {
+			
+			List<CustVO> custPopupList = taskService.custPopupList(map);
+			
+			map.put("custPopupList", custPopupList);
+			
+			return map;
+			
+		} else {
+			
+			map.put("s_cust_name", s_cust_name);
+			
+			List<CustVO> schCustPopupList = taskService.custPopupList(map);
+			
+			map.put("custPopupList", schCustPopupList);
+			
+			return map;
+		}
+	}
+	
+	@RequestMapping(value="taskEmpListAjax", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> taskEmpListPopup(@RequestParam(value = "empPopupPageNum", defaultValue = "1") 
+																int empPopupPageNum, String s_emp_name) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("empPopupPageNum", empPopupPageNum);
+		
+		// paging
+		PagerVO page = taskService.getEmpPopupRow(map);
+		map.put("page", page);
+		map.put("pageNum", empPopupPageNum);
+		
+		
+		// 담당자리스트 불러오는 서비스/다오/맵퍼 작성
+		if(s_emp_name == null || s_emp_name == "") {
+			
+			List<EmpVO> empPopupList = taskService.empPopupList(map);
+			
+			map.put("empPopupList", empPopupList);
+			
+			return map;
+			
+		} else {
+			
+			map.put("s_emp_name", s_emp_name);
+			
+			List<EmpVO> schEmpPopupList = taskService.empPopupList(map);
+			
+			map.put("empPopupList", schEmpPopupList);
+			
+			return map;
+		}
+	}
+	
+	@RequestMapping(value="taskLeadListAjax", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> taskLeadListPopup(@RequestParam(value = "leadPopupPageNum", defaultValue = "1") 
+																int leadPopupPageNum, String s_lead_name) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("leadPopupPageNum", leadPopupPageNum);
+		
+		// paging
+		PagerVO page = taskService.getLeadPopupRow(map);
+		map.put("page", page);
+		map.put("pageNum", leadPopupPageNum);
+		
+		// 가망고객리스트 불러오는 서비스/다오/맵퍼 작성
+		if(s_lead_name == null || s_lead_name == ""){
+			
+			List<LeadVO> leadPopupList = taskService.leadPopupList(map);
+			
+			map.put("leadPopupList", leadPopupList);
+			
+			return map;
+			
+		} else {
+			
+			map.put("s_lead_name", s_lead_name);
+			
+			List<LeadVO> schLeadPopupList = taskService.leadPopupList(map);
+			
+			map.put("leadPopupList", schLeadPopupList);
+			
+			return map;
+		}
+	}
+	
+	@RequestMapping(value="taskOpptyListAjax", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> taskOpptyListPopup(@RequestParam(value = "opptyPopupPageNum", defaultValue = "1") 
+																	int opptyPopupPageNum, String s_oppty_name) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("opptyPopupPageNum", opptyPopupPageNum);
+		
+		// paging
+		PagerVO page = taskService.getOpptyPopupRow(map);
+		map.put("page", page);
+		map.put("pageNum", opptyPopupPageNum);
+		
+		// 영업기회 리스트 불러오는 서비스/다오/맵퍼 작성
+		if(s_oppty_name == null || s_oppty_name == "") {
+			
+			List<OpptyVO> opptyPopupList = taskService.opptyPopupList(map);
+			
+			map.put("opptyPopupList", opptyPopupList);
+			
+			return map;
+		} else {
+			
+			map.put("s_oppty_name", s_oppty_name);
+			
+			List<OpptyVO> schOpptyPopupList = taskService.opptyPopupList(map);
+			
+			map.put("opptyPopupList", schOpptyPopupList);
+			
+			return map;
+		}
 	}
 	
 	//엑셀 출력 
@@ -517,139 +621,6 @@ public class TaskController {
 			return result;
 		}
 		
-	}
-		
-	/* Popup*/
-	@RequestMapping(value="taskCustListAjax", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> taskCustListPopup(@RequestParam(value = "custPopupPageNum", defaultValue = "1") 
-																int custPopupPageNum, String s_cust_name) {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("custPopupPageNum", custPopupPageNum);
-		
-		// paging
-		PagerVO page = taskService.getTaskPopupRow(map);
-		map.put("page", page);
-		map.put("pageNum", custPopupPageNum);
-		
-		// 고객리스트 불러오는 서비스/다오/맵퍼 작성
-		if(s_cust_name == null || s_cust_name == "") {
-			
-			List<CustVO> custPopupList = taskService.custPopupList(map);
-			
-			map.put("custPopupList", custPopupList);
-			
-			return map;
-			
-		} else {
-			
-			map.put("s_cust_name", s_cust_name);
-			
-			List<CustVO> schCustPopupList = taskService.custPopupList(map);
-			
-			map.put("custPopupList", schCustPopupList);
-			
-			return map;
-		}
-	}
-	
-	@RequestMapping(value="taskEmpListAjax", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> taskEmpListPopup(@RequestParam(value = "empPopupPageNum", defaultValue = "1") 
-																int empPopupPageNum, String s_emp_name) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("empPopupPageNum", empPopupPageNum);
-		
-		// paging
-		PagerVO page = taskService.getEmpPopupRow(map);
-		map.put("page", page);
-		map.put("pageNum", empPopupPageNum);
-		
-		
-		// 담당자리스트 불러오는 서비스/다오/맵퍼 작성
-		if(s_emp_name == null || s_emp_name == "") {
-			
-			List<EmpVO> empPopupList = taskService.empPopupList(map);
-			
-			map.put("empPopupList", empPopupList);
-			
-			return map;
-			
-		} else {
-			
-			map.put("s_emp_name", s_emp_name);
-			
-			List<EmpVO> schEmpPopupList = taskService.empPopupList(map);
-			
-			map.put("empPopupList", schEmpPopupList);
-			
-			return map;
-		}
-	}
-	
-	
-	@RequestMapping(value="taskLeadListAjax", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> taskLeadListPopup(@RequestParam(value = "leadPopupPageNum", defaultValue = "1") 
-																int leadPopupPageNum, String s_lead_name) {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("leadPopupPageNum", leadPopupPageNum);
-		
-		// paging
-		PagerVO page = taskService.getLeadPopupRow(map);
-		map.put("page", page);
-		map.put("pageNum", leadPopupPageNum);
-		
-		// 가망고객리스트 불러오는 서비스/다오/맵퍼 작성
-		if(s_lead_name == null || s_lead_name == ""){
-			
-			List<LeadVO> leadPopupList = taskService.leadPopupList(map);
-			
-			map.put("leadPopupList", leadPopupList);
-			
-			return map;
-			
-		} else {
-			
-			map.put("s_lead_name", s_lead_name);
-			
-			List<LeadVO> schLeadPopupList = taskService.leadPopupList(map);
-			
-			map.put("leadPopupList", schLeadPopupList);
-			
-			return map;
-		}
-	}
-	
-	@RequestMapping(value="taskOpptyListAjax", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> taskOpptyListPopup(@RequestParam(value = "opptyPopupPageNum", defaultValue = "1") 
-																	int opptyPopupPageNum, String s_oppty_name) {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("opptyPopupPageNum", opptyPopupPageNum);
-		
-		// paging
-		PagerVO page = taskService.getOpptyPopupRow(map);
-		map.put("page", page);
-		map.put("pageNum", opptyPopupPageNum);
-		
-		// 영업기회 리스트 불러오는 서비스/다오/맵퍼 작성
-		if(s_oppty_name == null || s_oppty_name == "") {
-			
-			List<OpptyVO> opptyPopupList = taskService.opptyPopupList(map);
-			
-			map.put("opptyPopupList", opptyPopupList);
-			
-			return map;
-		} else {
-			
-			map.put("s_oppty_name", s_oppty_name);
-			
-			List<OpptyVO> schOpptyPopupList = taskService.opptyPopupList(map);
-			
-			map.put("opptyPopupList", schOpptyPopupList);
-			
-			return map;
-		}
 	}
 	
 	//엑셀 추가 전 팝업
