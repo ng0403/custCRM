@@ -74,12 +74,12 @@ public class OpptyController {
 	public ModelAndView opptyList(HttpSession session,
 			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd, String cust_opty_no, String page_type)
 	{
-		Map<String, Object> opptyMap = new HashMap<String, Object>();
-		
 		//session 값 체크 후 null값이면 로그인 페이지 이동
 		if (session.getAttribute("user") == null) {
 			return new ModelAndView("redirect:/");
 		}
+		
+		Map<String, Object> opptyMap = new HashMap<String, Object>();
 				
 		opptyMap.put("opptyPageNum", opptyPageNum);
 		opptyMap.put("oppty_status_cd", oppty_status_cd);

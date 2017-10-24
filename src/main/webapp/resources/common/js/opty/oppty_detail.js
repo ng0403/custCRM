@@ -77,6 +77,7 @@ function opptyList(opptyPageNum)
 
 /**
  * 영업기회 각 메뉴 화면이동
+ * page_type (0 : 전체 리스트 / 1: 내 담당 리스트 / 2: 상태에 해당하는 리스트)
  * */
 function opptyListPage(opptyPageNum)
 {
