@@ -42,17 +42,6 @@
 	
 	 
 
-	<select id="ajaxList" resultType="com.core.plus.board.vo.BoardVO">
-
-		SELECT
-		BOARD_NO, TITLE, CONTENT, CREATED_BY, to_char(to_date(CREATED,'yy-mm-dd
-		hh:mi'),'yyyy-mm-dd hh:mm') CREATED, VIEW_CNT
-		FROM tb_board
-		WHERE ACTIVE_FLG='Y' AND BOARD_MNG_NO = #{BOARD_MNG_NO}
-		ORDER BY BOARD_NO DESC
-
-	</select> 
-
 	<select id="ReadPage" resultType="com.core.plus.board.vo.BoardVO">
 		SELECT
 		 A.TITLE, 
@@ -69,8 +58,17 @@
 	</select>
 
 	<select id="ReadFilePage" resultType="com.core.plus.board.vo.BoardVO">
-		SELECT A.TITLE, A.CONTENT, A.BOARD_MNG_NO, A.BOARD_NO, A.CREATED, A.CREATED_BY,
-		A.VIEW_CNT, B.REPLY_FLG, C.FILE_CD, C.FILE_NM
+		SELECT
+		 A.TITLE,
+		 A.CONTENT,
+		 A.BOARD_MNG_NO, 
+		 A.BOARD_NO, 
+		 DATE_FORMAT(A.CREATED, '%Y-%m-%d %H:%i') CREATED,
+		 A.CREATED_BY,
+		 A.VIEW_CNT, 
+		 B.REPLY_FLG, 
+		 C.FILE_CD, 
+		 C.FILE_NM
 		FROM TB_BOARD A, TB_BOARD_MNG B, TB_FILE C
 		WHERE BOARD_NO = #{BOARD_NO} AND A.BOARD_MNG_NO = B.BOARD_MNG_NO AND
 		A.FILE_CD = C.FILE_CD
@@ -126,43 +124,7 @@
 		where BOARD_NO = #{BOARD_NO}
 	</update>
  
-	
-	<update id="AnswerFlg" parameterType="int">
-	update tb_board set answer_flg = 'Y'
-	where BOARD_NO = #{BOARD_NO}
-	</update>
-	
-	<update id="AnswerFlgN" parameterType="int">
-	update tb_board set answer_flg = 'N'
-	where BOARD_NO = #{BOARD_NO}
-	</update>
-  
-	 
-
-	<select id="SearchList" parameterType="map"
-		resultType="com.core.plus.board.vo.BoardVO">
-		SELECT X.*
-		FROM ( SELECT ROWNUM AS RNUM, A.*
-		FROM (
-		SELECT BOARD_NO, TITLE, QUESTION_TYPE_CD, ANSWER_FLG, CREATED_BY,
-		to_char(CREATED,'yy-mm-dd hh:mi') CREATED, VIEW_CNT
-		FROM TB_BOARD
-		WHERE
-		ACTIVE_FLG = 'Y' AND BOARD_MNG_NO = 'BMG1000002'
-		<if test="qna_answer != null and qna_answer != '' ">
-			AND ANSWER_FLG = #{qna_answer}
-		</if>
-		<if test="keyword != null and keyword != ''">
-			AND TITLE LIKE '%' || #{keyword} || '%'
-		</if>
-		ORDER BY BOARD_NO DESC ) A
-		) X
-     <![CDATA[
-        WHERE X.RNUM >= #{startRow} AND X.RNUM <= #{endRow}
-	 ]]>
-	</select>
-
-
+   
 	<insert id="insertAttachData" parameterType="com.core.plus.board.vo.BoardVO"> 
 		insert into TB_FILE (FILE_CD, FILE_NO, FILE_PATH, FILE_NM, FILE_EXT,
 		CREATED_BY)

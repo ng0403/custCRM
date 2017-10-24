@@ -157,9 +157,7 @@ public class CustController {
 	{
 		Map<String, Object> result = new HashMap<String, Object>(0);
 		Map<String, Object> custMap = new HashMap<String, Object>();
-
-		System.out.println(session);
-		
+  	
 		custMap.put("custPageNum", custPageNum);
 		custMap.put("cust_no", cust_no);
 		custMap.put("cust_name", cust_name);
@@ -176,8 +174,7 @@ public class CustController {
 		System.out.println("custMap? " + custMap.toString());
 		System.out.println("page? " + page);
 		
-		List<CustVO> custList = custService.custList(custMap);
-		
+		List<CustVO> custList = custService.custList(custMap); 
 		List<CommonCodeVO> vititCdList = commonCode.vititCdList();
 		List<CommonCodeVO> vititDtlCdList = commonCode.vititDtlCdList();
 		
@@ -193,56 +190,7 @@ public class CustController {
 		return result;
 	}
 	
-	//엑셀 출력 
-	@RequestMapping(value = "/toCustExcel",  method=RequestMethod.POST)
-	public ModelAndView toExcel(HttpServletRequest req, HttpSession session
-			,String cust_no, String cust_name, String chart_no, String visit_cd 
-			,String rec_per, String phone_no, String flg, String page_type) {
-		
-		char temp = flg.charAt(flg.length()-1);
-		
-		ModelAndView result = new ModelAndView();
-		Map<String, Object> custkMap = new HashMap<String, Object> ();
-		
-		System.out.println(page_type);
-		System.out.println(temp);
-		
-		if(page_type == null)
-		{
-			page_type = "";
-		}
-		if(page_type.equals("1"))
-		{
-			String user_id = session.getAttribute("user").toString();
-			System.out.println("user_id : " + user_id);
-			custkMap.put("user_id", user_id);
-		}
-		
-		if(temp == '0')
-		{
-			custkMap.put("cust_no", cust_no);
-			custkMap.put("cust_name", cust_name);
-			custkMap.put("chart_no", chart_no);
-			custkMap.put("visit_cd", visit_cd);
-			custkMap.put("rec_per", rec_per);
-			custkMap.put("phone_no", phone_no);
-			//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
-			
-			System.out.println("custkMap??? "  + custkMap.toString());
-			
-			List<CustVO> list = custService.custExcelExport(custkMap);	// 쿼리
-			result.addObject("custExcelExport", list); 					// 쿼리 결과를 model에 담아줌
-			result.setViewName("/cust/custList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
-			
-			return result;
-		}
-		else
-		{
-			result.setViewName("/cust/custList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
-			return result;
-		}
-	}
-
+	
 	@RequestMapping(value="/custForm")
 	public ModelAndView custForm(@RequestParam("cust_no") String cust_no, 
 			@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum, String page_type){
@@ -301,6 +249,7 @@ public class CustController {
 		return mav;
 	}
 	
+	//단건등록 저장
 	@RequestMapping(value="/custSave", method={RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public CustVO custSave(
@@ -423,63 +372,7 @@ public class CustController {
 		result = custService.custDelete(custVo);
 		return result;
 	}
-	
-	// Excel Data Import
-    @RequestMapping(value="/custExcelUpload", method = {RequestMethod.POST, RequestMethod.GET})
-    public @ResponseBody int custExcelForm(@RequestParam("excelFile") MultipartFile file) throws Exception
-    {
-    	int result = custService.excelUpload(file);
-    	
-    	return result;
-    }
 
-	public void menuImport(ModelAndView mav, String url){
-		String menu_id = menuService.getMenuUrlID(url);
-		String user_id = session.getAttribute("user").toString();
-	
-		Map<String, String> menuAuthMap = new HashMap<String, String>();
-		menuAuthMap.put("menu_url", url);
-		menuAuthMap.put("user_id", user_id);
-		menuAuthMap.put("menu_id", menu_id);
-		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-		mav.addObject("menuAuth", menuAuth);
-			
-		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
-		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
-		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
-		mav.addObject("subMenuList", subMenuList);    //subMenuList
-	}
-	
-	// 담당자 팝업
-	@RequestMapping(value="custEmpListAjax", method=RequestMethod.POST)
-	public @ResponseBody Map<String, Object> empListPopup(@RequestParam(value = "empPopupPageNum", defaultValue = "1") int empPopupPageNum, String s_emp_name)
-	{
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("empPopupPageNum", empPopupPageNum);
-		
-		// paging
-		PagerVO page = opptyService.getEmpPopupRow(map);
-		map.put("page", page);
-		map.put("pageNum", empPopupPageNum);
-		
-		// 담당자리스트 불러오는 서비스/다오/맵퍼 작성
-		if(s_emp_name == null || s_emp_name == "")
-		{
-			List<EmpVO> empPopupList = opptyService.empPopupList(map);
-			map.put("empPopupList", empPopupList);
-			
-			
-			return map;
-		}
-		else
-		{
-			map.put("s_emp_name", s_emp_name);
-			List<EmpVO> schEmpPopupList = opptyService.empPopupList(map);
-			map.put("empPopupList", schEmpPopupList);
-			
-			return map;
-		}
-	}
 	
 	// 청구/수금 팝업
 	@RequestMapping(value="amountAjax", method=RequestMethod.POST)
@@ -542,12 +435,114 @@ public class CustController {
 	}
 	
 	
+	// 담당자 팝업
+	@RequestMapping(value="custEmpListAjax", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> empListPopup(@RequestParam(value = "empPopupPageNum", defaultValue = "1") int empPopupPageNum, String s_emp_name)
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("empPopupPageNum", empPopupPageNum);
+		
+		// paging
+		PagerVO page = opptyService.getEmpPopupRow(map);
+		map.put("page", page);
+		map.put("pageNum", empPopupPageNum);
+		
+		// 담당자리스트 불러오는 서비스/다오/맵퍼 작성
+		if(s_emp_name == null || s_emp_name == "")
+		{
+			List<EmpVO> empPopupList = opptyService.empPopupList(map);
+			map.put("empPopupList", empPopupList);
+			
+			
+			return map;
+		}
+		else
+		{
+			map.put("s_emp_name", s_emp_name);
+			List<EmpVO> schEmpPopupList = opptyService.empPopupList(map);
+			map.put("empPopupList", schEmpPopupList);
+			
+			return map;
+		}
+	} 
 	
-	
-	
-	
-	
-	
+	//엑셀 출력 
+		@RequestMapping(value = "/toCustExcel",  method=RequestMethod.POST)
+		public ModelAndView toExcel(HttpServletRequest req, HttpSession session
+				,String cust_no, String cust_name, String chart_no, String visit_cd 
+				,String rec_per, String phone_no, String flg, String page_type) {
+			
+			char temp = flg.charAt(flg.length()-1);
+			
+			ModelAndView result = new ModelAndView();
+			Map<String, Object> custkMap = new HashMap<String, Object> ();
+			
+			System.out.println(page_type);
+			System.out.println(temp);
+			
+			if(page_type == null)
+			{
+				page_type = "";
+			}
+			if(page_type.equals("1"))
+			{
+				String user_id = session.getAttribute("user").toString();
+				System.out.println("user_id : " + user_id);
+				custkMap.put("user_id", user_id);
+			}
+			
+			if(temp == '0')
+			{
+				custkMap.put("cust_no", cust_no);
+				custkMap.put("cust_name", cust_name);
+				custkMap.put("chart_no", chart_no);
+				custkMap.put("visit_cd", visit_cd);
+				custkMap.put("rec_per", rec_per);
+				custkMap.put("phone_no", phone_no);
+				//taskMap.put("some",req.getParameter("some"));    			// where에 들어갈 조건??
+				
+				System.out.println("custkMap??? "  + custkMap.toString());
+				
+				List<CustVO> list = custService.custExcelExport(custkMap);	// 쿼리
+				result.addObject("custExcelExport", list); 					// 쿼리 결과를 model에 담아줌
+				result.setViewName("/cust/custList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
+				
+				return result;
+			}
+			else
+			{
+				result.setViewName("/cust/custList_excel");					// 엑셀로 출력하기 위한 jsp 페이지
+				return result;
+			}
+		}
+
+
+		// Excel Data Import
+	    @RequestMapping(value="/custExcelUpload", method = {RequestMethod.POST, RequestMethod.GET})
+	    public @ResponseBody int custExcelForm(@RequestParam("excelFile") MultipartFile file) throws Exception
+	    {
+	    	int result = custService.excelUpload(file);
+	    	
+	    	return result;
+	    }
+
+		public void menuImport(ModelAndView mav, String url){
+			String menu_id = menuService.getMenuUrlID(url);
+			String user_id = session.getAttribute("user").toString();
+		
+			Map<String, String> menuAuthMap = new HashMap<String, String>();
+			menuAuthMap.put("menu_url", url);
+			menuAuthMap.put("user_id", user_id);
+			menuAuthMap.put("menu_id", menu_id);
+			MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
+			mav.addObject("menuAuth", menuAuth);
+				
+			List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
+			List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
+			mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
+			mav.addObject("subMenuList", subMenuList);    //subMenuList
+		}
+		
 	
 	@RequestMapping(value="emailSend", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> emailSend(String s_emp_name)

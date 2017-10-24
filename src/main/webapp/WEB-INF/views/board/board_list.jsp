@@ -17,6 +17,12 @@
 
 </head>
 <body> 
+
+<form role="board_code" name = "form_modify" method="post">
+<input type="hidden" id="board_mng_no" name="board_mng_no" value="${BOARD_MNG_NO}">
+</form>
+
+
    
   <div id="title">
 		<div class="caption">

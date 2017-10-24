@@ -61,10 +61,18 @@ public class BoardMngController {
 	//게시판 관리 리스트
 	@RequestMapping(value="/boardmngInqr",  method=RequestMethod.POST) 
 	public ModelAndView boardmngList(@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, @RequestParam Map<String, Object> map ) throws Exception{
+		
+		//		접속된 사용자 아이디 
+		String sessionID = (String) session.getAttribute("user");
+		System.out.println("접속된 계정 : " + sessionID);
+		 
+		if (session.getAttribute("user") == null) {
+			return new ModelAndView("redirect:/");
+		} 
+		
 		map.put("PageNum", PageNum);
   		PagerVO page= boardmngService.getBoardMngListCount(map); 
- 		System.out.println("page ?? " + page.toString());
-		map.put("page", page);
+ 		map.put("page", page);
 		
 		if(page.getEndRow() == 1){
 			page.setEndRow(0);
@@ -78,20 +86,16 @@ public class BoardMngController {
 		mov.addObject("codelist", codelist);
  		menuImport(mov, "boardmngInqr");
 
-		System.out.println(mov.toString());
-		return mov; 
+ 		return mov; 
 		
 	}  
 	
 	// 게시판 관리 상세정보
 		  @RequestMapping(value = "boardMngDetail", method = RequestMethod.POST)
 		  public @ResponseBody Map<String, Object> companyCutomerDetail(@RequestBody String BOARD_MNG_NO) {
-		 
-			System.out.println("ajax detail BOARDMNG" + BOARD_MNG_NO);
-			  
+		  
 			BoardMngVO boardMngVo =  boardmngService.detail(BOARD_MNG_NO); 
-			System.out.println("boardMngVo " + boardMngVo.toString());
-
+ 
 			Map<String, Object> boardMap = new HashMap<String, Object>();
 			boardMap.put("boardMngvo", boardMngVo); 
 			  
@@ -117,8 +121,7 @@ public class BoardMngController {
     //게시판 관리 추가.
 	@RequestMapping(value = "/boardMngInsert", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> boardMngInsert(HttpSession session, BoardMngVO boardMngVO) {
-		System.out.println("cont insert entering" + boardMngVO.toString());
-		
+ 		
 		Map<String, Object> rstMap = new HashMap<String, Object>();
 		if (session.getAttribute("user") == null) { // 로그인 페이지 이동
 			rstMap.put("mdfyResult", "standard/home/session_expire");
@@ -136,8 +139,7 @@ public class BoardMngController {
 	@RequestMapping(value="/board_mng_remove" ,method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> board_mng_remove(@RequestBody String del_code){
-		System.out.println("remove insert" + del_code);
-		 
+ 		 
 		String[] delcode = del_code.split(",");
 		ResponseEntity<String> entity = null;
 		
@@ -145,8 +147,7 @@ public class BoardMngController {
 		{
 			String dc = delcode[i];
 			boardmngService.remove(dc);
-			System.out.println("success"); 
-			
+ 			
 			if(i == delcode.length-1)
 			{
 		 	      entity = new ResponseEntity("success", HttpStatus.OK);
@@ -164,16 +165,12 @@ public class BoardMngController {
 				@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, @RequestParam Map<String, Object> boardMap) {
  			
 	  		boardMap.put("PageNum", PageNum);
-	  		System.out.println("board paging entering" + boardMap.toString());
-	  		
+ 	  		
 			PagerVO page = boardmngService.getBoardMngListCount(boardMap);
-			System.out.println("boardPage ? " + page.toString());
-			boardMap.put("page", page);
+ 			boardMap.put("page", page);
 
 			List<Object> boardList = boardmngService.list(boardMap);
-			System.out.println("boardLitst? "  + boardList.toString());
-			System.out.println("boardListSize? " + boardList.size());
-			
+ 			
 			
 			
 			boardMap.put("boardList", boardList);

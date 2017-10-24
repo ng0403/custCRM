@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.core.plus.board.service.BoardService;
 import com.core.plus.board.service.ReplyService;
 import com.core.plus.board.vo.BoardVO;
+import com.core.plus.boardmng.vo.BoardMngVO;
 import com.core.plus.common.PagerVO;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
@@ -38,6 +40,7 @@ import com.core.plus.login.dao.LoginDAO;
 import com.core.plus.utils.FileManager;
 
 @Controller
+@SessionAttributes("session")
  public class BoardController {
 	
 	private static final String[] filename = null;
@@ -74,20 +77,15 @@ import com.core.plus.utils.FileManager;
 	@RequestMapping(value="/boardInqr", method={RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView boardList(@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, @RequestParam Map<String, Object> map ,HttpSession session
 			,@RequestParam("BOARD_MNG_NO") String BOARD_MNG_NO) throws Exception{
-		 
-		System.out.println("board_list Entering " + BOARD_MNG_NO);
-		
-//		접속된 사용자 아이디 
-		String sessionID = (String) session.getAttribute("user");
-		System.out.println("접속된 계정 : " + sessionID);
-		 
-		if (session.getAttribute("user") == null) {
+		  
+ 		if (session.getAttribute("user") == null) {
 			return new ModelAndView("redirect:/");
 		} 
 		
-		
+ 		String sessionID = (String) session.getAttribute("user");
+ 		 
 		map.put("PageNum", PageNum);
-		map.put("sessionID", sessionID); 
+		map.put("session", sessionID); 
 		map.put("BOARD_MNG_NO", BOARD_MNG_NO); 
 		PagerVO page=boardService.getBoardListCount(map); 
  		map.put("page", page);
@@ -97,10 +95,8 @@ import com.core.plus.utils.FileManager;
 			page.setEndRow(0);
 		}
 		
-  		List<BoardVO> boardlist = boardService.list(map); 
-  		System.out.println("boardlist ? " + boardlist.toString());
- 		ModelAndView mov = new ModelAndView("board_list");
-		
+  		List<BoardVO> boardlist = boardService.list(map);
+   		ModelAndView mov = new ModelAndView("board_list"); 
 		mov.addObject("boardlist", boardlist);
 		mov.addObject("page",  page);
 		mov.addObject("PageNum",  PageNum);
@@ -109,29 +105,31 @@ import com.core.plus.utils.FileManager;
   		return mov; 
 	} 
 	
-	//보드 상세정보
+	/*
+	 * 게시판 상세 정보.
+	 * FILE_CD의 유무로 일반 게시물 OR 파일 게시물을 찾는 서비스 실행.
+	 * 
+	 * */
 	@RequestMapping(value="/boardDetail", method= RequestMethod.GET)
-	public ModelAndView boardDetail(@RequestParam("BOARD_NO") int BOARD_NO, HttpSession session) throws Exception {
- 		//		접속된 사용자 아이디 
-		String sessionID = (String) session.getAttribute("user");
- 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("sessionID", sessionID);   
- 
+ 	public ModelAndView boardDetail(@RequestParam("BOARD_NO") int BOARD_NO, HttpSession session) throws Exception {
+ 		if (session.getAttribute("user") == null) {
+ 			return new ModelAndView("redirect:/");
+		} 
+ 		String sessionID = (String) session.getAttribute("user");
+ 		 
+  		
 		BoardVO vo = boardService.detail(BOARD_NO);
-		System.out.println("vovo?" + vo);
 		
-		String BOARD_MNG_NO = vo.getBOARD_MNG_NO();
-		 
+ 		String BOARD_MNG_NO = vo.getBOARD_MNG_NO(); 
 
 		String FILE_CD = vo.getFILE_CD(); 
 		
 		boardService.viewadd(BOARD_NO);
-		ModelAndView mov = new ModelAndView("board_detail");
-		mov.addObject("crud_flg", "0");
 		
- 	    mov.addObject("sessionID",sessionID);
-		if(FILE_CD == null)
+		ModelAndView mov = new ModelAndView("board_detail");
+    	 mov.addObject("session",sessionID);
+		
+    	 if(FILE_CD == null)
 		{ 
 			mov.addObject("boardlist", boardService.detail(BOARD_NO));
 		}
@@ -141,37 +139,42 @@ import com.core.plus.utils.FileManager;
 			mov.addObject("boardlist",  boardService.ReadFilePage(BOARD_NO));
 		}
 		mov.addObject("boardmnglist",boardService.checkBoardMngNo(BOARD_MNG_NO));
- 		menuImport(mov, "boardInqr?BOARD_MNG_NO=BMG001");
+ 		menuImport(mov, "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO);
 
  		return mov;
 		 
-	}
+	} 
 	
-	
-	//보드 추가.
-	@RequestMapping(value="/boardInsert", method=RequestMethod.GET)
-	public ModelAndView board_add(@RequestParam("BOARD_MNG_NO") String BOARD_MNG_NO) {
- 
-		System.out.println(BOARD_MNG_NO);
-		  ModelAndView mov = new ModelAndView("board_insert");
-		  mov.addObject("crud_flg", "1");
-		  mov.addObject("board_mng" ,BOARD_MNG_NO);
-		  mov.addObject("boardmnglist", boardService.checkBoardMngNo(BOARD_MNG_NO));
-		  System.out.println("insert mov??" + mov.toString());
 
- 		  return mov; 
+	//보드 추가 FORM.
+	@RequestMapping(value="/boardInsertForm", method=RequestMethod.GET)
+	public ModelAndView board_add(@RequestParam(value="BOARD_MNG_NO") String BOARD_MNG_NO) {
+ 
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+ 			return new ModelAndView("redirect:/");
+		} 
+		
+ 		System.out.println(BOARD_MNG_NO);
+		BoardMngVO vo =  boardService.checkBoardMngNo(BOARD_MNG_NO); 
+		
+		ModelAndView mov = new ModelAndView("board_insert");
+  		  mov.addObject("boardmnglist", vo);
+  		  return mov; 
 	}
 	
 	//보드 추가.
 	@RequestMapping(value="/boardInsert", method=RequestMethod.POST)
 	public String  board_insert(MultipartHttpServletRequest multi, HttpServletRequest request, BoardVO attach, HttpSession session, @RequestParam Map<String, Object> map ) throws IOException { 
 		
-		System.out.println("reqeust content type ? " + request.getContentType().toString());
-		String BOARD_MNG_NO = (String) map.get("BOARD_MNG_NO");
+		System.out.println("attach / " + attach.toString());
 		
+		
+		String real_file_nm = "";
+ 		String BOARD_MNG_NO = (String) map.get("BOARD_MNG_NO");
+		System.out.println("BOARD_MNG_NO"  + BOARD_MNG_NO);
 		String sessionID = (String) session.getAttribute("user");
-		System.out.println("접속된 계정 : " + sessionID);
-		attach.setCREATED_BY(sessionID);
+ 		attach.setCREATED_BY(sessionID);
  		
 		
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
@@ -181,29 +184,41 @@ import com.core.plus.utils.FileManager;
  	      
 	     while(iterator.hasNext()){
 	        multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-	        System.out.println("multipartFile? " + multipartFile);
-	        if(multipartFile.isEmpty() == false){
+ 	        if(multipartFile.isEmpty() == false){
 	        	
  	 		    attach.setFILE_NM(multipartFile.getOriginalFilename());
  	 		    String name = multipartFile.getOriginalFilename();
- 	 		    System.out.println("name??" + name); 
+ 
+ 	 		    
  	 		    StringTokenizer toke = new StringTokenizer(name, ".");
- 	 		    String[] filename = new String[2];
+ 	 		    int tokeSize = toke.countTokens();
+ 	 		    String[] filename = new String[tokeSize];
  	 		    
  	 		    for(int i= 0; toke.hasMoreElements() ; i++)
  	 		    {
   	 		     filename[i] = toke.nextToken(); 
    	 		    }
+ 	 		
+  		 		
+ 			    for(int i = 0; i<filename.length-1; i++)
+ 		 		{
+ 	 	 			if(i < filename.length-2)
+ 		 			{
+ 	 	 				real_file_nm += filename[i]+ ".";	 		
+ 		 			}
+ 		 			else{
+ 		 				real_file_nm +=filename[i];	
+ 		 			}
+ 		 		}		    
  	 		   
- 	 		    attach.setFILE_NM(filename[0]);
- 	 		    attach.setFILE_EXT(filename[1]);  
+ 	 		    attach.setFILE_NM(real_file_nm);
+ 	 		    attach.setFILE_EXT(filename[tokeSize-1]);  
  	 		    
  	        }
 	    } 
  
 	    if(attach.getFILE_NM() != null){ 
-	    	System.out.println("file_name is not null");
-		FileManager fileManager = new FileManager(); 
+ 		FileManager fileManager = new FileManager(); 
  		List<MultipartFile> file = multi.getFiles("filedata");
 
 		for(int i=0; i<file.size(); i++){
@@ -212,9 +227,7 @@ import com.core.plus.utils.FileManager;
 			attach.setUPDATED_BY(session.getAttribute("user").toString());
  			String uploadpath = fileManager.doFileUpload(file.get(i), request);
   			attach.setFILE_PATH(uploadpath);
-			boardService.insertAttachData(attach);
-			
-		
+			boardService.insertAttachData(attach); 
 		}
 	 }
 	    String file_nm = attach.getFILE_NM();
@@ -222,10 +235,7 @@ import com.core.plus.utils.FileManager;
 	    {
 	    	attach.setFILE_NM("");
 	    }
- 		boardService.insert(attach);  
-   
-		System.out.println("board_insert success....");
- 
+ 		boardService.insert(attach);   
 	 
 		return "redirect:/boardInqr?BOARD_MNG_NO=" + BOARD_MNG_NO; 
 		 
@@ -235,32 +245,29 @@ import com.core.plus.utils.FileManager;
 	@RequestMapping(value="/boardModify", method=RequestMethod.GET)
 	public ModelAndView board_modifyPage(int BOARD_NO, Model model, HttpSession session)
 	{ 
-		System.out.println("hi MODIFY" + BOARD_NO);
-		
-		String sessionID = (String) session.getAttribute("user");
-		System.out.println("접속된 계정 : " + sessionID);
+		//session 값 체크 후 null값이면 로그인 페이지 이동
+		if (session.getAttribute("user") == null) {
+ 			return new ModelAndView("redirect:/");
+		}
  		
+		String sessionID = (String) session.getAttribute("user");
+  		
 		BoardVO vo = boardService.detail(BOARD_NO);
 		vo.setCREATED_BY(sessionID);
 		vo.setUPDATED_BY(sessionID);
-		System.out.println("modify vo/" + vo);
-		String FILE_CD = vo.getFILE_CD();
+ 		String FILE_CD = vo.getFILE_CD();
 		
-		ModelAndView mov = new ModelAndView("board_modify");
-
+		ModelAndView mov = new ModelAndView("board_modify"); 
 		if(FILE_CD != null){
 			mov.addObject("boardVO", boardService.readFileModify(BOARD_NO));
-			System.out.println("file has");
-		}
+ 		}
 		else{
 			mov.addObject("boardVO", boardService.read(BOARD_NO));
-			System.out.println("file not has");
-		}
+ 		}
 		String 	BOARD_MNG_NO = vo.getBOARD_MNG_NO();
 		mov.addObject("boardmnglist",boardService.checkBoardMngNo(BOARD_MNG_NO)); 
 		
-		System.out.println("modivy vo? " + mov.toString());
-		return mov;
+ 		return mov;
 		 
 		
 	}
@@ -283,21 +290,18 @@ import com.core.plus.utils.FileManager;
  	      
 	     while(iterator.hasNext()){
 	        multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-	        System.out.println("multipartFile? " + multipartFile);
-	        if(multipartFile.isEmpty() == false){
+ 	        if(multipartFile.isEmpty() == false){
 	        	
  	 		    attach.setFILE_NM(multipartFile.getOriginalFilename());
  	 		    String name = multipartFile.getOriginalFilename();
  	 		    
- 	 		    System.out.println("file modify name? " + name.toString());
- 	 		    StringTokenizer toke = new StringTokenizer(name, ".");
+  	 		    StringTokenizer toke = new StringTokenizer(name, ".");
  	 		    String[] filename = new String[2];
  	 		    
  	 		    for(int i= 0; toke.hasMoreElements() ; i++)
  	 		    {
   	 		     filename[i] = toke.nextToken(); 
-  	 		     System.out.println("modify filename ? " + filename[i].toString());
-   	 		    }
+    	 		    }
  	 		   
  	 		    attach.setFILE_NM(filename[0]);
  	 		    attach.setFILE_EXT(filename[1]);  
@@ -315,8 +319,7 @@ import com.core.plus.utils.FileManager;
 			String uploadpath = fileManager.doFileUpload(file.get(i), request);
 		
 			attach.setFILE_PATH(uploadpath);
-			System.out.println("modify file up load attach ? " + attach.toString());
-			boardService.insertAttachData(attach);
+ 			boardService.insertAttachData(attach);
 		
 		}
 	 }
@@ -347,10 +350,8 @@ import com.core.plus.utils.FileManager;
 		for(int i = 0; i < delcode.length; i++)
 		{
 			String dc = delcode[i];
-			System.out.println("dc?" +  dc); 
-			boardService.removeBoard(dc);
-			System.out.println("success"); 
-			
+ 			boardService.removeBoard(dc);
+ 			
 			if(i == delcode.length-1)
 			{
 		 	      entity = new ResponseEntity("success", HttpStatus.OK);

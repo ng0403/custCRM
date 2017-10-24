@@ -86,9 +86,10 @@ public class ReplyController {
 	 
 	//댓글 편집.
 		 @RequestMapping(value="/reply_modify", method=RequestMethod.POST) 
+		 @ResponseBody
 			public ResponseEntity<String> reply_modify(@RequestBody ReplyVO vo){
 				
-			 System.out.println("hello delete reply" + vo.toString());
+			 System.out.println("hello modify reply" + vo.toString());
 				 
 				ResponseEntity<String> entity = null;
 				

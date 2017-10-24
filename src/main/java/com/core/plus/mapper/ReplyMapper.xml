@@ -20,11 +20,11 @@ WHERE BOARD_NO = #{BOARD_NO}
 <update id="modifyReply" parameterType="com.core.plus.board.vo.ReplyVO">
 UPDATE TB_REPLY
 SET REPLY_CONTENT = #{REPLY_CONTENT}
-FROM REPLY_NO = #{REPLY_NO}
+WHERE REPLY_NO = #{REPLY_NO}
 </update>
 
  <delete id="removeReply" parameterType="String" > 
- delete tb_reply
+ delete from tb_reply
  	where REPLY_NO = #{REPLY_NO}
  </delete>
 

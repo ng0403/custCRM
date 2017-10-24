@@ -21,12 +21,7 @@
  
 <div id="title">
 		<div class="caption">
-		<c:if test="${board_mng =='BMG1000001'}">
-		<h3 class="ui header" style="background: #fff;"> ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${board_mng}" style="font-size: 14pt; text-decoration:none; color: blue;">공지사항</a> >  게시글 추가 </h3>
-		</c:if>
-		<c:if test="${board_mng == 'BMG1000002'}">
-	    <h3 class="ui header" style="background: #fff;"> ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${board_mng}" style="font-size: 14pt; text-decoration:none; color: blue;">일반 게시판</a> >  게시글 추가 </h3>
-		</c:if>
+		<h3 class="ui header" style="background: #fff;"> ■ 영업커뮤니케이션 > <a href="/boardInqr?BOARD_MNG_NO=${boardmnglist.BOARD_MNG_NO}" style="font-size: 14pt; text-decoration:none; color: blue;">${boardmnglist.BOARD_NM} </a> >  게시글 추가 </h3>
 		</div>
 </div>
 
@@ -35,7 +30,7 @@
 
 
 <form role="form" method="post" enctype="multipart/form-data">
-   <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${board_mng}"/>    
+   <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${boardmnglist.BOARD_MNG_NO}"/>    
 <table class="commonDetailTable">
 <tr>
  <th>제목</th> 

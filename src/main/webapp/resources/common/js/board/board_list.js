@@ -20,9 +20,8 @@
 	}
  
  //보드 상세보기.
- function boardDetail(a){
-  var no = a;
-     location.href="/boardDetail?BOARD_NO=" + no;
+ function boardDetail(no){
+     location.href="/boardDetail?BOARD_NO=" + no;  
  } 
  
  //보드 목록가기. 
@@ -100,8 +99,8 @@ function board_detail_remove() {
   //보드 추가버튼. 
  function board_add() {
 	 var BOARD_MNG_NO = $("#BOARD_MNG_NO").val();
- 	 location.href="/boardInsert?BOARD_MNG_NO="+BOARD_MNG_NO;
-
+ 	location.href="/boardInsertForm?BOARD_MNG_NO="+BOARD_MNG_NO;
+  
  }
  
  //보드 추가 저장

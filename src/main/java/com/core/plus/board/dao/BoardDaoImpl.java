@@ -55,16 +55,11 @@ public class BoardDaoImpl implements BoardDao {
 		return sqlSession.selectOne("readBoard", BOARD_NO);
 	}
 
-	@Override
-	public List<BoardVO> ajaxlist() {
-		 
-		return sqlSession.selectList("board.ajaxList");
-	}
+ 
 
 	@Override
 	public int BoardListCount(String string, Map<String, Object> map) {
-		System.out.println("BoardListCount Dao " + map.toString());
-		int totalCount = 0;
+ 		int totalCount = 0;
 		try {
 			totalCount = sqlSession.selectOne("board.boardListCount", map);
 		} catch (Exception e) {
@@ -112,12 +107,7 @@ public class BoardDaoImpl implements BoardDao {
 		
 	}
 
-	@Override
-	public List<BoardVO> QnAajaxlist() {
-		 
-		return sqlSession.selectList("QnAajaxlist");
-	}
-
+ 
 	@Override
 	public void viewadd(int BOARD_NO) {
 		
@@ -125,35 +115,7 @@ public class BoardDaoImpl implements BoardDao {
 		
 	}
  
-	
-	//전체리스트 개수
-			@Override
-			public int boardListCount(Map<String, Object> boardMap) {
-				System.out.println("board Map Dao "  + boardMap.toString());
-				int totalCount = 0;
-				try {
-					totalCount = sqlSession.selectOne("board.selectTotalCount", boardMap);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				return totalCount;
-			}
-
-			//전체리스트 
-			@Override
-			public List<BoardVO> boardAllList(Map<String, Object> boardMap) {
-				List<BoardVO> obj = sqlSession.selectList("board.selectAll", boardMap);
-				return obj;
-			}
-
-			@Override
-			public void AnswerFlg(int BOARD_NO) {
-				System.out.println("AnswerFlg " + BOARD_NO);
-				sqlSession.update("board.AnswerFlg", BOARD_NO);
-				
-			}
-
+	 
 			@Override
 			public List<BoardVO> fileboardList() {
 				// TODO Auto-generated method stub

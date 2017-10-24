@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }" />
- <c:set var="SessionID" value="${sessionScope.user_id}" />
- 
+ <c:set var="SessionID" value="${session}" />
+ <input type="hidden" id="session" value="${session}"/>
  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -95,8 +95,8 @@
 </c:if>
 <c:if test="${boardmnglist.REPLY_FLG == 'Y'}">	
 <div id = "reply_div">	
-<table class="commonDetailTable"> 
-<tr >
+<!-- <table class="commonDetailTable"> 
+<tr>
 <th>댓글 내용</th>
 <td>
 <textarea id = "reply_content" class="form-control" rows="3"  cols="120" style="resize: none;" id="content" style="width:100%" ></textarea>
@@ -104,9 +104,8 @@
 <td>
  <input type="button" id="reply_add_fbtn" class = "tr_btn" value="저장" onclick="reply_add();"/>  
 </td>
-</tr> 
-
-</table>	
+</tr>  
+</table> -->	
 
 <table id = "reply_table" class="commonDetailTable">
 <tbody class="reply_list" id="reply_list_tbody">
