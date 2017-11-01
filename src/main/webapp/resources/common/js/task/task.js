@@ -183,7 +183,10 @@ function taskDetail(a, PageNum, lead_no, cust_no) {
 	var no = a;
 	var cust_task_no = $("#cust_task_no").val();
   	var page_type = $("#page_type").val();
-	
+  	
+  	var lead_no = $("#lead_no").val();
+  	var lead_code = $("#lead_code").val();
+ 
   	if (cust_task_no == 'undefined') {
   		cust_task_no = null;
   	}
@@ -192,8 +195,13 @@ function taskDetail(a, PageNum, lead_no, cust_no) {
   	}
 	if(cust_task_no != null && cust_task_no != '' )
 	{
-		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type;
+	  if(lead_code !=null && lead_code !=""){
+		  location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type + "&lead_code=" + lead_code + "&lead_no=" + lead_no; 
+	  }else{
+		  location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type;	  
+	  } 
 	}
+	/*
 	else if (lead_no != null && lead_no != '' )
 	{
 		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no + "&page_type=" + page_type; 
@@ -201,13 +209,13 @@ function taskDetail(a, PageNum, lead_no, cust_no) {
 	else
 	{
 		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&page_type=" + page_type; 
-	}
+	}*/
 }
 
 //고객 상담 이력 돌아가기.
-function lead_counsel_read(cust_no, PageNum){
+function lead_counsel_read(cust_no, lead_code, PageNum){
     var lead_no = $("#lead_no").val();
-	location.href="/cust_task?cust_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum;
+ 	location.href="/task?cust_task_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum+"&lead_code="+lead_code;
 }
 
 //엔터키 기능
@@ -417,9 +425,16 @@ function taskCheckFileType(filePath)
 }
 
 //가망고객 리스트 이동.
-function leadlist(){
+function leadlist(url){
 	 
-	 location.href="/lead";
+	 location.href=url;
+} 
+
+//고객리드 상세정보
+//준석 추가
+function tleadDetail(lead_no, PageNum, lead_code)
+{
+	 location.href="/lead_detail?lead_no=" + lead_no + "&pageNum=" + PageNum + "&lead_code="+lead_code; 
 }
 
 //lead 고객 상담조회
@@ -526,4 +541,5 @@ function custTaskList(cust_no)
 	console.log(cust_no);
 	location.href = ctx + "/task?cust_task_no=" + cust_no;
 }
+
 

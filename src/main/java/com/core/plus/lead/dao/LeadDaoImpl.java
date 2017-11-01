@@ -37,17 +37,7 @@ public class LeadDaoImpl implements LeadDao {
 		List<LeadVO> vo = sqlSession.selectList("leadList", map);
 		
 		return vo;
-	}
-	
-	@Override
-	public List<LeadVO> lead_status_list(Map<String, Object> map) {
-		
-		List<LeadVO> vo = sqlSession.selectList("leadStatusList", map);
-		
-		return vo;
-	}
-	
-	
+	} 
 
 	@Override
 	public void lead_insert(LeadVO vo) {

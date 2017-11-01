@@ -17,8 +17,8 @@
 <input type="hidden" id="cust_lead_no" value="${cust_lead_no}">
 <input type="hidden" id="session" value="${session}">
 <input type="hidden" id="url" value="${url}">
-<input type="hidden" id="cust_lead_no" value="${cust_lead_no}">
-<!-- 쿠폰관리 : 쿠폰목록조회 -->
+<input type="hidden" id="lead_code" value="${lead_status_cd}">
+ <!-- 쿠폰관리 : 쿠폰목록조회 -->
 <div id="cupnManager">
 	<div style="height:10px;"></div>
 	<div class="titleDIV">
@@ -26,25 +26,46 @@
 			<span class="titleText"> ■ 고객 > <a style="cursor: pointer;" onclick="lcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="lcustDetail('${cust_lead_no}');"> 고객 상세정보 </a> > 고객리드이력 </span>
 		
 		</c:if>
-		<c:if test="${cust_lead_no == null}">
-			<c:if test="${url != '/my_lead'}">
- 				<span class="titleText">
-				 ■ 고객리드 > 고객리드 관리 
-			</span>  
-		</c:if> 
-			
-		</c:if>
-		
-		  <c:if test="${url == '/my_lead'}">
+	 
+	 
+	    <c:if test="${lead_status_cd == null}">
 			<span class="titleText">
 				 ■ 고객리드 >  내 담당 고객리드 
+			</span>
+		</c:if>
+		  
+	
+		<c:if test="${lead_status_cd == '000'}">
+			<span class="titleText">
+				 ■ 고객리드 >  내 담당 고객리드 
+			</span>
+		</c:if>
+		
+		  <c:if test="${lead_status_cd == '001'}">
+			<span class="titleText">
+				 ■ 고객리드 >  진행된 고객 리드 
+			</span>
+		</c:if>
+		  <c:if test="${lead_status_cd == '002'}">
+			<span class="titleText">
+				 ■ 고객리드 >  보류된 고객 리드 
+			</span>
+		</c:if>
+		  <c:if test="${lead_status_cd == '003'}">
+			<span class="titleText">
+				 ■ 고객리드 >  기회전환된 고객 리드 
+			</span>
+		</c:if>
+		  <c:if test="${lead_status_cd == '004'}">
+			<span class="titleText">
+				 ■ 고객리드 >  실패한 고객 리드 
 			</span>
 		</c:if>
 	
 	</div>
 	<div style="height:10px;"></div>
 	<div class="commonList">
- 	<c:if test="${  pageType  == 0 }">
+ 	<c:if test="${  pageType  != 1 }">
 	    <form name="leadListForm" id="leadListForm" method="post" action="${ctx}/couponManager" >
 		 	<div id="searchDiv">
 	        	<table id="cupnSearchTable" class="commonTable">
@@ -64,7 +85,7 @@
 					  
  		                 <td style="width: 12%;">
  		                 <div style="float:right">
-		                 	<input type="button" value="조회" id="lead_list_srch" onclick="searchKeyword();" class="tr_btn" style="margin-left: 0;">
+		                 	<input type="button" value="조회" id="lead_list_srch" onclick="searchKeyword('${lead_status_cd}');" class="tr_btn" style="margin-left: 0;">
 		                    <input type="button" value="검색 초기화" id="lead_srch_reset" onclick="srch_reset();" class="tr_btn" style="margin-left: 0;"> 
 		                 </div>
 		                 </td>
@@ -113,7 +134,7 @@
 	 	 		<tr>
 	 	 			<td style="text-align: left;" >${list.lead_no}</td>
 	 	 			<td style="text-align: left;" >
-	 	 			<a href="#" onclick="leadDetail('${list.lead_no}', '${pageNum}');" id="${list.lead_no}">${list.lead_name}</a>
+	 	 			<a href="#" onclick="leadDetail('${list.lead_no}', '${pageNum}', '${list.lead_status_cd}');" id="${list.lead_no}">${list.lead_name}</a>
 	 	 			</td>
 	 	 			<td style="text-align: left;" >${list.cust_no}</td>
 	 	 			<td style="text-align: left;" >${list.cust_name}</td>
@@ -153,20 +174,20 @@
 				</c:when>
 				<c:when test="${pageNum == page.startPageNum}">
 					 ◀ <input type="text" id="pageInput" value="${page.startPageNum}"  onkeypress="leadPageNumInputEnter(event);"/>  
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum+1}');" id="pNum"> ▶ </a>
+					<a style="cursor: pointer;" onclick="searchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum" > / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="searchKeyword('${lead_status_cd}','${pageNum+1}');" id="pNum"> ▶ </a>
 				</c:when>
 				<c:when test="${pageNum == page.endPageNum}">
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum-1}');" id="pNum"> ◀ </a>
+					<a style="cursor: pointer;" onclick="searchKeyword('${lead_status_cd}','${pageNum-1}');" id="pNum"> ◀ </a>
 					<input type="text" id="pageInput"  value="${page.endPageNum}" onkeypress="leadPageNumInputEnter(event);"/> 
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="searchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
 					<a style="color: black; text-decoration: none;"> ▶ </a>
 				</c:when>
 				<c:otherwise>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum-1}');" id="pNum" > ◀ </a>
+					<a style="cursor: pointer;" onclick="searchKeyword('${lead_status_cd}','${pageNum-1}');" id="pNum" > ◀ </a>
 					<input type="text" id="pageInput"  value="${pageNum}" onkeypress="leadPageNumInputEnter(event);"/>  
-					<a style="cursor: pointer;" onclick="searchKeyword('${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
-					<a style="cursor: pointer;" onclick="searchKeyword('${pageNum+1}');" id="pNum"> ▶ </a>
+					<a style="cursor: pointer;" onclick="searchKeyword('${lead_status_cd}','${page.endPageNum}');" id="pNum"> / ${page.endPageNum}</a>
+					<a style="cursor: pointer;" onclick="searchKeyword('${lead_status_cd}','${pageNum+1}');" id="pNum"> ▶ </a>
 				</c:otherwise>
 			</c:choose>
 		</div>

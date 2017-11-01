@@ -59,6 +59,11 @@
                and(em.user_id like concat('%', #{my_user_id}, '%') )
             </when> 
            </choose> 
+            <choose>
+               <when test="lead_code !=null and lead_code !=''">
+               and(l.lead_status_cd like concat('%', #{lead_code}, '%') )
+            </when> 
+           </choose> 
    </select>
    
     <select id="leadStatusListTotalRow" resultType="int">
@@ -150,7 +155,8 @@
 	        date_format(l.contact_day, '%Y-%m-%d') as contact_day ,
 	        case when (rank_cd) is null then ' '
 	                  else (rank_cd) end as rank_cd,
-	         date_format(l.update_date, '%Y-%m-%d %H:%i') as update_date
+	         date_format(l.update_date, '%Y-%m-%d %H:%i') as update_date,
+	        l.lead_status_cd
       from 
          tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
       where 1=1 and l.del_yn ='N'
@@ -194,62 +200,9 @@
                and(em.user_id like concat('%', #{my_user_id}, '%') )
             </when> 
            </choose>
-         order by l.update_date DESC
-     ) P
-     limit #{page.limitStartNum}, #{page.pageSize}
-   </select>
-   
-   <!-- 리드 리스트  -->
-   <select id="leadStatusList" resultType="com.core.plus.lead.vo.LeadVO" parameterType="java.util.Map">
-	   select P.*
-	   from (
-      	select
-         l.lead_no,
-	         l.lead_name,
-	         l.cust_no,
-	         case when (user_nm) is null then ' '
-	         	else (user_nm) end as user_nm ,
-	         case when (cust_name) is null then ' '
-	         	else (cust_name) end as cust_name , 
-	         case when (phone_area_no) is null then ''
-			 	else (phone_area_no ) end as phone_area_no ,
-			case when (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) is null then ''
-				else (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) end as phone_no , 
-	        date_format(l.contact_day, '%Y-%m-%d') as contact_day ,
-	        case when (rank_cd) is null then ' '
-	                  else (rank_cd) end as rank_cd,
-	         date_format(l.update_date, '%Y-%m-%d %H:%i') as update_date
-      from 
-         tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
-      where 1=1 and l.del_yn ='N' and l.lead_status_cd = #{lead_status_cd}
-         <choose>
-            <when test="lead_no_srch !=null and lead_no_srch !=''">
-               and(lead_no like concat('%', #{lead_no_srch}, '%') )
-            </when> 
-          </choose>
-          <choose>
-              <when test="lead_name_srch !=null and lead_name_srch !=''">
-               and(lead_name like concat('%', #{lead_name_srch}, '%') )
-            </when> 
-         </choose> 
-          <choose>
-             <when test="cust_name !=null and cust_name !=''">
-               and(cust_name like concat('%', #{cust_name}, '%') )
-            </when> 
-         </choose>
-          <choose>
-            <when test="emp_name !=null and emp_name !=''">
-               and(user_nm like concat('%', #{emp_name}, '%') )
-            </when> 
-          </choose>
-           <choose>
-               <when test="contact_day !=null and contact_day !=''">
-               and(contact_day like concat('%', #{contact_day}, '%') )
-            </when> 
-         </choose>
-           <choose>
-               <when test="rank_cd !=null and rank_cd !=''">
-               and(rank_cd like concat('%', #{rank_cd}, '%') )
+             <choose>
+               <when test="lead_code !=null and lead_code !=''">
+               and(l.lead_status_cd like concat('%', #{lead_code}, '%') )
             </when> 
            </choose>
          order by l.update_date DESC
@@ -257,7 +210,28 @@
      limit #{page.limitStartNum}, #{page.pageSize}
    </select>
    
+   <!-- 리드 상세정보  -->
+   <select id="lead_detail" resultType="com.core.plus.lead.vo.LeadVO" parameterType="String">
    
+   select
+    l.lead_no,
+    l.create_date,
+    l.lead_name,
+    l.cust_no,
+    c.cust_name, 
+    l.emp_no,
+    e.user_nm,
+    l.contact_day, 
+    l.rank_cd, 
+    l.reason_cd, 
+    l.remark_cn,
+    l.possibility_cd,
+    l.lead_status_cd
+   from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_user e on l.emp_no = e.user_no
+   where lead_no= #{lead_no}
+   </select>
+   
+    
    <!-- cust task List -->
    <select id="taskList" resultType="com.core.plus.task.vo.TaskVO" parameterType="java.util.Map">
       SELECT P.*
@@ -340,26 +314,6 @@
    
    </update>
    
-   <!-- 리드 상세정보  -->
-   <select id="lead_detail" resultType="com.core.plus.lead.vo.LeadVO" parameterType="String">
-   
-   select
-    l.lead_no,
-    l.create_date,
-    l.lead_name,
-    l.cust_no,
-    c.cust_name, 
-    l.emp_no,
-    e.user_nm,
-    l.contact_day, 
-    l.rank_cd, 
-    l.reason_cd, 
-    l.remark_cn,
-    l.possibility_cd,
-    l.lead_status_cd
-   from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_user e on l.emp_no = e.user_no
-   where lead_no= #{lead_no}
-   </select>
    
    <!-- 고객 리드이력 상세정보  -->
    <select id="cust_lead_detail" resultType="com.core.plus.lead.vo.LeadVO" parameterType="java.util.Map">

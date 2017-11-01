@@ -27,16 +27,8 @@ public class LeadServiceImpl implements LeadService {
 		List<LeadVO> vo = leadDao.lead_list(map);
 		
 		return vo;
-	}
-	
-	@Override
-	public List<LeadVO> lead_status_list(Map<String, Object> map) {
-		
-		List<LeadVO> vo = leadDao.lead_status_list(map);
-		
-		return vo;
-	}
-
+	} 
+ 
 
 	@Override
 	public void lead_insert(LeadVO vo) {

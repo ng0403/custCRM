@@ -27,20 +27,20 @@ $(document).ready(function(){
 	<c:if test="${flg == 0 }">
  		<div class="titleDIV" id="lead_detail_title">
 		<span class="titleText">
-		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 상세정보</span>
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('${sub_menu_url}');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 상세정보</span>
 		</span>
 	</div>   
 	</c:if>
 	<c:if test="${flg == 1 }">
  		<div class="titleDIV" id ="lead_insert_title">
 			<span class="titleText">
-			    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 추가</span>
+			    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('${sub_menu_url}');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 추가</span>
 			</span>
 		</div>   
 	</c:if> 
  		<div class="titleDIV" id="lead_update_title">
 		<span class="titleText">
-		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('1');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 수정</span>
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('${sub_menu_url}');"> 고객리드관리</a> > <span id="coupon_form_title">고객리드 수정</span>
 		</span>
 	</div>   
 	
@@ -151,7 +151,7 @@ $(document).ready(function(){
 		 	 	<input type="button" class="func_btn" id="lead_single_cancel" value="취소" onclick="lead_cancel('${PageNum}');"> 
 	 	 	</div>
 	 	 	<div style=" border-left : 3px solid #131230; padding-left: 10px;">
-		 	 	<input type="button" class="func_btn" id="lead_counsel" value="상담이력" style="border: 1px solid #006600;" onclick="lead_counsel_read('${detail.cust_no}', '${PageNum}');">
+		 	 	<input type="button" class="func_btn" id="lead_counsel" value="상담이력" style="border: 1px solid #006600;" onclick="lead_counsel_read('${detail.cust_no}', '${PageNum}', '${lead_code}');">
 	 	 	</div>
 	 	 </div> 
 	 </c:if>
@@ -168,7 +168,7 @@ $(document).ready(function(){
 	 	 	<input type="button" class="tr_btn" id="lead_single_add" value="저장" onclick="lead_modify_save();">
 	 	 	<input type="button" class="tr_btn" id="lead_delete" value="삭제" onclick="lead_remove();">
 		    <input type="button" class="func_btn" id="lead_single_cancel" value="취소" onclick="lead_cancel('${PageNum}');">
-	 	 <input type="button" class="func_btn" id="lead_counsel" value="상담이력" onclick="lead_counsel_read('${detail.cust_no}', '${PageNum}');">
+	 	 <input type="button" class="func_btn" id="lead_counsel" value="상담이력" onclick="lead_counsel_read('${detail.cust_no}','${PageNum}', '${lead_code}');">
 	 	 </div>
  
     </div>

@@ -57,7 +57,7 @@ public class TaskController {
 	@RequestMapping(value="/task")
 	public ModelAndView TaskList(HttpSession session,
 									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-									String excel, String cust_task_no, String task_code) {
+									String excel, String cust_task_no, String task_code, String lead_no, String lead_code) {
 		System.out.println("taskcode: " + task_code);
 		
 		//session 값 체크 후 null값이면 로그인 페이지 이동
@@ -108,6 +108,9 @@ public class TaskController {
 		}
 		if(cust_task_no != null)
 		{
+		 //준석 추가.	
+		  if(lead_no==null){	
+			  System.out.println("lead=null");
 			if(cust_task_no.equals("undefined") || cust_task_no.equals(" "))
 			{
 				mov.addObject("main_menu_url", "task");
@@ -127,6 +130,28 @@ public class TaskController {
 				mov.addObject("sub_menu_url", "cust");
 				menuControlleri.menuImport(mov, "cust");
 			}
+		  } 
+		  else{ 
+			  if(lead_code.isEmpty())
+				{
+					System.out.println("lead detail : empty" + lead_code);
+					mov.addObject("main_menu_url", "lead"); 
+					mov.addObject("sub_menu_url", "lead");
+					mov.addObject("lead_no", lead_no);
+					mov.addObject("lead_code", lead_code);
+					mov.addObject("flg", "0");
+					menuControlleri.menuImport(mov, "lead");
+				}else{
+			    System.out.println("lead detail : not empty" + lead_code);
+			    mov.addObject("main_menu_url", "lead"); 
+				mov.addObject("sub_menu_url", "lead?lead_code="+lead_code);
+				mov.addObject("flg", "0");
+				mov.addObject("lead_no", lead_no);
+				mov.addObject("lead_code", lead_code);
+				menuControlleri.menuImport(mov, "lead?lead_code="+lead_code);
+				}  
+		  }
+		  
 		}
 		
 		return mov;
@@ -223,10 +248,10 @@ public class TaskController {
 	@RequestMapping(value="task_detail")
 	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
 									HttpServletRequest request,  String page_type ,
-									String task_no, String flg, String lead_no, String cust_no, String PageNum, String cust_task_no) 
-	{
-		
-		//url 가져오기
+									String task_no, String flg, String lead_no, String cust_no, String PageNum, String cust_task_no, String lead_code) 
+	{	
+		 
+ 		//url 가져오기
 		String Url = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
 				
 		if(lead_no == null)
@@ -237,7 +262,7 @@ public class TaskController {
 		{
 			cust_task_no = "undefined";
 		} 
-		
+ 		
 		if(task_no == null || task_no == "")	// 단건등록 시
 		{
 			TaskVO taskNoIndex	 = taskService.taskNoIndex();			// 인덱스번호
@@ -259,13 +284,13 @@ public class TaskController {
 			}
 			else if (lead_no != null)
 			{
-				mov.addObject("main_menu_url", "lead");
-				mov.addObject("sub_menu_url", "lead");
+ 				mov.addObject("main_menu_url", "lead");
+				mov.addObject("sub_menu_url", "lead?lead_code="+lead_code);
 				mov.addObject("lead_no", lead_no);
 				mov.addObject("cust_no", cust_no);
 				mov.addObject("flg", "2");
 				mov.addObject("PageNum", PageNum); 
-				menuControlleri.menuImport(mov, "lead");
+				menuControlleri.menuImport(mov, "lead?lead_code="+lead_code);
 				
 			}
 			
@@ -302,8 +327,7 @@ public class TaskController {
 		}
 		else	// 상세보기	
 		{
-
-			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
+ 			List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
 			List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
 			List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
@@ -330,13 +354,14 @@ public class TaskController {
 				}
 			}
 			else 
-			{
-				mov.addObject("main_menu_url", "lead");
-				mov.addObject("sub_menu_url", "lead");
+			{ 
+  				mov.addObject("main_menu_url", "lead");
+				mov.addObject("sub_menu_url", "lead?lead_code="+lead_code);
 				mov.addObject("lead_no", lead_no);
-				mov.addObject("cust_no", cust_no);
-				mov.addObject("PageNum", PageNum); 
-				menuControlleri.menuImport(mov, "lead");
+				mov.addObject("lead_code",lead_code);
+				mov.addObject("cust_no", cust_task_no);
+ 				mov.addObject("PageNum", PageNum); 
+ 				menuControlleri.menuImport(mov, "lead?lead_code="+lead_code);
 			}
 			
 			if(cust_task_no.equals("undefined"))
@@ -357,7 +382,7 @@ public class TaskController {
 					menuControlleri.menuImport(mov, "task");
 				}
 			}
-			else 
+			else if(cust_task_no != null && lead_code ==null)
 			{
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");

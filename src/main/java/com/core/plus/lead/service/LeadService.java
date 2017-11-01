@@ -16,7 +16,7 @@ import com.core.plus.task.vo.TaskVO;
 public interface LeadService {
 	
 	List<LeadVO> lead_list(Map<String, Object> map); //가망 고객 리스트
-	List<LeadVO> lead_status_list(Map<String, Object> map); //가망 고객 상태 리스트
+ 
 	void lead_insert(LeadVO vo); //가망 고객 추가
 	void lead_update(LeadVO vo); // 가망 고객 수정
 	LeadVO lead_detail(String lead_no); // 가망 고객 디테일

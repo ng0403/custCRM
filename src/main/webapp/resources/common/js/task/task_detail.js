@@ -322,10 +322,8 @@ function taskList() {
 
 
 //리드 상세정보
-function leadDetail(a,b) {
-   var no = a; 
-
-  console.log(no);
-  location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b; 
+function leadDetail(lead_no ,lead_code, pageNum) {
+  
+  location.href="/lead_detail?lead_no=" + lead_no + "&pageNum=" + pageNum + "&lead_code=" + lead_code; 
 	 
 }

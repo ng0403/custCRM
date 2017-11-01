@@ -32,6 +32,7 @@ $(function(){
 
 //검색 엔터키 기능
 function leadEnterSearch(event) {
+	var lead_code = $("#lead_code").val();
 	var keycode = (event.keyCode ? event.keyCode : event.which);
 	
  	if (keycode == '13') {
@@ -39,7 +40,7 @@ function leadEnterSearch(event) {
 			alert("검색어를 입력하세요.")
 			$("#lead_no_srch").focus();
 		} else {
-			searchKeyword();
+			searchKeyword(lead_code);
 		}
 	}
 	event.stopPropagation();
@@ -101,17 +102,17 @@ function leadStatusPageNumInputEnter(event) {
 
  
 // 리드 상세정보
- function leadDetail(a,b) {
+ function leadDetail(a,b,lead_code) {
    var no = a;
    var cust_no = $("#cust_lead_no").val();
- 
+   
 //   console.log(no);
    console.log(cust_no);
    
    if(cust_no == null || cust_no == '')
    {
 	   console.log("A");
-	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b; 
+	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b + "&lead_code="+lead_code; 
    }
    if(cust_no != null && cust_no != '')
    {
@@ -347,9 +348,9 @@ function leadStatusPageNumInputEnter(event) {
   
  
  //가망고객 리스트 이동.
- function leadlist(){
+ function leadlist(url){
 	 
-	 location.href="/lead";
+	 location.href=url;
  }
  
  //가망 고객 취소 페이지 이동
@@ -520,15 +521,41 @@ function lead_reset() {
  
 
 //검색 조건
-function searchKeyword(a){
-	var cust_lead_no = $("#cust_lead_no").val();
-  	var lead_no_srch = $("#lead_no_srch").val();
+function searchKeyword(lead_code,a){
+   	var cust_lead_no = $("#cust_lead_no").val();
+   	
+   	var lead_no_srch = $("#lead_no_srch").val();
 	var lead_name_srch = $("#lead_name_srch").val();
 	var cust_name = $("#cust_name").val();
 	var emp_name = $("#emp_name").val();
 	var contact_day_srch = $("#contact_day_srch").val();
 	var rank_cd = $("#rank_cd").val();
 	var session = $("#session").val();
+	
+	if(lead_no_srch == null)
+    {
+		lead_no_srch = "";
+    }
+	if(lead_name_srch == null)
+    {
+		lead_name_srch = "";
+    }
+	if(cust_name == null)
+    {
+		cust_name = "";
+    }
+	if(emp_name == null)
+    {
+		emp_name = "";
+    }
+	if(contact_day_srch == null)
+    {
+		contact_day_srch = "";
+    }
+	if(rank_cd == null)
+    {
+		rank_cd = "";
+    }
  	
 	var leadData = { "lead_no_srch": lead_no_srch, 
 				"lead_name_srch": lead_name_srch,
@@ -537,6 +564,7 @@ function searchKeyword(a){
 		        "contact_day_srch":contact_day_srch,
 		        "rank_cd" : rank_cd , "PageNum" : a,
 		        "cust_lead_no" : cust_lead_no,
+		        "lead_code" : lead_code,
 		        "session" : session
 		        };
 				
@@ -563,7 +591,7 @@ function searchKeyword(a){
  					tbodyContent = "<tr>" +
 	 	 			"<td style='text-align: left;' >" +data.leadList[i].lead_no +"</td>" +
 	 	 			"<td style='text-align: left;'>" +
-	 	 			"<a href='#' onclick=leadDetail('"+data.leadList[i].lead_no+"','"+data.PageNum+"'); id='"+data.leadList[i].lead_no+"'>" + data.leadList[i].lead_name+"</a></td>" +
+	 	 			"<a href='#' onclick=leadDetail('"+data.leadList[i].lead_no+"','"+data.PageNum+"','"+data.leadList[i].lead_status_cd+"'); id='"+data.leadList[i].lead_no+"'>" + data.leadList[i].lead_name+"</a></td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].cust_no +"</td>" +
 	 	 			"<td style='text-align: left;'>" +data.leadList[i].cust_name +"</td>" +
 	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone_area_no +"-"+ data.leadList[i].phone_no + "</td>" +
@@ -588,21 +616,21 @@ function searchKeyword(a){
  				 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
- 						+"<a onclick=\"searchKeyword("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+ 						+"<a onclick=\"searchKeyword('"+lead_code+"',"+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"searchKeyword('"+lead_code+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					} else if(data.PageNum == data.page.endPageNum){
  					 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+ 						+"<a onclick=\"searchKeyword('"+lead_code+"',"+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
  						+"<a> / "+data.page.endPageNum+"</a> ▶";
  					} else {
  	 
  						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
+ 						+"<a onclick=\"searchKeyword('"+lead_code+"',"+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
- 						+"<a onclick=\"searchKeyword("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
- 						+"<a onclick=\"searchKeyword("+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
+ 						+"<a onclick=\"searchKeyword('"+lead_code+"',"+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
+ 						+"<a onclick=\"searchKeyword('"+lead_code+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
  					}
  					$(".pagingDiv").append(pageContent);
  					
@@ -615,111 +643,10 @@ function searchKeyword(a){
 			});
 	 
 }
-
-//검색 조건
-function StatusSearchKeyword(lead_status_cd, b){  
-	 
-  	var lead_no_srch = $("#lead_no_srch").val();
-	var lead_name_srch = $("#lead_name_srch").val();
-	var cust_name = $("#cust_name").val();
-	var emp_name = $("#emp_name").val();
-	var contact_day_srch = $("#contact_day_srch").val();
-	var rank_cd = $("#rank_cd").val();
-	
-	
-	var leadData = { "lead_no_srch": lead_no_srch, 
-				"lead_name_srch": lead_name_srch,
-		        "cust_name": cust_name, 
-		        "emp_name":emp_name, 
-		        "contact_day_srch":contact_day_srch,
-		        "rank_cd" : rank_cd , "PageNum" : b
-		        ,"lead_status_cd":lead_status_cd};
-		
  
-			var tbody = $('#lead_list_tbody');
-			var tbodyContent = "";
-	  
-			$.ajax({
-				url:'/StatusSearchKeyword',
-				type: 'POST',
-				data: leadData,
-				dataType:'json',
-				success: function(data){
-					console.log(data);
-					
-					tbody.children().remove(); 
-			  
-					if(data.leadList.length == 0) {
-						tbodyContent = "<tr style='height: 75px;'><td colspan=9' style='width: 1320px; text-align: center;  vertical-align: middle;'>검색 결과가 없습니다.</td></tr>";
-			    		tbody.append(tbodyContent);
-					}
-					else{
- 					for(var i=0; i<data.leadList.length; i++){ 
- 					tbodyContent = "<tr>" +
-	 	 			"<td style='text-align: left;' >" +data.leadList[i].lead_no +"</td>" +
-	 	 			"<td style='text-align: left;'>" +
-	 	 			"<a href='#' onclick=leadDetail('"+data.leadList[i].lead_no+"','"+data.PageNum+"'); id='"+data.leadList[i].lead_no+"'>" + data.leadList[i].lead_name+"</a></td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].cust_no +"</td>" +
-	 	 			"<td style='text-align: left;'>" +data.leadList[i].cust_name +"</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].phone_area_no +"-"+ data.leadList[i].phone_no + "</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].user_nm + "</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].contact_day + "</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].rank_cd + "</td>" +
-	 	 			"<td style='text-align: left;'>" + data.leadList[i].update_date + "</td>" +
-	 	 			"</tr>";
- 					tbody.append(tbodyContent);
-					}
-					}
-
- 					// 페이징
- 					$(".pagingDiv").empty();
- 					var pageContent = "";
-
- 					console.log(data);
- 					
- 					if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
- 						pageContent = "◀ <input type='text' id='pageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
- 					} else if(data.PageNum == data.page.startPageNum){
- 				 
- 						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"leadStatusPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
- 						+"<a onclick=\"StatusSearchKeyword( '"+lead_status_cd+"', "+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
- 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
- 					} else if(data.PageNum == data.page.endPageNum){
- 					 
- 						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
- 						+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"leadStatusPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
- 						+"<a> / "+data.page.endPageNum+"</a> ▶";
- 					} else {
- 	 
- 						pageContent = "<input type='hidden' id='PageNum' value='"+data.PageNum+"'/><input type='hidden' id='opptyEndPageNum' value='"+data.page.endPageNum+"'/>"
- 						+"<a onclick=\"StatusSearchKeyword("+(data.PageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
- 						+"<input type='text' id='pageInput' value='"+data.PageNum+"' onkeypress=\"leadStatusPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
- 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
- 						+"<a onclick=\"StatusSearchKeyword('"+lead_status_cd+"',"+(data.PageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
- 					}
- 					$(".pagingDiv").append(pageContent);
- 					
- 					
-					
-				},
-				error: function(){
-					alert("error");
-				}
-			});
-	 
-}
-
-
-//function lead_counsel_read(cust_no, PageNum){
-//     var lead_no = $("#lead_no").val();
-// 	location.href="/cust_task?cust_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum;
-//}
-
-function lead_counsel_read(cust_no, PageNum){
+function lead_counsel_read(cust_no, PageNum, lead_code){
     var lead_no = $("#lead_no").val();
-	location.href="/cust_task?cust_no=" + cust_no + "&lead_no=" + lead_no + "&PageNum="+PageNum;
+	location.href="/task?cust_task_no=" + cust_no + "&lead_no=" + lead_no + "&lead_code="+lead_code + "&PageNum="+PageNum;
 }
 
 //엑셀 출력 

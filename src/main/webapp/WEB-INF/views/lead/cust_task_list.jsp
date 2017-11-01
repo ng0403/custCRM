@@ -26,7 +26,7 @@
 	<div style="height:10px;"></div>
 		<div class="titleDIV" id="lead_detail_title">
 		<span class="titleText">
-		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}');">고객리드 상세정보</a> > 고객상담 이력
+		    ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist();"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="leadDetail('${lead_no}', '${PageNum}', '${lead_code}');">고객리드 상세정보</a> > 고객상담 이력
 		</span>
 	</div> 
 	
