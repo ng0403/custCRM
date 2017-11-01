@@ -48,6 +48,11 @@ function opptyEnterSearch(event) {
 	event.stopPropagation();
 }
 
+/**
+ * 영업기회 상세정보
+ * 
+ * 
+ * */
 function opptyDetail(oppty_no, opptyPageNum)
 {
 	var hoppty_status_cd = $("#hoppty_status_cd").val();
@@ -61,12 +66,15 @@ function opptyDetail(oppty_no, opptyPageNum)
 		else
 			location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&hoppty_status_cd=" + hoppty_status_cd + "&page_type=" + page_type;
 	}
+	
 	if(cust_opty_no != null && cust_opty_no != '')		// 고객에서 타고 들어오는 영업기회
 		location.href = ctx + "/oppty_detail?oppty_no=" + oppty_no + "&opptyPageNum=" + opptyPageNum + "&cust_opty_no=" + cust_opty_no;
 	
 }
 
-// 단건 등록
+/**
+ * 영업기회 단건등록
+ * */
 function opptySingleAddForm()
 {
 	location.href = ctx + "/oppty_detail";
@@ -93,10 +101,15 @@ function opptySchList(opptyPageNum)
 	var session 			 = $("#session").val();
 	var page_type 			 = $("#page_type").val();
 	var cust_opty_no 		 = $("#cust_opty_no").val();
+	var oppty_code			 = $("#oppty_code").val();
 	var opptyData			 = null;
+	
+	console.log(page_type);
+	console.log(oppty_code);
 	
 	if(page_type == 0)		// 전체페이지
 	{
+		console.log("total");
 		opptyData = {opptyPageNum		 : opptyPageNum,
 					 	 oppty_no_srch 		 : oppty_no_srch,
 					 	 oppty_name_srch  	 : oppty_name_srch,
@@ -114,22 +127,25 @@ function opptySchList(opptyPageNum)
 	}
 	else if(page_type == 1)		// my page
 	{
+		console.log("my");
 		opptyData = {opptyPageNum		 : opptyPageNum,
-			 	 oppty_no_srch 		 : oppty_no_srch,
-			 	 oppty_name_srch  	 : oppty_name_srch,
-			 	 cust_name_srch		 : cust_name_srch,
-			 	 emp_name_srch		 : emp_name_srch,
+			 	 oppty_no_srch 		  : oppty_no_srch,
+			 	 oppty_name_srch  	  : oppty_name_srch,
+			 	 cust_name_srch		  : cust_name_srch,
+			 	 emp_name_srch		  : emp_name_srch,
 			 	 oppty_status_cd_srch : oppty_status_cd_srch,
 			 	 oppty_stage_cd_srch  : oppty_stage_cd_srch,
-			 	 exp_close_dt_srch 	 : exp_close_dt_srch,
-			 	 dtype_cd_srch		 : dtype_cd_srch,
-			 	 purchase_type_srch	 : purchase_type_srch,
-			 	 hoppty_status_cd	 : hoppty_status_cd,
-			 	 session			 : session
+			 	 exp_close_dt_srch 	  : exp_close_dt_srch,
+			 	 dtype_cd_srch		  : dtype_cd_srch,
+			 	 purchase_type_srch	  : purchase_type_srch,
+			 	 hoppty_status_cd	  : hoppty_status_cd,
+			 	 oppty_code			  : oppty_code,
+			 	 session			  : session
 				};
 	}
 	else if(page_type == 2)
 	{
+		console.log("status");
 		opptyData = {opptyPageNum		 : opptyPageNum,
 			 	 	 oppty_no_srch 		 : oppty_no_srch,
 			 	 	 oppty_name_srch  	 : oppty_name_srch,

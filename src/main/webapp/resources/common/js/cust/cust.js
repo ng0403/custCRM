@@ -290,17 +290,23 @@ function searchKeyword(pageNum)
 	var rec_per  = $("#rec_per").val();
 	var phone_no = $("#phone_no").val();
 	var user_id  = $("#session").val();
+	var cust_code  = $("#cust_code").val();
+	
+	console.log(pageNum);
+	console.log(cust_code);
+	console.log(user_id);
 	
 	var custData = { 
-			 		 "custPageNum" : pageNum,
-					 "cust_no": cust_no, 
-					 "cust_name": cust_name,
-					 "emp_no": emp_no, 
-					 "emp_name": emp_name, 
-					 "visit_cd":visit_cd, 
-					 "rec_per":rec_per,
-					 "phone_no" : phone_no,
-					 "session"	: user_id
+			 		 "custPageNum" 	: pageNum,
+					 "cust_no"		: cust_no, 
+					 "cust_name"	: cust_name,
+					 "emp_no"		: emp_no, 
+					 "emp_name"		: emp_name, 
+					 "visit_cd"		: visit_cd, 
+					 "rec_per"		: rec_per,
+					 "phone_no" 	: phone_no,
+					 "session"		: user_id,
+					 "cust_code" 	: cust_code
 					};
  
 	
@@ -310,9 +316,11 @@ function searchKeyword(pageNum)
 	$.ajax({
 				url: ctx + '/custAjax',
 				type: 'POST',
-				data: custData,
+				contentType: "application/json;charset=UTF-8",
+				data: JSON.stringify(custData),
 				dataType:'json',
 				success: function(data){
+					console.log(data);
 					tbody.children().remove(); 
 					
 					if(data.custList.length == 0) {
@@ -373,19 +381,29 @@ function searchKeyword(pageNum)
  					$(".pagingDiv").empty();
  					var pageContent = "";
 
- 					if(data.page.endPageNum == 0 || data.page.endPageNum == 1){
+ 					if(data.page.endPageNum == 0 || data.page.endPageNum == 1)
+ 					{
  						pageContent = "◀ <input type='text' id='pageInput' readonly='readonly' value='1' style='width: 25px; text-align: center;'/> / 1 ▶";
- 					} else if(data.pageNum == data.page.startPageNum){
+ 					}
+ 					else if(data.pageNum == data.page.startPageNum)
+ 					{
+ 						console.log("A");
  						pageContent = "<input type='hidden' id='custPageNum' value='"+data.pageNum+"'/><input type='hidden' id='custEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"◀ <input type='text' id='pageInput' value='"+data.page.startPageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>" 
  						+"<a onclick=\"searchKeyword("+data.page.endPageNum+");\" id='pNum' style='cursor: pointer;'> / "+data.page.endPageNum+"</a>"
  						+"<a onclick=\"searchKeyword("+(data.pageNum+1)+");\" id='pNum' style='cursor: pointer;'> ▶ </a>";
- 					} else if(data.pageNum == data.page.endPageNum){
+ 					} 
+ 					else if(data.pageNum == data.page.endPageNum)
+ 					{
+ 						console.log("B");
  						pageContent = "<input type='hidden' id='custPageNum' value='"+data.pageNum+"'/><input type='hidden' id='custEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"<a onclick=\"searchKeyword("+(data.pageNum-1)+");\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.page.endPageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
  						+"<a> / "+data.page.endPageNum+"</a> ▶";
- 					} else {
+ 					} 
+ 					else 
+ 					{
+ 						console.log("C");
  						pageContent = "<input type='hidden' id='custPageNum' value='"+data.pageNum+"'/><input type='hidden' id='custEndPageNum' value='"+data.page.endPageNum+"'/>"
  						+"<a onclick=\"searchKeyword("+(data.pageNum-1)+",2);\" id='pNum' style='cursor: pointer;'> ◀ </a>"
  						+"<input type='text' id='pageInput' value='"+data.pageNum+"' onkeypress=\"custPageNumInputEnter(event);\" style='width: 25px; text-align: center;'/>"
@@ -1211,7 +1229,7 @@ function opptyItemList(optyAmountPageNum)
 			if (data.optyItemAmount.length == 0) {
 				var trElement = $("#amountTableHeader").clone().removeClass().empty();
 				$("#amountTbody").append(trElement);
-				$("#amountTbody tr:last").append("<td colspan='2' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+				$("#amountTbody tr:last").append("<td colspan='5' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
 			} else {
 				$.each(data.optyItemAmount, function(i) {
 					var trElement = $("#amountTableHeader").clone().removeClass().empty();

@@ -25,6 +25,7 @@ import com.core.plus.common.PagerVO;
 import com.core.plus.contact.cust.service.CustService;
 import com.core.plus.contact.cust.vo.CustVO;
 import com.core.plus.emp.vo.EmpVO;
+import com.core.plus.info.menu.controller.MenuController;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.login.dao.LoginDAO;
@@ -47,32 +48,21 @@ public class OpptyController {
 	@Resource
 	LoginDAO loginDao;
 	
+	//메뉴를 위한 추가
+	@Resource
+	MenuController menuControlleri;
+	
 	@Autowired
 	private HttpSession session;
 	
-	public void menuImport(ModelAndView mav, String url){
-		String menu_id = menuService.getMenuUrlID(url);
-		String user_id = session.getAttribute("user").toString();
-	
-		Map<String, String> menuAuthMap = new HashMap<String, String>();
-		menuAuthMap.put("menu_url", url);
-		menuAuthMap.put("user_id", user_id);
-		menuAuthMap.put("menu_id", menu_id);
-		MenuVo menuAuth = loginDao.getMenuAuthInfo(menuAuthMap);
-		mav.addObject("menuAuth", menuAuth);
-			
-		List<MenuVo> mainMenuList = menuService.getMainMenuList(user_id);
-		List<MenuVo> subMenuList = menuService.getSubMenuList(menuAuthMap);
-		mav.addObject("mainMenuList", mainMenuList);  //mainMenuList
-		mav.addObject("subMenuList", subMenuList);    //subMenuList
-	}
-	
 	/**
 	 * 영업기회 리스트(시작)
+	 * 
+	 * oppty_code : 내 담당 리스트 코드
 	 * */
 	@RequestMapping(value="/oppty")
 	public ModelAndView opptyList(HttpSession session,
-			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd, String cust_opty_no, String page_type)
+			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd, String cust_opty_no, String page_type, String oppty_code)
 	{
 		//session 값 체크 후 null값이면 로그인 페이지 이동
 		if (session.getAttribute("user") == null) {
@@ -80,6 +70,12 @@ public class OpptyController {
 		}
 		
 		Map<String, Object> opptyMap = new HashMap<String, Object>();
+		String user_id = null;
+		
+		if(oppty_code != null) {
+			user_id = session.getAttribute("user").toString();
+			opptyMap.put("user_id", user_id);
+		}
 				
 		opptyMap.put("opptyPageNum", opptyPageNum);
 		opptyMap.put("oppty_status_cd", oppty_status_cd);
@@ -108,14 +104,27 @@ public class OpptyController {
 		mov.addObject("hoppty_status_cd", oppty_status_cd);
 		mov.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
 
-		if(cust_opty_no == null)
+		if(cust_opty_no == null)	// 영업기회
 		{
 			if(oppty_status_cd==null)
 			{
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty");
-				
-				menuImport(mov, "oppty");
+				if(oppty_code == null)	// 전체리스트
+				{
+					mov.addObject("main_menu_url", "oppty");
+					mov.addObject("sub_menu_url", "oppty");
+					
+					menuControlleri.menuImport(mov, "oppty");
+				}
+				else					// my_list					
+				{
+					mov.addObject("session", user_id);
+					mov.addObject("pageType", "1");
+					mov.addObject("oppty_code", oppty_code);
+					mov.addObject("main_menu_url", "oppty");
+					mov.addObject("sub_menu_url", "oppty?oppty_code=000");
+					
+					menuControlleri.menuImport(mov, "oppty?oppty_code=000");
+				}
 			}
 			else if(oppty_status_cd.equals("001"))
 			{
@@ -123,7 +132,7 @@ public class OpptyController {
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=001");
 				
-				menuImport(mov, "oppty?oppty_status_cd=001");
+				menuControlleri.menuImport(mov, "oppty?oppty_status_cd=001");
 			}
 			else if(oppty_status_cd.equals("002"))
 			{
@@ -131,7 +140,7 @@ public class OpptyController {
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=002");
 				
-				menuImport(mov, "oppty?oppty_status_cd=002");
+				menuControlleri.menuImport(mov, "oppty?oppty_status_cd=002");
 			}
 			else if(oppty_status_cd.equals("003"))
 			{
@@ -139,7 +148,7 @@ public class OpptyController {
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=003");
 				
-				menuImport(mov, "oppty?oppty_status_cd=003");
+				menuControlleri.menuImport(mov, "oppty?oppty_status_cd=003");
 			}
 			else if(oppty_status_cd.equals("004"))
 			{
@@ -147,17 +156,17 @@ public class OpptyController {
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=004");
 				
-				menuImport(mov, "oppty?oppty_status_cd=004");
+				menuControlleri.menuImport(mov, "oppty?oppty_status_cd=004");
 			}
 		}
-		if(cust_opty_no != null)
+		if(cust_opty_no != null)	// 고객에서 넘어올 때
 		{
 			if(cust_opty_no.equals("undefined") || cust_opty_no.equals(" "))
 			{
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty");
 				
-				menuImport(mov, "oppty");
+				menuControlleri.menuImport(mov, "oppty");
 			}
 			else if(cust_opty_no.equals(null))
 			{
@@ -165,7 +174,7 @@ public class OpptyController {
 				mov.addObject("main_menu_url", "oppty");
 				mov.addObject("sub_menu_url", "oppty");
 				
-				menuImport(mov, "oppty");
+				menuControlleri.menuImport(mov, "oppty");
 			}
 			else
 			{
@@ -174,127 +183,7 @@ public class OpptyController {
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
 				
-				menuImport(mov, "cust");
-			}
-		}
-		
-		return mov;
-	}
-	
-	/**
-	 * 영업기회 내담당 리스트
-	 * */
-	@RequestMapping(value="/my_oppty")
-	public ModelAndView myOpptyList(HttpSession session,
-			@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, String oppty_status_cd, String cust_opty_no)
-	{
-		Map<String, Object> opptyMap = new HashMap<String, Object>();
-		String user_id = null;
-		
-		//session 값 체크 후 null값이면 로그인 페이지 이동
-		if (session.getAttribute("user") == null) {
-			return new ModelAndView("redirect:/");
-		}
-		else {
-			user_id = session.getAttribute("user").toString();
-			opptyMap.put("user_id", user_id);
-		}
-		
-		opptyMap.put("opptyPageNum", opptyPageNum);
-		opptyMap.put("oppty_status_cd", oppty_status_cd);
-		opptyMap.put("cust_opty_no", cust_opty_no);
-		
-		// paging
-		PagerVO page = opptyService.getOpptyListRow(opptyMap);
-		opptyMap.put("page", page);
-		
-		List<OpptyVO> vo = opptyService.opptyList(opptyMap);
-		List<OpptyVO> status = opptyService.opptyStatusCD();
-		List<OpptyVO> stage = opptyService.opptyStageCD();
-		List<OpptyVO> dtype = opptyService.opptyDtypeCD();
-		List<OpptyVO> purchase = opptyService.opptyPerchaseType();
-		
-		ModelAndView mov = new ModelAndView("oppty_list");
-		
-		mov.addObject("page", page);
-		mov.addObject("opptyPageNum", opptyPageNum);
-		mov.addObject("opptyList", vo);
-		mov.addObject("opptyStatusCd", status);
-		mov.addObject("opptyStageCd", stage);
-		mov.addObject("dtypeCd", dtype);
-		mov.addObject("purchaseType", purchase);
-		mov.addObject("hoppty_status_cd", oppty_status_cd);
-		mov.addObject("pageType", "1");
-		mov.addObject("session", user_id);
-		
-		if(cust_opty_no == null)		// 고객에 들어오는 영업기회가 아닐 때
-		{
-			if(oppty_status_cd==null)
-			{
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "my_oppty");
-				
-				menuImport(mov, "my_oppty");
-			}
-			else if(oppty_status_cd.equals("001"))
-			{
-				System.out.println("001");
-				mov.addObject("pageType", "2");
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=001");
-				
-				menuImport(mov, "oppty?oppty_status_cd=001");
-			}
-			else if(oppty_status_cd.equals("002"))
-			{
-				mov.addObject("pageType", "2");
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=002");
-				
-				menuImport(mov, "oppty?oppty_status_cd=002");
-			}
-			else if(oppty_status_cd.equals("003"))
-			{
-				mov.addObject("pageType", "2");
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=003");
-				
-				menuImport(mov, "oppty?oppty_status_cd=003");
-			}
-			else if(oppty_status_cd.equals("004"))
-			{
-				mov.addObject("pageType", "2");
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty?oppty_status_cd=004");
-				
-				menuImport(mov, "oppty?oppty_status_cd=004");
-			}
-		}
-		if(cust_opty_no != null)
-		{
-			if(cust_opty_no.equals("undefined") || cust_opty_no.equals(" "))
-			{
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty");
-				
-				menuImport(mov, "oppty");
-			}
-			else if(cust_opty_no.equals(null))
-			{
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty");
-				
-				menuImport(mov, "oppty");
-			}
-			else
-			{
-				System.out.println("cust my oppty");
-				mov.addObject("pageType", "3");
-				mov.addObject("cust_opty_no", cust_opty_no);
-				mov.addObject("main_menu_url", "cust");
-				mov.addObject("sub_menu_url", "cust");
-				
-				menuImport(mov, "cust");
+				menuControlleri.menuImport(mov, "cust");
 			}
 		}
 		
@@ -309,7 +198,7 @@ public class OpptyController {
 	public @ResponseBody Map<String, Object> opptSchList(
 												  @RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum,
 												  String oppty_no_srch, String oppty_name_srch, 
-												  String cust_name_srch, String emp_name_srch, String cust_opty_no,
+												  String cust_name_srch, String emp_name_srch, String cust_opty_no, String oppty_code,
 												  String oppty_status_cd_srch, String oppty_stage_cd_srch, String hoppty_status_cd,
 												  String exp_close_dt_srch, String dtype_cd_srch, String purchase_type_srch, String session)
 	{
@@ -317,6 +206,7 @@ public class OpptyController {
 		kMap.put("opptyPageNum", opptyPageNum);
 		kMap.put("oppty_no_srch", oppty_no_srch);
 		kMap.put("cust_opty_no", cust_opty_no);
+		kMap.put("oppty_code", oppty_code);
 		kMap.put("oppty_name_srch", oppty_name_srch);
 		kMap.put("cust_name_srch", cust_name_srch);
 		kMap.put("emp_name_srch", emp_name_srch);
@@ -327,6 +217,9 @@ public class OpptyController {
 		kMap.put("purchase_type_srch", purchase_type_srch);
 		kMap.put("oppty_status_cd", hoppty_status_cd);
 		kMap.put("user_id", session);
+		
+		System.out.println("oppty_code : " + oppty_code);
+		System.out.println("user_id(session) : " + session);
 		
 		// paging
 		PagerVO page = opptyService.getOpptyListRow(kMap);
@@ -358,6 +251,8 @@ public class OpptyController {
 		List<OpptyVO> payment = opptyService.opptyPaymentCD();
 		List<OpptyVO> recper = opptyService.opptyRecPerCD();
 		
+		System.out.println("page_type : " + page_type);
+		
 		ModelAndView mov = new ModelAndView("oppty_detail");
 		
 		if(oppty_no == null || oppty_no == "")	// 단건등록 시
@@ -368,7 +263,7 @@ public class OpptyController {
 			mov.addObject("opptyPageNum", opptyPageNum);
 			mov.addObject("main_menu_url", "oppty");
 			
-			menuImport(mov, "oppty");
+			menuControlleri.menuImport(mov, "oppty");
 		}
 		else	// 상세보기	OpptyItem도 조회해야함.
 		{
@@ -411,8 +306,6 @@ public class OpptyController {
 			else
 				mov.addObject("outstanding_amount", "0");
 			
-			System.out.println("itemList : " + itemList);
-			
 			mov.addObject("opptyDetail",  optyVo);
 			mov.addObject("itemList", itemList);
 			mov.addObject("opptyPageNum", opptyPageNum);
@@ -429,7 +322,7 @@ public class OpptyController {
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
 					
-				menuImport(mov, "cust");
+				menuControlleri.menuImport(mov, "cust");
 			}
 			else if(cust_opty_no != null)
 			{
@@ -439,16 +332,29 @@ public class OpptyController {
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
 					
-				menuImport(mov, "cust");
+				menuControlleri.menuImport(mov, "cust");
 			}
 			else
 			{
-				System.out.println("B");
+				if(!page_type.equals("1"))
+				{
+					System.out.println("B");
+					
+					mov.addObject("main_menu_url", "oppty");
+					mov.addObject("sub_menu_url", "oppty");
+					
+					menuControlleri.menuImport(mov, "oppty");
+				}
+				else
+				{
+					System.out.println("C");
+					
+					mov.addObject("main_menu_url", "oppty");
+					mov.addObject("sub_menu_url", "oppty?oppty_code=000");
+					
+					menuControlleri.menuImport(mov, "oppty?oppty_code=000");
+				}
 				
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty");
-				
-				menuImport(mov, "oppty");
 			}
 		}
 		
@@ -567,7 +473,6 @@ public class OpptyController {
 		
 		// 바로 detail 화면으로 뿌려준다.
 		List<OpptyItemVO> optyItemList 	= opptyService.opptyItemList(oppty_no);	// 조회 후 상세보기에 출력
-		System.out.println("optyItemList : " + optyItemList);
 		
 		return optyItemList;
 	}
@@ -579,7 +484,6 @@ public class OpptyController {
 	@RequestMapping(value="custListAjax", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> custListPopup(@RequestParam(value = "custPopupPageNum", defaultValue = "1") int custPopupPageNum, String s_cust_name)
 	{
-		System.out.println("s_cust_name : " + s_cust_name);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("custPopupPageNum", custPopupPageNum);
 		
@@ -596,8 +500,6 @@ public class OpptyController {
 		{
 			List<CustVO> custPopupList = opptyService.custPopupList(map);
 			map.put("custPopupList", custPopupList);
-			
-			System.out.println("MAP : " + map);
 			
 			return map;
 		}
@@ -630,7 +532,6 @@ public class OpptyController {
 		{
 			List<EmpVO> empPopupList = opptyService.empPopupList(map);
 			map.put("empPopupList", empPopupList);
-			
 			
 			return map;
 		}

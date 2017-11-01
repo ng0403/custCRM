@@ -51,7 +51,9 @@ public class CustServiceImpl implements CustService{
 	@Override
 	public PagerVO getCustListRow(Map<String, Object> custMap) {
 		// TODO Auto-generated method stub
-		int optyPageNum = (Integer)custMap.get("custPageNum");
+		System.out.println(custMap);
+		System.out.println(custMap.get("custPageNum"));
+		int optyPageNum = Integer.parseInt(custMap.get("custPageNum").toString());
 		PagerVO page = new PagerVO(optyPageNum, 0, 10, 10);
 		
 		int totalRowCount = custDao.getCustListRow(custMap);

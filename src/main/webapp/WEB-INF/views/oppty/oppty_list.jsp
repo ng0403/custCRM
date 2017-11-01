@@ -23,6 +23,7 @@
 <input type="hidden" id="cust_opty_no" value="${ cust_opty_no }" >
 <input type="hidden" id="page_type" value="${pageType}">
 <input type="hidden" id="session" value="${session}">
+<input type="hidden" id="oppty_code" value="${oppty_code}">
 
 <!-- 매출관리 : 매출기회조회 -->
 

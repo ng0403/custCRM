@@ -29,6 +29,7 @@ var vititDtlCdList = new Array();
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="page_type" value="${pageType}">
+<input type="hidden" id="cust_code" value="${cust_code}">
 <input type="hidden" id="session" value="${session}">
 
 <!-- 고객 : 고객목록조회 -->

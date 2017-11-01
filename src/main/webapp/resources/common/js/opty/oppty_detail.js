@@ -66,10 +66,22 @@ function wordch(thisword)
  * */
 function opptyList(opptyPageNum)
 {
+	var page_type = $("#page_type").val();
+	
+	console.log(page_type);
+	
 	if(confirm("취소하시겠습니까?"))
 	{
-		alert("매출기회 리스트로 이동합니다.");
-		location.href = ctx + "/oppty?opptyPageNum="+opptyPageNum;
+		if(page_type == 0)
+		{
+			alert("매출기회 리스트로 이동합니다.");
+			location.href = ctx + "/oppty?opptyPageNum="+opptyPageNum;
+		}
+		else if(page_type == 1)
+		{
+			alert("내 담당 매출기회 리스트로 이동합니다.");
+			location.href = ctx + "/oppty?oppty_code=000&opptyPageNum="+opptyPageNum;
+		}
 	}
 	else
 		return false;
