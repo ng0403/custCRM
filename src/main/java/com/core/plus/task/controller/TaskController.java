@@ -57,7 +57,8 @@ public class TaskController {
 	@RequestMapping(value="/task")
 	public ModelAndView TaskList(HttpSession session,
 									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-									String excel, String cust_task_no) {
+									String excel, String cust_task_no, String task_code) {
+		System.out.println("taskcode: " + task_code);
 		
 		//session 값 체크 후 null값이면 로그인 페이지 이동
 		if (session.getAttribute("user") == null) {
@@ -89,6 +90,15 @@ public class TaskController {
 		mov.addObject("divisCd", divisCd);
 		mov.addObject("cust_task_no", cust_task_no);
 		mov.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
+		
+		if (task_code == "000" || task_code != null) {
+			System.out.println("taskcode: " + task_code);
+
+			mov.addObject("main_menu_url", "task");
+			mov.addObject("sub_menu_url", "mytask");
+			menuControlleri.menuImport(mov, "mytask");
+			mov.addObject("pageType", "1");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
+		}
 		
 		if(cust_task_no == null)
 		{
@@ -123,52 +133,52 @@ public class TaskController {
 	}
 	
 	// My List
-	@RequestMapping(value="/mytask")
-	public ModelAndView MyTaskList(HttpSession session,
-									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-									 				HttpServletRequest request, String excel ) {
-		
-		//session 값 체크 후 null값이면 로그인 페이지 이동
-		if (session.getAttribute("user") == null) {
-			return new ModelAndView("redirect:/");
-		}
-		String my_user_id = session.getAttribute("user").toString(); 
-		
-		//url 가져오기
-		String Url = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
-		
-		Map<String, Object> taskMap = new HashMap<String, Object>();
-		taskMap.put("taskPageNum", taskPageNum);
-		taskMap.put("my_user_id", my_user_id);
-		
-		// paging
-		PagerVO page = taskService.getTaskListRow(taskMap);
-		taskMap.put("page", page);
-		
-		List<TaskVO> taskList = taskService.taskList(taskMap);		// 전체 리스트
-		List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
-		List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
-		List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
-		List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
-		
-		ModelAndView mov = new ModelAndView("task_list");
-		
-		mov.addObject("page", page);
-		mov.addObject("taskPageNum", taskPageNum);
-		mov.addObject("taskList", taskList);
-		mov.addObject("dtypeCd", dtypeCd);
-		mov.addObject("scoreCd", scoreCd);
-		mov.addObject("ttypeCd", ttypeCd);
-		mov.addObject("divisCd", divisCd);
-		mov.addObject("main_menu_url", "task");
-		mov.addObject("sub_menu_url", "mytask");
-		mov.addObject("url", Url);
-		mov.addObject("session", my_user_id);
-		menuControlleri.menuImport(mov, "task");
-		mov.addObject("pageType", "1");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
-		
-		return mov;
-	}
+//	@RequestMapping(value="/mytask")
+//	public ModelAndView MyTaskList(HttpSession session,
+//									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
+//									 				HttpServletRequest request, String excel ) {
+//		
+//		//session 값 체크 후 null값이면 로그인 페이지 이동
+//		if (session.getAttribute("user") == null) {
+//			return new ModelAndView("redirect:/");
+//		}
+//		String my_user_id = session.getAttribute("user").toString(); 
+//		
+//		//url 가져오기
+//		String Url = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
+//		
+//		Map<String, Object> taskMap = new HashMap<String, Object>();
+//		taskMap.put("taskPageNum", taskPageNum);
+//		taskMap.put("my_user_id", my_user_id);
+//		
+//		// paging
+//		PagerVO page = taskService.getTaskListRow(taskMap);
+//		taskMap.put("page", page);
+//		
+//		List<TaskVO> taskList = taskService.taskList(taskMap);		// 전체 리스트
+//		List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
+//		List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
+//		List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
+//		List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
+//		
+//		ModelAndView mov = new ModelAndView("task_list");
+//		
+//		mov.addObject("page", page);
+//		mov.addObject("taskPageNum", taskPageNum);
+//		mov.addObject("taskList", taskList);
+//		mov.addObject("dtypeCd", dtypeCd);
+//		mov.addObject("scoreCd", scoreCd);
+//		mov.addObject("ttypeCd", ttypeCd);
+//		mov.addObject("divisCd", divisCd);
+//		mov.addObject("main_menu_url", "task");
+//		mov.addObject("sub_menu_url", "mytask");
+//		mov.addObject("url", Url);
+//		mov.addObject("session", my_user_id);
+//		menuControlleri.menuImport(mov, "mytask");
+//		mov.addObject("pageType", "1");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
+//		
+//		return mov;
+//	}
 		
 	// 리스트 Ajax(조회, 페이징)
 	@RequestMapping(value="/task_sch", method=RequestMethod.POST)
