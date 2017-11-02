@@ -69,14 +69,12 @@ public class LeadController {
 			@RequestParam(value = "pageNum", defaultValue = "1") int PageNum, String cust_lead_no, String lead_code) {
 
 		if (session.getAttribute("user") == null) {
-			System.out.println("session ? " + session);
-			return new ModelAndView("redirect:/");
+ 			return new ModelAndView("redirect:/");
 		}
 		 
 		Map<String, Object> leadMap = new HashMap<String, Object>();
 		leadMap.put("PageNum", PageNum);
-		leadMap.put("cust_lead_no", cust_lead_no);
-
+		leadMap.put("cust_lead_no", cust_lead_no); 
 	 
 		if (lead_code != null) {
 			if (lead_code.equals("000")) {
@@ -116,28 +114,23 @@ public class LeadController {
 				mov.addObject("sub_menu_url", "lead");
 			} 
 			else if (lead_code.equals("000")) {
-				mov.addObject("lead_status_cd", "000");
-				mov.addObject("pageType", "1");
+ 				mov.addObject("pageType", "1");
  				mov.addObject("sub_menu_url", "lead?lead_code=000");
 			} 
 			else if (lead_code.equals("001")) {
-				System.out.println("진행된 고객 리드");
-				mov.addObject("lead_status_cd", "001");
+ 				mov.addObject("lead_status_cd", "001");
  				mov.addObject("sub_menu_url", "lead?lead_code=001");
 			}
 			else if(lead_code.equals("002")) {
-				System.out.println("보류된 고객 리드");
-				mov.addObject("lead_status_cd", "002");
+ 				mov.addObject("lead_status_cd", "002");
  				mov.addObject("sub_menu_url", "lead?lead_code=002");
 			}
 			else if(lead_code.equals("003")) {
-				System.out.println("기회전환된 고객 리드");
-				mov.addObject("lead_status_cd", "003");
+ 				mov.addObject("lead_status_cd", "003");
  				mov.addObject("sub_menu_url", "lead?lead_code=003");
 			}
 			else if(lead_code.equals("004")) {
-				System.out.println("실패한 고객 리드");
-				mov.addObject("lead_status_cd", "004");
+ 				mov.addObject("lead_status_cd", "004");
 				mov.addObject("flg", "004");
 				mov.addObject("sub_menu_url", "lead?lead_code=004");
 			}
@@ -149,8 +142,7 @@ public class LeadController {
 			mov.addObject("sub_menu_url", "cust");
 			menuControlleri.menuImport(mov, "cust");
 		}
-		System.out.println("mov ? " + mov.toString());
-		return mov;
+ 		return mov;
 
 	} 
 	
@@ -228,8 +220,7 @@ public class LeadController {
 	// 가망 고객 추가 get.
 	@RequestMapping(value = "lead_single_add", method = RequestMethod.GET)
 	public ModelAndView lead_single_add_get(LeadVO vo) {
-		System.out.println("single enter");
-		// 코드 load
+ 		// 코드 load
 		List<LeadVO> status = leadService.leadStatusCode();
 		List<LeadVO> opptycd = leadService.leadOpptyCode();
 
@@ -238,10 +229,9 @@ public class LeadController {
 		mov.addObject("flg", "1");
 		mov.addObject("PageNum", "1");
 		mov.addObject("leadNoIndex", leadNoIndex);
-		mov.addObject("main_menu_url", "lead");
 		mov.addObject("leadstatuscode", status);
 		mov.addObject("opptycd", opptycd);
-		mov.addObject("main_menu_url", "lead");
+ 		mov.addObject("main_menu_url", "lead");
 		mov.addObject("sub_menu_url", "lead");
 		menuControlleri.menuImport(mov, "lead");
 
@@ -251,9 +241,7 @@ public class LeadController {
 	// 가망 고객 추가 post.
 	@RequestMapping(value = "lead_single_add", method = RequestMethod.POST)
 	public String lead_single_add_post(LeadVO vo) {
-
-		System.out.println("insert vo ? " + vo.toString());
-
+ 
 		String cust_no = vo.getCust_no();
 
 		if (cust_no == null) {
@@ -266,24 +254,7 @@ public class LeadController {
 
 		return "redirect:/lead";
 	}
-
-	// 가망 고객 수정 get.
-	@RequestMapping(value = "lead_update", method = RequestMethod.GET)
-	public ModelAndView lead_update_get(@RequestParam("lead_no") String lead_no) {
-
-		List<InterestItemVO> itemList = leadService.leadItemList(lead_no); // 관심상품
-																			// 리스트
-																			// 조회
-
-		ModelAndView mov = new ModelAndView("leadCRUD");
-		mov.addObject("detail", leadService.lead_detail(lead_no));
-		mov.addObject("flg", "2");
-		mov.addObject("itemList", itemList);
-		menuControlleri.menuImport(mov, "lead");
-
-		return mov;
-	}
-
+ 
 	// 가망 고객 수정 post.
 	@RequestMapping(value = "lead_update", method = RequestMethod.POST)
 	public String lead_update_post(LeadVO vo) {
@@ -311,8 +282,7 @@ public class LeadController {
 	public @ResponseBody Map<String, Object> searchKeyword(
 			@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, @RequestParam Map<String, Object> search_map) {
 
-		System.out.println("what is ? " + search_map.toString());
-		String lead_code = search_map.get("lead_code").toString();
+ 		String lead_code = search_map.get("lead_code").toString();
  		
 		Map<String, Object> kwMap = new HashMap<String, Object>();
 		System.out.println("page num : " + PageNum);
@@ -332,8 +302,7 @@ public class LeadController {
 			
 			if(lead_code.equals("000"))
 			{
-				System.out.println("여기");
-				kwMap.put("my_user_id", session.getAttribute("user").toString());
+ 				kwMap.put("my_user_id", session.getAttribute("user").toString());
 				kwMap.remove("lead_code");
 			} 
 		}
@@ -348,42 +317,8 @@ public class LeadController {
 		kwMap.put("leadList", leadList);
 
 		return kwMap;
-	}
-
-	// 조건 검색
-	@RequestMapping(value = "/StatusSearchKeyword", method = RequestMethod.POST)
-	public @ResponseBody Map<String, Object> StatusSearchKeyword(
-			@RequestParam(value = "PageNum", defaultValue = "1") int PageNum, String lead_no_srch,
-			String lead_name_srch, String cust_name, String emp_name, String contact_day_srch, String rank_cd,
-			String lead_status_cd) {
-		System.out.println("satus entering");
-
-		String contact_day;
-
-		// contact_day = contact_day_srch.replace("-", "");
-
-		Map<String, Object> kwMap = new HashMap<String, Object>();
-		System.out.println("page num : " + PageNum);
-		kwMap.put("PageNum", PageNum);
-		kwMap.put("lead_no_srch", lead_no_srch);
-		kwMap.put("lead_name_srch", lead_name_srch);
-		kwMap.put("cust_name", cust_name);
-		kwMap.put("emp_name", emp_name);
-		kwMap.put("contact_day", contact_day_srch);
-		kwMap.put("rank_cd", rank_cd);
-		kwMap.put("lead_status_cd", lead_status_cd);
-		// paging
-		PagerVO page = leadService.getLeadStatusListRow(kwMap);
-
-		kwMap.put("page", page);
-
-		List<LeadVO> leadList = leadService.leadStatusSearch(kwMap);
-
-		kwMap.put("leadList", leadList);
-
-		return kwMap;
-	}
-
+	} 
+	 
 	/* Item CUD */
 	// 상품추가
 	@RequestMapping(value = "leadItemInsert", method = RequestMethod.POST)
@@ -527,6 +462,7 @@ public class LeadController {
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch, String lead_name_srch,
 			String cust_name, String cust_no, String user_no, String contact_day_srch, String rank_cd, String flg,
 			String code_flg, String cust_lead_no, String user_id, String path) {
+		System.out.println("flg ? " + flg);
 		System.out.println("url ? " + path);
 		if (path == null) {
 			path = "";

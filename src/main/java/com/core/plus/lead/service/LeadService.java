@@ -16,20 +16,23 @@ import com.core.plus.task.vo.TaskVO;
 public interface LeadService {
 	
 	List<LeadVO> lead_list(Map<String, Object> map); //가망 고객 리스트
- 
+	PagerVO getLeadListRow(Map<String, Object> map); // Paging
+
+	LeadVO lead_detail(String lead_no); // 가망 고객 디테일
+	LeadVO lead_detail(String lead_no, String cust_lead_no); // 가망 고객 디테일 
+
 	void lead_insert(LeadVO vo); //가망 고객 추가
 	void lead_update(LeadVO vo); // 가망 고객 수정
-	LeadVO lead_detail(String lead_no); // 가망 고객 디테일
-	LeadVO lead_detail(String lead_no, String cust_lead_no); // 가망 고객 디테일
 	void lead_delete(String lead_no); // 가망 고객 삭제
+	
+	LeadVO leadNoIndex();			
+	public List<LeadVO> leadSearch(Map<String,Object> leadMap); //가망 고객 조건 검색 
 	
 	//코드 관련
 	List<LeadVO> leadStatusCode();
 	List<LeadVO> leadOpptyCode();
 	
-	public List<LeadVO> leadSearch(Map<String,Object> leadMap); //가망 고객 조건 검색
-	public List<LeadVO> leadStatusSearch(Map<String,Object> leadMap); //가망 고객 조건 검색
-	//상담이력
+ 	//상담이력
 	PagerVO getTaskListRow(Map<String, Object> map);					// 페이징
 	List<TaskVO> taskList();											// List
 	List<TaskVO> taskList(Map<String, Object> taskMap);					// List 페이징
@@ -47,12 +50,7 @@ public interface LeadService {
 	List<EmpVO> empPopupList();
 	List<EmpVO> empPopupList(Map<String, Object> map);
 	
-	// Paging
-	PagerVO getLeadListRow(Map<String, Object> map);
-	PagerVO getLeadStatusListRow(Map<String, Object> map);
-	//엑셀 출력
-	List<LeadVO> leadExcelExport(Map<String, Object> leadMap);
-	
+ 	//엑셀 출력
+	List<LeadVO> leadExcelExport(Map<String, Object> leadMap); 
 	int excelUpload(MultipartFile excelFile);
-	LeadVO leadNoIndex();			
 }

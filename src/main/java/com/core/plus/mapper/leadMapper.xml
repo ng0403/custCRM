@@ -2,341 +2,384 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="lead">
 
-<select id="leadStatusCode" resultType="com.core.plus.lead.vo.LeadVO">
-		SELECT code_name, code FROM tb_code WHERE code_no = '1010'
- </select>
- <select id="leadOpptyCode" resultType="com.core.plus.lead.vo.LeadVO">
- SELECT code_name, code FROM tb_code WHERE code_no = '1009'
- </select>
+	<!-- 리드 리스트 -->
+	<select id="leadList" resultType="com.core.plus.lead.vo.LeadVO"
+		parameterType="java.util.Map">
+		select P.*
+		from (
+		select
+		l.lead_no,
+		l.lead_name,
+		l.cust_no,
+		case when
+		(user_nm) is null then ' '
+		else (user_nm) end as user_nm ,
+		case when
+		(cust_name) is null then ' '
+		else (cust_name) end as cust_name ,
+		case
+		when (phone_area_no) is null then ''
+		else (phone_area_no ) end as
+		phone_area_no ,
+		case when
+		(concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) is null
+		then ''
+		else (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) end as
+		phone_no ,
+		date_format(l.contact_day, '%Y-%m-%d') as contact_day ,
+		case
+		when (rank_cd) is null then ' '
+		else (rank_cd) end as rank_cd,
+		date_format(l.update_date, '%Y-%m-%d %H:%i') as update_date,
+		l.lead_status_cd
+		from
+		tb_lead l left join tb_cust c on l.cust_no =
+		c.cust_no left join tb_user em
+		on l.emp_no = em.user_no left join
+		tb_cust_phone p on l.cust_no =
+		p.cust_no and p.primary_yn = 'Y'
+		where
+		1=1 and l.del_yn ='N'
+		<choose>
+			<when test="lead_no_srch !=null and lead_no_srch !=''">
+				and(lead_no like concat('%', #{lead_no_srch}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="lead_name_srch !=null and lead_name_srch !=''">
+				and(lead_name like concat('%', #{lead_name_srch},
+				'%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="cust_name !=null and cust_name !=''">
+				and(cust_name like concat('%', #{cust_name}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="emp_name !=null and emp_name !=''">
+				and(user_nm like concat('%', #{emp_name}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="contact_day !=null and contact_day !=''">
+				and(contact_day like concat('%', #{contact_day}, '%')
+				)
+			</when>
+		</choose>
+		<choose>
+			<when test="rank_cd !=null and rank_cd !=''">
+				and(rank_cd like concat('%', #{rank_cd}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="cust_lead_no !=null and cust_lead_no !=''">
+				and(l.cust_no like concat('%', #{cust_lead_no}, '%')
+				)
+			</when>
+		</choose>
+		<choose>
+			<when test="my_user_id !=null and my_user_id !=''">
+				and(em.user_id like concat('%', #{my_user_id}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="lead_code !=null and lead_code !=''">
+				and(l.lead_status_cd like concat('%', #{lead_code},
+				'%') )
+			</when>
+		</choose>
+		order by l.update_date DESC
+		) P
+		limit #{page.limitStartNum},
+		#{page.pageSize}
+	</select>
+
+	<!-- Paging -->
+	<select id="leadListTotalRow" resultType="int">
+		SELECT count(*)
+		FROM tb_lead l left join tb_cust c on l.cust_no =
+		c.cust_no left join
+		tb_user em on l.emp_no = em.user_no left join
+		tb_cust_phone p on
+		l.cust_no = p.cust_no and p.primary_yn = 'Y'
+		WHERE
+		l.del_yn = 'N'
+		<choose>
+			<when test="lead_no_srch !=null and lead_no_srch !=''">
+				and(lead_no like concat('%', #{lead_no_srch}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="lead_name_srch !=null and lead_name_srch !=''">
+				and(lead_name like concat('%', #{lead_name_srch},
+				'%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="cust_name !=null and cust_name !=''">
+				and(cust_name like concat('%', #{cust_name}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="emp_name !=null and emp_name !=''">
+				and(user_nm like concat('%', #{emp_name}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="contact_day !=null and contact_day !=''">
+				and(contact_day like concat('%', #{contact_day}, '%')
+				)
+			</when>
+		</choose>
+		<choose>
+			<when test="rank_cd !=null and rank_cd !=''">
+				and(rank_cd like concat('%', #{rank_cd}, '%') )
+			</when>
+		</choose>
+		<!-- 재욱 -->
+		<choose>
+			<when test="cust_lead_no !=null and cust_lead_no !=''">
+				and(l.cust_no like concat('%', #{cust_lead_no}, '%')
+				)
+			</when>
+		</choose>
+		<choose>
+			<when test="my_user_id !=null and my_user_id !=''">
+				and(em.user_id like concat('%', #{my_user_id}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="lead_code !=null and lead_code !=''">
+				and(l.lead_status_cd like concat('%', #{lead_code},
+				'%') )
+			</when>
+		</choose>
+	</select>
+
+	<!-- 리드 상세정보 -->
+	<select id="lead_detail" resultType="com.core.plus.lead.vo.LeadVO"
+		parameterType="String">
+		select
+		l.lead_no,
+		l.create_date,
+		l.lead_name,
+		l.cust_no,
+		c.cust_name,
+		l.emp_no,
+		e.user_nm,
+		l.contact_day,
+		l.rank_cd,
+		l.reason_cd,
+		l.remark_cn,
+		l.possibility_cd,
+		l.lead_status_cd
+		from tb_lead l left join
+		tb_cust c on l.cust_no = c.cust_no left join
+		tb_user e on l.emp_no =
+		e.user_no
+		where lead_no= #{lead_no}
+	</select>
 
 
-<!-- Paging -->
-   <select id="leadListTotalRow" resultType="int">
-     <!--  SELECT count(*)
-      FROM tb_lead
-      WHERE del_yn = 'N'  -->
-      SELECT count(*)
-      FROM tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
-      WHERE l.del_yn = 'N'
-      <choose>
-            <when test="lead_no_srch !=null and lead_no_srch !=''">
-               and(lead_no like concat('%', #{lead_no_srch}, '%') )
-            </when> 
-          </choose>
-          <choose>
-              <when test="lead_name_srch !=null and lead_name_srch !=''">
-               and(lead_name like concat('%', #{lead_name_srch}, '%') )
-            </when> 
-         </choose> 
-          <choose>
-             <when test="cust_name !=null and cust_name !=''">
-               and(cust_name like concat('%', #{cust_name}, '%') )
-            </when> 
-         </choose>
-          <choose>
-            <when test="emp_name !=null and emp_name !=''">
-               and(user_nm like concat('%', #{emp_name}, '%') )
-            </when> 
-          </choose>
-           <choose>
-               <when test="contact_day !=null and contact_day !=''">
-               and(contact_day like concat('%', #{contact_day}, '%') )
-            </when> 
-         </choose>
-           <choose>
-               <when test="rank_cd !=null and rank_cd !=''">
-               and(rank_cd like concat('%', #{rank_cd}, '%') )
-            </when> 
-           </choose>
-           <!-- 재욱 -->
-           <choose>
-               <when test="cust_lead_no !=null and cust_lead_no !=''">
-               and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
-            </when> 
-           </choose>
-           <choose>
-               <when test="my_user_id !=null and my_user_id !=''">
-               and(em.user_id like concat('%', #{my_user_id}, '%') )
-            </when> 
-           </choose> 
-            <choose>
-               <when test="lead_code !=null and lead_code !=''">
-               and(l.lead_status_cd like concat('%', #{lead_code}, '%') )
-            </when> 
-           </choose> 
-   </select>
-   
-    <select id="leadStatusListTotalRow" resultType="int">
-     <!--  SELECT count(*)
-      FROM tb_lead
-      WHERE del_yn = 'N'  -->
-      SELECT count(*)
-      FROM tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
-      WHERE l.del_yn = 'N' and l.lead_status_cd = #{lead_status_cd}
-      <choose>
-            <when test="lead_no_srch !=null and lead_no_srch !=''">
-               and(lead_no like concat('%', #{lead_no_srch}, '%') )
-            </when> 
-          </choose>
-          <choose>
-              <when test="lead_name_srch !=null and lead_name_srch !=''">
-               and(lead_name like concat('%', #{lead_name_srch}, '%') )
-            </when> 
-         </choose> 
-          <choose>
-             <when test="cust_name !=null and cust_name !=''">
-               and(cust_name like concat('%', #{cust_name}, '%') )
-            </when> 
-         </choose>
-          <choose>
-            <when test="emp_name !=null and emp_name !=''">
-               and(user_nm like concat('%', #{emp_name}, '%') )
-            </when> 
-          </choose>
-           <choose>
-               <when test="contact_day !=null and contact_day !=''">
-               and(contact_day like concat('%', #{contact_day}, '%') )
-            </when> 
-         </choose>
-           <choose>
-               <when test="rank_cd !=null and rank_cd !=''">
-               and(rank_cd like concat('%', #{rank_cd}, '%') )
-            </when> 
-           </choose>
-   </select>
-   
-   
-   <!-- Paging -->
-   <select id="taskListTotalRow" resultType="int">
-      SELECT count(*)
-      FROM tb_task
-      WHERE del_yn = 'N' and cust_no = #{cust_no}
-      <if test="task_no_srch != null and task_no_srch != ''">
-            AND (task_no like concat('%', #{task_no_srch}, '%'))
-         </if>
-         <if test="subject_srch != null and subject_srch != ''">
-            AND (subject like concat('%', #{subject_srch}, '%'))
-         </if>
-         <if test="cust_name_srch != null and cust_name_srch != ''">
-            AND (cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
-         </if>
-         <if test="emp_name_srch != null and emp_name_srch != ''">
-            AND (emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch_srch}, '%')))
-         </if>	
-         <if test="next_day_srch != null and next_day_srch != ''">
-            AND (next_day like concat('%', #{next_day_srch}, '%'))
-         </if>
-         <if test="dtype_cd_srch != null and dtype_cd_srch != ''">
-            AND (dtype_cd like concat('%', #{dtype_cd_srch}, '%'))
-         </if>
-         <if test="cust_no != null and cust_no != ''">
-            AND (cust_no like concat('%', #{cust_no}, '%'))
-         </if>
-         
-   </select>
+	<!-- 리드 단일 추가 -->
+	<insert id="lead_single_add" parameterType="com.core.plus.lead.vo.LeadVO">
+
+		<selectKey keyProperty="lead_no" resultType="String" order="BEFORE">
+			SELECT IF(SUBSTR(MAX(lead_no), 1, 10) = DATE_FORMAT(now(),
+			'%Y%m%d%H'), MAX(lead_no)+1, concat(DATE_FORMAT(now(),
+			'%Y%m%d%H'),'00001')) lead_no
+			FROM tb_lead USE INDEX(PRIMARY)
+		</selectKey>
+
+		insert into tb_lead
+		(lead_no, create_date, update_date, lead_name,
+		cust_no, emp_no, contact_day,
+		rank_cd, reason_cd, remark_cn,
+		possibility_cd, lead_status_cd)
+		values
+		(#{lead_no}, now(), now(),
+		#{lead_name}, #{cust_no}, #{emp_no},
+		date_format(#{contact_day},
+		'%Y%m%d'), #{rank_cd}, #{reason_cd},
+		#{remark_cn}, #{possibility_cd},
+		#{lead_status_cd})
+
+	</insert>
+
+	<!-- 리드 수정 -->
+	<update id="lead_update" parameterType="com.core.plus.lead.vo.LeadVO">
+
+		update tb_lead
+		set
+		lead_name=#{lead_name}, cust_no =#{cust_no}, emp_no =#{emp_no},
+		contact_day= date_format(#{contact_day}, '%Y%m%d'), rank_cd =
+		#{rank_cd}, reason_cd = #{reason_cd},
+		remark_cn = #{remark_cn},
+		update_date = now(), possibility_cd =
+		#{possibility_cd}, lead_status_cd
+		= #{lead_status_cd}
+		where lead_no = #{lead_no}
+
+	</update>
+
+	<update id="lead_delete" parameterType="String">
+		update tb_lead
+		set
+		del_yn="Y"
+		where lead_no = #{lead_no}
+	</update>
+
+	<!-- Index 채번 -->
+	<select id="leadNoIndex" resultType="com.core.plus.lead.vo.LeadVO">
+		SELECT
+		IF(SUBSTR(MAX(lead_no), 1, 10) = DATE_FORMAT(now(), '%Y%m%d%H'),
+		MAX(lead_no)+1, concat(DATE_FORMAT(now(), '%Y%m%d%H'),'00001'))
+		lead_no
+		FROM tb_lead USE INDEX(PRIMARY)
+	</select>
+
+	<select id="leadStatusCode" resultType="com.core.plus.lead.vo.LeadVO">
+		SELECT code_name, code
+		FROM tb_code WHERE code_no = '1010'
+	</select>
+	<select id="leadOpptyCode" resultType="com.core.plus.lead.vo.LeadVO">
+		SELECT code_name, code
+		FROM tb_code WHERE code_no = '1009'
+	</select>
 
 
-<!-- 리드 리스트  -->
-   <select id="leadList" resultType="com.core.plus.lead.vo.LeadVO" parameterType="java.util.Map">
-	   select P.*
-	   from (
-      	select
-	         l.lead_no,
-	         l.lead_name,
-	         l.cust_no,
-	         case when (user_nm) is null then ' '
-	         	else (user_nm) end as user_nm ,
-	         case when (cust_name) is null then ' '
-	         	else (cust_name) end as cust_name , 
-	         case when (phone_area_no) is null then ''
-			 	else (phone_area_no ) end as phone_area_no ,
-			case when (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) is null then ''
-				else (concat(substr(phone_no,1,4),'-',substr(phone_no,5,8))) end as phone_no , 
-	        date_format(l.contact_day, '%Y-%m-%d') as contact_day ,
-	        case when (rank_cd) is null then ' '
-	                  else (rank_cd) end as rank_cd,
-	         date_format(l.update_date, '%Y-%m-%d %H:%i') as update_date,
-	        l.lead_status_cd
-      from 
-         tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn = 'Y'
-      where 1=1 and l.del_yn ='N'
-         <choose>
-            <when test="lead_no_srch !=null and lead_no_srch !=''">
-               and(lead_no like concat('%', #{lead_no_srch}, '%') )
-            </when> 
-          </choose>
-          <choose>
-              <when test="lead_name_srch !=null and lead_name_srch !=''">
-               and(lead_name like concat('%', #{lead_name_srch}, '%') )
-            </when> 
-         </choose> 
-          <choose>
-             <when test="cust_name !=null and cust_name !=''">
-               and(cust_name like concat('%', #{cust_name}, '%') )
-            </when> 
-         </choose>
-          <choose>
-            <when test="emp_name !=null and emp_name !=''">
-               and(user_nm like concat('%', #{emp_name}, '%') )
-            </when> 
-          </choose>
-           <choose>
-               <when test="contact_day !=null and contact_day !=''">
-               and(contact_day like concat('%', #{contact_day}, '%') )
-            </when> 
-         </choose>
-           <choose>
-               <when test="rank_cd !=null and rank_cd !=''">
-               and(rank_cd like concat('%', #{rank_cd}, '%') )
-            </when> 
-           </choose>
-           <choose>
-               <when test="cust_lead_no !=null and cust_lead_no !=''">
-               and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
-            </when> 
-           </choose>
-             <choose>
-               <when test="my_user_id !=null and my_user_id !=''">
-               and(em.user_id like concat('%', #{my_user_id}, '%') )
-            </when> 
-           </choose>
-             <choose>
-               <when test="lead_code !=null and lead_code !=''">
-               and(l.lead_status_cd like concat('%', #{lead_code}, '%') )
-            </when> 
-           </choose>
-         order by l.update_date DESC
-     ) P
-     limit #{page.limitStartNum}, #{page.pageSize}
-   </select>
-   
-   <!-- 리드 상세정보  -->
-   <select id="lead_detail" resultType="com.core.plus.lead.vo.LeadVO" parameterType="String">
-   
-   select
-    l.lead_no,
-    l.create_date,
-    l.lead_name,
-    l.cust_no,
-    c.cust_name, 
-    l.emp_no,
-    e.user_nm,
-    l.contact_day, 
-    l.rank_cd, 
-    l.reason_cd, 
-    l.remark_cn,
-    l.possibility_cd,
-    l.lead_status_cd
-   from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_user e on l.emp_no = e.user_no
-   where lead_no= #{lead_no}
-   </select>
-   
-    
-   <!-- cust task List -->
-   <select id="taskList" resultType="com.core.plus.task.vo.TaskVO" parameterType="java.util.Map">
-      SELECT P.*
-      FROM (
-         SELECT 
-               t.task_no
-              , t.subject
-              , c.cust_no
-           	  , (select cust_name from tb_cust c where c.cust_no = t.cust_no ) as cust_name
-              , case when (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = t.cust_no and primary_yn = 'Y')  is null then ' ' 
-                   else (select concat(phone_area_no, phone_no) from tb_cust_phone p where p.cust_no = t.cust_no and primary_yn = 'Y') end as phone_no
-              , case when (select user_nm from tb_user e where e.user_no = t.emp_no) is null then ' ' 
-                    else (select user_nm from tb_user e where e.user_no = t.emp_no) end as emp_no
-              , t.next_day
-              , (select code_name from tb_code code where code_no = '1008' and code.code = t.dtype_cd) as dtype_cd
-              , date_format(t.create_date, '%Y-%m-%d %H:%i') as create_date
-         from tb_task t left join tb_cust c on t.cust_no = c.cust_no 
-                  left join tb_cust_phone p on t.cust_no = p.cust_no
-                  left join tb_user e on t.emp_no = e.user_no
-         WHERE t.del_yn = 'N' and t.cust_no= #{cust_no}
-            <if test="task_no_srch != null and task_no_srch != ''">
-               AND (t.task_no like concat('%', #{task_no_srch}, '%'))
-            </if>
-            <if test="subject_srch != null and subject_srch != ''">
-               AND (t.subject like concat('%', #{subject_srch}, '%'))
-            </if>
-            <if test="cust_name_srch != null and cust_name_srch != ''">
-               AND (t.cust_no in ( select cust_no from tb_cust where cust_name like concat('%', #{cust_name_srch}, '%')))
-            </if>
-            <if test="emp_name_srch != null and emp_name_srch != ''">
-               AND (t.emp_no like ( select user_no from tb_user where user_nm like concat('%', #{emp_name_srch}, '%')))
-            </if>
-            <if test="next_day_srch != null and next_day_srch != ''">
-               AND (t.next_day like concat('%', DATE_FORMAT(#{next_day_srch}, '%Y%m%d'), '%'))
-            </if>
-            <if test="dtype_cd_srch != null and dtype_cd_srch != ''">
-               AND (t.dtype_cd like concat('%', #{dtype_cd_srch}, '%'))
-            </if>
-            <if test="cust_no !=null and cust_no !=''">
-              AND (t.cust_no like concat('%', #{cust_no}, '%'))
-             </if>
-         order by t.update_date desc
-       )p
-    
-      LIMIT #{page.limitStartNum}, #{page.pageSize}
-   </select>
-   
-   
-   <!-- 리드 단일 추가  -->
-   <insert id="lead_single_add" parameterType="com.core.plus.lead.vo.LeadVO">
-   
-   <selectKey keyProperty="lead_no" resultType="String" order="BEFORE">
-         SELECT IF(SUBSTR(MAX(lead_no), 1, 10) = DATE_FORMAT(now(), '%Y%m%d%H'), MAX(lead_no)+1, concat(DATE_FORMAT(now(), '%Y%m%d%H'),'00001')) lead_no
-         FROM tb_lead USE INDEX(PRIMARY)
-   </selectKey> 
-      
-   insert into tb_lead
-   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, rank_cd, reason_cd, remark_cn, possibility_cd, lead_status_cd)
-   values
-   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{rank_cd}, #{reason_cd}, #{remark_cn}, #{possibility_cd}, #{lead_status_cd})
-   
-   </insert>
-   
-   <!-- 리드 수정  -->
-   <update id="lead_update" parameterType="com.core.plus.lead.vo.LeadVO">
-   
-   update tb_lead
-   set lead_name=#{lead_name}, cust_no =#{cust_no}, emp_no =#{emp_no},
-   contact_day= date_format(#{contact_day}, '%Y%m%d'), rank_cd = #{rank_cd}, reason_cd = #{reason_cd},
-   remark_cn = #{remark_cn}, update_date = now(), possibility_cd = #{possibility_cd}, lead_status_cd = #{lead_status_cd}
-   where lead_no = #{lead_no}   
-   
-   </update>
-   
-   <update id="lead_delete" parameterType="String">
-   
-   update tb_lead
-   set del_yn="Y"
-   where lead_no = #{lead_no}
-   
-   </update>
-   
-   
-   <!-- 고객 리드이력 상세정보  -->
-   <select id="cust_lead_detail" resultType="com.core.plus.lead.vo.LeadVO" parameterType="java.util.Map">
-   
-   select
-    l.lead_no,
-    l.create_date,
-    l.lead_name,
-    l.cust_no,
-    c.cust_name, 
-    l.emp_no,
-    e.user_nm,
-    l.contact_day, 
-    l.rank_cd, 
-    l.reason_cd, 
-    l.remark_cn,
-    l.possibility_cd,
-    l.lead_status_cd
-   from tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join tb_user e on l.emp_no = e.user_no
-   where lead_no= #{lead_no} and l.cust_no = #{cust_no}
-   </select>
-   
-   <!-- Paging -->
+	<!-- cust task List -->
+	<select id="taskList" resultType="com.core.plus.task.vo.TaskVO"
+		parameterType="java.util.Map">
+		SELECT P.*
+		FROM (
+		SELECT
+		t.task_no
+		, t.subject
+		, c.cust_no
+		, (select
+		cust_name from tb_cust c where c.cust_no = t.cust_no ) as
+		cust_name
+		,
+		case when (select concat(phone_area_no, phone_no) from tb_cust_phone
+		p
+		where p.cust_no = t.cust_no and primary_yn = 'Y') is null then ' '
+		else (select concat(phone_area_no, phone_no) from tb_cust_phone p
+		where p.cust_no = t.cust_no and primary_yn = 'Y') end as phone_no
+		,
+		case when (select user_nm from tb_user e where e.user_no = t.emp_no)
+		is null then ' '
+		else (select user_nm from tb_user e where e.user_no =
+		t.emp_no) end as
+		emp_no
+		, t.next_day
+		, (select code_name from tb_code
+		code where code_no = '1008' and
+		code.code = t.dtype_cd) as dtype_cd
+		,
+		date_format(t.create_date, '%Y-%m-%d %H:%i') as create_date
+		from
+		tb_task t left join tb_cust c on t.cust_no = c.cust_no
+		left join
+		tb_cust_phone p on t.cust_no = p.cust_no
+		left join tb_user e on
+		t.emp_no = e.user_no
+		WHERE t.del_yn = 'N' and t.cust_no= #{cust_no}
+		<if test="task_no_srch != null and task_no_srch != ''">
+			AND (t.task_no like concat('%', #{task_no_srch}, '%'))
+		</if>
+		<if test="subject_srch != null and subject_srch != ''">
+			AND (t.subject like concat('%', #{subject_srch}, '%'))
+		</if>
+		<if test="cust_name_srch != null and cust_name_srch != ''">
+			AND (t.cust_no in ( select cust_no from tb_cust where
+			cust_name like
+			concat('%', #{cust_name_srch}, '%')))
+		</if>
+		<if test="emp_name_srch != null and emp_name_srch != ''">
+			AND (t.emp_no like ( select user_no from tb_user where
+			user_nm like
+			concat('%', #{emp_name_srch}, '%')))
+		</if>
+		<if test="next_day_srch != null and next_day_srch != ''">
+			AND (t.next_day like concat('%',
+			DATE_FORMAT(#{next_day_srch},
+			'%Y%m%d'), '%'))
+		</if>
+		<if test="dtype_cd_srch != null and dtype_cd_srch != ''">
+			AND (t.dtype_cd like concat('%', #{dtype_cd_srch}, '%'))
+		</if>
+		<if test="cust_no !=null and cust_no !=''">
+			AND (t.cust_no like concat('%', #{cust_no}, '%'))
+		</if>
+		order by t.update_date desc
+		)p
+
+		LIMIT #{page.limitStartNum},
+		#{page.pageSize}
+	</select>
+
+	<!-- Paging -->
+	<select id="taskListTotalRow" resultType="int">
+		SELECT count(*)
+		FROM tb_task
+		WHERE del_yn = 'N' and cust_no = #{cust_no}
+		<if test="task_no_srch != null and task_no_srch != ''">
+			AND (task_no like concat('%', #{task_no_srch}, '%'))
+		</if>
+		<if test="subject_srch != null and subject_srch != ''">
+			AND (subject like concat('%', #{subject_srch}, '%'))
+		</if>
+		<if test="cust_name_srch != null and cust_name_srch != ''">
+			AND (cust_no in ( select cust_no from tb_cust where
+			cust_name like
+			concat('%', #{cust_name_srch}, '%')))
+		</if>
+		<if test="emp_name_srch != null and emp_name_srch != ''">
+			AND (emp_no like ( select user_no from tb_user where
+			user_nm like
+			concat('%', #{emp_name_srch_srch}, '%')))
+		</if>
+		<if test="next_day_srch != null and next_day_srch != ''">
+			AND (next_day like concat('%', #{next_day_srch}, '%'))
+		</if>
+		<if test="dtype_cd_srch != null and dtype_cd_srch != ''">
+			AND (dtype_cd like concat('%', #{dtype_cd_srch}, '%'))
+		</if>
+		<if test="cust_no != null and cust_no != ''">
+			AND (cust_no like concat('%', #{cust_no}, '%'))
+		</if>
+
+	</select>
+
+	<!-- 고객 리드이력 상세정보 -->
+	<select id="cust_lead_detail" resultType="com.core.plus.lead.vo.LeadVO"
+		parameterType="java.util.Map">
+		select
+		l.lead_no,
+		l.create_date,
+		l.lead_name,
+		l.cust_no,
+		c.cust_name,
+		l.emp_no,
+		e.user_nm,
+		l.contact_day,
+		l.rank_cd,
+		l.reason_cd,
+		l.remark_cn,
+		l.possibility_cd,
+		l.lead_status_cd
+		from tb_lead l left join
+		tb_cust c on
+		l.cust_no = c.cust_no left join
+		tb_user e on l.emp_no =
+		e.user_no
+		where
+		lead_no= #{lead_no} and l.cust_no = #{cust_no}
+	</select>
+
+	<!-- Paging -->
 	<select id="custPopupRow" resultType="int">
 		SELECT count(*)
 		FROM tb_cust
@@ -345,7 +388,55 @@
 			AND (cust_name like concat('%', #{s_cust_name}, '%'))
 		</if>
 	</select>
-	
+
+
+	<!-- InterestItem List -->
+	<select id="leadItemList" resultType="com.core.plus.lead.vo.InterestItemVO">
+		SELECT
+		lead_no,
+		main_cate_cd,
+		(select code_name from tb_code where code_no = '1015' and
+		code =
+		main_cate_cd) main_cate_name,
+		mid_cate_cd,
+		(select code_name from
+		tb_code where code_no = '1016' and code = mid_cate_cd)
+		mid_cate_name,
+		small_cate_cd,
+		(select code_name from tb_code where code_no = '1017'
+		and code =
+		small_cate_cd) small_cate_name,
+		qty,
+		list_price,
+		(qty*list_price) AS total_price
+		FROM
+		tb_interest_item
+		WHERE
+		lead_no =
+		#{lead_no}
+	</select>
+
+	<delete id="leadItemDelete" parameterType="String">
+		DELETE FROM
+		tb_interest_item
+		WHERE
+		lead_no = #{lead_no}
+	</delete>
+
+	<!-- OpptyItem -->
+	<insert id="leadItemInsert" parameterType="com.core.plus.lead.vo.InterestItemVO">
+		INSERT INTO
+		tb_interest_item
+		(lead_no, main_cate_cd, mid_cate_cd, small_cate_cd,
+		qty, list_price)
+		VALUES
+		(
+		#{lead_no}, #{main_cate_cd}, #{mid_cate_cd},
+		#{small_cate_cd}, #{qty},
+		#{list_price}
+		)
+	</insert>
+
 	<select id="empPopupRow" resultType="int">
 		SELECT count(*)
 		FROM tb_user
@@ -354,173 +445,146 @@
 			AND (user_nm like concat('%', #{s_emp_name}, '%'))
 		</if>
 	</select>
-   
-    <!-- Popup -->
-   <select id="custPopupList" resultType="com.core.plus.contact.cust.vo.CustVO" parameterType="java.util.Map">
-     SELECT P.*
-		FROM 
-		(
-			SELECT
-				cust_no,
-				cust_name
-			FROM
-				tb_cust
-			WHERE
-				del_yn = 'N'
-			<if test="s_cust_name != null and s_cust_name != ''">
-				AND (cust_name like concat('%', #{s_cust_name}, '%'))
-			</if>
-		) P
-		LIMIT #{page.limitStartNum}, #{page.pageSize}
-   </select>
-   
-   <select id="empPopupList" resultType="com.core.plus.info.user.vo.UserVO" parameterType="java.util.Map">
-    SELECT P.*
-		FROM 
-		(
-			SELECT
-				user_no,
-				user_nm
-			FROM
-				tb_user
-			WHERE
-				act_yn = 'Y' AND user_id != 'admin'
-			<if test="s_emp_name != null and s_emp_name != ''">
-				AND (user_nm like concat('%', #{s_emp_name}, '%'))
-			</if>
-		) P
-		LIMIT #{page.limitStartNum}, #{page.pageSize}
-   </select>
-   
-   <!-- Index 채번 -->
-   <select id="leadNoIndex" resultType="com.core.plus.lead.vo.LeadVO">
-      SELECT 
-         IF(SUBSTR(MAX(lead_no), 1, 10) = DATE_FORMAT(now(), '%Y%m%d%H'), 
-         MAX(lead_no)+1, concat(DATE_FORMAT(now(), '%Y%m%d%H'),'00001')) lead_no 
-      FROM tb_lead USE INDEX(PRIMARY)
-   </select>
-   
-   
-   <!-- 엑셀 출력 -->
-   <select id="leadExcelExport" parameterType="string" resultType="map">
-      SELECT X.*
-      FROM ( 
-         select
-            l.lead_no,
-              l.lead_name,
-              l.cust_no,
-              case when (user_nm) is null then ' '
-                  else (user_nm) end as user_nm ,
-              case when (cust_name) is null then ' '
-                  else (cust_name) end as cust_name ,  
-              p.phone_no,
-              l.contact_day,
-              l.rank_cd,
-              date_format(l.create_date, '%Y-%m-%d %H:%i') as create_date
-         from 
-            tb_lead l left join tb_cust c on l.cust_no = c.cust_no left join  tb_user em on l.emp_no = em.user_no left join tb_cust_phone p on l.cust_no = p.cust_no and p.primary_yn='Y'
-            where 1=1 
-           and l.del_yn ='N'
-           <choose>
-            <when test="lead_no_srch !=null and lead_no_srch !=''">
-               and(lead_no like concat('%', #{lead_no_srch}, '%') )
-            </when> 
-          </choose>
-          <choose>
-              <when test="lead_name_srch !=null and lead_name_srch !=''">
-               and(lead_name like concat('%', #{lead_name_srch}, '%') )
-            </when> 
-         </choose> 
-          <choose>
-             <when test="cust_name !=null and cust_name !=''">
-               and(c.cust_name like concat('%', #{cust_name}, '%') )
-            </when> 
-         </choose>
-         <choose>
-             <when test="cust_lead_no !=null and cust_lead_no !=''">
-               and(l.cust_no like concat('%', #{cust_lead_no}, '%') )
-            </when> 
-         </choose>
-          <choose>
-            <when test="emp_name !=null and emp_name !=''">
-               and(em.user_nm like concat('%', #{emp_name}, '%') )
-            </when> 
-          </choose>
-           <choose>
-               <when test="contact_day !=null and contact_day !=''">
-               and(contact_day like concat('%', #{contact_day}, '%') )
-            </when> 
-         </choose>
-           <choose>
-               <when test="rank_cd !=null and rank_cd !=''">
-               and(rank_cd like concat('%', #{rank_cd}, '%') )
-            </when> 
-           </choose>
-              <choose>
-               <when test="code !=null and code !=''">
-               and(lead_status_cd like concat('%', #{code}, '%') )
-            </when> 
-           </choose>
-           <choose>
-               <when test="user_id !=null and user_id !=''">
-               and(user_id like concat('%', #{user_id}, '%') )
-            </when> 
-           </choose>
-         order by l.update_date DESC
-      )X
-   </select>
-   
-   <insert id="lead_multi_insert" parameterType="com.core.plus.lead.vo.LeadVO">
-	 <selectKey keyProperty="lead_no" resultType="String" order="BEFORE">
-         SELECT IF(SUBSTR(MAX(lead_no), 1, 10) = DATE_FORMAT(now(), '%Y%m%d%H'), MAX(lead_no)+1, concat(DATE_FORMAT(now(), '%Y%m%d%H'),'00001')) lead_no
-         FROM tb_lead USE INDEX(PRIMARY)
-     </selectKey> 
-		
-     insert into tb_lead
-   (lead_no, create_date, update_date, lead_name, cust_no, emp_no, contact_day, lead_status_cd, reason_cd, remark_cn)
-   values
-   (#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no}, date_format(#{contact_day}, '%Y%m%d'), #{lead_status_cd}, #{reason_cd}, #{remark_cn} )
-	
-	
-	</insert>
-	
-	
-	
-	<!-- InterestItem List -->
-	<select id="leadItemList" resultType="com.core.plus.lead.vo.InterestItemVO">
-		SELECT
-			lead_no,
-			main_cate_cd,
-			(select code_name from tb_code where code_no = '1015' and code = main_cate_cd) main_cate_name,
-			mid_cate_cd,
-			(select code_name from tb_code where code_no = '1016' and code = mid_cate_cd) mid_cate_name,
-			small_cate_cd,
-			(select code_name from tb_code where code_no = '1017' and code = small_cate_cd) small_cate_name,
-			qty,
-			list_price,
-			(qty*list_price) AS total_price   
+
+	<!-- Popup -->
+	<select id="custPopupList" resultType="com.core.plus.contact.cust.vo.CustVO"
+		parameterType="java.util.Map">
+		SELECT P.*
 		FROM
-			tb_interest_item
+		(
+		SELECT
+		cust_no,
+		cust_name
+		FROM
+		tb_cust
 		WHERE
-			lead_no = #{lead_no}
+		del_yn = 'N'
+		<if test="s_cust_name != null and s_cust_name != ''">
+			AND (cust_name like concat('%', #{s_cust_name}, '%'))
+		</if>
+		) P
+		LIMIT #{page.limitStartNum}, #{page.pageSize}
 	</select>
-	
-	<delete id="leadItemDelete" parameterType="String">
-		DELETE FROM 
-			tb_interest_item
+
+	<select id="empPopupList" resultType="com.core.plus.info.user.vo.UserVO"
+		parameterType="java.util.Map">
+		SELECT P.*
+		FROM
+		(
+		SELECT
+		user_no,
+		user_nm
+		FROM
+		tb_user
 		WHERE
-			lead_no = #{lead_no}
-	</delete> 
-	
-	<!-- OpptyItem -->
-	<insert id="leadItemInsert" parameterType="com.core.plus.lead.vo.InterestItemVO">
-		INSERT INTO tb_interest_item
-			(lead_no, main_cate_cd, mid_cate_cd, small_cate_cd, qty, list_price)
-		VALUES
-			(
-				#{lead_no}, #{main_cate_cd}, #{mid_cate_cd}, #{small_cate_cd}, #{qty}, #{list_price}
-			)
+		act_yn = 'Y' AND
+		user_id != 'admin'
+		<if test="s_emp_name != null and s_emp_name != ''">
+			AND (user_nm like concat('%', #{s_emp_name}, '%'))
+		</if>
+		) P
+		LIMIT #{page.limitStartNum}, #{page.pageSize}
+	</select>
+
+	<!-- 엑셀 출력 -->
+	<select id="leadExcelExport" parameterType="string" resultType="map">
+		SELECT X.*
+		FROM (
+		select
+		l.lead_no,
+		l.lead_name,
+		l.cust_no,
+		case when
+		(user_nm) is null then ' '
+		else (user_nm) end as user_nm ,
+		case when
+		(cust_name) is null then ' '
+		else (cust_name) end as cust_name ,
+		p.phone_no,
+		l.contact_day,
+		l.rank_cd,
+		date_format(l.create_date,
+		'%Y-%m-%d %H:%i') as create_date
+		from
+		tb_lead l left join tb_cust c on
+		l.cust_no = c.cust_no left join tb_user em
+		on l.emp_no = em.user_no
+		left join tb_cust_phone p on l.cust_no =
+		p.cust_no and p.primary_yn='Y'
+		where 1=1
+		and l.del_yn ='N'
+		<choose>
+			<when test="lead_no_srch !=null and lead_no_srch !=''">
+				and(lead_no like concat('%', #{lead_no_srch}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="lead_name_srch !=null and lead_name_srch !=''">
+				and(lead_name like concat('%', #{lead_name_srch},
+				'%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="cust_name !=null and cust_name !=''">
+				and(c.cust_name like concat('%', #{cust_name}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="cust_lead_no !=null and cust_lead_no !=''">
+				and(l.cust_no like concat('%', #{cust_lead_no}, '%')
+				)
+			</when>
+		</choose>
+		<choose>
+			<when test="emp_name !=null and emp_name !=''">
+				and(em.user_nm like concat('%', #{emp_name}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="contact_day !=null and contact_day !=''">
+				and(contact_day like concat('%', #{contact_day}, '%')
+				)
+			</when>
+		</choose>
+		<choose>
+			<when test="rank_cd !=null and rank_cd !=''">
+				and(rank_cd like concat('%', #{rank_cd}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="code !=null and code !=''">
+				and(lead_status_cd like concat('%', #{code}, '%') )
+			</when>
+		</choose>
+		<choose>
+			<when test="user_id !=null and user_id !=''">
+				and(user_id like concat('%', #{user_id}, '%') )
+			</when>
+		</choose>
+		order by l.update_date DESC
+		)X
+	</select>
+
+	<insert id="lead_multi_insert" parameterType="com.core.plus.lead.vo.LeadVO">
+		<selectKey keyProperty="lead_no" resultType="String" order="BEFORE">
+			SELECT IF(SUBSTR(MAX(lead_no), 1, 10) = DATE_FORMAT(now(),
+			'%Y%m%d%H'), MAX(lead_no)+1, concat(DATE_FORMAT(now(),
+			'%Y%m%d%H'),'00001')) lead_no
+			FROM tb_lead USE INDEX(PRIMARY)
+		</selectKey>
+
+		insert into tb_lead
+		(lead_no, create_date, update_date, lead_name,
+		cust_no, emp_no, contact_day,
+		lead_status_cd, reason_cd, remark_cn)
+		values
+		(#{lead_no}, now(), now(), #{lead_name}, #{cust_no}, #{emp_no},
+		date_format(#{contact_day}, '%Y%m%d'), #{lead_status_cd},
+		#{reason_cd}, #{remark_cn} )
+
+
 	</insert>
-	
-   
+
+
+
 </mapper>

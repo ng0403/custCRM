@@ -14,17 +14,19 @@ import com.core.plus.task.vo.TaskVO;
 
 public interface LeadDao {
 	
-	List<LeadVO> lead_list(Map<String, Object> map); //가망고객 리스트 출력
- 
+	List<LeadVO> lead_list(Map<String, Object> map); //가망고객 리스트 출력 
+	int getLeadListRow(Map<String, Object> map);
+ 	
+	LeadVO lead_detail(String lead_no); // 가망 고객 상세정보 
+	LeadVO lead_detail(String lead_no, String cust_lead_no);
+
 	void lead_insert(LeadVO vo); //가망고객 추가
 	void lead_update(LeadVO vo); // 가망고객 수정
-	LeadVO lead_detail(String lead_no); // 가망 고객 상세정보
-	LeadVO lead_detail(String lead_no, String cust_lead_no);
 	void lead_delete(String lead_no); // 가망 고객 삭제
 	
+	LeadVO leadNoIndex();	
 	public List<LeadVO> leadSearch(Map<String, Object> leadMap); // 가망 고객 조건 검색
-	public List<LeadVO> leadStatusSearch(Map<String, Object> leadMap); // 가망 고객 조건 검색
-	
+ 	
 	//코드 관련
 	List<LeadVO> leadStatusCode(); 
 	List<LeadVO> leadOpptyCode();
@@ -47,12 +49,9 @@ public interface LeadDao {
 	List<EmpVO> empPopupList();
 	List<EmpVO> empPopupList(Map<String, Object> map);
 	
-	int getLeadListRow(Map<String, Object> map);
-	int getLeadStatusListRow(Map<String, Object> map);
 	// 엑셀 출력
-	List<LeadVO> leadExcelExport(Map<String, Object> leadMap);
-	
+	List<LeadVO> leadExcelExport(Map<String, Object> leadMap); 
 	int leadUploadExcel(MultipartFile excelFile);
 	
-	LeadVO leadNoIndex();	
+
 }
