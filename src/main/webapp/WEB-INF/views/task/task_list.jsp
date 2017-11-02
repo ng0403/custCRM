@@ -24,6 +24,7 @@
 <input type="hidden" id="session" value="${session}">
 <input type="hidden" id="url" value="${url}">
 <input type="hidden" id="page_type" value="${pageType}">
+<input type="hidden" id="task_code" value="${task_code}">
   
 <!-- task : task조회 -->
 <div id="cupnManager">
@@ -136,7 +137,7 @@
 		 	 		<tr>
 		 	 			<td style="text-align: left;" >${list.task_no}</td>
 		 	 			<td style="text-align: left;" >
-		 	 				<a href="#" onclick="taskDetail('${list.task_no}', '${taskPageNum}');" id="${list.task_no}">${list.subject}</a>
+		 	 				<a href="#" onclick="taskDetail('${list.task_no}', '${taskPageNum}','${lead_no}','${cust_no}');" id="${list.task_no}">${list.subject}</a>
 		 	 			</td>
 		 	 			<td style="text-align: left;" >${list.cust_no}</td>
 		 	 			<td style="text-align: left;" >${list.cust_name}</td>

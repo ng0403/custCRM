@@ -53,12 +53,15 @@ public class TaskController {
 	@Autowired
 	private HttpSession session;
 	
-	// List
+	/**
+	 * 상담 리스트(시작)
+	 * 
+	 * task_code : 내 담당 리스트 코드
+	 * */
 	@RequestMapping(value="/task")
 	public ModelAndView TaskList(HttpSession session,
 									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
 									String excel, String cust_task_no, String task_code, String lead_no, String lead_code) {
-		System.out.println("taskcode: " + task_code);
 		
 		//session 값 체크 후 null값이면 로그인 페이지 이동
 		if (session.getAttribute("user") == null) {
@@ -66,6 +69,13 @@ public class TaskController {
 		}
 				
  		Map<String, Object> taskMap = new HashMap<String, Object>();
+ 		String user_id = null;
+ 		
+ 		if(task_code != null) {
+			user_id = session.getAttribute("user").toString();
+			taskMap.put("user_id", user_id);
+		}
+ 		
 		taskMap.put("taskPageNum", taskPageNum);
 		taskMap.put("cust_no", cust_task_no);
 		
@@ -91,49 +101,43 @@ public class TaskController {
 		mov.addObject("cust_task_no", cust_task_no);
 		mov.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
 		
-		if (task_code == "000" || task_code != null) {
-			System.out.println("taskcode: " + task_code);
-
-			mov.addObject("main_menu_url", "task");
-			mov.addObject("sub_menu_url", "mytask");
-			menuControlleri.menuImport(mov, "mytask");
-			mov.addObject("pageType", "1");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
-		}
 		
 		if(cust_task_no == null)
 		{
-			mov.addObject("main_menu_url", "task");
-			mov.addObject("sub_menu_url", "task");
-			menuControlleri.menuImport(mov, "task");
-		}
-		if(cust_task_no != null)
-		{
 		 //준석 추가.	
-		  if(lead_no==null){	
-			  System.out.println("lead=null");
-			if(cust_task_no.equals("undefined") || cust_task_no.equals(" "))
-			{
-				mov.addObject("main_menu_url", "task");
-				mov.addObject("sub_menu_url", "task");
-				menuControlleri.menuImport(mov, "task");
-			}
-			else if(cust_task_no.equals(null))
-			{
-				mov.addObject("main_menu_url", "task");
-				mov.addObject("sub_menu_url", "task");
-				menuControlleri.menuImport(mov, "task");
-			}
+			if(lead_no==null){	
+			  
+//				 if(cust_task_no.equals("undefined") || cust_task_no.equals(" ") || cust_task_no == null )
+//				 {		
+						if(task_code == null)
+						{
+							mov.addObject("main_menu_url", "task");
+							mov.addObject("sub_menu_url", "task");
+							menuControlleri.menuImport(mov, "task");
+						} 
+						else 
+						{
+							mov.addObject("session", user_id);
+							mov.addObject("pageType", "1");
+							mov.addObject("task_code", task_code);
+							mov.addObject("main_menu_url", "task");
+							mov.addObject("sub_menu_url", "task?task_code=000");
+							
+							menuControlleri.menuImport(mov, "task?task_code=000");
+						}
+				 }
+//				else
+//				{
+//					mov.addObject("cust_task_no", cust_task_no);
+//					mov.addObject("main_menu_url", "cust");
+//					mov.addObject("sub_menu_url", "cust");
+//					menuControlleri.menuImport(mov, "cust");
+//				}
+//			} 
 			else
-			{
-				mov.addObject("cust_task_no", cust_task_no);
-				mov.addObject("main_menu_url", "cust");
-				mov.addObject("sub_menu_url", "cust");
-				menuControlleri.menuImport(mov, "cust");
-			}
-		  } 
-		  else{ 
-			  if(lead_code.isEmpty())
-				{
+			{ 
+			    if(lead_code.isEmpty())
+			    {
 					System.out.println("lead detail : empty" + lead_code);
 					mov.addObject("main_menu_url", "lead"); 
 					mov.addObject("sub_menu_url", "lead");
@@ -141,71 +145,26 @@ public class TaskController {
 					mov.addObject("lead_code", lead_code);
 					mov.addObject("flg", "0");
 					menuControlleri.menuImport(mov, "lead");
-				}else{
-			    System.out.println("lead detail : not empty" + lead_code);
-			    mov.addObject("main_menu_url", "lead"); 
-				mov.addObject("sub_menu_url", "lead?lead_code="+lead_code);
-				mov.addObject("flg", "0");
-				mov.addObject("lead_no", lead_no);
-				mov.addObject("lead_code", lead_code);
-				menuControlleri.menuImport(mov, "lead?lead_code="+lead_code);
+			    }
+			  	else
+			  	{
+				    System.out.println("lead detail : not empty" + lead_code);
+				    mov.addObject("main_menu_url", "lead"); 
+					mov.addObject("sub_menu_url", "lead?lead_code="+lead_code);
+					mov.addObject("flg", "0");
+					mov.addObject("lead_no", lead_no);
+					mov.addObject("lead_code", lead_code);
+					menuControlleri.menuImport(mov, "lead?lead_code="+lead_code);
 				}  
-		  }
-		  
+			}
 		}
-		
 		return mov;
 	}
-	
-	// My List
-//	@RequestMapping(value="/mytask")
-//	public ModelAndView MyTaskList(HttpSession session,
-//									@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-//									 				HttpServletRequest request, String excel ) {
-//		
-//		//session 값 체크 후 null값이면 로그인 페이지 이동
-//		if (session.getAttribute("user") == null) {
-//			return new ModelAndView("redirect:/");
-//		}
-//		String my_user_id = session.getAttribute("user").toString(); 
-//		
-//		//url 가져오기
-//		String Url = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE); 
-//		
-//		Map<String, Object> taskMap = new HashMap<String, Object>();
-//		taskMap.put("taskPageNum", taskPageNum);
-//		taskMap.put("my_user_id", my_user_id);
-//		
-//		// paging
-//		PagerVO page = taskService.getTaskListRow(taskMap);
-//		taskMap.put("page", page);
-//		
-//		List<TaskVO> taskList = taskService.taskList(taskMap);		// 전체 리스트
-//		List<TaskVO> dtypeCd  = taskService.taskDtypeCD();			// 분류코드
-//		List<TaskVO> scoreCd  = taskService.taskScoreCD();			// 상대가치점수
-//		List<TaskVO> ttypeCd = taskService.taskTtypeCD();			// 상담유형
-//		List<TaskVO> divisCd = taskService.taskDivisCD();			// 상담구분
-//		
-//		ModelAndView mov = new ModelAndView("task_list");
-//		
-//		mov.addObject("page", page);
-//		mov.addObject("taskPageNum", taskPageNum);
-//		mov.addObject("taskList", taskList);
-//		mov.addObject("dtypeCd", dtypeCd);
-//		mov.addObject("scoreCd", scoreCd);
-//		mov.addObject("ttypeCd", ttypeCd);
-//		mov.addObject("divisCd", divisCd);
-//		mov.addObject("main_menu_url", "task");
-//		mov.addObject("sub_menu_url", "mytask");
-//		mov.addObject("url", Url);
-//		mov.addObject("session", my_user_id);
-//		menuControlleri.menuImport(mov, "mytask");
-//		mov.addObject("pageType", "1");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
-//		
-//		return mov;
-//	}
 		
-	// 리스트 Ajax(조회, 페이징)
+	/**
+	 * 상담 Ajax
+	 * 검색, 페이징했을 시
+	 * */
 	@RequestMapping(value="/task_sch", method=RequestMethod.POST)
 	@ResponseBody
 	public  ModelAndView taskSchList(
@@ -244,10 +203,12 @@ public class TaskController {
 		return mov;
 	}
 	
-	// 상세보기 및 단건등록화면
+	/**
+	 * 상세보기 및 단건등록화면
+	 * */
 	@RequestMapping(value="task_detail")
 	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
-									HttpServletRequest request,  String page_type ,
+									HttpServletRequest request,  String page_type , String task_code,
 									String task_no, String flg, String lead_no, String cust_no, String PageNum, String cust_task_no, String lead_code) 
 	{	
 		 
@@ -281,6 +242,14 @@ public class TaskController {
 				mov.addObject("flg", "1");
 				menuControlleri.menuImport(mov, "task");
 				
+			}
+			else if (task_code != null) {
+				mov.addObject("pageType", "1");
+				mov.addObject("task_code", task_code);
+				mov.addObject("main_menu_url", "task");
+				mov.addObject("sub_menu_url", "task?task_code=000");
+				
+				menuControlleri.menuImport(mov, "task?task_code=000");
 			}
 			else if (lead_no != null)
 			{

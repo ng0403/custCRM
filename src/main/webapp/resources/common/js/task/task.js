@@ -167,15 +167,20 @@ function task_add(){
 	var lead_no = $("#lead_no").val();
 	var cust_no = $("#cust_no").val();
 	
-	if(cust_task_no != null)
-	{
-		location.href="/task_detail?task_no=" +"&cust_task_no=" + cust_task_no;
-	}
-	if(lead_no != null)
-	{
-		location.href="/task_detail?lead_no=" + lead_no + "&cust_no=" + cust_no +"&cust_task_no=1";
-	}
+	//if (task_code == null) {
+		location.href="/task_detail";
+	//}
 	
+//	if(cust_task_no != null)
+//	{
+//		location.href="/task_detail?task_no=" +"&cust_task_no=" + cust_task_no;
+//	}
+//	if(lead_no != null)
+//	{	
+//		
+//		location.href="/task_detail?lead_no=" + lead_no + "&cust_no=" + cust_no +"&cust_task_no=1";
+//	}
+//	
 }
 
 //상담 상세정보
@@ -195,21 +200,21 @@ function taskDetail(a, PageNum, lead_no, cust_no) {
   	}
 	if(cust_task_no != null && cust_task_no != '' )
 	{
-	  if(lead_code !=null && lead_code !=""){
-		  location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type + "&lead_code=" + lead_code + "&lead_no=" + lead_no; 
-	  }else{
-		  location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type;	  
-	  } 
+		  if(lead_code !=null && lead_code !=""){
+			  location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type + "&lead_code=" + lead_code + "&lead_no=" + lead_no; 
+		  }else{
+			  location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&cust_task_no=" + cust_task_no + "&page_type=" + page_type;	  
+		  } 
 	}
 	/*
 	else if (lead_no != null && lead_no != '' )
 	{
 		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&lead_no=" + lead_no + "&cust_no=" + cust_no + "&page_type=" + page_type; 
-	}
+	}*/
 	else
 	{
 		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&page_type=" + page_type; 
-	}*/
+	}
 }
 
 //고객 상담 이력 돌아가기.
