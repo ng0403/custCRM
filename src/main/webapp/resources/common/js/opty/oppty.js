@@ -77,7 +77,15 @@ function opptyDetail(oppty_no, opptyPageNum)
  * */
 function opptySingleAddForm()
 {
-	location.href = ctx + "/oppty_detail";
+	var oppty_code = $("#oppty_code").val();
+	
+	if(oppty_code != null)
+		location.href = ctx + "/oppty_detail?oppty_code=" + oppty_code;
+	else
+		location.href = ctx + "/oppty_detail";
+		
+		
+	
 }
 
 //Popup 닫기

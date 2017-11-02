@@ -54,7 +54,7 @@ var vititDtlCdList = new Array();
 <%-- 			<input type="hidden" name="brand_wid" value="${cupnListMap.brand_wid}"> --%>
 		</form>
 	    <form name="custListForm" id="custListForm" method="post" action="${ctx}/couponManager" >
-<%-- 		 	<c:if test="${ pageType == 0 }"> --%>
+		 	<c:if test="${ pageType == 0 }">
 		 	<div id="searchDiv">
 	        	<table id="cupnSearchTable" class="commonTable">
 					<tr style="background-color: white; cursor:default; border:0;">
@@ -108,7 +108,7 @@ var vititDtlCdList = new Array();
 					</tr>
 				</table>
 			</div>
-<%-- 			</c:if>	 --%>
+			</c:if>	
 		</form>
 		
 		<!-- 엑셀 출력 -->

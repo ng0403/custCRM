@@ -218,9 +218,6 @@ public class OpptyController {
 		kMap.put("oppty_status_cd", hoppty_status_cd);
 		kMap.put("user_id", session);
 		
-		System.out.println("oppty_code : " + oppty_code);
-		System.out.println("user_id(session) : " + session);
-		
 		// paging
 		PagerVO page = opptyService.getOpptyListRow(kMap);
 		kMap.put("page", page);
@@ -239,7 +236,7 @@ public class OpptyController {
 	 * */
 	@RequestMapping(value="oppty_detail")
 	public ModelAndView opptyDetail(@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, 
-									String oppty_no, String hoppty_status_cd, String cust_opty_no, String page_type)
+									String oppty_no, String hoppty_status_cd, String cust_opty_no, String page_type, String oppty_code)
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("oppty_no", oppty_no);
@@ -251,19 +248,30 @@ public class OpptyController {
 		List<OpptyVO> payment = opptyService.opptyPaymentCD();
 		List<OpptyVO> recper = opptyService.opptyRecPerCD();
 		
-		System.out.println("page_type : " + page_type);
-		
 		ModelAndView mov = new ModelAndView("oppty_detail");
 		
 		if(oppty_no == null || oppty_no == "")	// 단건등록 시
 		{
 			OpptyVO opptyNo = opptyService.opptyNoIndex();
 			
+			if(oppty_code.equals("000"))
+			{
+				mov.addObject("add_form", "1");
+				mov.addObject("main_menu_url", "oppty");
+				mov.addObject("sub_menu_url", "oppty?oppty_code=000");
+				
+				menuControlleri.menuImport(mov, "oppty?oppty_code=000");
+			}
+			else
+			{
+				mov.addObject("add_form", "0");
+				mov.addObject("main_menu_url", "oppty");
+				
+				menuControlleri.menuImport(mov, "oppty");
+			}
 			mov.addObject("opptyNoIndex", opptyNo);
 			mov.addObject("opptyPageNum", opptyPageNum);
-			mov.addObject("main_menu_url", "oppty");
 			
-			menuControlleri.menuImport(mov, "oppty");
 		}
 		else	// 상세보기	OpptyItem도 조회해야함.
 		{
@@ -316,8 +324,6 @@ public class OpptyController {
 			// 네비를 지정해주는 부분 (뺄 수 있으면 메소드 생성 후 따로 관리할 예정)
 			if(cust_opty_no != null && cust_opty_no == " ")
 			{
-				System.out.println("A");
-				
 				mov.addObject("cust_opty_no", cust_opty_no);
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
@@ -326,8 +332,6 @@ public class OpptyController {
 			}
 			else if(cust_opty_no != null)
 			{
-				System.out.println("A");
-				
 				mov.addObject("cust_opty_no", cust_opty_no);
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
@@ -338,8 +342,6 @@ public class OpptyController {
 			{
 				if(!page_type.equals("1"))
 				{
-					System.out.println("B");
-					
 					mov.addObject("main_menu_url", "oppty");
 					mov.addObject("sub_menu_url", "oppty");
 					
@@ -347,8 +349,6 @@ public class OpptyController {
 				}
 				else
 				{
-					System.out.println("C");
-					
 					mov.addObject("main_menu_url", "oppty");
 					mov.addObject("sub_menu_url", "oppty?oppty_code=000");
 					
@@ -376,11 +376,7 @@ public class OpptyController {
 	public @ResponseBody int opptySingleInsert(OpptyVO opptyVo, HttpSession session, HttpServletRequest request)
 	{
 		int result = 0;
-		System.out.println("insert : " + opptyVo);
-		
 		result = opptyService.opptyInsert(opptyVo);
-		
-		System.out.println("insert : " + result);
 		
 		return 0;
 	}
@@ -401,7 +397,6 @@ public class OpptyController {
 		if(result == 1)
 		{
 			CustVO optyItemAmount = custService.optyItemAmount(map);
-			System.out.println(optyItemAmount);
 			map.put("optyItemAmount", optyItemAmount);
 			
 			if(optyItemAmount != null)
@@ -436,10 +431,6 @@ public class OpptyController {
 	@RequestMapping(value="opptyItemInsert", method=RequestMethod.POST)
 	public @ResponseBody List<OpptyItemVO> opptItemInsert(@RequestParam(value="opptyItemList[]", required=false) List<String> opptyItemList, String oppty_no, OpptyVO opptyVo)
 	{
-		System.out.println("Item Insert : " + opptyItemList);
-		System.out.println("Item Insert : " + oppty_no);
-		System.out.println("opptyVo : " + opptyVo);
-		
 		List<OpptyItemVO> itemList = new ArrayList<OpptyItemVO>();
 		List<OpptyItemVO> ditemList = opptyService.opptyItemList(oppty_no);		// 매출상품 조회
 		

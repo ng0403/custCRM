@@ -191,15 +191,12 @@ function custEnterSearch(event) {
  * */
 function custList(custPageNum)
 {
-	var page_type = $("#page_type").val();
+	var page_type = $("#tmp").val();
+	
 	if(page_type == 0)
-	{
 		location.href = ctx + '/cust?custPageNum=' + custPageNum;
-	}
 	else if(page_type == 1)
-	{
-		location.href = ctx + '/my_cust?custPageNum=' + custPageNum;
-	}
+		location.href = ctx + '/cust?cust_code=000&custPageNum=' + custPageNum;
 }
 
 /**
@@ -344,7 +341,7 @@ function searchKeyword(pageNum)
 }
 
 /**
- * 페이징 언터키
+ * 페이징 엔터키
  * */
 function custPageNumInputEnter(event) {
 	var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -374,7 +371,14 @@ function custPageNumInputEnter(event) {
  * */
 function cust_add()
 {
-	location.href="/custForm?cust_no=";
+	var cust_code = $("#cust_code").val();
+	
+	if(cust_code != null)
+		location.href="/custForm?cust_code="+cust_code;
+	else
+		location.href="/custForm";
+	
+	
 }
  
 /**

@@ -130,8 +130,6 @@ public class CustController {
 		Map<String, Object> result = new HashMap<String, Object>(0);
 		PagerVO page = null;
 		
-		System.out.println("ajax : " +tmpMap);
-		
 		if(tmpMap.get("cust_code").toString() == null || tmpMap.get("cust_code").toString().equals(""))
 		{
 			page = custService.getCustListRow(tmpMap);
@@ -160,10 +158,10 @@ public class CustController {
 	/**
 	 * 고객 단건등록 및 상세보기
 	 * */
-	@RequestMapping(value="/custForm")
-	public ModelAndView custForm(@RequestParam("cust_no") String cust_no, 
-			@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum, String page_type){
-		
+	@RequestMapping(value="/custForm", method={RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView custForm(/*@RequestParam("cust_no") String cust_no*/String cust_no, 
+			@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum, String page_type, String cust_code)
+	{
 		List<CommonCodeVO> vititCdList = commonCode.vititCdList();
 		List<CommonCodeVO> vititDtlCdList = commonCode.vititDtlCdList();
 		List<CommonCodeVO> custTypeCdList = commonCode.custTypeCdList();
@@ -179,8 +177,22 @@ public class CustController {
 		
 		if(cust_no == null || cust_no == "" )		// 단건등록
 		{
-			mav.addObject("flg", "1");
-			mav.addObject("custPageNum", custPageNum);
+			if(cust_code != null && cust_code != "")
+			{
+				mav.addObject("flg", "1");
+				mav.addObject("add_form", "1");
+				mav.addObject("custPageNum", custPageNum);
+				
+				menuSelect(mav, "1");
+			}
+			else
+			{
+				mav.addObject("flg", "1");
+				mav.addObject("add_form", "0");
+				mav.addObject("custPageNum", custPageNum);
+				
+				menuSelect(mav, "0");
+			}
 			
 		}
 		else if(cust_no != null || cust_no != "")	// 상세보기
@@ -488,8 +500,6 @@ public class CustController {
 	 * */
 	public void menuSelect(ModelAndView mav, String group)
 	{
-		System.out.println("menu : " + user_id);
-		
 		if(group.equals("0"))
 		{
 			mav.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)

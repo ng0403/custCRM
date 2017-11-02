@@ -71,7 +71,7 @@
 <%-- 			<input type="hidden" name="active_flg_srch" value="${cupnListMap.active_flg_srch}"> --%>
 <%-- 			<input type="hidden" name="brand_wid" value="${cupnListMap.brand_wid}"> --%>
 		</form>
-		<c:if test="${ cust_opty_no == null }">
+		<c:if test="${ cust_opty_no == null && oppty_code == null}">
 		    <form name="opptyListForm" id="opptyListForm" method="post" action="${ctx}/couponManager" >
 			 	<div id="searchDiv">
 		        	<table id="cupnSearchTable" class="commonTable">

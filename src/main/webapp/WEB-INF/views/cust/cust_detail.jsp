@@ -38,6 +38,7 @@ $(document).ready(function(){
 <input type="hidden" id="flg" value="${flg}">
 <input type="hidden" id="cust_no" value="${custDlist.cust_no}">
 <input type="hidden" id="page_type" value="${page_type}">
+<input type="hidden" id="tmp" value="${add_form}">
 
 <!-- 고객 -->
 <div id="cust_detail">
@@ -52,11 +53,21 @@ $(document).ready(function(){
 	</c:if>
 	
 	<c:if test="${flg == 1 }">
- 		<div class="titleDIV">
-		<span class="titleText">
-		    ■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 고객관리</a> > <span id="cust_form_title">고객 추가</span>
-		</span>
-	</div>   
+		<c:if test="${add_form == 0 }">
+	 		<div class="titleDIV">
+				<span class="titleText">
+				    ■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 고객관리</a> > <span id="cust_form_title">고객 단건등록</span>
+				</span>
+			</div>   
+		</c:if>
+		<c:if test="${add_form == 1 }">
+	 		<div class="titleDIV">
+				<span class="titleText">
+				    ■  고객 > <a style="cursor: pointer;" onclick="custList('1');"> 내 담당 고객관리</a> > <span id="cust_form_title">고객 단건등록</span>
+				</span>
+			</div>   
+		</c:if>
+		
 	</c:if>
 	
 	<c:if test="${flg == 2}">
@@ -149,12 +160,7 @@ $(document).ready(function(){
 							style="margin-left: 0; width: 70%; text-align: center; font-size: 10.5px; padding: 0.3em 0.3em;">
 						<option value="">선택해 주십시오</option>
 						<c:forEach var="custRankCdList" items="${ custRankCdList }">
-<%-- 							<c:if test= "${ custRankCdList.code eq custDlist.cust_rank }"> --%>
-<%-- 								<option value="${ custRankCdList.code }" selected="selected">${ custRankCdList.code_name }</option> --%>
-<%-- 							</c:if> --%>
-<%-- 							<c:if test= "${ custRankCdList.code ne custDlist.cust_rank }"> --%>
 								<option value="${ custRankCdList.code }">${ custRankCdList.code_name }</option>
-<%-- 							</c:if> --%>
 						</c:forEach>
 					</select>
 				</c:if>
@@ -284,9 +290,9 @@ $(document).ready(function(){
 		</tr>
 		<tr>
 			<th style="text-align:right;">이메일</th>
-			<td>
+			<td colspan="3">
 				<c:if test="${ flg == 2 }">
-					<input type="text" id="email_id" name="email_id" value="${custDlist.email_id}" readonly="readonly">@
+					<input type="text" id="email_id" name="email_id" value="${custDlist.email_id}" readonly="readonly" size="10">@
 					<input type="text" id="email_dm" name="email_dm" value="${custDlist.email_dm}" readonly="readonly">
 				</c:if>
 				<c:if test="${ flg == 1 }">
