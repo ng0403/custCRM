@@ -209,12 +209,12 @@ function task_add(){
 //상담 상세정보
 function taskDetail(a, PageNum, lead_no, cust_no) {
  	var no = a;
+ 	var task_code = $("#task_code").val();
+ 	var page_type = $("#page_type").val();
 	var cust_task_no = $("#cust_task_no").val();
-  	var page_type = $("#page_type").val();
-  	
   	var lead_no = $("#lead_no").val();
   	var lead_code = $("#lead_code").val();
- 
+  	 
   	if (cust_task_no == 'undefined') {
   		cust_task_no = null;
   	}
@@ -236,7 +236,7 @@ function taskDetail(a, PageNum, lead_no, cust_no) {
 	}
 	else
 	{
-		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&page_type=" + page_type; 
+		location.href="/task_detail?task_no=" + no +"&PageNum=" + PageNum + "&page_type=" + page_type + "&task_code=" + task_code; 
 	}
 }
 

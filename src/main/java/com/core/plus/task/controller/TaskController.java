@@ -225,9 +225,9 @@ public class TaskController {
 				mov.addObject("sub_menu_url", "task");
 				mov.addObject("flg", "1");
 				menuControlleri.menuImport(mov, "task");
+				
 			} else if (page_type.equals("1")) {
 				//상담 내상담관리
-				System.out.println("여기");
 				mov.addObject("task_code", task_code);
 				mov.addObject("flg", "1");
 				mov.addObject("main_menu_url", "task");
@@ -249,10 +249,10 @@ public class TaskController {
 					mov.addObject("task_code", task_code);
 					mov.addObject("main_menu_url", "task");
 					mov.addObject("sub_menu_url", "task?task_code=000");
-					
 					menuControlleri.menuImport(mov, "task?task_code=000");
+					
 				} else if (lead_no != null) {
-					System.out.println("lead_no 단건 등록");
+					
 					mov.addObject("main_menu_url", "lead");
 					mov.addObject("sub_menu_url", "lead?lead_code=" + lead_code);
 					mov.addObject("lead_no", lead_no);
@@ -260,7 +260,6 @@ public class TaskController {
 					mov.addObject("flg", "2");
 					mov.addObject("PageNum", PageNum);
 					menuControlleri.menuImport(mov, "lead?lead_code=" + lead_code);
-					
 				}
 				
 				if (cust_task_no.equals("undefined")) {
@@ -276,10 +275,7 @@ public class TaskController {
 					mov.addObject("PageNum", PageNum);
 					menuControlleri.menuImport(mov, "cust");
 				}
-				
 			}
-			
-			
 			mov.addObject("flg", "1");
 			mov.addObject("taskNoIndex", taskNoIndex);
 			mov.addObject("dtypeCd", dtypeCd);
@@ -311,6 +307,7 @@ public class TaskController {
 				menuControlleri.menuImport(mov, "task");
 			} else if(page_type.equals("1")) {
 				//상담 내상담관리
+				System.out.println("task_code: " + task_code);
 				mov.addObject("task_code", task_code);
 				mov.addObject("main_menu_url", "task");
 				mov.addObject("flg", "2");

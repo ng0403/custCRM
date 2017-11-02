@@ -57,7 +57,7 @@
 					</span>
 				</div>
 			</c:if>
-			<c:if test="${ task_code == '000' }">
+			<c:if test="${ task_code == '000'  }">
 				<div class="titleDIV">
 					<span class="titleText"> ■ 상담 >
 					 	<a style="cursor: pointer;" onclick="mytaskList();"> 내 담당 상담 관리</a> > <span id="task_form_title">상담 상세정보</span>
