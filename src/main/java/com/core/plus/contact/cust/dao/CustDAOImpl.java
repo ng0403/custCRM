@@ -63,8 +63,6 @@ public class CustDAOImpl implements CustDAO{
 		
 		String phone = (String) custMap.get("phone_no");
 		
-		System.out.println("DAO : " + phone);
-		
 		try {
 			totalCount = sqlSession.selectOne("cust.custListTotalRow", custMap);
 			
@@ -111,7 +109,6 @@ public class CustDAOImpl implements CustDAO{
 			String remark_cn = null;
 			
 			int rows = sheet.getPhysicalNumberOfRows();
-			System.out.println("rows : " + rows);
 			
 			for(int i=1; i<rows; i++)
 			{

@@ -66,15 +66,37 @@ function custAddrAllChk()
 	}
 }
 
+//컴마 입력 함수
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+//컴마 해제 함수
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
 /**
  * 취소 버튼
  * */ 
 function cust_cancel(custPageNum)
 {
+	var page_type = $("#page_type").val();
+	
 	if(confirm("취소하시겠습니까?"))
 	{
-		alert("고객 리스트 화면으로 이동합니다.");
-		location.href="/cust?custPageNum=" + custPageNum;
+		if(page_type == 0)
+		{
+			alert("고객 리스트로 이동합니다.");
+			location.href="/cust?custPageNum=" + custPageNum;
+		}
+		else
+		{
+			alert("내 담당 고객 리스트로 이동합니다.");
+			location.href="/cust?cust_code=000&custPageNum=" + custPageNum;
+		}
 	}
 	else
 		return false;
@@ -102,68 +124,6 @@ function wordch(thisword)
 	     }
 	  }
 	return flag;
-}
-
-/**
- * 고객 담당자 팝업창
- * */
-function custEmpSchPopupOpen()
-{
-	// 팝업창 표시
-	$.blockUI({ message: $('#empListModalDiv'),
-    	css: { 
-    	'left': '65%',
-    	'top': '50%',
-    	'margin-left': '-400px',
-    	'margin-top': '-250px',
-    	'width': '400px',
-    	'height': '500px',
-    	'cursor': 'default'
-    	}
-		,onOverlayClick : $.unblockUI
-	});
-	
-	$("#pageNum").val("1");
-	
-	// list 불러오는 함수.
-	viewEmpList(1);
-}
-
-//Popup 닫기
-function popupClose()
-{
-	$.unblockUI();
-}
-
-/**
- * 청구/수금 팝업창
- * */
-function cust_sales_btn(cust_no)
-{
-	$.blockUI({ message: $('#amountModalDiv'),
-    	css: { 
-    	'left': '65%',
-    	'top': '50%',
-    	'margin-left': '-900px',
-    	'margin-top': '-350px',
-    	'width': '1300px',
-    	'height': '650px',
-    	'cursor': 'default'
-    	}
-		,onOverlayClick : $.unblockUI
-	});
-	
-	opptyItemList(1)
-}
-/**
- * 팝업창 닫기
- * */
-function paymentPopupClose()
-{
-	$("#payment").val("");
-	$("#pay_opty_name").val("");
-	$("#claim").val("");
-	$.unblockUI();
 }
 
 /**
@@ -240,41 +200,6 @@ function custList(custPageNum)
 	{
 		location.href = ctx + '/my_cust?custPageNum=' + custPageNum;
 	}
-}
-
-/**
- * 고객 삭제
- * */
-function custDelete()
-{
-	$(document).ready(function() {
-		var ynChk = confirm("해당 고객을 삭제하시겠습니까?");
-		if(ynChk)
-		{
-			$.ajax({
-				type : 'POST',
-				url : ctx + '/cust_delete',
-				data : {
-					cust_no 		: $("#cust_no").val()
-				},
-				dataType : "json",
-				success : function(data) {
-					alert("고객이 삭제되었습니다.");
-					alert("고객 리스트로 이동합니다.");
-						
-					location.href = ctx + '/cust';
-				},
-				error : function(request,status,error) {
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-				}
-			});
-		}
-		else
-		{
-			alert("취소되었습니다.");
-		}
-	});
-	 
 }
 
 /**
@@ -459,6 +384,8 @@ function cust_add()
    var no = a;
    var page_type = $("#page_type").val();
    
+   console.log(page_type);
+   
    if(page_type == 0)
 	   location.href=ctx + "/custForm?cust_no=" + no + "&custPageNum=" + custPageNum + "&page_type=" + page_type;
    else if(page_type == 1)
@@ -625,6 +552,41 @@ function cust_modify_save()
 		}
 	});
  }
+
+/**
+ * 고객 삭제
+ * */
+function custDelete()
+{
+	$(document).ready(function() {
+		var ynChk = confirm("해당 고객을 삭제하시겠습니까?");
+		if(ynChk)
+		{
+			$.ajax({
+				type : 'POST',
+				url : ctx + '/cust_delete',
+				data : {
+					cust_no 		: $("#cust_no").val()
+				},
+				dataType : "json",
+				success : function(data) {
+					alert("고객이 삭제되었습니다.");
+					alert("고객 리스트로 이동합니다.");
+						
+					location.href = ctx + '/cust';
+				},
+				error : function(request,status,error) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});
+		}
+		else
+		{
+			alert("취소되었습니다.");
+		}
+	});
+	 
+}
  
 /**
  * 전화번호 동적테이블 생성
@@ -1229,7 +1191,7 @@ function opptyItemList(optyAmountPageNum)
 			if (data.optyItemAmount.length == 0) {
 				var trElement = $("#amountTableHeader").clone().removeClass().empty();
 				$("#amountTbody").append(trElement);
-				$("#amountTbody tr:last").append("<td colspan='5' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>검색 결과가 없습니다</td>");
+				$("#amountTbody tr:last").append("<td colspan='5' style='width:100%; height: 260px; cursor: default; background-color: white;' align='center'>청구 내역이 없습니다</td>");
 			} else {
 				$.each(data.optyItemAmount, function(i) {
 					var trElement = $("#amountTableHeader").clone().removeClass().empty();
@@ -1406,14 +1368,79 @@ function paymentListContent(trElement, oppty_no, oppty_name, claim, total_price,
 			+ "</td>" + "<td width='20%'>" + comma(outstanding_amount) + "</td>" + "<td width='10%'>" + payment_flg + "</td>");
 }
 
-//컴마 입력 함수
-function comma(str) {
-    str = String(str);
-    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+/**
+ * 고객 담당자 팝업창
+ * */
+function custEmpSchPopupOpen()
+{
+	// 팝업창 표시
+	$.blockUI({ message: $('#empListModalDiv'),
+    	css: { 
+    	'left': '65%',
+    	'top': '50%',
+    	'margin-left': '-400px',
+    	'margin-top': '-250px',
+    	'width': '400px',
+    	'height': '500px',
+    	'cursor': 'default'
+    	}
+		,onOverlayClick : $.unblockUI
+	});
+	
+	$("#pageNum").val("1");
+	
+	// list 불러오는 함수.
+	viewEmpList(1);
 }
 
-//컴마 해제 함수
-function uncomma(str) {
-    str = String(str);
-    return str.replace(/[^\d]+/g, '');
+//Popup 닫기
+function popupClose()
+{
+	$.unblockUI();
 }
+
+/**
+ * 청구/수금 팝업창
+ * */
+function cust_sales_btn(cust_no)
+{
+	$.blockUI({ message: $('#amountModalDiv'),
+    	css: { 
+    	'left': '65%',
+    	'top': '50%',
+    	'margin-left': '-900px',
+    	'margin-top': '-350px',
+    	'width': '1300px',
+    	'height': '650px',
+    	'cursor': 'default'
+    	}
+		,onOverlayClick : $.unblockUI
+	});
+	
+	opptyItemList(1)
+}
+/**
+ * 팝업창 닫기
+ * */
+function paymentPopupClose()
+{
+	$("#payment").val("");
+	$("#pay_opty_name").val("");
+	$("#claim").val("");
+	$.unblockUI();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

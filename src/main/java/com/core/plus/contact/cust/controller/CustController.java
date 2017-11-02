@@ -64,6 +64,8 @@ public class CustController {
 	@Autowired
 	private HttpSession session;
 	
+	String user_id;
+	
 	/**
 	 * 고객 전체 리스트
 	 * */
@@ -76,8 +78,10 @@ public class CustController {
 		}
 				
 		Map<String, Object> custMap = new HashMap<String, Object>();
+		ModelAndView mav = new ModelAndView();
+
 		PagerVO page = null;
-		String user_id = null;
+		String page_type = null;
 
 		custMap.put("custPageNum", custPageNum);
 				
@@ -86,18 +90,22 @@ public class CustController {
 			user_id = session.getAttribute("user").toString();
 			custMap.put("user_id", user_id);
 			page = custService.getCustListRow(custMap);
+			page_type = "1";
+			
+			mav.addObject("cust_code", cust_code);
 		}
 		else
+		{
 			page = custService.getCustListRow(custMap);
-
+			page_type = "0";
+		}
+		
 		custMap.put("page", page);
 		
 		List<CustVO> custList = custService.custList(custMap);
 
 		List<CommonCodeVO> vititCdList = commonCode.vititCdList();
 		List<CommonCodeVO> vititDtlCdList = commonCode.vititDtlCdList();
-		
-		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("cust_list");
 		mav.addObject("page", page);
@@ -106,25 +114,9 @@ public class CustController {
 		mav.addObject("vititCdList", vititCdList);
 		mav.addObject("vititDtlCdList", vititDtlCdList);
 		mav.addObject("vititDtlCdList", vititDtlCdList);
-		mav.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
+		mav.addObject("pageType", page_type);
 		
-		if(cust_code == null)
-		{
-			// 메뉴
-			mav.addObject("main_menu_url", "cust");
-			mav.addObject("sub_menu_url", "cust");
-			
-			menuControlleri.menuImport(mav, "cust");
-		}
-		else	// 내 담당 페이지
-		{
-			mav.addObject("session", user_id);
-			mav.addObject("cust_code", cust_code);
-			mav.addObject("main_menu_url", "cust");
-			mav.addObject("sub_menu_url", "cust?cust_code=000");
-			
-			menuControlleri.menuImport(mav, "cust?cust_code=000");
-		}
+		menuSelect(mav, page_type);
 		
 		return mav; 
 	}
@@ -138,6 +130,8 @@ public class CustController {
 		Map<String, Object> result = new HashMap<String, Object>(0);
 		PagerVO page = null;
 		
+		System.out.println("ajax : " +tmpMap);
+		
 		if(tmpMap.get("cust_code").toString() == null || tmpMap.get("cust_code").toString().equals(""))
 		{
 			page = custService.getCustListRow(tmpMap);
@@ -148,10 +142,6 @@ public class CustController {
 			page = custService.getCustListRow(tmpMap);
 		}
 		
-		System.out.println("page" + page);
-		System.out.println("tmpMap" + tmpMap);
-		System.out.println("user_id : " + tmpMap.get("session").toString());
-
 		tmpMap.put("page", page);
 		
 		List<CustVO> custList = custService.custList(tmpMap); 
@@ -167,7 +157,9 @@ public class CustController {
 		return result;
 	}
 	
-	
+	/**
+	 * 고객 단건등록 및 상세보기
+	 * */
 	@RequestMapping(value="/custForm")
 	public ModelAndView custForm(@RequestParam("cust_no") String cust_no, 
 			@RequestParam(value = "custPageNum", defaultValue = "1") int custPageNum, String page_type){
@@ -185,20 +177,21 @@ public class CustController {
 		
 		mav.setViewName("cust_detail");
 		
-		if(cust_no == null || cust_no == "" ){	// 단건등록
-			
+		if(cust_no == null || cust_no == "" )		// 단건등록
+		{
 			mav.addObject("flg", "1");
 			mav.addObject("custPageNum", custPageNum);
 			
 		}
-		else if(cust_no != null || cust_no != ""){	// 상세보기
-			
+		else if(cust_no != null || cust_no != "")	// 상세보기
+		{
 			CustVO custDlist = custService.custDetailList(cust_no);
 			List<CustVO> custPList = custPhoneService.custPhoneDetailList(cust_no);
 			List<CustVO> custAList = custAddrService.custAddrDetailList(cust_no);
 			
-			mav.addObject("flg", "2");
+			menuSelect(mav, page_type);
 			
+			mav.addObject("flg", "2");
 			mav.addObject("custDlist", custDlist);
 			mav.addObject("custPList", custPList);
 			mav.addObject("custAList", custAList);
@@ -214,15 +207,13 @@ public class CustController {
 		mav.addObject("addrTypeCdList", addrTypeCdList);
 		mav.addObject("custPageNum", custPageNum);
 		mav.addObject("page_type", page_type);
-		mav.addObject("main_menu_url", "cust");
-		mav.addObject("sub_menu_url", "cust");
-		
-		menuControlleri.menuImport(mav, "cust");
 		
 		return mav;
 	}
 	
-	//단건등록 저장
+	/**
+	 * 고객단건 등록 저장
+	 * */
 	@RequestMapping(value="/custSave", method={RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public CustVO custSave(
@@ -253,7 +244,9 @@ public class CustController {
 		return custVO;
 	}
 	
-	// 전화번호 등록
+	/**
+	 * 고객 전화번호 등록
+	 * */
 	@RequestMapping(value="/custPhoneSave", method=RequestMethod.POST)
 	@ResponseBody
 	public List<CustVO> custPhoneSave(
@@ -324,6 +317,9 @@ public class CustController {
 		return custAList;
 	}
 	
+	/**
+	 * 고객 삭제
+	 * */
 	@RequestMapping(value="cust_delete", method=RequestMethod.POST)
 	public @ResponseBody int custDelete(CustVO custVo, HttpSession session)
 	{
@@ -332,7 +328,6 @@ public class CustController {
 		result = custService.custDelete(custVo);
 		return result;
 	}
-
 	
 	// 청구/수금 팝업
 	@RequestMapping(value="amountAjax", method=RequestMethod.POST)
@@ -354,6 +349,9 @@ public class CustController {
 		return map;
 	}
 	
+	/**
+	 * 청구/수금 insert
+	 * */
 	@RequestMapping(value="insertPayment", method=RequestMethod.POST)
 	public @ResponseBody Map<String, Object> paymentInsert(CustVO custVo)
 	{
@@ -479,6 +477,36 @@ public class CustController {
 		JavaMailSender mailSender;
 		
 		return map;
+	}
+	
+	/**
+	 * 메뉴 선택해주는 함수
+	 * 
+	 * parameter
+	 * 	group : 문자열 cust_code, page_type을 받아준다.
+	 * 
+	 * */
+	public void menuSelect(ModelAndView mav, String group)
+	{
+		System.out.println("menu : " + user_id);
+		
+		if(group.equals("0"))
+		{
+			mav.addObject("pageType", "0");		// my page 구분해주기 위한 flg (0: 기본 페이지 1: my page)
+			mav.addObject("main_menu_url", "cust");
+			mav.addObject("sub_menu_url", "cust");
+			
+			menuControlleri.menuImport(mav, "cust");
+		}
+		else if(group.equals("1"))	// 내 담당 페이지
+		{
+			mav.addObject("session", user_id);
+			mav.addObject("pageType", "1");
+			mav.addObject("main_menu_url", "cust");
+			mav.addObject("sub_menu_url", "cust?cust_code=000");
+			
+			menuControlleri.menuImport(mav, "cust?cust_code=000");
+		}
 	}
 
 }
