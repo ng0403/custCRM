@@ -24,6 +24,7 @@
 <input type="hidden" id="lead_no" value="${lead_no}">
 <input type="hidden" id="cust_task_no" value="${cust_task_no}">
 <input type="hidden" id="url" value="${url}">
+<input type="hidden" id="task_code" value="${task_code}">
 <input type="hidden" id="page_type" value="${pageType}">
 
  <!-- 상담 -->
@@ -32,34 +33,34 @@
 	
 	<c:if test="${task_no == null && cust_task_no == null && lead_no == null }">
 		<c:if test="${flg == 1 }">
-			<c:if test="${ page_type == '0' }">
+			<c:if test="${ task_code == null }">
 				<div class="titleDIV">
 					<span class="titleText"> ■ 상담 > 
 						<a style="cursor: pointer;" onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담 추가</span>
 					</span>
 				</div>
 			</c:if>
-			<c:if test="${ page_type == '1' }">
+			<c:if test="${ task_code == '000' }">
 				<div class="titleDIV">
 					<span class="titleText"> ■ 상담 > 
-						<a style="cursor: pointer;" onclick="taskList();"> 내 담당 상담 관리</a> > <span id="task_form_title">상담 추가</span>
+						<a style="cursor: pointer;" onclick="mytaskList();"> 내 담당 상담 관리</a> > <span id="task_form_title">상담 추가</span>
 					</span>
 				</div>
 			
 			</c:if>
 		</c:if>
 		<c:if test="${flg == 2 }">
-			<c:if test="${ page_type == '0' }">
+			<c:if test="${ task_code == null }">
 				<div class="titleDIV">
 					<span class="titleText"> ■ 상담 >
 					 	<a style="cursor: pointer;" onclick="taskList();"> 상담 관리</a> > <span id="task_form_title">상담 상세정보</span>
 					</span>
 				</div>
 			</c:if>
-			<c:if test="${ page_type == '1' }">
+			<c:if test="${ task_code == '000' }">
 				<div class="titleDIV">
 					<span class="titleText"> ■ 상담 >
-					 	<a style="cursor: pointer;" onclick="taskList();"> 내 담당 상담 관리</a> > <span id="task_form_title">상담 상세정보</span>
+					 	<a style="cursor: pointer;" onclick="mytaskList();"> 내 담당 상담 관리</a> > <span id="task_form_title">상담 상세정보</span>
 					</span>
 				</div>
 			</c:if>

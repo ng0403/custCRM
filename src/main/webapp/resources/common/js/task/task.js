@@ -163,11 +163,17 @@ function task_add(){
 		display:false,
 		style:'background-color:white'
 	});
+	var flg = $("#flg");
 	var cust_task_no = $("#cust_task_no").val();
 	var lead_no = $("#lead_no").val();
 	var cust_no = $("#cust_no").val();
 	var lead_code = $("#lead_code").val();
+	var page_type = $("#page_type").val();
+	var task_code = $("#task_code").val();
 	
+	if(task_code =="undefined"){
+		task_code = null;
+	}
 	if(lead_code =="undefined"){
 		lead_code = null;
 	}
@@ -194,7 +200,7 @@ function task_add(){
 
 		}
 	}else{
-		location.href="/task_detail"; 
+		location.href="/task_detail?task_code="+task_code + "&page_type=" + page_type; 
 	}
 	
 	

@@ -64,8 +64,6 @@ public class TaskController {
 			@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum, String excel, String cust_task_no,
 			String task_code, String lead_no, String lead_code) {
 
-		System.out.println("task enter" + cust_task_no);
-
 		// session 값 체크 후 null값이면 로그인 페이지 이동
 		if (session.getAttribute("user") == null) {
 			return new ModelAndView("redirect:/");
@@ -102,32 +100,27 @@ public class TaskController {
 		mov.addObject("ttypeCd", ttypeCd);
 		mov.addObject("divisCd", divisCd);
 		mov.addObject("cust_task_no", cust_task_no);
-		mov.addObject("pageType", "0"); // my page 구분해주기 위한 flg (0: 기본 페이지 1: my
-										// page)
+		mov.addObject("pageType", "0"); // my page 구분해주기 위한 flg (0: 기본 페이지 1: mypage)
 
 		if (cust_task_no != null) {
-			System.out.println("cust_task_no " + cust_task_no);
 			// 준석 추가.
 			if (lead_no == null) {
-				System.out.println("lead" + lead_no);
-			 
-					mov.addObject("cust_task_no", cust_task_no);
-					mov.addObject("main_menu_url", "cust");
-					mov.addObject("sub_menu_url", "cust");
-					menuControlleri.menuImport(mov, "cust");
+				mov.addObject("cust_task_no", cust_task_no);
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+				menuControlleri.menuImport(mov, "cust");
 			 
 			} else {
-				System.out.println("cust_task_no1 " + cust_task_no);
+				
 				if (lead_code.isEmpty()) {
-					System.out.println("lead detail : empty" + lead_code);
 					mov.addObject("main_menu_url", "lead");
 					mov.addObject("sub_menu_url", "lead");
 					mov.addObject("lead_no", lead_no);
 					mov.addObject("lead_code", lead_code);
 					mov.addObject("flg", "0");
 					menuControlleri.menuImport(mov, "lead");
+					
 				} else {
-					System.out.println("lead detail : not empty" + lead_code);
 					mov.addObject("main_menu_url", "lead");
 					mov.addObject("sub_menu_url", "lead?lead_code=" + lead_code);
 					mov.addObject("flg", "0");
@@ -140,10 +133,12 @@ public class TaskController {
 		else{
 			
 			if (task_code == null) {
+				//상담 List
 				mov.addObject("main_menu_url", "task");
 				mov.addObject("sub_menu_url", "task");
 				menuControlleri.menuImport(mov, "task");
 			} else {
+				//상담 myList
 				mov.addObject("session", user_id);
 				mov.addObject("pageType", "1");
 				mov.addObject("task_code", task_code);
@@ -214,6 +209,9 @@ public class TaskController {
 
 		if (task_no == null || task_no == "") // 단건등록 시
 		{
+			System.out.println("page_type : " + page_type);
+			
+			flg = "1";
 			TaskVO taskNoIndex = taskService.taskNoIndex(); // 인덱스번호
 			List<TaskVO> dtypeCd = taskService.taskDtypeCD(); // 분류코드
 			List<TaskVO> scoreCd = taskService.taskScoreCD(); // 상대가치점수
@@ -221,49 +219,68 @@ public class TaskController {
 			List<TaskVO> divisCd = taskService.taskDivisCD(); // 상담구분
 
 			ModelAndView mov = new ModelAndView("task_detail");
-
-			if (lead_no.equals("undefined")) {
-				mov.addObject("main_menu_url", "task");
+			
+			if (page_type.equals("0")) {
+				//상담 메뉴
 				mov.addObject("sub_menu_url", "task");
-				mov.addObject("url", Url);
 				mov.addObject("flg", "1");
 				menuControlleri.menuImport(mov, "task");
-
-			} else if (task_code != null) {
-				mov.addObject("pageType", "1");
+			} else if (page_type.equals("1")) {
+				//상담 내상담관리
+				System.out.println("여기");
 				mov.addObject("task_code", task_code);
+				mov.addObject("flg", "1");
 				mov.addObject("main_menu_url", "task");
 				mov.addObject("sub_menu_url", "task?task_code=000");
-
 				menuControlleri.menuImport(mov, "task?task_code=000");
-			} else if (lead_no != null) {
-				System.out.println("lead_no 단건 등록");
-				mov.addObject("main_menu_url", "lead");
-				mov.addObject("sub_menu_url", "lead?lead_code=" + lead_code);
-				mov.addObject("lead_no", lead_no);
-				mov.addObject("cust_no", cust_no);
-				mov.addObject("flg", "2");
-				mov.addObject("PageNum", PageNum);
-				menuControlleri.menuImport(mov, "lead?lead_code=" + lead_code);
-
 			}
-
-			if (cust_task_no.equals("undefined")) {
-				mov.addObject("main_menu_url", "task");
-				mov.addObject("sub_menu_url", "task");
-				mov.addObject("url", Url);
-				menuControlleri.menuImport(mov, "task");
-
-			} else if (!cust_task_no.equals("1")) {
-				mov.addObject("main_menu_url", "cust");
-				mov.addObject("sub_menu_url", "cust");
-				mov.addObject("cust_task_no", cust_task_no);
-				mov.addObject("PageNum", PageNum);
-				menuControlleri.menuImport(mov, "cust");
+			
+			if(page_type.equals("2"))
+			{
+				if (lead_no.equals("undefined")) {
+					mov.addObject("main_menu_url", "task");
+					mov.addObject("sub_menu_url", "task");
+					mov.addObject("url", Url);
+					mov.addObject("flg", "1");
+					menuControlleri.menuImport(mov, "task");
+					
+				} else if (task_code != null) {
+					mov.addObject("pageType", "1");
+					mov.addObject("task_code", task_code);
+					mov.addObject("main_menu_url", "task");
+					mov.addObject("sub_menu_url", "task?task_code=000");
+					
+					menuControlleri.menuImport(mov, "task?task_code=000");
+				} else if (lead_no != null) {
+					System.out.println("lead_no 단건 등록");
+					mov.addObject("main_menu_url", "lead");
+					mov.addObject("sub_menu_url", "lead?lead_code=" + lead_code);
+					mov.addObject("lead_no", lead_no);
+					mov.addObject("cust_no", cust_no);
+					mov.addObject("flg", "2");
+					mov.addObject("PageNum", PageNum);
+					menuControlleri.menuImport(mov, "lead?lead_code=" + lead_code);
+					
+				}
+				
+				if (cust_task_no.equals("undefined")) {
+					mov.addObject("main_menu_url", "task");
+					mov.addObject("sub_menu_url", "task");
+					mov.addObject("url", Url);
+					menuControlleri.menuImport(mov, "task");
+					
+				} else if (!cust_task_no.equals("1")) {
+					mov.addObject("main_menu_url", "cust");
+					mov.addObject("sub_menu_url", "cust");
+					mov.addObject("cust_task_no", cust_task_no);
+					mov.addObject("PageNum", PageNum);
+					menuControlleri.menuImport(mov, "cust");
+				}
+				
 			}
-
+			
+			
 			mov.addObject("flg", "1");
-
 			mov.addObject("taskNoIndex", taskNoIndex);
 			mov.addObject("dtypeCd", dtypeCd);
 			mov.addObject("scoreCd", scoreCd);
@@ -272,11 +289,13 @@ public class TaskController {
 			mov.addObject("taskPageNum", taskPageNum);
 
 			mov.addObject("url", Url);
-			mov.addObject("page_type", page_type);
+			mov.addObject("page_type", "1");
 
 			return mov;
-		} else // 상세보기
+		}
+		else // 상세보기
 		{
+			flg = "2";
 			List<TaskVO> dtypeCd = taskService.taskDtypeCD(); // 분류코드
 			List<TaskVO> scoreCd = taskService.taskScoreCD(); // 상대가치점수
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD(); // 상담유형
@@ -284,53 +303,68 @@ public class TaskController {
 
 			ModelAndView mov = new ModelAndView("task_detail");
 
-			if (lead_no.equals("undefined")) {
-				if (page_type == "0") {
-					mov.addObject("main_menu_url", "task");
-					mov.addObject("sub_menu_url", "task");
-					mov.addObject("url", Url);
-					mov.addObject("flg", "2");
-					menuControlleri.menuImport(mov, "task");
-				} else {
-					mov.addObject("main_menu_url", "task");
-					mov.addObject("sub_menu_url", "mytask");
-					mov.addObject("url", Url);
-					mov.addObject("flg", "2");
-					menuControlleri.menuImport(mov, "task");
-
-				}
+			if (page_type.equals("0")) {
+				//상담 메뉴
+				mov.addObject("main_menu_url", "task");
+				mov.addObject("sub_menu_url", "task");
+				mov.addObject("flg", "2");
+				menuControlleri.menuImport(mov, "task");
+			} else if(page_type.equals("1")) {
+				//상담 내상담관리
+				mov.addObject("task_code", task_code);
+				mov.addObject("main_menu_url", "task");
+				mov.addObject("flg", "2");
+				mov.addObject("sub_menu_url", "task?task_code=000");
+				menuControlleri.menuImport(mov, "task?task_code=000");
 			} else {
-				mov.addObject("main_menu_url", "lead");
-				mov.addObject("sub_menu_url", "lead?lead_code=" + lead_code);
-				mov.addObject("lead_no", lead_no);
-				mov.addObject("lead_code", lead_code);
-				mov.addObject("cust_no", cust_task_no);
-				mov.addObject("PageNum", PageNum);
-				menuControlleri.menuImport(mov, "lead?lead_code=" + lead_code);
-			}
+				if (lead_no.equals("undefined")) {
+					if (page_type == "0") {
+						mov.addObject("main_menu_url", "task");
+						mov.addObject("sub_menu_url", "task");
+						mov.addObject("url", Url);
+						mov.addObject("flg", "2");
+						menuControlleri.menuImport(mov, "task");
+					} else {
+						mov.addObject("main_menu_url", "task");
+						mov.addObject("sub_menu_url", "mytask");
+						mov.addObject("url", Url);
+						mov.addObject("flg", "2");
+						menuControlleri.menuImport(mov, "task");
 
-			if (cust_task_no.equals("undefined")) {
-				if (page_type == "0") {
-					mov.addObject("main_menu_url", "task");
-					mov.addObject("sub_menu_url", "task");
-					mov.addObject("url", Url);
-					mov.addObject("flg", "2");
-					menuControlleri.menuImport(mov, "task");
+					}
 				} else {
-					mov.addObject("main_menu_url", "task");
-					mov.addObject("sub_menu_url", "task");
-					mov.addObject("url", Url);
-					mov.addObject("flg", "2");
-					menuControlleri.menuImport(mov, "task");
+					mov.addObject("main_menu_url", "lead");
+					mov.addObject("sub_menu_url", "lead?lead_code=" + lead_code);
+					mov.addObject("lead_no", lead_no);
+					mov.addObject("lead_code", lead_code);
+					mov.addObject("cust_no", cust_task_no);
+					mov.addObject("PageNum", PageNum);
+					menuControlleri.menuImport(mov, "lead?lead_code=" + lead_code);
 				}
-			} else if (cust_task_no != null && lead_code == null) {
-				mov.addObject("main_menu_url", "cust");
-				mov.addObject("sub_menu_url", "cust");
-				mov.addObject("cust_task_no", cust_task_no);
-				mov.addObject("PageNum", PageNum);
-				menuControlleri.menuImport(mov, "cust");
-			}
 
+				if (cust_task_no.equals("undefined")) {
+					if (page_type == "0") {
+						mov.addObject("main_menu_url", "task");
+						mov.addObject("sub_menu_url", "task");
+						mov.addObject("url", Url);
+						mov.addObject("flg", "2");
+						menuControlleri.menuImport(mov, "task");
+					} else {
+						mov.addObject("main_menu_url", "task");
+						mov.addObject("sub_menu_url", "task");
+						mov.addObject("url", Url);
+						mov.addObject("flg", "2");
+						menuControlleri.menuImport(mov, "task");
+					}
+				} else if (cust_task_no != null && lead_code == null) {
+					mov.addObject("main_menu_url", "cust");
+					mov.addObject("sub_menu_url", "cust");
+					mov.addObject("cust_task_no", cust_task_no);
+					mov.addObject("PageNum", PageNum);
+					menuControlleri.menuImport(mov, "cust");
+				}
+			}
+			
 			mov.addObject("flg", "2");
 
 			mov.addObject("taskDetail", taskService.taskDetail(task_no));
@@ -341,7 +375,7 @@ public class TaskController {
 			mov.addObject("taskPageNum", taskPageNum);
 
 			mov.addObject("url", Url);
-			mov.addObject("page_type", page_type);
+			mov.addObject("page_type", "0");
 
 			return mov;
 		}

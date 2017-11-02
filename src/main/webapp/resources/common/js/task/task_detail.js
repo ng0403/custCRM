@@ -319,6 +319,9 @@ var lead_no = b
 function taskList() {
 	location.href="/task";
 }
+function mytaskList() {
+	location.href="/task?task_code=000";
+}
 
 
 //리드 상세정보
