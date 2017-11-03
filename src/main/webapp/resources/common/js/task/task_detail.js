@@ -281,7 +281,6 @@ function task_del_save() {
 					alert("상담 리스트로 이동합니다.");
 					
 					taskList();
-					
 				},
 				error : function(request,status,error) {
 					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

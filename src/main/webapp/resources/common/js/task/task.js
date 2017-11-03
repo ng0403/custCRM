@@ -14,15 +14,12 @@
 * taskCheckFileType(filePath) 			: 엑셀 파일 추가
 */
 
-
-
 $(document).ready(function(){
 	
 	var ctx 	= $("#ctx").val();
 	var flg 	= $("#flg").val();
 	var session = $("#session").val();
 
-	
 });
 
 //상담조회
@@ -202,8 +199,6 @@ function task_add(){
 	}else{
 		location.href="/task_detail?task_code="+task_code + "&page_type=" + page_type; 
 	}
-	
-	
 }
 
 //상담 상세정보
@@ -358,7 +353,6 @@ function download_Excel_form(a) {
 	
 	if(confirm("엑셀 양식을 다운로드 받으시겠습니까?")) 
 	{
-			
 			form.append(flg);
 			form.append(excel); 
 			if(flg == 1) 
@@ -366,7 +360,6 @@ function download_Excel_form(a) {
 				form.attr("action", "/toLeadExcel");
 				form.submit(); 
 			}  
- 
 	} 
 	$("input[name=excel]").val("");
 }
@@ -393,7 +386,6 @@ function taskExcelImportOpen()
     	}
 		,onOverlayClick : $.unblockUI
 	});
-	
 }
 
 //Popup 닫기
@@ -419,7 +411,6 @@ function taskExcelCheck()
 	}
 	if (confirm("업로드 하시겠습니까?")) 
 	{
-		
 		var options = {
     		type	: 	'POST',
     		cache	: 	false,
@@ -449,7 +440,6 @@ function taskCheckFileType(filePath)
 	else {
 		return false;
 	}
-
 }
 
 //가망고객 리스트 이동.
@@ -550,7 +540,6 @@ function custtaskSchList(cust_no,pageNum) {
 		   });
 	}
 
-
 //고객관리 리스트
 function tcustList(pageNum)
 {
@@ -569,5 +558,3 @@ function custTaskList(cust_no)
 	console.log(cust_no);
 	location.href = ctx + "/task?cust_task_no=" + cust_no;
 }
-
-
