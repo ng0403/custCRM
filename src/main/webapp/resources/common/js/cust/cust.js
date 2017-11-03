@@ -1166,7 +1166,7 @@ function cust_task_btn(cust_no)
 	console.log(cust_no);
 	var pageType = 2;
 	
-	location.href = "/task?cust_task_no=" + cust_no ;
+	location.href = "/task?cust_task_no=" + cust_no +"&page_type=" + pageType;
 }
 
 

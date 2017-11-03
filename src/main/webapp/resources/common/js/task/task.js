@@ -196,7 +196,7 @@ function task_add(){
 		{	 
  			location.href="/task_detail?lead_no=" + lead_no + "&cust_no=" + cust_no +"&cust_task_no=1"+"&lead_code="+lead_code;
 		}else{
- 			location.href="/task_detail?task_no=" +"&cust_task_no=" + cust_task_no;
+ 			location.href="/task_detail?task_no=" +"&cust_task_no=" + cust_task_no + "&page_type=" + page_type;
 
 		}
 	}else{

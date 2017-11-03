@@ -105,6 +105,7 @@ public class TaskController {
 		if (cust_task_no != null) {
 			// 준석 추가.
 			if (lead_no == null) {
+				mov.addObject("pageType", "2");
 				mov.addObject("cust_task_no", cust_task_no);
 				mov.addObject("main_menu_url", "cust");
 				mov.addObject("sub_menu_url", "cust");
