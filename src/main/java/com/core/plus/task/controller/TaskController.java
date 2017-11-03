@@ -209,7 +209,6 @@ public class TaskController {
 
 		if (task_no == null || task_no == "") // 단건등록 시
 		{
-			System.out.println("page_type : " + page_type);
 			
 			flg = "1";
 			TaskVO taskNoIndex = taskService.taskNoIndex(); // 인덱스번호
@@ -307,7 +306,6 @@ public class TaskController {
 				menuControlleri.menuImport(mov, "task");
 			} else if(page_type.equals("1")) {
 				//상담 내상담관리
-				System.out.println("task_code: " + task_code);
 				mov.addObject("task_code", task_code);
 				mov.addObject("main_menu_url", "task");
 				mov.addObject("flg", "2");
