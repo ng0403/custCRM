@@ -16,27 +16,28 @@
 
 <div id="title" >
 		<div class="caption">
-	    <c:if test="${boardVO.BOARD_MNG_NO =='BMG1000001'}">
+	    <c:if test="${boardVO.BOARD_MNG_NO =='BMG=001'}">
 		<h3 class="ui header" style="background: #fff;"> ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${boardVO.BOARD_MNG_NO}" style="font-size: 14pt; text-decoration:none; color: blue;">공지사항</a> >  게시글 수정 </h3>
 		</c:if>
-		<c:if test="${boardVO.BOARD_MNG_NO == 'BMG1000002'}">
+		<c:if test="${boardVO.BOARD_MNG_NO == 'BMG=002'}">
 	    <h3 class="ui header" style="background: #fff;"> ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${boardVO.BOARD_MNG_NO}" style="font-size: 14pt; text-decoration:none; color: blue;">일반 게시판</a> >  게시글 수정 </h3>
 		</c:if> 		
 		</div>
 </div>
 
  
+ <div class="commonDetail"> 
  <form role="form" name="modifyForm" action="/board_modify " method="post" enctype="multipart/form-data">
  	 <input type='hidden' id="BOARD_NO" name='BOARD_NO' value="${boardVO.BOARD_NO}"> 
 	 <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${boardVO.BOARD_MNG_NO}">   
-<table class="commonDetailTable" style="table-layout:fixed;" >
+<table class="commonDetailTable">
 <tr>
  <th>제목</th> 
- <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE" value= "${boardVO.TITLE}"/></td>
+ <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE" value= "${boardVO.TITLE}" style="width:850px"/></td>
 </tr>
 <tr>
  <th>파일</th>
-<td colspan="3"> 
+<td colsapn="3"> 
 <div id="file_div">
 	<c:choose>
 		<c:when test="${boardmnglist.FILE_ATTACH_FLG == 'N'}"> 
@@ -56,13 +57,13 @@
 </td>
 <tr>
 <th>내 용</th>
-<td colspan="3">
-<textarea  rows="10" id="CONTENT" name="CONTENT" style="width:100%" >${boardVO.CONTENT}</textarea>
+<td colspan="4">
+<textarea id="CONTENT" name="CONTENT" rows="25"  cols="120" style="resize: none;" >${boardVO.CONTENT}</textarea>
 </td> 
 </tr>
 </table>
  </form>   
-
+</div>
  <div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
  <input type="button" id = "board_modify_fbtn" onClick="board_save();" class="tr_btn" value="저장"/>
   <input type="button" class="func_btn" id="board_list_fbtn" onClick="board_list();" value="취소"/>

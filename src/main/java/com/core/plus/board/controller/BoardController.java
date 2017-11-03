@@ -34,6 +34,7 @@ import com.core.plus.board.service.ReplyService;
 import com.core.plus.board.vo.BoardVO;
 import com.core.plus.boardmng.vo.BoardMngVO;
 import com.core.plus.common.PagerVO;
+import com.core.plus.info.menu.controller.MenuController;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.login.dao.LoginDAO;
@@ -52,7 +53,10 @@ import com.core.plus.utils.FileManager;
 	@Autowired
 	private HttpSession session;
     @Resource
-	LoginDAO loginDao;
+	LoginDAO loginDao; 
+	@Resource
+	MenuController menuControlleri;
+
 	 
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
@@ -81,7 +85,7 @@ import com.core.plus.utils.FileManager;
  		if (session.getAttribute("user") == null) {
 			return new ModelAndView("redirect:/");
 		} 
-		
+ 		
  		String sessionID = (String) session.getAttribute("user");
  		 
 		map.put("PageNum", PageNum);
@@ -101,7 +105,10 @@ import com.core.plus.utils.FileManager;
 		mov.addObject("page",  page);
 		mov.addObject("PageNum",  PageNum);
  		mov.addObject("BOARD_MNG_NO", BOARD_MNG_NO);
- 		menuImport(mov, "boardInqr?BOARD_MNG_NO=BMG001");
+		mov.addObject("main_menu_url", "boardInqr");
+		mov.addObject("sub_menu_url", "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO);
+		menuControlleri.menuImport(mov, "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO); 
+ 		/*menuImport(mov, "boardInqr?BOARD_MNG_NO=BMG001");*/
   		return mov; 
 	} 
 	
@@ -139,7 +146,10 @@ import com.core.plus.utils.FileManager;
 			mov.addObject("boardlist",  boardService.ReadFilePage(BOARD_NO));
 		}
 		mov.addObject("boardmnglist",boardService.checkBoardMngNo(BOARD_MNG_NO));
- 		menuImport(mov, "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO);
+		mov.addObject("main_menu_url", "boardInqr");
+		mov.addObject("sub_menu_url", "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO);
+		menuControlleri.menuImport(mov, "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO); 
+
 
  		return mov;
 		 
@@ -160,6 +170,10 @@ import com.core.plus.utils.FileManager;
 		
 		ModelAndView mov = new ModelAndView("board_insert");
   		  mov.addObject("boardmnglist", vo);
+  		mov.addObject("main_menu_url", "boardInqr");
+  		mov.addObject("sub_menu_url", "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO);
+  		menuControlleri.menuImport(mov, "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO); 
+
   		  return mov; 
 	}
 	
@@ -266,7 +280,10 @@ import com.core.plus.utils.FileManager;
  		}
 		String 	BOARD_MNG_NO = vo.getBOARD_MNG_NO();
 		mov.addObject("boardmnglist",boardService.checkBoardMngNo(BOARD_MNG_NO)); 
-		
+		mov.addObject("main_menu_url", "boardInqr");
+		mov.addObject("sub_menu_url", "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO);
+		menuControlleri.menuImport(mov, "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO); 
+
  		return mov;
 		 
 		

@@ -35,7 +35,7 @@
        <div class="searchDiv">
 			<input type="text" placeholder="제목"  id="keyword" name="keyword"  onkeydown="boardSearchEnter(event);" style="width:20%">
 			<i class="list icon"></i>
-		    <input type="button" onclick="boardPaging(1);" value="조회" id="board_inqr_fbtn" class="func_btn" value="검색"">
+		    <input type="button" onclick="boardPaging(1);" value="조회" id="board_inqr_fbtn" class="tr_btn" value="검색"">
 			
 		</div>	
     

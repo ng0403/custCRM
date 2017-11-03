@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.core.plus.boardmng.service.BoardMngService;
 import com.core.plus.boardmng.vo.BoardMngVO;
 import com.core.plus.common.PagerVO;
+import com.core.plus.info.menu.controller.MenuController;
 import com.core.plus.info.menu.service.MenuService;
 import com.core.plus.info.menu.vo.MenuVo;
 import com.core.plus.login.dao.LoginDAO;
@@ -37,7 +38,9 @@ public class BoardMngController {
 	private HttpSession session;
     @Resource
 	LoginDAO loginDao;
-    
+  	@Resource
+ 	MenuController menuControlleri;
+
 	public void menuImport(ModelAndView mav, String url){
 		String menu_id = menuService.getMenuUrlID(url);
 		String user_id = session.getAttribute("user").toString();
@@ -84,7 +87,9 @@ public class BoardMngController {
 		mov.addObject("page",  page);
 		mov.addObject("PageNum",  PageNum); 
 		mov.addObject("codelist", codelist);
- 		menuImport(mov, "boardmngInqr");
+		mov.addObject("main_menu_url", "boardmngInqr");
+		mov.addObject("sub_menu_url", "boardmngInqr");
+		menuControlleri.menuImport(mov, "boardmngInqr"); 
 
  		return mov; 
 		

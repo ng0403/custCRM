@@ -451,8 +451,7 @@ function download_list_Excel(formID, flgNum) {
 }
 	
 	if(flgNum == '1'){
-		  	alert("flg ? " + form.toSource());
-			form.append(excel);
+ 			form.append(excel);
 			form.append(flg);
 			form.append(code);
 			

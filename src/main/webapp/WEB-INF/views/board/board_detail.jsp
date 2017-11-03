@@ -35,10 +35,10 @@
  
 <div id="title">
 		<div class="caption">
-	    <c:if test="${boardlist.BOARD_MNG_NO =='BMG1000001'}">
+	    <c:if test="${boardlist.BOARD_MNG_NO =='BMG001'}">
 		<h3 class="ui header" style="background: #fff;"> ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${boardlist.BOARD_MNG_NO}" style="font-size: 14pt; text-decoration:none; color: blue;">공지사항</a> >  게시글 상세 </h3>
 		</c:if>
-		<c:if test="${boardlist.BOARD_MNG_NO == 'BMG1000002'}">
+		<c:if test="${boardlist.BOARD_MNG_NO == 'BMG002'}">
 	    <h3 class="ui header" style="background: #fff;"> ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${boardlist.BOARD_MNG_NO}" style="font-size: 14pt; text-decoration:none; color: blue;">일반 게시판</a> >  게시글 상세 </h3>
 		</c:if>		</div>
 </div>

@@ -28,13 +28,13 @@
 
 
 
-
+ <div class="commonDetail">
 <form role="form" method="post" enctype="multipart/form-data">
    <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${boardmnglist.BOARD_MNG_NO}"/>    
 <table class="commonDetailTable">
 <tr>
  <th>제목</th> 
- <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE"/></td>
+ <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE" style="width:850px"/></td>
 </tr>
 <tr>
 <th colsapn="3">파일</th>
@@ -43,20 +43,19 @@
 	 </c:if>
 	 <c:if test="${boardmnglist.FILE_ATTACH_FLG == 'Y'}">
 	 <input type="file" multiple="multiple" name="filedata" id="filedata">
-	 </c:if>
-	 
-	 
+	 </c:if> 
 	 </td>  
 </tr>
 <tr>
 <th>내 용</th>
-<td colspan="3">
-<textarea  rows="10" id="CONTENT" name="CONTENT" style="width:100%" ></textarea>
-</td> 
+<td colspan="4">
+<textarea  id="CONTENT" name="CONTENT"  rows="25"  cols="120" style="resize: none;" style="width:100%" ></textarea>
+</td>  
+ 
 </tr>
  </table>
  </form>   
-
+</div>
 	<div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
 		 <input type="button" id ="board_add_fbtn" class = "tr_btn" value="저장" onclick="board_add_save();"/>
 		 <input type="button" id="board_list_fbtn" class="func_btn" value="취소" onclick="goboardList();"/> 
