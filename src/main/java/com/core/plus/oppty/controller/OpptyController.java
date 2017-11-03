@@ -236,7 +236,8 @@ public class OpptyController {
 	 * */
 	@RequestMapping(value="oppty_detail")
 	public ModelAndView opptyDetail(@RequestParam(value = "opptyPageNum", defaultValue = "1") int opptyPageNum, 
-									String oppty_no, String hoppty_status_cd, String cust_opty_no, String page_type, String oppty_code)
+									String oppty_no, String hoppty_status_cd, String cust_opty_no, String cust_no, 
+									String page_type, String oppty_code)
 	{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("oppty_no", oppty_no);
@@ -254,20 +255,34 @@ public class OpptyController {
 		{
 			OpptyVO opptyNo = opptyService.opptyNoIndex();
 			
-			if(oppty_code.equals("000"))
+			if(oppty_code != null)
 			{
-				mov.addObject("add_form", "1");
-				mov.addObject("main_menu_url", "oppty");
-				mov.addObject("sub_menu_url", "oppty?oppty_code=000");
-				
-				menuControlleri.menuImport(mov, "oppty?oppty_code=000");
+				if(oppty_code.equals("000"))
+				{
+					mov.addObject("add_form", "1");
+					mov.addObject("main_menu_url", "oppty");
+					mov.addObject("sub_menu_url", "oppty?oppty_code=000");
+					
+					menuControlleri.menuImport(mov, "oppty?oppty_code=000");
+				}
+				else
+				{
+					mov.addObject("add_form", "0");
+					mov.addObject("main_menu_url", "oppty");
+					
+					menuControlleri.menuImport(mov, "oppty");
+				}
 			}
 			else
 			{
-				mov.addObject("add_form", "0");
-				mov.addObject("main_menu_url", "oppty");
-				
-				menuControlleri.menuImport(mov, "oppty");
+				CustVO custDlist = custService.custDetailList(cust_no);
+
+				mov.addObject("custDlist", custDlist);
+				mov.addObject("cust_opty_no", cust_opty_no);
+				mov.addObject("main_menu_url", "cust");
+				mov.addObject("sub_menu_url", "cust");
+					
+				menuControlleri.menuImport(mov, "cust");
 			}
 			mov.addObject("opptyNoIndex", opptyNo);
 			mov.addObject("opptyPageNum", opptyPageNum);

@@ -78,13 +78,20 @@ function opptyDetail(oppty_no, opptyPageNum)
 function opptySingleAddForm()
 {
 	var oppty_code = $("#oppty_code").val();
+	console.log("A");
 	
 	if(oppty_code != null)
 		location.href = ctx + "/oppty_detail?oppty_code=" + oppty_code;
 	else
 		location.href = ctx + "/oppty_detail";
-		
-		
+	
+}
+
+function copptySingleAddForm(cust_no)
+{
+	console.log("B");
+	location.href = ctx + "/oppty_detail?cust_no=" + cust_no;
+//	location.href = ctx + "/oppty_detail";
 	
 }
 

@@ -72,6 +72,11 @@ $(document).ready(function(){
 				■ 고객 > <a style="cursor: pointer;" onclick="odCustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="odCustDetail('${cust_opty_no}');"> 고객 상세정보 </a> > <a style="cursor: pointer;" onclick="optyCustList('${cust_opty_no}');"> 영업기회이력 </a> > 영업기회이력 상세정보 
 			</span>
 		</c:if>
+		<c:if test="${ custDlist.cust_no != null }">
+			<span class="titleText"> 
+				■ 고객 > <a style="cursor: pointer;" onclick="odCustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="odCustDetail('${cust_opty_no}');"> 고객 상세정보 </a> > <a style="cursor: pointer;" onclick="optyCustList('${cust_opty_no}');"> 영업기회이력 </a> > 영업기회이력 단건등록 
+			</span>
+		</c:if>
 		<c:if test="${ hoppty_status_cd == 001}">
 			<span class="titleText">
 			    ■ 영업기회 > <a style="cursor: pointer;" onclick="opptyListPage(1);"> 진행중 영업기회</a> > <span id="coupon_form_title">진행중 영업기회 상세정보</span>
@@ -123,14 +128,21 @@ $(document).ready(function(){
 				<tr>
 					<th id="impTh" style="text-align: right;">*고객</th>
 					<td>
-						<c:if test="${ opptyNoIndex.oppty_no != null }">	<!-- 신규 -->
-							<input type="hidden" name="cust_no" id="cust_no" value="${opptyDetail.cust_no}"> 
-							<input type="text" name="cust_name" id="cust_name" maxlength="50" value="${opptyDetail.cust_name}" style="width: 70%;" readonly="readonly">
-							<input type="button" class="back_btn" id="custSchBtn" value="고객" onclick="custSchPopupOpen();">
+						<c:if test="${ custDlist.cust_no == null }">
+							<c:if test="${ opptyNoIndex.oppty_no != null }">	<!-- 신규 -->
+								<input type="hidden" name="cust_no" id="cust_no" value="${ opptyDetail.cust_no }"> 
+								<input type="text" name="cust_name" id="cust_name" maxlength="50" value="${ opptyDetail.cust_name }" style="width: 70%;" readonly="readonly">
+								<input type="button" class="back_btn" id="custSchBtn" value="고객" onclick="custSchPopupOpen();">
+							</c:if>
+							<c:if test="${ opptyNoIndex.oppty_no == null }">	<!-- 상세 -->
+								<input type="hidden" name="cust_no" id="cust_no" value="${ opptyDetail.cust_no }"> 
+								<input type="text" name="cust_name" id="cust_name" maxlength="50" value="${ opptyDetail.cust_name }" style="width: 70%;" readonly="readonly">
+								<input type="button" class="back_btn" id="custSchBtn" value="고객" onclick="custSchPopupOpen();" disabled="disabled">
+							</c:if>
 						</c:if>
-						<c:if test="${ opptyNoIndex.oppty_no == null }">	<!-- 상세 -->
-							<input type="hidden" name="cust_no" id="cust_no" value="${opptyDetail.cust_no}"> 
-							<input type="text" name="cust_name" id="cust_name" maxlength="50" value="${opptyDetail.cust_name}" style="width: 70%;" readonly="readonly">
+						<c:if test="${ custDlist.cust_no != null }">	<!-- 상세 -->
+							<input type="hidden" name="cust_no" id="cust_no" value="${ custDlist.cust_no }"> 
+							<input type="text" name="cust_name" id="cust_name" maxlength="50" value="${ custDlist.cust_name }" style="width: 70%;" readonly="readonly">
 							<input type="button" class="back_btn" id="custSchBtn" value="고객" onclick="custSchPopupOpen();" disabled="disabled">
 						</c:if>
 					</td>

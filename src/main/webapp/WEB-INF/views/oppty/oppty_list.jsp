@@ -229,9 +229,9 @@
    		
    			<c:if test="${ cust_opty_no != null }">
 				<div class="listFootDiv">
-<!-- 				 	 <input type="button" class="func_btn" id="oppty_single_add" value="단건등록" onclick="opptySingleAddForm();"> -->
-<!-- 				 	 <input type="button" class="func_btn" id="oppty_multi_add" value="다건등록" onclick="opptyExcelImportOpen();"> -->
-				 	 <input type="button" class="func_btn" id="exportBtn"      value="뒤로"  onclick="ocustDetail('${cust_opty_no}');" >	
+				 	 <input type="button" class="func_btn" id="oppty_single_add" value="단건등록" onclick="copptySingleAddForm(${cust_opty_no});">
+				 	 <input type="button" class="func_btn" id="oppty_multi_add" value="다건등록" onclick="opptyExcelImportOpen();">
+<%-- 				 	 <input type="button" class="func_btn" id="exportBtn"      value="뒤로"  onclick="ocustDetail('${cust_opty_no}');" >	 --%>
 				 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀출력"  onclick="download_list_Excel('opptyListForm', 0);" >	
 				 	 <input type="button" class="func_btn" id="exportBtn"      value="엑셀템플릿 출력"  onclick="download_list_Excel('opptyListForm', 1);" >	
 				</div>
