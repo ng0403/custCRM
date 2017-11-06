@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dashBoard">
+
+	<!-- 고객수 비율  -->
+	<select id="getCustCount" resultType="com.core.plus.info.dashboard.vo.DashBoardVO">
+		select 
+			(select count(a.cust_type)
+			from tb_cust a
+			where 1=1
+				and a.del_yn = 'N'
+				and a.cust_type = '001') as cust_count
+			,(select count(b.cust_type)
+			from tb_cust b
+			where 1=1
+				and b.del_yn = 'N'
+				and b.cust_type = '002') as latent_cust_count
+		from dual
+	</select>
+	<select id="getDate" resultType="String">
+		select date_format(date,'%Y-%m-%d') as data 
+		from d_tb_calendar 
+		where date_format(date,'%Y-%m-%d') between date_format(date_add(now(),interval -1 month),'%Y-%m-%d') and date_format(now(),'%Y-%m-%d')
+	</select>
+	<!-- 고객수 증감 -->
+	<select id="getC_Change" resultType="String">
+		select 
+				c.count_sum
+			from
+				(select
+					a.data,
+					<![CDATA[((select sum(s.count)
+					from v_c_count s
+					where s.reg_date <= a.data) - ifnull((select sum(m.count) from v_c_count_m m 
+																							where m.regdate <= a.data),0))as count_sum
+					]]>
+				from			
+					(select date_format(date,'%Y-%m-%d') as data 
+					from d_tb_calendar 
+					) a 
+					left join
+					(select cc.reg_date,
+						 cc.count	 
+					from v_c_count cc
+					order by cc.reg_date) b
+					on a.data = b.reg_date) c
+			where c.data between date_format(date_add(now(),interval -1 month),'%Y-%m-%d') and date_format(now(),'%Y-%m-%d')
+	</select>
+	<!-- 고객수 증가수 -->
+	<select id="getC_Increase" resultType="String">
+		select 
+				c.incre_count
+			from
+				(select
+					a.data,
+					ifnull(b.count,0) as incre_count
+				from			
+					(select date_format(date,'%Y-%m-%d') as data 
+					from d_tb_calendar 
+					) a 
+					left join
+					(select cc.reg_date,
+						 cc.count	 
+					from v_c_count cc
+					order by cc.reg_date) b
+					on a.data = b.reg_date) c
+			where c.data between date_format(date_add(now(),interval -1 month),'%Y-%m-%d') and date_format(now(),'%Y-%m-%d')
+	</select>
+	
+	<select id="getCountList" resultType="com.core.plus.info.dashboard.vo.DashBoardVO">
+		select 
+				fin.new_cust,
+				fin.new_latent_cust,
+				fin.leave_cust,
+				fin.new_lead,
+				fin.lead_success,
+				fin.lead_fail,
+				fin.task_count,
+				fin.new_oppty,
+				fin.oppty_success,
+				fin.oppty_fail
+		from
+				(select
+					a.data,
+					ifnull(b.count,0) as new_cust,
+					ifnull(c.count,0) as new_latent_cust,
+					ifnull(d.count,0) as leave_cust,
+					ifnull(e.count,0) as new_lead,
+					ifnull(f.count,0) as lead_success,
+					ifnull(g.count,0) as lead_fail,
+					ifnull(h.count,0) as task_count,
+					ifnull(i.count,0) as new_oppty,
+					ifnull(j.count,0) as oppty_success,
+					ifnull(k.count,0) as oppty_fail
+				from			
+					(select date_format(date,'%Y-%m-%d') as data 
+					from d_tb_calendar 
+					) a 
+					left join
+					(select cc.reg_date,
+						 cc.count	 
+					from v_c_count cc
+					order by cc.reg_date) b
+					on a.data = b.reg_date
+					left join
+					(select 
+						date_format(c2.create_date,'%Y-%m-%d') AS reg_date,
+						count(c2.cust_type) AS count 
+					from tb_cust c2 where ((1 = 1) and (c2.del_yn = 'N') and (c2.cust_type = '002')) 
+					group by reg_date) c
+					on a.data = c.reg_date
+					left join
+					(select 
+						date_format(c3.create_date,'%Y-%m-%d') AS reg_date,
+						count(c3.cust_type) AS count 
+					from tb_cust c3 where ((1 = 1) and (c3.del_yn = 'Y') and (c3.cust_type = '001')) 
+					group by reg_date) d
+					on a.data = d.reg_date
+					left join
+					(select 
+						date_format(l1.create_date,'%Y-%m-%d') AS reg_date,
+						count(l1.lead_status_cd) AS count 
+					from tb_lead l1 where ((1 = 1) and (l1.del_yn = 'N') and (l1.lead_status_cd = '001')) 
+					group by reg_date) e
+					on a.data = e.reg_date
+					left join
+					(select 
+						date_format(l2.create_date,'%Y-%m-%d') AS reg_date,
+						count(l2.lead_status_cd) AS count 
+					from tb_lead l2 where ((1 = 1) and (l2.del_yn = 'N') and (l2.lead_status_cd = '003')) 
+					group by reg_date) f
+					on a.data = f.reg_date
+					left join
+					(select 
+						date_format(l3.create_date,'%Y-%m-%d') AS reg_date,
+						count(l3.lead_status_cd) AS count 
+					from tb_lead l3 where ((1 = 1) and (l3.del_yn = 'N') and (l3.lead_status_cd = '004')) 
+					group by reg_date) g
+					on a.data = g.reg_date
+					left join
+					(select 
+						date_format(t.create_date,'%Y-%m-%d') AS reg_date,
+						count(t.task_no) AS count 
+					from tb_task t where ((1 = 1) and (t.del_yn = 'N')) 
+					group by reg_date) h
+					on a.data = h.reg_date
+					left join
+					(select 
+						date_format(o1.create_date,'%Y-%m-%d') AS reg_date,
+						count(o1.oppty_status_cd) AS count 
+					from tb_oppty o1 where ((1 = 1) and (o1.del_yn = 'N') and (o1.oppty_status_cd = '001')) 
+					group by reg_date) i
+					on a.data = i.reg_date
+					left join
+					(select 
+						date_format(o2.create_date,'%Y-%m-%d') AS reg_date,
+						count(o2.oppty_status_cd) AS count 
+					from tb_oppty o2 where ((1 = 1) and (o2.del_yn = 'N') and (o2.oppty_status_cd = '003')) 
+					group by reg_date) j
+					on a.data = j.reg_date
+					left join
+					(select 
+						date_format(o3.create_date,'%Y-%m-%d') AS reg_date,
+						count(o3.oppty_status_cd) AS count 
+					from tb_oppty o3 where ((1 = 1) and (o3.del_yn = 'N') and (o3.oppty_status_cd = '004')) 
+					group by reg_date) k
+					on a.data = k.reg_date
+					) fin
+		where fin.data between date_format(date_add(now(),interval -1 day),'%Y-%m-%d') and date_format(now(),'%Y-%m-%d');
+	</select>
+	
+	<select id="getAvgList" resultType="com.core.plus.info.dashboard.vo.DashBoardVO">
+		select 
+				fin.new_cust/fin.count as new_cust_avg,
+				fin.new_latent_cust/fin.count as new_latent_cust_avg,
+				fin.leave_cust/fin.count as leave_cust_avg,
+				fin.new_lead/fin.count as new_lead_avg,
+				fin.lead_success/fin.count as lead_success_avg,
+				fin.lead_fail/fin.count as lead_fail_avg,
+				fin.task_count/fin.count as task_count_avg,
+				fin.new_oppty/fin.count as new_oppty_avg,
+				fin.oppty_success/fin.count as oppty_success_avg,
+				fin.oppty_fail/fin.count as oppty_fail_avg
+		from
+				(select
+					-- a.data,
+					count(a.data) as count,
+					sum(b.count) as new_cust,
+					sum(c.count) as new_latent_cust,
+					sum(d.count) as leave_cust,
+					sum(e.count) as new_lead,
+					sum(f.count) as lead_success,
+					sum(g.count) as lead_fail,
+					sum(h.count) as task_count,
+					sum(i.count) as new_oppty,
+					sum(j.count) as oppty_success,
+					sum(k.count) as oppty_fail
+				from			
+					(select date_format(date,'%Y-%m-%d') as data 
+					from d_tb_calendar 
+					) a 
+					left join
+					(select cc.reg_date,
+						 cc.count	 
+					from v_c_count cc
+					order by cc.reg_date) b
+					on a.data = b.reg_date
+					left join
+					(select 
+						date_format(c2.create_date,'%Y-%m-%d') AS reg_date,
+						count(c2.cust_type) AS count 
+					from tb_cust c2 where ((1 = 1) and (c2.del_yn = 'N') and (c2.cust_type = '002')) 
+					group by reg_date) c
+					on a.data = c.reg_date
+					left join
+					(select 
+						date_format(c3.create_date,'%Y-%m-%d') AS reg_date,
+						count(c3.cust_type) AS count 
+					from tb_cust c3 where ((1 = 1) and (c3.del_yn = 'Y') and (c3.cust_type = '001')) 
+					group by reg_date) d
+					on a.data = d.reg_date
+					left join
+					(select 
+						date_format(l1.create_date,'%Y-%m-%d') AS reg_date,
+						count(l1.lead_status_cd) AS count 
+					from tb_lead l1 where ((1 = 1) and (l1.del_yn = 'N') and (l1.lead_status_cd = '001')) 
+					group by reg_date) e
+					on a.data = e.reg_date
+					left join
+					(select 
+						date_format(l2.create_date,'%Y-%m-%d') AS reg_date,
+						count(l2.lead_status_cd) AS count 
+					from tb_lead l2 where ((1 = 1) and (l2.del_yn = 'N') and (l2.lead_status_cd = '003')) 
+					group by reg_date) f
+					on a.data = f.reg_date
+					left join
+					(select 
+						date_format(l3.create_date,'%Y-%m-%d') AS reg_date,
+						count(l3.lead_status_cd) AS count 
+					from tb_lead l3 where ((1 = 1) and (l3.del_yn = 'N') and (l3.lead_status_cd = '004')) 
+					group by reg_date) g
+					on a.data = g.reg_date
+					left join
+					(select 
+						date_format(t.create_date,'%Y-%m-%d') AS reg_date,
+						count(t.task_no) AS count 
+					from tb_task t where ((1 = 1) and (t.del_yn = 'N')) 
+					group by reg_date) h
+					on a.data = h.reg_date
+					left join
+					(select 
+						date_format(o1.create_date,'%Y-%m-%d') AS reg_date,
+						count(o1.oppty_status_cd) AS count 
+					from tb_oppty o1 where ((1 = 1) and (o1.del_yn = 'N') and (o1.oppty_status_cd = '001')) 
+					group by reg_date) i
+					on a.data = i.reg_date
+					left join
+					(select 
+						date_format(o2.create_date,'%Y-%m-%d') AS reg_date,
+						count(o2.oppty_status_cd) AS count 
+					from tb_oppty o2 where ((1 = 1) and (o2.del_yn = 'N') and (o2.oppty_status_cd = '003')) 
+					group by reg_date) j
+					on a.data = j.reg_date
+					left join
+					(select 
+						date_format(o3.create_date,'%Y-%m-%d') AS reg_date,
+						count(o3.oppty_status_cd) AS count 
+					from tb_oppty o3 where ((1 = 1) and (o3.del_yn = 'N') and (o3.oppty_status_cd = '004')) 
+					group by reg_date) k
+					on a.data = k.reg_date
+					<![CDATA[
+				where a.data <= date_format(now(),'%Y-%m-%d')
+					and a.data >= '2017-08-01'
+					) fin
+					]]>
+				;
+	</select>
+	
+</mapper>
