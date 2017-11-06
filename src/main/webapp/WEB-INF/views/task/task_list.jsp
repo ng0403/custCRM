@@ -5,7 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <c:set var="ctx" value="${pageContext.request.contextPath }" />
-
 <script type="text/javascript" src="${ctx}/resources/common/js/task/task.js"></script> 
 <script type="text/javascript" src="${ctx}/resources/common/js/task/task_detail.js"></script> 
 <script src="http://malsup.github.com/jquery.form.js"></script>
@@ -18,17 +17,17 @@
 
 <input type="hidden" id="ctx" value="${ctx}">
 <input type="hidden" id="flg" value="${flg}">
-<input type="hidden" id="cust_task_no" value="${cust_task_no}">
+<input type="hidden" id="url" value="${url}">
+<input type="hidden" id="session" value="${session}">
 <input type="hidden" id="lead_no" value="${lead_no}">
 <input type="hidden" id="lead_code" value="${lead_code}">
-<input type="hidden" id="session" value="${session}">
-<input type="hidden" id="url" value="${url}">
-<input type="hidden" id="page_type" value="${pageType}">
 <input type="hidden" id="task_code" value="${task_code}">
+<input type="hidden" id="cust_task_no" value="${cust_task_no}">
+<input type="hidden" id="page_type" value="${pageType}">
   
 <!-- task : task조회 -->
 <div id="cupnManager">
-	<div style="height:10px;"></div>
+	<div style="height:10px"></div>
 	<div class="titleDIV">
 		<c:if test="${ cust_task_no == null }">
 			<c:if test="${ pageType == '0' }">
@@ -42,11 +41,11 @@
 	 <c:if test="${ cust_task_no != null }">  
 		  <c:choose> 
 		  <c:when test ="${ lead_code != null }">
-		  ■ 고객리드 > <a style="cursor: pointer;" onclick="leadlist('${sub_menu_url}');"> 고객리드관리</a> > <a style="cursor: pointer;" onclick="tleadDetail('${lead_no}', '${PageNum}', '${lead_code}');">고객리드 상세정보</a> > 고객상담 이력
+		  ■ 고객리드 > <a onclick="leadlist('${sub_menu_url}');"> 고객리드관리</a> > <a onclick="tleadDetail('${lead_no}', '${PageNum}', '${lead_code}');">고객리드 상세정보</a> > 고객상담 이력
 		  </c:when>
 		  <c:otherwise>
 		      <span class="titleText">
-				 ■ 고객 > <a style="cursor: pointer;" onclick="tcustList('1');"> 고객관리 </a> > <a style="cursor: pointer;" onclick="tcustDetail('${cust_task_no}');"> 고객 상세정보 </a> > 상담이력관리 
+				 ■ 고객 > <a onclick="tcustList('1');"> 고객관리 </a> > <a  onclick="tcustDetail('${cust_task_no}');"> 고객 상세정보 </a> > 상담이력관리 
 			</span> 
 		  </c:otherwise>
 		  </c:choose> 
