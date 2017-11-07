@@ -211,7 +211,7 @@ public class TaskController {
 		{
 			
 			flg = "1";
-			TaskVO taskNoIndex = taskService.taskNoIndex(); // 인덱스번호
+			TaskVO taskNoIndex = taskService.taskNoIndex();   // 인덱스번호
 			List<TaskVO> dtypeCd = taskService.taskDtypeCD(); // 분류코드
 			List<TaskVO> scoreCd = taskService.taskScoreCD(); // 상대가치점수
 			List<TaskVO> ttypeCd = taskService.taskTtypeCD(); // 상담유형
@@ -375,7 +375,9 @@ public class TaskController {
 		}
 	}
 
-	// 추가
+	/**
+	 * 상담 추가
+	 */
 	@RequestMapping(value = "task_single_add", method = RequestMethod.POST)
 	public @ResponseBody int taskSingleInsert(TaskVO taskVo, HttpSession session, HttpServletRequest request,
 			@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
@@ -386,7 +388,9 @@ public class TaskController {
 		return 0;
 	}
 
-	// 수정
+	/**
+	 * 상담 수정
+	 */
 	@RequestMapping(value = "task_edit", method = RequestMethod.POST)
 	public @ResponseBody int taskEdit(TaskVO taskVo, HttpSession session,
 			@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
@@ -399,7 +403,9 @@ public class TaskController {
 		return result;
 	}
 
-	// 삭제
+	/**
+	 * 상담 삭제
+	 */
 	@RequestMapping(value = "task_delete", method = RequestMethod.POST)
 	public @ResponseBody int taskDelete(TaskVO taskVo, HttpSession session,
 			@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum) {
@@ -411,7 +417,9 @@ public class TaskController {
 		return result;
 	}
 
-	/* Popup */
+	/**
+	 * 상담 팝업 : 고객
+	 */
 	@RequestMapping(value = "taskCustListAjax", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> taskCustListPopup(
 			@RequestParam(value = "custPopupPageNum", defaultValue = "1") int custPopupPageNum, String s_cust_name) {
@@ -445,6 +453,9 @@ public class TaskController {
 		}
 	}
 
+	/**
+	 * 상담 팝업 : 담당자
+	 */
 	@RequestMapping(value = "taskEmpListAjax", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> taskEmpListPopup(
 			@RequestParam(value = "empPopupPageNum", defaultValue = "1") int empPopupPageNum, String s_emp_name) {
@@ -477,6 +488,9 @@ public class TaskController {
 		}
 	}
 
+	/**
+	 * 상담 팝업 : 리드
+	 */
 	@RequestMapping(value = "taskLeadListAjax", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> taskLeadListPopup(
 			@RequestParam(value = "leadPopupPageNum", defaultValue = "1") int leadPopupPageNum, String s_lead_name) {
@@ -510,6 +524,9 @@ public class TaskController {
 		}
 	}
 
+	/**
+	 * 상담 팝업 : 영업기회
+	 */
 	@RequestMapping(value = "taskOpptyListAjax", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Object> taskOpptyListPopup(
 			@RequestParam(value = "opptyPopupPageNum", defaultValue = "1") int opptyPopupPageNum, String s_oppty_name) {
@@ -542,7 +559,9 @@ public class TaskController {
 		}
 	}
 
-	// 엑셀 출력
+	/**
+	 * 상담 엑셀 출력
+	 */
 	@RequestMapping(value = "/toExcel", method = RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String task_no_srch, String subject_srch,
 			String cust_name_srch, String emp_name_srch, String next_day_srch, String dtype_cd_srch, String flg,
@@ -613,7 +632,9 @@ public class TaskController {
 
 	}
 
-	// 엑셀 추가 전 팝업
+	/**
+	 * 상담 엑셀 추가 전 팝업
+	 */
 	@RequestMapping(value = "/taskExcelImportTab", method = RequestMethod.GET)
 	public ModelAndView excelImportTab(HttpSession session, Locale locale,
 			@RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
@@ -622,7 +643,9 @@ public class TaskController {
 		return mov;
 	}
 
-	// Excel Data Import
+	/**
+	 * 상담 엑셀 Import
+	 */
 	@RequestMapping(value = "/taskExcelUploadAjax", headers = "content-type=multipart/*", method = RequestMethod.POST)
 	public ModelAndView excelUploadAjax(MultipartHttpServletRequest request) throws Exception {
 		MultipartFile excelFile = request.getFile("excelFile");
@@ -636,7 +659,9 @@ public class TaskController {
 		return new ModelAndView("/task/excel_import_tab", "result", result);
 	}
 
-	// Excel Data Import Ajax
+	/**
+	 * 상담 엑셀 Import Ajax
+	 */
 	@RequestMapping(value = "/taskExcelUpload", method = { RequestMethod.POST, RequestMethod.GET })
 	public @ResponseBody int taskExcelForm(@RequestParam("excelFile") MultipartFile file) throws Exception {
 		int result = taskService.excelUpload(file);
