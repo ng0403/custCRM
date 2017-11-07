@@ -119,6 +119,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/task/task_detail.jsp"></put-attribute>
 	</definition>
 	
+	<!-- task dashboard -->
+	<definition name="task_dashboard" extends="onebodyLayout">
+		<put-attribute name="body" value="/WEB-INF/views/task/task_dashboard.jsp"></put-attribute>
+	</definition>
+	
 	<!-- code -->
 	<definition name="code_list" extends="onebodyLayout">
 		<put-attribute name="body" value="/WEB-INF/views/code/code_list.jsp"></put-attribute>
