@@ -59,14 +59,14 @@
 				<!-- </form> -->
 			</div>
 			 <div class="bottom_div">
-     	<div class="functionBtn_div" id="btn_1">
+     	<div class="listFootDiv" id="btn_1">
 					<input type="button" id="board_add_fbtn"
 						class="func_btn" value="추가" onclick="boardMngAddp();" />
 					<input type="button" id="board_remove_fbtn"
 						class="tr_btn" value="삭제" onclick="deleteAction() " />
 				</div>
 				
-				<div class="functionBtn_div" id="btn_2" style="display:none">
+				<div class="listFootDiv" id="btn_2" style="display:none">
 				<input type="button" id="board_add_save" class="tiny ui blue button" value="저장" onclick="boardmngInsert();"/>
 				<input type="button" id="board_remove_fbtn"	class="tiny ui blue button" value="취소" onclick="cancelBtn() " />
 				</div> 

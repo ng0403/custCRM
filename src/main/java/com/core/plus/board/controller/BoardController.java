@@ -279,11 +279,13 @@ import com.core.plus.utils.FileManager;
 			mov.addObject("boardVO", boardService.read(BOARD_NO));
  		}
 		String 	BOARD_MNG_NO = vo.getBOARD_MNG_NO();
+ 		
 		mov.addObject("boardmnglist",boardService.checkBoardMngNo(BOARD_MNG_NO)); 
-		mov.addObject("main_menu_url", "boardInqr");
+ 		mov.addObject("main_menu_url", "boardInqr");
 		mov.addObject("sub_menu_url", "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO);
 		menuControlleri.menuImport(mov, "boardInqr?BOARD_MNG_NO="+BOARD_MNG_NO); 
 
+		System.out.println("mov ?? ? " + mov.toString());
  		return mov;
 		 
 		

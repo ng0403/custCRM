@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <script type="text/javascript" src="${ctx}/resources/common/js/board/board_modify.js"></script>  
+   <link rel="stylesheet" href="${ctx}/resources/common/css/board/boardCSS.css" type="text/css" />
    
 <title>Insert title here</title>
 </head>
@@ -15,18 +16,14 @@
  
 
 <div id="title" >
+<div style="height:10px"></div>
 		<div class="caption">
-	    <c:if test="${boardVO.BOARD_MNG_NO =='BMG=001'}">
-		<h3 class="ui header" style="background: #fff;"> ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${boardVO.BOARD_MNG_NO}" style="font-size: 14pt; text-decoration:none; color: blue;">공지사항</a> >  게시글 수정 </h3>
-		</c:if>
-		<c:if test="${boardVO.BOARD_MNG_NO == 'BMG=002'}">
-	    <h3 class="ui header" style="background: #fff;"> ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${boardVO.BOARD_MNG_NO}" style="font-size: 14pt; text-decoration:none; color: blue;">일반 게시판</a> >  게시글 수정 </h3>
-		</c:if> 		
-		</div>
-</div>
+ 		 ■ 영업정보 > <a href="/boardInqr?BOARD_MNG_NO=${boardVO.BOARD_MNG_NO}"  style="cursor: pointer;">게시판</a> >  게시글 수정
+ 		</div>
+ </div>
 
- 
- <div class="commonDetail"> 
+ <div style="height:10px;"></div>
+ <div class="coupon_detail"> 
  <form role="form" name="modifyForm" action="/board_modify " method="post" enctype="multipart/form-data">
  	 <input type='hidden' id="BOARD_NO" name='BOARD_NO' value="${boardVO.BOARD_NO}"> 
 	 <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${boardVO.BOARD_MNG_NO}">   
@@ -58,13 +55,13 @@
 <tr>
 <th>내 용</th>
 <td colspan="4">
-<textarea id="CONTENT" name="CONTENT" rows="25"  cols="120" style="resize: none;" >${boardVO.CONTENT}</textarea>
+<textarea id="CONTENT" name="CONTENT" rows="25"  cols="120" style="resize: none;"  style="width:100%" >${boardVO.CONTENT}</textarea>
 </td> 
 </tr>
 </table>
  </form>   
 </div>
- <div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
+ <div id="baseBtnDiv" class="listFootDiv"> <!-- 버튼 div  -->
  <input type="button" id = "board_modify_fbtn" onClick="board_save();" class="tr_btn" value="저장"/>
   <input type="button" class="func_btn" id="board_list_fbtn" onClick="board_list();" value="취소"/>
  </div> 

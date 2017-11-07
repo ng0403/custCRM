@@ -164,13 +164,16 @@ $(document).ready(function(){
 	 	 </div> 
 	 </c:if>
 	  
-	 	  <div id="lead_update_div">
+	 	  <div id="lead_update_div" style="width: 587px; float: left; display: -webkit-box; ">
+	 	    <div style="width: 26%; ">
 	 	 	<input type="button" class="tr_btn" id="lead_single_add" value="저장" onclick="lead_modify_save();">
 	 	 	<input type="button" class="tr_btn" id="lead_delete" value="삭제" onclick="lead_remove();">
-		    <input type="button" class="func_btn" id="lead_single_cancel" value="취소" onclick="lead_cancel('${PageNum}');">
-	 	 <input type="button" class="func_btn" id="lead_counsel" value="상담이력" onclick="lead_counsel_read('${detail.cust_no}','${PageNum}', '${lead_code}');">
-	 	 </div>
- 
+		    <input type="button" class="func_btn" id="lead_single_cancel" value="취소" onclick="lead_cancel('${PageNum}');"> 
+	 	    </div>
+	 	       <div style=" border-left : 3px solid #131230; padding-left: 10px;">
+	 	        <input type="button" class="func_btn" id="lead_counsel" value="상담이력" style="border: 1px solid #006600;" onclick="lead_counsel_read('${detail.cust_no}','${PageNum}', '${lead_code}');">
+	 	       </div>
+  		 </div>
     </div>
 	</div>
   </form>
@@ -183,7 +186,7 @@ $(document).ready(function(){
 		    	  <span style="font-size: 8px;">(삭제할 상품을 체크한 후 삭제버튼을 누르고 저장을 눌러주세요.)</span>
 			</span>
 		</div>	
-		<div style="float:right" >
+		<div style="float:right; padding-bottom:0.6%">
 			<c:if test="${ cust_lead_no == null }">
 				<input type="button" class="func_btn" id="leadItem_add" onclick="leadItemAdd();" value="추가">
 				<input type="button" class="tr_btn" id="leadItem_save" onclick="leadItemInsert();" value="저장" >

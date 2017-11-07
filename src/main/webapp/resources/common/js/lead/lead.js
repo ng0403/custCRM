@@ -207,35 +207,29 @@ function leadPageNumInputEnter(event) {
  function leadDetail(a,b,lead_code) {
    var no = a;
    var cust_no = $("#cust_lead_no").val();
-   
-//   console.log(no);
-   console.log(cust_no);
+   var session = $("#session").val();
    
    if(cust_no == null || cust_no == '')
    {
-	   console.log("A");
-	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b + "&lead_code="+lead_code; 
+ 	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b + "&lead_code="+lead_code + "&session="+session; 
    }
    if(cust_no != null && cust_no != '')
    {
-	   console.log("B");
-	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b + "&cust_lead_no=" + cust_no; 
+ 	   location.href="/lead_detail?lead_no=" + no + "&pageNum=" + b + "&cust_lead_no=" + cust_no; 
    }
 	 
  }
   
  //가망고객 리스트 이동.
- function leadlist(url){
-	 
+ function leadlist(url){ 
 	 location.href=url;
  }
  
  //가망 고객 취소 페이지 이동
- function lead_cancel(a){
- 
+ function lead_cancel(pageNum){ 
 	 if(confirm("리스트 페이지로 이동하시겠습니까?")){
 		 alert("가망고객 리스트로 이동합니다.");
-		 location.href="/lead?pageNum=" + a;
+		 location.href="/lead?pageNum=" + pageNum;
 	 }
 	 else{
 		 return false;
@@ -301,7 +295,7 @@ function lead_modify(){
 	$("#possibility_cd_sel").attr("disabled",false); 
 	
 	$("#lead_detail_div").css("display", "none");
-	$("#lead_update_div").css("display", "block"); 
+	$("#lead_update_div").css("display", "-webkit-box"); 
 	
 	$("#lead_detail_title").css("display", "none");
 	$("#lead_update_title").css("display", "block");
@@ -397,18 +391,18 @@ function leadCustList(custNo)
 //엑셀 출력 
 function download_list_Excel(formID, flgNum) {
  	var url = $("#url").val();
-	
-	var code = $("#flg").val();
+ 	var code = $("#flg").val();
+ 	var lead_cd = $("#lead_code").val();
 	var cust_lead_no = $("#cust_lead_no").val();
 	var ctx = $("#ctx").val();
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
-	var flg = $('<input type="hidden" value="'+flgNum+'" name="flg">');
+	var flg = $('<input type="hidden" value="'+flgNum+'" name="flg" id="flg">');
 	var code_flg = $('<input type="hidden" value="'+code+'" name="code_flg">');
 	var session = $("#session").val();
-	var user_id = $('<input type="hidden" value="'+session+'" name="user_id">');
-	var path = $('<input type="hidden" value="'+url+'" name="path">')
-	 
+ 	var user_id = $('<input type="hidden" value="'+session+'" name="user_id">');
+	var path = $('<input type="hidden" value="'+url+'" name="path">');
+	var lead_status_cd = $('<input type="hidden" value="'+lead_cd+'" name="lead_code">');
 	
 	if(cust_lead_no != null && cust_lead_no != '')
 	{
@@ -422,91 +416,42 @@ function download_list_Excel(formID, flgNum) {
 	if(flgNum == '0'){
 	if(confirm("리스트를 출력하시겠습니까? 대량의 경우 대기시간이 필요합니다.")) 
 	{
-		alert("flg ? " + flg);
-		form.append(excel);
+ 		form.append(excel);
 		form.append(flg);
 	    form.append(code_flg);
 		form.append(user_id);
 		form.append(path);
-		form.attr("action", "/toLeadExcel?flg=" + flgNum);
+		form.append(lead_status_cd);
+		form.attr("action", "/toLeadExcel");
 		form.submit();
-		flg="";
-		alert("flg ??? " + flg);
-/*		if(flg == 0) 
-		{
-		
-		} 
-		else(flg == 1) 
-		{
-			form.attr("action", "/task_sch");
-			form.submit();
-		}*/
+ 		/* $("form[name='leadListForm']").each(function() {
+ 			  this.reset();
+		      $("#flg").remove();
+		      $("input[type=hidden]").val(""); //reset만으로 hidden type은 리셋이 안되기 때문에 써줌
+		 }); */
+ 
 	} 
-/*	$("input[name=excel]").val("");
-	$("input[name=flg]").val("");*/
-	else{
+ 	else{
 		return false;
 	} 
 	$("input[name=excel]").val("");
 }
 	
 	if(flgNum == '1'){
- 			form.append(excel);
+  			form.append(excel);
 			form.append(flg);
-			form.append(code);
-			
-			/*form.attr("action", "/toLeadExcel?flg=" + flgNum);*/
-			form.attr("action", "/toLeadExcel");
-			form.submit();
-			flg = "";
-			alert("flg ? " + form.toSource());
-	/*		if(flg == 0) 
-			{
-			
-			} 
-			else(flg == 1) 
-			{
-				form.attr("action", "/task_sch");
-				form.submit();
-			}*/
-		} 
-	/*	$("input[name=excel]").val("");
-		$("input[name=flg]").val("");*/
+			form.append(code); 
+			form.append(lead_status_cd);
+ 			form.attr("action", "/toLeadExcel");
+			form.submit(); 
+   		} 
+	 
 		else{
 			return false;
-		} 
-		
-  		/*form[0].reset(); */
-	
+		}  
+   		/*form[0].reset(); */ 
 }
-
-
-//엑셀 양식 다운로드 
-function download_Excel_form(a) { 
-	var ctx = $("#ctx").val();
-	var form = $("#"+formID);
-    var flg = a;
-	var excel = $('<input type="hidden" value="true" name="excel">');
-	
-	if(confirm("엑셀 양식을 다운로드 받으시겠습니까?")) 
-	{
-			
-			form.append(flg);
-			form.append(excel); 
-			if(flg == 1) 
-			{
-				form.attr("action", "/toLeadExcel");
-				form.submit(); 
-			}  
-			$("form").each(function() {  
-		        this.reset();  
-		     });   
-	} 
-	
-  	/*$("input[name=excel]").val("");*/
-}
-
-
+ 
 //엑셀 Import 팝업	
 /*function leadExcelImportOpen() 
 {

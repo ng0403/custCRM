@@ -561,6 +561,12 @@
 				and(user_id like concat('%', #{user_id}, '%') )
 			</when>
 		</choose>
+		<choose>
+			<when test="lead_code !=null and lead_code !=''">
+				and(l.lead_status_cd like concat('%', #{lead_code},
+				'%') )
+			</when>
+		</choose>
 		order by l.update_date DESC
 		)X
 	</select>

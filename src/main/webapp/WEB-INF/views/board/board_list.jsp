@@ -25,12 +25,13 @@
 
    
   <div id="title">
+  <div style="height:10px"></div>
 		<div class="caption">
-		<h3 class="ui header" style="background: #fff;"> ■ 영업정보 > 게시판 </h3>
+		  ■ 영업정보 > 게시판 
 		 
 		</div>
 </div>
- 
+ <div style="height:10px;"></div>
     <div class="commonList">
        <div class="searchDiv">
 			<input type="text" placeholder="제목"  id="keyword" name="keyword"  onkeydown="boardSearchEnter(event);" style="width:20%">
@@ -78,8 +79,7 @@
             </div>
        </form>
        
-  <div class="bottom_div">
-       <div class="functionBtn_div">
+  <div class="listFootDiv">
          <input type="button" id = "board_add_fbtn"  class = "func_btn" value="추가" onclick="board_add();"/> 
            <input type="button" id ="board_remove_fbtn" class="tr_btn" value="삭제"  onclick="deleteAction() "/>
  </div> 
@@ -116,8 +116,7 @@
 			</div>
     	
 		</div>
-    </div>
-
+ 
 </body>
 </html>
  

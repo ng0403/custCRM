@@ -31,17 +31,17 @@
 </div> -->
 	
  	<div class="detailBtn"> 
-	<div id = "baseBtnDiv" class="bt_position_authuser">
+	<div id = "baseBtnDiv" class="listFootDiv" style="padding-bottom:0.6%">
 	<input type="button" id="board_mng_modify_fbtn" class = "func_btn" value="편집" onclick="modify_fbtn();"/>
 	<input type="button" class="func_btn" id="board_list_fbtn" value="취소" onclick="cancelBtn();"/>
 	</div>
 	
-	<div id = "baseBtnDiv2" class="bt_position_authuser" style="display:none">
+	<div id = "baseBtnDiv2" class="listFootDiv" style="display:none; padding-bottom:0.6%">
 		<input type="button" class = "tr_btn" id="board_mng_add_fbtn"  value="저장" onclick="updateBoardMng();"/>
 		<input type="button" class="func_btn" id="board_cancle_fbtn" value="취소" onclick="modify_cancel();"/>
 	</div>
 	
-	<div id = "baseBtnDiv3" class="bt_position_authuser" style="display:none">
+	<div id = "baseBtnDiv3" class="listFootDiv" style="display:none; padding-bottom:0.6%">
 		<input type="button" class = "tr_btn" id="board_mng_add_fbtn"  value="저장" onclick="boardmngInsert();"/>
 		<input type="button" class="func_btn" id="board_cancle_fbtn" value="취소" onclick="modify_cancel();"/>
 	</div>

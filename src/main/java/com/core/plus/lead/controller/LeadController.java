@@ -67,10 +67,12 @@ public class LeadController {
 	@RequestMapping(value = "lead")
 	public ModelAndView lead_list(HttpServletRequest request,
 			@RequestParam(value = "pageNum", defaultValue = "1") int PageNum, String cust_lead_no, String lead_code) {
-
-		if (session.getAttribute("user") == null) {
+		
+		if (session.getAttribute("user").toString() == null) {
  			return new ModelAndView("redirect:/");
 		}
+		
+		String Session = session.getAttribute("user").toString(); 
 		 
 		Map<String, Object> leadMap = new HashMap<String, Object>();
 		leadMap.put("PageNum", PageNum);
@@ -104,7 +106,7 @@ public class LeadController {
 		mov.addObject("pageNum", PageNum);
 		mov.addObject("cust_lead_no", cust_lead_no);
 		mov.addObject("lead_list", vo);
- 	 
+		mov.addObject("session", Session);
 
 		// 재욱
 		if (cust_lead_no == null) {
@@ -114,7 +116,7 @@ public class LeadController {
 				mov.addObject("sub_menu_url", "lead");
 			} 
 			else if (lead_code.equals("000")) {
- 				mov.addObject("pageType", "1");
+ 				mov.addObject("lead_status_cd", "000");
  				mov.addObject("sub_menu_url", "lead?lead_code=000");
 			} 
 			else if (lead_code.equals("001")) {
@@ -142,15 +144,17 @@ public class LeadController {
 			mov.addObject("sub_menu_url", "cust");
 			menuControlleri.menuImport(mov, "cust");
 		}
+		
+		System.out.println("mov ? " + mov.toString());
  		return mov;
-
+ 		
 	} 
 	
 	// 가망 고객 상세정보
 	@RequestMapping(value = "lead_detail", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView lead_detail(@RequestParam("lead_no") String lead_no, @RequestParam("pageNum") String PageNum,
-			String cust_lead_no, String lead_code) {
-		 
+			String cust_lead_no, String lead_code, String session) { 
+ 		
 		// 관심상품 리스트 조회
 		List<InterestItemVO> itemList = leadService.leadItemList(lead_no);
 
@@ -173,7 +177,14 @@ public class LeadController {
 				menuControlleri.menuImport(mov, "lead");
 			}else{
 		    System.out.println("lead detail : not empty" + lead_code);
-			mov.addObject("sub_menu_url", "lead?lead_code="+lead_code);
+		    if(!session.isEmpty())
+		    {
+		    	System.out.println("session is not empty");
+			   mov.addObject("sub_menu_url", "lead?lead_code=000");	 
+		    }
+		    else{
+			   mov.addObject("sub_menu_url", "lead?lead_code="+lead_code);  
+		    }
 			mov.addObject("flg", "0");
 			mov.addObject("lead_code", lead_code);
 			menuControlleri.menuImport(mov, "lead?lead_code="+lead_code);
@@ -461,8 +472,8 @@ public class LeadController {
 	@RequestMapping(value = "/toLeadExcel", method = RequestMethod.POST)
 	public ModelAndView toExcel(HttpServletRequest req, HttpSession session, String lead_no_srch, String lead_name_srch,
 			String cust_name, String cust_no, String user_no, String contact_day_srch, String rank_cd, String flg,
-			String code_flg, String cust_lead_no, String user_id, String path) {
-		System.out.println("flg ? " + flg);
+			String code_flg, String cust_lead_no, String user_id, String path, String lead_code) {
+ 		System.out.println("lead_code ? " + lead_code);
 		System.out.println("url ? " + path);
 		if (path == null) {
 			path = "";
@@ -482,20 +493,27 @@ public class LeadController {
 		leadMap.put("contact_day", contact_day);
 		leadMap.put("rank_cd", rank_cd);
 		leadMap.put("cust_name", cust_name);
-		// my_lead url 값을 비교
-		if (!path.isEmpty()) {
-			String[] path_my = path.split(",");
-			System.out.println("path ??? " + path_my[0].toString());
-			path = path_my[0].toString();
-			if (path.equals("/my_lead")) {
-				// user_id 또한 form문에 중첩이 생기므로 , 없애주는 작업을 한다.
-				if (user_id.contains(",")) {
-					String[] id_user = user_id.split(",", 0);
-					user_id = id_user[0].toString();
+		leadMap.put("lead_code", lead_code);
+		
+
+		// lead_code가 Null이지만, 두번째 엑셀 출력 후 code_flg에 ,가 추가 되어 null처리
+				if (lead_code == null) {
+					lead_code = "";
 				}
-				leadMap.put("user_id", user_id);
-			}
-		}
+
+				if (!lead_code.isEmpty()) 
+				{
+					String lead_status_code = lead_code.substring(0, 3);
+					System.out.println("lead?status" +lead_status_code );
+  					if (lead_status_code.equals("000")) {
+							String Session = session.getAttribute("user").toString(); 
+							System.out.println("session ? " + Session.toString());
+			 				leadMap.put("user_id", Session);
+			 				lead_status_code = "";
+			 		}
+					leadMap.put("lead_code", lead_status_code);
+				}
+   
 
 		// code_flg가 Null이지만, 두번째 엑셀 출력 후 code_flg에 ,가 추가 되어 null처리
 		if (code_flg == null) {

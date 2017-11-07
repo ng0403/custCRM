@@ -1,6 +1,6 @@
  
    $(document).ready(function(){
-		var file_div = $('#file_div');
+ 		var file_div = $('#file_div');
    })
 
 

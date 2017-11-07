@@ -8,10 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <script type="text/javascript" src="${ctx}/resources/common/js/board/board_list.js"></script> 
-
-<link rel="stylesheet" href="${ctx}/resources/common/css/standard/common/sfa_common_list.css" type="text/css" />
-
- 
+<link rel="stylesheet" href="${ctx}/resources/common/css/board/boardCSS.css" type="text/css" />
+  
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="  crossorigin="anonymous"></script>
 
 
@@ -20,35 +18,33 @@
 <body>
  
 <div id="title">
+<div style="height:10px"></div>
 		<div class="caption">
-		<h3 class="ui header" style="background: #fff;"> ■ 영업커뮤니케이션 > <a href="/boardInqr?BOARD_MNG_NO=${boardmnglist.BOARD_MNG_NO}" style="font-size: 14pt; text-decoration:none; color: blue;">${boardmnglist.BOARD_NM} </a> >  게시글 추가 </h3>
+		 ■ 영업커뮤니케이션 > <a href="/boardInqr?BOARD_MNG_NO=${boardmnglist.BOARD_MNG_NO}" style="text-decoration:none; color: blue;">${boardmnglist.BOARD_NM} </a> >  게시글 추가
 		</div>
-</div>
-
-
-
-
- <div class="commonDetail">
+</div> 
+<div style="height:10px;"></div>
+<div class="coupon_detail">
 <form role="form" method="post" enctype="multipart/form-data">
    <input type='hidden' id="BOARD_MNG_NO" name='BOARD_MNG_NO' value="${boardmnglist.BOARD_MNG_NO}"/>    
 <table class="commonDetailTable">
 <tr>
  <th>제목</th> 
- <td colspan="3"><input type="text" placeholder="제목"  id="TITLE" name="TITLE" style="width:850px"/></td>
+ <td colspan="2"><input type="text" placeholder="제목"  id="TITLE" name="TITLE" style="width:850px"/></td> 
 </tr>
 <tr>
-<th colsapn="3">파일</th>
+<th >파일</th>
 	 <td>
 	 <c:if test="${boardmnglist.FILE_ATTACH_FLG == 'N'}">
 	 </c:if>
 	 <c:if test="${boardmnglist.FILE_ATTACH_FLG == 'Y'}">
 	 <input type="file" multiple="multiple" name="filedata" id="filedata">
 	 </c:if> 
-	 </td>  
+	 </td> 
 </tr>
 <tr>
 <th>내 용</th>
-<td colspan="4">
+<td>
 <textarea  id="CONTENT" name="CONTENT"  rows="25"  cols="120" style="resize: none;" style="width:100%" ></textarea>
 </td>  
  
@@ -56,7 +52,7 @@
  </table>
  </form>   
 </div>
-	<div id="baseBtnDiv" class="bt_position_authuser"> <!-- 버튼 div  -->
+	<div id="baseBtnDiv" class="listFootDiv"> <!-- 버튼 div  -->
 		 <input type="button" id ="board_add_fbtn" class = "tr_btn" value="저장" onclick="board_add_save();"/>
 		 <input type="button" id="board_list_fbtn" class="func_btn" value="취소" onclick="goboardList();"/> 
 	</div>
