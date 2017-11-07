@@ -275,6 +275,7 @@ public class OpptyController {
 			}
 			else
 			{
+				System.out.println("insert cust - oppty");
 				CustVO custDlist = custService.custDetailList(cust_no);
 
 				mov.addObject("custDlist", custDlist);
@@ -683,6 +684,8 @@ public class OpptyController {
   		
   		char temp = flg.charAt(flg.length()-1);
   		char temp1;
+  		
+  		System.out.println("page_type " + page_type);
   		
   		if(page_type == null)
   			page_type = "";

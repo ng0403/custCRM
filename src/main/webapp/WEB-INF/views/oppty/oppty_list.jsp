@@ -65,14 +65,10 @@
 	<div class="commonList">
 		<!-- 페이징 전용 폼 -->
 	    <form id="opptyListPagingForm" method="post" action="${ctx}/couponManager" >
-<%-- 		    <input type="hidden" name="cupn_name_srch" value="${cupnListMap.cupn_name_srch}"> --%>
-<%-- 			<input type="hidden" name="exp_start_dt_srch" value="${cupnListMap.exp_start_dt_srch}"> --%>
-<%-- 			<input type="hidden" name="exp_end_dt_srch" value="${cupnListMap.exp_end_dt_srch}"> --%>
-<%-- 			<input type="hidden" name="active_flg_srch" value="${cupnListMap.active_flg_srch}"> --%>
-<%-- 			<input type="hidden" name="brand_wid" value="${cupnListMap.brand_wid}"> --%>
 		</form>
-		<c:if test="${ cust_opty_no == null && oppty_code == null}">
-		    <form name="opptyListForm" id="opptyListForm" method="post" action="${ctx}/couponManager" >
+		
+		<form name="opptyListForm" id="opptyListForm" method="post"  >
+			<c:if test="${ cust_opty_no == null && oppty_code == null}">
 			 	<div id="searchDiv">
 		        	<table id="cupnSearchTable" class="commonTable">
 						<tr style="background-color: white; cursor:default; border:0;">
@@ -161,8 +157,8 @@
 						</tr>
 					</table>
 				</div>
-			</form>
-		</c:if>
+			</c:if>
+		</form>
 		
 		
 		<!-- 엑셀 출력 -->

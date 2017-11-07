@@ -355,7 +355,7 @@ function download_list_Excel(formID, flg)
 	
 	var form = $("#"+formID);
 	var excel = $('<input type="hidden" value="true" name="excel">');
-	var flg = $("<input type='hidden' value='"+ flg +"' name='flg'>");
+	var flg = $("<input type='hidden' value='"+ t +"' name='flg'>");
 	var page_type = page_type = $("<input type='hidden' value='"+ page +"' name='page_type'>");
 	
 	if(hoppty_status_cd != null && hoppty_status_cd != '')
@@ -376,6 +376,7 @@ function download_list_Excel(formID, flg)
 			form.append(excel);
 			form.append(flg);
 			form.append(page_type);
+			
 			form.attr("action", "/toOpptyExcel");
 			form.submit();
 		} 
@@ -385,6 +386,7 @@ function download_list_Excel(formID, flg)
 	{
 		form.append(excel);
 		form.append(flg);
+		
 		form.attr("action", "/toOpptyExcel");
 		form.submit();
 		

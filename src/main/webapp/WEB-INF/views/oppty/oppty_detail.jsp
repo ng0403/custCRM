@@ -32,6 +32,7 @@ $(document).ready(function(){
 <input type="hidden" id="page_type" value="${page_type}">
 <input type="hidden" id="item_flg" value="${item_flg}">
 <input type="hidden" id="tmp" value="${add_form}">
+<input type="hidden" id="custDlist" value="${custDlist.cust_no}">
 
 <div id="oppty_detail">
 	<div style="height:10px;"></div>
