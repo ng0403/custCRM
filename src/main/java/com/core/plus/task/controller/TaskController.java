@@ -197,6 +197,7 @@ public class TaskController {
 	public ModelAndView taskDetail(@RequestParam(value = "taskPageNum", defaultValue = "1") int taskPageNum,
 			HttpServletRequest request, String page_type, String task_code, String task_no, String flg, String lead_no,
 			String cust_no, String PageNum, String cust_task_no, String lead_code) {
+		
  		// url 가져오기
 		String Url = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
